@@ -5,14 +5,23 @@
  */
 
 import { fromJS } from 'immutable';
-import { DEFAULT_ACTION } from './constants';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
 
-export const initialState = fromJS({});
+export const initialState = fromJS({
+  error: null,
+  isLoading: false,
+});
 
 function loginReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case LOGIN_REQUEST:
+      return state.set('isLoading', true);
+    case LOGIN_SUCCESS:
+      return state.set('isLoading', false);
+    case LOGIN_ERROR:
+      return state
+        .set('error', action.error)
+        .set('isLoading', false);
     default:
       return state;
   }

@@ -14,10 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectLogin from './selectors';
+import makeSelectLogin, { makeSelectError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 // import messages from './messages';
+import { login } from './actions';
 import { LoginForm } from './components';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -29,25 +30,26 @@ export class Login extends React.Component {
           <title>Login</title>
           <meta name="description" content="Description of Login" />
         </Helmet>
-        <LoginForm />
+        <LoginForm 
+          {...this.props}
+        />
       </div>
     );
   }
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  login: makeSelectLogin(),
+  error: makeSelectError(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  login: (auth) => dispatch(login(auth)),
+})
 
 const withConnect = connect(
   mapStateToProps,

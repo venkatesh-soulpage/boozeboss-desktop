@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input } from 'rsuite';
+import { Button, Input, Message } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -31,21 +31,51 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledMessage = styled(Message)`
+  width: 300px;
+  margin: 0.75em;
+`
+
 export default class LoginForm extends Component {
 
     state = {
-        email: null,
-        password: null,
+      email: null,   
+      password: null,
+    }
+
+    handleChange = (value, name) => {
+      this.setState({[name]: value})
+    }
+
+    handleSubmit = () => {
+      const {login} = this.props;
+      const {email, password} = this.state;
+      login({email, password});
     }
 
     render() {
+        const {error} = this.props;
         return (
         <StyledContainer>
             <h3>Member Access</h3>
-            <StyledInput placeholder="Email" />
-            <StyledInput placeholder="Password" type="password" />
-            <StyledButton color="green">Login</StyledButton>
+            <StyledInput 
+              placeholder="Email" 
+              onChange={(value) => this.handleChange(value, 'email')}
+            />
+            <StyledInput 
+              placeholder="Password"
+              type="password"
+              onChange={(value) => this.handleChange(value, 'password')}
+            />
+            <StyledButton 
+              color="green"
+              onClick={this.handleSubmit}
+            >
+              Login
+            </StyledButton>
             <StyledLink to="/forget">I forgot my password</StyledLink>
+            {error && <StyledMessage type="error" description={error} />}
+            
         </StyledContainer>
         );
     }
