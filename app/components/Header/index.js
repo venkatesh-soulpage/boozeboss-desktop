@@ -3,12 +3,23 @@ import { Link } from 'react-router-dom';
 import { Navbar, Icon, Nav, Dropdown } from 'rsuite';
 import PropTypes from 'prop-types';
 
-export default class Header extends React.Component {
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
+import { logout } from '../../containers/App/actions'
+
+class Header extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
 
   state = {
     pathname: '/',
   };
+
+  handleLogout = () => {
+    const {logout} = this.props;
+    logout();
+  }
 
   render() {
     const { isAuthenticated } = this.props;
@@ -23,9 +34,9 @@ export default class Header extends React.Component {
           </Nav>
           {isAuthenticated ? (
             <Nav pullRight>
-              <Dropdown title="more" placement="bottomEnd">
+              <Dropdown title="More" placement="bottomStart">
                 <Dropdown.Item onSelect={this.handleLogout}>
-                  logout
+                  Logout
                 </Dropdown.Item>
               </Dropdown>
             </Nav>
@@ -48,3 +59,19 @@ export default class Header extends React.Component {
 Header.propTypes = {
   isAuthenticated: PropTypes.bool,
 };
+
+const mapStateToProps = createStructuredSelector({
+  isAuthenticated: makeSelectIsAuthenticated()
+});
+
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logout()),
+})
+
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default compose(withConnect)(Header);

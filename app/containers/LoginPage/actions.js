@@ -21,7 +21,6 @@ export function loginSuccess(token) {
 }
 
 export function loginError(error) {
-  console.log(error);
   return {
     error,
     type: LOGIN_ERROR,

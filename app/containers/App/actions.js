@@ -1,5 +1,6 @@
 import {
-    AUTHENTICATE
+    AUTHENTICATE,
+    LOGOUT,
 } from './constants';
   
 
@@ -8,5 +9,13 @@ export function authenticate(token) {
     return {
       type: AUTHENTICATE,
       token
+    };
+}
+
+
+export function logout() {
+    localStorage.setItem('jwt', null);
+    return {
+      type: LOGOUT,
     };
   }

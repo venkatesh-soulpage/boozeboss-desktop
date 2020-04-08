@@ -11,3 +11,4 @@
 
 
  export const AUTHENTICATE = 'boozeboss/App/AUTHENTICATE';
+ export const LOGOUT = 'boozeboss/App/LOGOUT';
