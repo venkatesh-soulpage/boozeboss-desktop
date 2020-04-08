@@ -19,18 +19,33 @@ const tokenIsExpired = () => {
   return isExpired;
 }
 
+const getScope = () => {
+  const token = decode(localStorage.getItem('jwt'));
+  return token.scope;
+}
+
+const getRole = () => {
+  const token = decode(localStorage.getItem('jwt'));
+  return token.role;
+}
+
 // The initial state of the App
 export const initialState = fromJS({
   loading: false,
   error: false,
   isAuthenticated: !!localStorage.getItem('jwt') && !tokenIsExpired(),
+  scope: !!localStorage.getItem('jwt') && !getScope(),
+  role: !!localStorage.getItem('jwt') && !getRole(),
 });
 
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTHENTICATE:
-      return state.set('isAuthenticated', true);
+      return state
+      .set('isAuthenticated', true)
+      .set('scope', action.scope)
+      .set('role', action.role);
     case LOGOUT: 
       return state.set('isAuthenticated', false);
     default:

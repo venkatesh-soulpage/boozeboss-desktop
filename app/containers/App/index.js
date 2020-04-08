@@ -40,6 +40,7 @@ const AppWrapper = styled.div`
 `;
 
 class App extends React.Component {
+
   render () {
     return (
     <AppWrapper>
@@ -52,6 +53,8 @@ class App extends React.Component {
           exact
           path="/"
           component={HomePage}
+          scopesRequired={['ADMIN', 'CLIENT', 'AGENCY']}
+          rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
         />
         <GuardedRoute
           path="/login"

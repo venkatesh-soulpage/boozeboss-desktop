@@ -1,3 +1,4 @@
+import { decode } from 'utils/tokenUtils';
 import {
     AUTHENTICATE,
     LOGOUT,
@@ -6,9 +7,13 @@ import {
 
 export function authenticate(token) {
     localStorage.setItem('jwt', token);
+    const decoded = decode(token);
+    const {scope, role} = decoded;
     return {
       type: AUTHENTICATE,
-      token
+      token,
+      scope, 
+      role
     };
 }
 

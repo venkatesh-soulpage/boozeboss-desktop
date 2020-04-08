@@ -13,7 +13,19 @@ const makeSelectIsAuthenticated = () =>
     globalState.get('isAuthenticated'),
   );
 
+const makeSelectScope = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('scope'),
+  );
+
+const makeSelectRole = () =>
+  createSelector(selectGlobal, globalState =>
+    globalState.get('role'),
+  );
+
 export { 
   makeSelectLocation,
-  makeSelectIsAuthenticated
+  makeSelectIsAuthenticated,
+  makeSelectScope,
+  makeSelectRole
 };
