@@ -20,10 +20,16 @@ import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft } from './actions';
+import { addClientDraft, getClients, inviteClient } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
+
+  componentDidMount = () => {
+    const {getClients} = this.props;
+    getClients();
+  }
+
   render() {
     return (
       <div>
@@ -41,7 +47,9 @@ export class ClientContainer extends React.Component {
 
 ClientContainer.propTypes = {
   clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  getClients: PropTypes.func.isRequired,
   addClientDraft: PropTypes.func.isRequired,
+  inviteClient: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -50,7 +58,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    getClients: () => dispatch(getClients()),
     addClientDraft: () => dispatch(addClientDraft()),
+    inviteClient: (client) => dispatch(inviteClient(client)),
   };
 }
 

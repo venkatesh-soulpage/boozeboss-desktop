@@ -16,12 +16,17 @@ export default class ClientsContainer extends Component {
         currentClient: 0,
     }
 
+    handleSelectCurrentClient = (currentClient) => {
+        this.setState({currentClient})
+    }
+
     render() {
         return (
             <StyledContainer>
                 <ClientList 
                     {...this.props} 
                     {...this.state}
+                    handleSelectCurrentClient={this.handleSelectCurrentClient}
                 />
                 <ClientInfo 
                     {...this.props} 
