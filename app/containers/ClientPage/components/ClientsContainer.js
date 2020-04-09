@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ClientList from './ClientList';
 import ClientInfo from './ClientInfo';
 
 const StyledContainer = styled.div`
-    display: flex;
+  display: flex;
     flex-direction: row;
-    margin: 2em 2em 0 2em;
-`
+  margin: 2em 2em 0 2em;
+`;
 
 export default class ClientsContainer extends Component {
 
@@ -16,15 +16,15 @@ export default class ClientsContainer extends Component {
         currentClient: 0,
     }
 
-    handleSelectCurrentClient = (currentClient) => {
+  handleSelectCurrentClient = currentClient => {
         this.setState({currentClient})
     }
 
-    render() {
-        return (
+  render() {
+    return (
             <StyledContainer>
-                <ClientList 
-                    {...this.props} 
+        <ClientList
+            {...this.props} 
                     {...this.state}
                     handleSelectCurrentClient={this.handleSelectCurrentClient}
                 />
@@ -37,6 +37,4 @@ export default class ClientsContainer extends Component {
     }
 }
 
-ClientsContainer.propTypes = {
-
-}
+ClientsContainer.propTypes = {};

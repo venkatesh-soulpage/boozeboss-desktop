@@ -24,11 +24,10 @@ import { addClientDraft, getClients, inviteClient } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
-
   componentDidMount = () => {
-    const {getClients} = this.props;
+    const { getClients } = this.props;
     getClients();
-  }
+  };
 
   render() {
     return (
@@ -37,9 +36,7 @@ export class ClientContainer extends React.Component {
           <title>ClientContainer</title>
           <meta name="description" content="Description of ClientContainer" />
         </Helmet>
-        <ClientsContainer 
-          {...this.props}
-        />
+        <ClientsContainer {...this.props} />
       </div>
     );
   }
@@ -60,7 +57,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getClients: () => dispatch(getClients()),
     addClientDraft: () => dispatch(addClientDraft()),
-    inviteClient: (client) => dispatch(inviteClient(client)),
+    inviteClient: client => dispatch(inviteClient(client)),
   };
 }
 

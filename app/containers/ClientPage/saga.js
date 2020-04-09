@@ -1,14 +1,19 @@
+import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
+
+import request from 'utils/request';
+
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST } from './constants';
 import {
-  call, put, select, takeLatest, fork, all
-} from 'redux-saga/effects';
-
-import request from 'utils/request'
-
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST } from './constants'
-import { getClientsSuccess, getClientsError, inviteClientSuccess, inviteClientError } from './actions'
+  getClientsSuccess,
+  getClientsError,
+  inviteClientSuccess,
+  inviteClientError,
+} from './actions';
 
 function* getClientsSaga() {
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients`;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/clients`;
   const options = {
     method: 'GET',
   };
@@ -23,8 +28,10 @@ function* getClientsSaga() {
 }
 
 function* inviteClientSaga(params) {
-  const {client} = params;
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients/invite`;
+  const { client } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/clients/invite`;
   const options = {
     method: 'POST',
     body: JSON.stringify(client),
@@ -48,8 +55,5 @@ function* inviteClientRequest() {
 }
 
 export default function* rootSaga() {
-  yield all([
-    fork(getClientsRequest),
-    fork(inviteClientRequest),
-  ]);
+  yield all([fork(getClientsRequest), fork(inviteClientRequest)]);
 }
