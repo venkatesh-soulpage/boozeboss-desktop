@@ -21,6 +21,7 @@ import { createStructuredSelector } from 'reselect';
 
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
+import ClientPage from 'containers/ClientPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import PrivateRoute from 'components/PrivateRoute';
@@ -55,6 +56,13 @@ class App extends React.Component {
           component={HomePage}
           scopesRequired={['ADMIN', 'CLIENT', 'AGENCY']}
           rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
+        />
+        <PrivateRoute
+          exact
+          path="/clients"
+          component={ClientPage}
+          scopesRequired={['ADMIN']}
+          rolesRequired={['ADMIN']}
         />
         <GuardedRoute
           path="/login"

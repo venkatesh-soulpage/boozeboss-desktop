@@ -34,8 +34,8 @@ export const initialState = fromJS({
   loading: false,
   error: false,
   isAuthenticated: !!localStorage.getItem('jwt') && !tokenIsExpired(),
-  scope: !!localStorage.getItem('jwt') && !getScope(),
-  role: !!localStorage.getItem('jwt') && !getRole(),
+  scope: !!localStorage.getItem('jwt') && getScope(),
+  role: !!localStorage.getItem('jwt') && getRole(),
 });
 
 /* eslint-disable default-case, no-param-reassign */

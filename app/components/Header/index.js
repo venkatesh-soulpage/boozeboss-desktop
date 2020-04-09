@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { makeSelectIsAuthenticated } from '../../containers/App/selectors';
+import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole } from '../../containers/App/selectors';
 import { logout } from '../../containers/App/actions'
 
 class Header extends React.Component {
@@ -22,7 +22,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, scope, role } = this.props;
     const { pathname } = this.state;
     return (
       <Navbar>
@@ -31,6 +31,11 @@ class Header extends React.Component {
             <Link to="/">
               <Nav.Item icon={<Icon icon="glass" />}>Booze Boss</Nav.Item>
             </Link>
+            {isAuthenticated && scope === 'ADMIN' && role === 'ADMIN' && (
+              <Link to="/clients">
+                <Nav.Item>Clients</Nav.Item>
+              </Link>
+            )} 
           </Nav>
           {isAuthenticated ? (
             <Nav pullRight>
@@ -58,10 +63,14 @@ class Header extends React.Component {
 
 Header.propTypes = {
   isAuthenticated: PropTypes.bool,
+  scope: PropTypes.string,
+  role: PropTypes.role,
 };
 
 const mapStateToProps = createStructuredSelector({
-  isAuthenticated: makeSelectIsAuthenticated()
+  isAuthenticated: makeSelectIsAuthenticated(),
+  scope: makeSelectScope(),
+  role: makeSelectRole(),
 });
 
 const mapDispatchToProps = dispatch => ({
