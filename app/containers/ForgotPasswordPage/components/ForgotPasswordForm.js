@@ -36,11 +36,10 @@ const StyledMessage = styled(Message)`
   margin: 0.75em;
 `
 
-export default class LoginForm extends Component {
+export default class ForgotPasswordForm extends Component {
 
     state = {
       email: null,   
-      password: null,
     }
 
     handleChange = (value, name) => {
@@ -48,39 +47,36 @@ export default class LoginForm extends Component {
     }
 
     handleSubmit = () => {
-      const {login} = this.props;
-      const {email, password} = this.state;
-      login({email, password});
+      const {forgot} = this.props;
+      const {email} = this.state;
+      forgot(email);
     }
 
     render() {
-        const {error} = this.props;
+        const {error, success} = this.props;
+        const { email } = this.state;
         return (
         <StyledContainer>
-            <h4>Member Access</h4>
+            <h4>Forgot password</h4>
             <StyledInput 
               placeholder="Email" 
+              disabled={success}
               onChange={(value) => this.handleChange(value, 'email')}
-            />
-            <StyledInput 
-              placeholder="Password"
-              type="password"
-              onChange={(value) => this.handleChange(value, 'password')}
             />
             <StyledButton 
               color="green"
               onClick={this.handleSubmit}
             >
-              Login
+              Reset
             </StyledButton>
-            <StyledLink to="/forgot">I forgot my password</StyledLink>
             {error && <StyledMessage type="error" description={error} />}
-            
+            {success && <StyledMessage type="success" description={`We sen't an email to ${email} with the recovery instructions.`} />}
+            <StyledLink to="/login">Login</StyledLink>
         </StyledContainer>
         );
     }
 }
 
-LoginForm.propTypes = {
-    login: PropTypes.func
+ForgotPasswordForm.propTypes = {
+    forgot: PropTypes.func
 };

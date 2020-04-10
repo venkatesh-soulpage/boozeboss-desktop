@@ -50,9 +50,6 @@ class Header extends React.Component {
               <Link to="/login">
                 <Nav.Item icon={<Icon icon="user" />}>Login</Nav.Item>
               </Link>
-              <Link to="/signup">
-                <Nav.Item icon={<Icon icon="user" />}>Signup</Nav.Item>
-              </Link>
             </Nav>
           )}
         </Navbar.Body>

@@ -19,7 +19,7 @@ export function authenticate(token) {
 
 
 export function logout() {
-    localStorage.setItem('jwt', null);
+    localStorage.clear();
     return {
       type: LOGOUT,
     };

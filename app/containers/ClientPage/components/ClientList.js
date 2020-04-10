@@ -93,7 +93,6 @@ export default class ClientList extends Component {
           {(!clients || clients.length < 1) && (
             <MessageLabel>No Brand Owners registered</MessageLabel>
           )}
-          )}
           {clients &&
             clients.length > 0 &&
             clients.map((client, index) => (

@@ -91,28 +91,31 @@ export default class ClientInfo extends Component {
         return (
             <InfoContainer>
                 {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
-        )}
-        {clients &&
-          clients.length > 0 && (
-            <React.Fragment>
-                        {clients[currentClient].isDraft ? (
-                <ClientForm {...this.props} />
-              ) : (
-                            <Panel bordered>
-                                <DataContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Name</FieldLabel>
-                                        <p>{clients[currentClient].name}</p>
-                    </FieldContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Description</FieldLabel>
-                                        <p>{clients[currentClient].description}</p>
-                                    </FieldContainer>
-                                </DataContainer>
-                            </Panel>
-                        )}
-                    </React.Fragment>
-          )}
+                {clients &&
+                clients.length > 0 && (
+                    <React.Fragment>
+                                {clients[currentClient].isDraft ? (
+                        <ClientForm {...this.props} />
+                    ) : (
+                        <Panel bordered>
+                            <DataContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Name</FieldLabel>
+                                    <p>{clients[currentClient].name}</p>
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Description</FieldLabel>
+                                    <p>{clients[currentClient].description}</p>
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Contact</FieldLabel>
+                                    <p>{clients[currentClient].contact_email}</p>
+                                </FieldContainer>
+                            </DataContainer>
+                        </Panel>
+                    )}
+                </React.Fragment>
+                )}
             </InfoContainer>
     );
   }
