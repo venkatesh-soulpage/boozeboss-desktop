@@ -22,6 +22,7 @@ import { createStructuredSelector } from 'reselect';
 import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage/Loadable';
+import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -77,6 +78,10 @@ class App extends React.Component {
         <GuardedRoute
           path="/forgot"
           component={ForgotPasswordPage}
+        />
+        <GuardedRoute
+          path="/reset"
+          component={ResetPasswordPage}
         />
         <Route path="" component={NotFoundPage} />
       </Switch>
