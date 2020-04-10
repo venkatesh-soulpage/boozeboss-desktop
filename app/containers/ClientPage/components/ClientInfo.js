@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button } from 'rsuite';
+import { Panel, Input, Button, Table } from 'rsuite';
+
+const { Column, HeaderCell, Cell } = Table;
 
 const InfoContainer = styled.div`
   display: flex;
@@ -110,6 +112,58 @@ export default class ClientInfo extends Component {
                                 <FieldContainer>
                                     <FieldLabel>Contact</FieldLabel>
                                     <p>{clients[currentClient].contact_email}</p>
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Collaborators</FieldLabel>
+                                    {clients[currentClient].client_collaborators.length > 0 ? (
+                                        <Table
+                                            data={clients[currentClient].client_collaborators}
+                                        >
+                                            <Column>
+                                                <HeaderCell>
+                                                    First Name
+                                                </HeaderCell>
+                                                <Cell dataKey="first_name">
+                                                    {rowData => rowData.account.first_name}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Last Name
+                                                </HeaderCell>
+                                                <Cell dataKey="last_name">
+                                                    {rowData => rowData.account.last_name}
+                                                </Cell>
+                                            </Column>
+                                            <Column resizable>
+                                                <HeaderCell>
+                                                    Email
+                                                </HeaderCell>
+                                                <Cell dataKey="email">
+                                                    {rowData => rowData.account.email}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Scope
+                                                </HeaderCell>
+                                                <Cell dataKey="scope">
+                                                    {rowData => rowData.role.scope}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Role
+                                                </HeaderCell>
+                                                <Cell dataKey="role">
+                                                    {rowData => rowData.role.name}
+                                                </Cell>
+                                            </Column>
+                                        </Table>
+                                    ) : (
+                                        <p>No Collaborators</p>
+                                    )}
+                                    <Button>+ Invite Collaborator</Button>
                                 </FieldContainer>
                             </DataContainer>
                         </Panel>
