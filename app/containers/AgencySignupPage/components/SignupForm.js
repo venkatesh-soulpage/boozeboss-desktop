@@ -116,5 +116,3 @@ export default class SignupForm extends Component {
 }
 
 SignupForm.propTypes = {};
-
-}
