@@ -25,6 +25,7 @@ import ForgotPasswordPage from 'containers/ForgotPasswordPage/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
+import AgencyPage from 'containers/AgencyPage/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import PrivateRoute from 'components/PrivateRoute';
@@ -57,7 +58,7 @@ class App extends React.Component {
           exact
           path="/"
           component={HomePage}
-          scopesRequired={['ADMIN', 'CLIENT', 'AGENCY']}
+          scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
           rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
         />
         <PrivateRoute
@@ -66,6 +67,13 @@ class App extends React.Component {
           component={ClientPage}
           scopesRequired={['ADMIN']}
           rolesRequired={['ADMIN']}
+        />
+        <PrivateRoute
+          exact
+          path="/agencies"
+          component={AgencyPage}
+          scopesRequired={['ADMIN', 'BRAND']}
+          rolesRequired={['ADMIN', 'OWNER']}
         />
         <GuardedRoute
           path="/login"

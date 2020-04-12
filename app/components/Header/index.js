@@ -21,8 +21,24 @@ class Header extends React.Component {
     logout();
   }
 
-  render() {
+  validateRoles = (scopesRequired, rolesRequired) => {
     const { isAuthenticated, scope, role } = this.props;
+
+    // If the user isn't authenticated return false
+    if (!isAuthenticated) return false;
+
+    // Validate scopes required
+    if (scopesRequired.indexOf(scope) < 0 ) return false;
+
+    // Validate roles required
+    if (rolesRequired.indexOf(role) < 0) return false;
+
+    // Anything else 
+    return true
+  }
+
+  render() {
+    const { isAuthenticated} = this.props;
     const { pathname } = this.state;
     return (
       <Navbar>
@@ -31,11 +47,17 @@ class Header extends React.Component {
             <Link to="/">
               <Nav.Item icon={<Icon icon="glass" />}>Booze Boss</Nav.Item>
             </Link>
-            {isAuthenticated && scope === 'ADMIN' && role === 'ADMIN' && (
+            {this.validateRoles(['ADMIN'], ['ADMIN']) && (
               <Link to="/clients">
                 <Nav.Item>Clients</Nav.Item>
               </Link>
             )} 
+            {this.validateRoles(['ADMIN', 'BRAND'], ['ADMIN', 'OWNER']) && (
+              <Link to="/agencies">
+                <Nav.Item>Agencies</Nav.Item>
+              </Link>
+            )} 
+            
           </Nav>
           {isAuthenticated ? (
             <Nav pullRight>
