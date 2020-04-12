@@ -25,7 +25,8 @@ import ForgotPasswordPage from 'containers/ForgotPasswordPage/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
-import AgencyPage from 'containers/AgencyPage/Loadable'
+import AgencyPage from 'containers/AgencyPage/Loadable';
+import AgencySignupPage from 'containers/AgencySignupPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import PrivateRoute from 'components/PrivateRoute';
@@ -45,64 +46,48 @@ const AppWrapper = styled.div`
 `;
 
 class App extends React.Component {
-
-  render () {
+  render() {
     return (
-    <AppWrapper>
-      <Helmet titleTemplate="%s - Booze Boss" defaultTitle="Booze Boss">
-        <meta name="description" content="Booze Boss" />
-      </Helmet>
-      <Header />
-      <Switch>
-        <PrivateRoute
-          exact
-          path="/"
-          component={HomePage}
-          scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
-          rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
-        />
-        <PrivateRoute
-          exact
-          path="/clients"
-          component={ClientPage}
-          scopesRequired={['ADMIN']}
-          rolesRequired={['ADMIN']}
-        />
-        <PrivateRoute
-          exact
-          path="/agencies"
-          component={AgencyPage}
-          scopesRequired={['ADMIN', 'BRAND']}
-          rolesRequired={['ADMIN', 'OWNER']}
-        />
-        <GuardedRoute
-          path="/login"
-          component={LoginPage}
-        />
-        <GuardedRoute
-          path="/client-signup"
-          component={ClientSignupPage}
-        />
-        <GuardedRoute
-          path="/forgot"
-          component={ForgotPasswordPage}
-        />
-        <GuardedRoute
-          path="/reset"
-          component={ResetPasswordPage}
-        />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
-    </AppWrapper>
-  )
+      <AppWrapper>
+        <Helmet titleTemplate="%s - Booze Boss" defaultTitle="Booze Boss">
+          <meta name="description" content="Booze Boss" />
+        </Helmet>
+        <Header />
+        <Switch>
+          <PrivateRoute
+            exact
+            path="/"
+            component={HomePage}
+            scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
+            rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
+          />
+          <PrivateRoute
+            exact
+            path="/clients"
+            component={ClientPage}
+            scopesRequired={['ADMIN']}
+            rolesRequired={['ADMIN']}
+          />
+          <PrivateRoute
+            exact
+            path="/agencies"
+            component={AgencyPage}
+            scopesRequired={['ADMIN', 'BRAND']}
+            rolesRequired={['ADMIN', 'OWNER']}
+          />
+          <GuardedRoute path="/login" component={LoginPage} />
+          <GuardedRoute path="/client-signup" component={ClientSignupPage} />
+          <GuardedRoute path="/agency-signup" component={AgencySignupPage} />
+          <GuardedRoute path="/forgot" component={ForgotPasswordPage} />
+          <GuardedRoute path="/reset" component={ResetPasswordPage} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+        <GlobalStyle />
+      </AppWrapper>
+    );
   }
-};
+}
 
-App.propTypes = {
-};
-
+App.propTypes = {};
 
 export default App;
-
-
