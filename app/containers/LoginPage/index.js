@@ -18,11 +18,17 @@ import makeSelectLogin, { makeSelectError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 // import messages from './messages';
-import { login } from './actions';
+import { login, dismissErrors } from './actions';
 import { LoginForm } from './components';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Login extends React.Component {
+
+  componentWillMount = () => {
+    const {dismissErrors} = this.props;
+    dismissErrors();
+  }
+
   render() {
     return (
       <div>
@@ -49,6 +55,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   login: (auth) => dispatch(login(auth)),
+  dismissErrors: () => dispatch(dismissErrors()),
 })
 
 const withConnect = connect(

@@ -4,7 +4,10 @@
  *
  */
 
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
+import { 
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
+  DISMISS_ERRORS
+} from './constants';
 
 export function login(auth) {
   return {
@@ -24,5 +27,11 @@ export function loginError(error) {
   return {
     error,
     type: LOGIN_ERROR,
+  };
+}
+
+export function dismissErrors() {
+  return {
+    type: DISMISS_ERRORS,
   };
 }
