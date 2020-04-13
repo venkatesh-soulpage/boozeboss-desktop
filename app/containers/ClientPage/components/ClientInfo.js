@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber } from 'rsuite';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -16,13 +16,20 @@ const ClientsLabel = styled.p`
   font-size: 1.25em;
 `;
 const DataContainer = styled.div`
-  display: flex;
+    display: flex;
     flex-direction: column;
 `;
 
 const FieldContainer = styled.div`
     display: flex;
-  flex-direction: column;
+    flex-direction: column;
+    margin: 1em 1em 1em 1em;
+`;
+
+const FieldsRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     margin: 1em 0 1em 0;
 `;
 
@@ -35,7 +42,12 @@ class ClientForm extends Component {
     state = {
         name: null,
         description: null,
-    owner_email: null,
+        owner_email: null,
+        collaborator_limit: 5,
+        briefs_limit: 5,
+        brands_limit: 10,
+        warehouses_limit: 1,
+        locations_limit: 1,
   };
 
   handleChange = (value, name) => {
@@ -44,12 +56,11 @@ class ClientForm extends Component {
 
   submitClient = () => {
     const { inviteClient } = this.props;
-        const {name, description, owner_email} = this.state;
-    inviteClient({ name, description, owner_email });
+        inviteClient({...this.state});
   };
 
     render() {
-        const {name, description, owner_email} = this.props;
+        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
@@ -58,12 +69,49 @@ class ClientForm extends Component {
                         <Input 
                             value={name}
                             onChange={(value) => this.handleChange(value, 'name')}
-            />
+                        />
                     </FieldContainer>
+                    <FieldsRow>
+                        <FieldContainer>
+                            <FieldLabel>Collaborators Limit</FieldLabel>
+                            <InputNumber 
+                                value={collaborator_limit}
+                                onChange={(value) => this.handleChange(value, 'collaborator_limit')}
+                        />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Briefs / Month Limit</FieldLabel>
+                            <InputNumber 
+                                value={briefs_limit}
+                                onChange={(value) => this.handleChange(value, 'briefs_limit')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Brands Limit</FieldLabel>
+                            <InputNumber 
+                                value={brands_limit}
+                                onChange={(value) => this.handleChange(value, 'brands_limit')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Warehouses Limit</FieldLabel>
+                            <InputNumber 
+                                value={warehouses_limit}
+                                onChange={(value) => this.handleChange(value, 'warehouses_limit')}
+                            />
+                        </FieldContainer>    
+                        <FieldContainer>
+                            <FieldLabel>Locations Limit</FieldLabel>
+                            <InputNumber 
+                                value={locations_limit}
+                                onChange={(value) => this.handleChange(value, 'locations_limit')}
+                            />
+                        </FieldContainer>  
+                    </FieldsRow>
                     <FieldContainer>
                         <FieldLabel>Description</FieldLabel>
-            <Input
-                componentClass="textarea" 
+                        <Input
+                            componentClass="textarea" 
                             rows={3} 
                             value={description}
                             onChange={(value) => this.handleChange(value, 'description')}
@@ -71,12 +119,12 @@ class ClientForm extends Component {
                     </FieldContainer>
                     <FieldContainer>
                         <FieldLabel>Owner Email</FieldLabel>
-            <p>(We will send an invite to this email)</p>
+                        <p>(We will send an invite to this email)</p>
                         <Input 
                             value={owner_email}
                             onChange={(value) => this.handleChange(value, 'owner_email')}
                         />
-          </FieldContainer>
+                    </FieldContainer>
                     <FieldContainer>
                         <Button onClick={this.submitClient}>Create Brand</Button>
                     </FieldContainer>
@@ -113,9 +161,32 @@ export default class ClientInfo extends Component {
                                     <FieldLabel>Contact</FieldLabel>
                                     <p>{clients[currentClient].contact_email}</p>
                                 </FieldContainer>
+                                <FieldsRow>
+                                    <FieldContainer>
+                                        <FieldLabel>Collaborators Limit</FieldLabel>
+                                        <p>{clients[currentClient].collaborator_limit}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Briefs / Month Limit</FieldLabel>
+                                        <p>{clients[currentClient].briefs_limit}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Brands Limit</FieldLabel>
+                                        <p>{clients[currentClient].brands_limit}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Warehouses Limit</FieldLabel>
+                                        <p>{clients[currentClient].warehouses_limit}</p>
+                                    </FieldContainer>    
+                                    <FieldContainer>
+                                        <FieldLabel>Locations Limit</FieldLabel>
+                                        <p>{clients[currentClient].locations_limit}</p>
+                                    </FieldContainer>  
+                                </FieldsRow>
                                 <FieldContainer>
                                     <FieldLabel>Collaborators</FieldLabel>
-                                    {clients[currentClient].client_collaborators.length > 0 ? (
+                                    {clients[currentClient].client_collaborators && 
+                                        clients[currentClient].client_collaborators.length > 0 ? (
                                         <Table
                                             data={clients[currentClient].client_collaborators}
                                         >
@@ -163,6 +234,8 @@ export default class ClientInfo extends Component {
                                     ) : (
                                         <p>No Collaborators</p>
                                     )}
+                                </FieldContainer>
+                                <FieldContainer>
                                     <Button>+ Invite Collaborator</Button>
                                 </FieldContainer>
                             </DataContainer>
