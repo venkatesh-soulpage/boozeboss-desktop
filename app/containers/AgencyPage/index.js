@@ -14,13 +14,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAgencies } from './selectors';
+import { makeSelectAgencies, makeSelectRoles, makeSelectError, makeSelectSuccess } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { AgenciesContainer } from './components';
-import { addAgencyDraft, getAgencies, inviteAgency } from './actions';
+import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -47,15 +47,23 @@ AgencyContainer.propTypes = {
   agencies: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   scope: PropTypes.string,
   role: PropTypes.role,
+  roles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  error: PropTypes.string,
+  success: PropTypes.string,
   getAgencies: PropTypes.func.isRequired,
   addAgencyDraft: PropTypes.func.isRequired,
   inviteAgency: PropTypes.func.isRequired,
+  inviteCollaborator: PropTypes.func.isRequired,
+  dismiss: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   agencies: makeSelectAgencies(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
+  roles: makeSelectRoles(),
+  error: makeSelectError(),
+  success: makeSelectSuccess(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -63,6 +71,8 @@ function mapDispatchToProps(dispatch) {
     getAgencies: () => dispatch(getAgencies()),
     addAgencyDraft: () => dispatch(addAgencyDraft()),
     inviteAgency: agency => dispatch(inviteAgency(agency)),
+    inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
+    dismiss: (type) => dispatch(dismiss(type)),
   };
 }
 

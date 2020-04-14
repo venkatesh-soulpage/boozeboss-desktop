@@ -2,10 +2,12 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_AGENCIES_REQUEST, INVITE_AGENCY_REQUEST } from './constants';
+import { GET_AGENCIES_REQUEST, INVITE_AGENCY_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST } from './constants';
 import {
   getAgenciesSuccess, getAgenciesError,
-  inviteAgencySuccess, inviteAgencyError
+  inviteAgencySuccess, inviteAgencyError,
+  inviteCollaboratorSuccess, inviteCollaboratorError,
+  getRolesSuccess, getRolesError,
 } from './actions';
 
 function* getAgenciesSaga() {
@@ -40,6 +42,38 @@ function* inviteAgencySaga(params) {
   }
 }
 
+function* getRolesSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/roles?scope=AGENCY`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getRolesSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getRolesError(jsonError));
+  }
+}
+
+function* inviteCollaboratorSaga(params) {
+  const { collaborator } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/agencies/invite-collaborator`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(collaborator),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(inviteCollaboratorSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(inviteCollaboratorError(jsonError));
+  }
+}
+
 function* getAgenciesRequest() {
   yield takeLatest(GET_AGENCIES_REQUEST, getAgenciesSaga);
 }
@@ -48,9 +82,20 @@ function* inviteAgencyRequest() {
   yield takeLatest(INVITE_AGENCY_REQUEST, inviteAgencySaga);
 }
 
+function* inviteCollaboratorRequest() {
+  yield takeLatest(INVITE_COLLABORATOR_REQUEST, inviteCollaboratorSaga);
+}
+
+function* getRolesRequest() {
+  yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
+}
+
+
 export default function* rootSaga() {
   yield all([
     fork(getAgenciesRequest),
-    fork(inviteAgencyRequest)
+    fork(inviteAgencyRequest),
+    fork(inviteCollaboratorRequest),
+    fork(getRolesRequest)
   ]);
 }

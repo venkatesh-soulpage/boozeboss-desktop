@@ -13,6 +13,13 @@ import {
   INVITE_AGENCY_REQUEST,
   INVITE_AGENCY_SUCCESS,
   INVITE_AGENCY_ERROR,
+  INVITE_COLLABORATOR_REQUEST,
+  INVITE_COLLABORATOR_SUCCESS,
+  INVITE_COLLABORATOR_ERROR,
+  GET_ROLES_REQUEST,
+  GET_ROLES_SUCCESS,
+  GET_ROLES_ERROR,
+  DISMISS
 } from './constants';
 
 export const initialState = fromJS({
@@ -39,6 +46,28 @@ function agencyPageReducer(state = initialState, action) {
       return state.set('agencies', current_agencies).set('isLoading', false);
     case INVITE_AGENCY_ERROR:
       return state.set('error', action.error).set('isLoading', false);
+      case INVITE_COLLABORATOR_REQUEST:
+      return state.set('isLoading', true);
+    case INVITE_COLLABORATOR_SUCCESS:
+      return state
+        .set('isLoading', false)
+        .set('success', action.success);
+    case INVITE_COLLABORATOR_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case GET_ROLES_REQUEST:
+      return state.set('isLoading', true);
+    case GET_ROLES_SUCCESS:
+      return state
+        .set('isLoading', false)
+        .set('roles', action.roles);
+    case GET_ROLES_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case DISMISS: 
+      return state.set(action.dismiss_type, null);
     default:
       return state;
   }

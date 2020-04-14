@@ -19,3 +19,15 @@ export const INVITE_AGENCY_SUCCESS =
 export const INVITE_AGENCY_ERROR =
   'boozeboss/AgencyContainer/INVITE_AGENCY_ERROR';
 
+export const INVITE_COLLABORATOR_REQUEST = 'boozeboss/AgencyContainer/INVITE_COLLABORATOR_REQUEST';
+export const INVITE_COLLABORATOR_SUCCESS = 'boozeboss/AgencyContainer/INVITE_COLLABORATOR_SUCCESS';
+export const INVITE_COLLABORATOR_ERROR = 'boozeboss/AgencyContainer/INVITE_COLLABORATOR_ERROR';
+
+export const GET_ROLES_REQUEST =
+  'boozeboss/AgencyContainer/GET_ROLES_REQUEST';
+export const GET_ROLES_SUCCESS =
+  'boozeboss/AgencyContainer/GET_ROLES_SUCCESS';
+export const GET_ROLES_ERROR =
+  'boozeboss/AgencyContainer/GET_ROLES_ERROR';
+
+export const DISMISS =  'boozeboss/AgencyContainer/DISMISS';

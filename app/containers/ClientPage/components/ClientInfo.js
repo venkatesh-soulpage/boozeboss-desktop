@@ -194,7 +194,7 @@ export default class ClientInfo extends Component {
                                 <FieldContainer>
                                     <FieldLabelContainer> 
                                         <FieldLabel>Collaborators </FieldLabel>
-                                        <p>{`( ${clients[currentClient].client_collaborators.length} / ${clients[currentClient].collaborator_limit} ) `}</p>
+                                        <p>{`( ${clients[currentClient].client_collaborators && clients[currentClient].client_collaborators.length} / ${clients[currentClient].collaborator_limit} ) `}</p>
                                     </FieldLabelContainer>
                                     {clients[currentClient].client_collaborators && 
                                         clients[currentClient].client_collaborators.length > 0 ? (
