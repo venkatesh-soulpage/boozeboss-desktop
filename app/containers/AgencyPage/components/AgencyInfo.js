@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Panel, Input, Button, Table } from 'rsuite';
+import InviteCollaborator from './InviteCollaborator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -171,7 +172,11 @@ export default class AgencyInfo extends Component {
                                     ) : (
                                         <p>No Collaborators</p>
                                     )}
-                                    <Button>+ Invite Collaborator</Button>
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <InviteCollaborator 
+                                        {...this.props}
+                                    />
                                 </FieldContainer>
                             </DataContainer>
                         </Panel>

@@ -57,6 +57,11 @@ class Header extends React.Component {
                 <Nav.Item>My organization</Nav.Item>
               </Link>
             )} 
+            {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (
+              <Link to="/agencies">
+                <Nav.Item>My organization</Nav.Item>
+              </Link>
+            )} 
             {this.validateRoles(['ADMIN', 'BRAND'], ['ADMIN', 'OWNER']) && (
               <Link to="/agencies">
                 <Nav.Item>Agencies</Nav.Item>

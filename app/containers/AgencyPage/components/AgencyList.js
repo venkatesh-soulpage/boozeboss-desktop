@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel } from 'rsuite';
-
-import { Button } from 'rsuite';
+import { Panel, Button } from 'rsuite';
+import RoleValidator from 'components/RoleValidator';
 
 const Column = styled.div`
   display: flex;
@@ -82,13 +81,19 @@ export default class AgencyList extends Component {
       agencies.filter(agency => agency.isDraft).length > 0;
     return (
       <Column>
-        <Button
-          color="green"
-          onClick={this.handleAddAgencyDraft}
-          disabled={isActiveDraft}
+        <RoleValidator
+          {...this.props}
+          scopes={['ADMIN', 'BRAND']}
+          roles={['ADMIN', 'OWNER']}
         >
-          + Add Agency
-        </Button>
+          <Button
+            color="green"
+            onClick={this.handleAddAgencyDraft}
+            disabled={isActiveDraft}
+          >
+            + Add Agency
+          </Button>
+        </RoleValidator>
         <List>
           {(!agencies || agencies.length < 1) && (
             <MessageLabel>No Agencies registered</MessageLabel>

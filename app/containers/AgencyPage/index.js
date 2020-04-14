@@ -20,14 +20,15 @@ import saga from './saga';
 import messages from './messages';
 
 import { AgenciesContainer } from './components';
-import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss } from './actions';
+import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss, getRoles } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class AgencyContainer extends React.Component {
   componentDidMount = () => {
-    const { getAgencies } = this.props;
+    const { getAgencies, getRoles } = this.props;
     getAgencies();
+    getRoles();
   };
 
   render() {
@@ -72,6 +73,7 @@ function mapDispatchToProps(dispatch) {
     addAgencyDraft: () => dispatch(addAgencyDraft()),
     inviteAgency: agency => dispatch(inviteAgency(agency)),
     inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
+    getRoles: () => dispatch(getRoles()),
     dismiss: (type) => dispatch(dismiss(type)),
   };
 }
