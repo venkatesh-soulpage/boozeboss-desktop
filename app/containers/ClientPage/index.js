@@ -14,20 +14,21 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectClients } from './selectors';
+import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, inviteCollaborator } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
   componentDidMount = () => {
-    const { getClients } = this.props;
+    const { getClients, getRoles } = this.props;
     getClients();
+    getRoles();
   };
 
   render() {
@@ -45,17 +46,25 @@ export class ClientContainer extends React.Component {
 
 ClientContainer.propTypes = {
   clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  roles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   getClients: PropTypes.func.isRequired,
   addClientDraft: PropTypes.func.isRequired,
   inviteClient: PropTypes.func.isRequired,
-  scope: PropTypes.func.isRequired,
-  role: PropTypes.func.isRequired,
+  inviteCollaborator: PropTypes.func.isRequired,
+  getRoles: PropTypes.func.isRequired,
+  scope: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  error: PropTypes.string,
+  success: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   clients: makeSelectClients(),
+  roles: makeSelectRoles(),
   scope: makeSelectScope(),
-  role: makeSelectRole()
+  role: makeSelectRole(),
+  error: makeSelectError(),
+  success: makeSelectSuccess(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -63,6 +72,8 @@ function mapDispatchToProps(dispatch) {
     getClients: () => dispatch(getClients()),
     addClientDraft: () => dispatch(addClientDraft()),
     inviteClient: client => dispatch(inviteClient(client)),
+    inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
+    getRoles: () => dispatch(getRoles()),
   };
 }
 

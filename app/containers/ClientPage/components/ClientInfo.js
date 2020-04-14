@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message } from 'rsuite';
+import InviteCollaborator from './InviteCollaborator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -33,8 +34,13 @@ const FieldsRow = styled.div`
     margin: 1em 0 1em 0;
 `;
 
+const FieldLabelContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
 const FieldLabel = styled.b`
-    margin: 0 0 0.5em 0;
+    margin: 0 0.5em 0.5em 0;
 `;
 
 class ClientForm extends Component {
@@ -137,9 +143,11 @@ class ClientForm extends Component {
 export default class ClientInfo extends Component {
 
   render() {
-    const { clients, currentClient } = this.props;
+    const { clients, currentClient, error, success } = this.props;
         return (
             <InfoContainer>
+                {error && <Message showIcon closable type="error" description={error} />}
+                {success && <Message showIcon closable type="success" description={success}/>}
                 {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
                 {clients &&
                 clients.length > 0 && (
@@ -184,7 +192,10 @@ export default class ClientInfo extends Component {
                                     </FieldContainer>  
                                 </FieldsRow>
                                 <FieldContainer>
-                                    <FieldLabel>Collaborators</FieldLabel>
+                                    <FieldLabelContainer> 
+                                        <FieldLabel>Collaborators </FieldLabel>
+                                        <p>{`( ${clients[currentClient].client_collaborators.length} / ${clients[currentClient].collaborator_limit} ) `}</p>
+                                    </FieldLabelContainer>
                                     {clients[currentClient].client_collaborators && 
                                         clients[currentClient].client_collaborators.length > 0 ? (
                                         <Table
@@ -236,7 +247,9 @@ export default class ClientInfo extends Component {
                                     )}
                                 </FieldContainer>
                                 <FieldContainer>
-                                    <Button>+ Invite Collaborator</Button>
+                                    <InviteCollaborator 
+                                        {...this.props}
+                                    />
                                 </FieldContainer>
                             </DataContainer>
                         </Panel>
