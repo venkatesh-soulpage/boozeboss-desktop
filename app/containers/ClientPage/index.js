@@ -21,6 +21,7 @@ import messages from './messages';
 
 import { ClientsContainer } from './components';
 import { addClientDraft, getClients, inviteClient } from './actions';
+import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
@@ -47,10 +48,14 @@ ClientContainer.propTypes = {
   getClients: PropTypes.func.isRequired,
   addClientDraft: PropTypes.func.isRequired,
   inviteClient: PropTypes.func.isRequired,
+  scope: PropTypes.func.isRequired,
+  role: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   clients: makeSelectClients(),
+  scope: makeSelectScope(),
+  role: makeSelectRole()
 });
 
 function mapDispatchToProps(dispatch) {

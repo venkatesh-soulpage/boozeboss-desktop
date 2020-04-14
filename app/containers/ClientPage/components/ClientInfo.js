@@ -248,4 +248,5 @@ export default class ClientInfo extends Component {
   }
 }
 
-ClientInfo.propTypes = {};
+ClientInfo.propTypes = {
+};

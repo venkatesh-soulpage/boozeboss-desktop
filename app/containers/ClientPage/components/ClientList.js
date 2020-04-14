@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Panel } from 'rsuite';
+import RoleValidator from 'components/RoleValidator';
 
 import { Button } from 'rsuite';
 
@@ -9,6 +10,9 @@ const Column = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: 99;
 `;
 
 const List = styled.div`
@@ -75,20 +79,26 @@ export default class ClientList extends Component {
   };
 
   render() {
-    const { clients, currentClient } = this.props;
+    const { clients, currentClient} = this.props;
     const isActiveDraft =
       clients &&
       clients.length > 0 &&
       clients.filter(client => client.isDraft).length > 0;
     return (
       <Column>
-        <Button
-          color="green"
-          onClick={this.handleAddClientDraft}
-          disabled={isActiveDraft}
+        <RoleValidator
+          {...this.props}
+          scopes={['ADMIN']}
+          roles={['ADMIN']}
         >
-          + Add Brand Owner
-        </Button>
+          <Button
+            color="green"
+            onClick={this.handleAddClientDraft}
+            disabled={isActiveDraft}
+          >
+            + Add Brand Owner
+          </Button>
+        </RoleValidator>
         <List>
           {(!clients || clients.length < 1) && (
             <MessageLabel>No Brand Owners registered</MessageLabel>
@@ -111,4 +121,5 @@ export default class ClientList extends Component {
 
 ClientList.propTypes = {
   clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  
 };

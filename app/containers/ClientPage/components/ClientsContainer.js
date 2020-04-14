@@ -7,7 +7,9 @@ import ClientInfo from './ClientInfo';
 const StyledContainer = styled.div`
   display: flex;
     flex-direction: row;
-  margin: 2em 2em 0 2em;
+    margin: 2em 2em 0 2em;
+    position: sticky; 
+    top: 0;
 `;
 
 export default class ClientsContainer extends Component {

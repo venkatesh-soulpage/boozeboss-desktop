@@ -65,8 +65,8 @@ class App extends React.Component {
             exact
             path="/clients"
             component={ClientPage}
-            scopesRequired={['ADMIN']}
-            rolesRequired={['ADMIN']}
+            scopesRequired={['ADMIN', 'BRAND']}
+            rolesRequired={['ADMIN', 'OWNER', 'MANAGER']}
           />
           <PrivateRoute
             exact
