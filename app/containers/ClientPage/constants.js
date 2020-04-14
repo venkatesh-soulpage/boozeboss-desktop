@@ -29,3 +29,5 @@ export const GET_ROLES_SUCCESS =
   'boozeboss/ClientContainer/GET_ROLES_SUCCESS';
 export const GET_ROLES_ERROR =
   'boozeboss/ClientContainer/GET_ROLES_ERROR';
+
+export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

@@ -18,6 +18,7 @@ import {
   INVITE_COLLABORATOR_REQUEST,
   INVITE_COLLABORATOR_SUCCESS,
   INVITE_COLLABORATOR_ERROR,
+  DISMISS,
 } from './constants';
 
 export function addClientDraft() {
@@ -109,5 +110,13 @@ export function getRolesError(error) {
   return {
     type: GET_ROLES_ERROR,
     error,
+  };
+}
+
+// Dismiss success and error messages
+export function dismiss(dismiss_type) {
+  return {
+    type: DISMISS,
+    dismiss_type,
   };
 }

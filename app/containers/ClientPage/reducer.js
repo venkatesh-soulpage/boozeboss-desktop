@@ -18,7 +18,8 @@ import {
   INVITE_COLLABORATOR_ERROR,
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
-  GET_ROLES_ERROR
+  GET_ROLES_ERROR,
+  DISMISS
 } from './constants';
 
 export const initialState = fromJS({
@@ -67,6 +68,8 @@ function clientContainerReducer(state = initialState, action) {
       return state
         .set('isLoading', false)
         .set('error', action.error);
+    case DISMISS: 
+      return state.set(action.dismiss_type, null);
     default:
       return state;
   }

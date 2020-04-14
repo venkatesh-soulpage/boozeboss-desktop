@@ -143,11 +143,11 @@ class ClientForm extends Component {
 export default class ClientInfo extends Component {
 
   render() {
-    const { clients, currentClient, error, success } = this.props;
+    const { clients, currentClient, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
-                {error && <Message showIcon closable type="error" description={error} />}
-                {success && <Message showIcon closable type="success" description={success}/>}
+                {error && <Message showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+                {success && <Message showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
                 {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
                 {clients &&
                 clients.length > 0 && (

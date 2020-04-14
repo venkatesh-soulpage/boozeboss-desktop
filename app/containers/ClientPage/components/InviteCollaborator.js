@@ -49,10 +49,11 @@ export default class InviteCollaborator extends React.Component {
     }
 
     invite = async () => {
-        const {inviteCollaborator} = this.props;
+        const {inviteCollaborator, clients, currentClient} = this.props;
         const {email, role_id} = this.state;
         if ( !email || !role_id) return;
-        await inviteCollaborator({email, role_id});
+        const client_id = clients[currentClient].id;
+        await inviteCollaborator({email, role_id, client_id});
         this.close();
     }
 
