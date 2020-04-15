@@ -19,6 +19,9 @@ import {
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
   GET_ROLES_ERROR,
+  CREATE_VENUE_REQUEST,
+  CREATE_VENUE_SUCCESS,
+  CREATE_VENUE_ERROR,
   DISMISS
 } from './constants';
 
@@ -65,6 +68,16 @@ function clientContainerReducer(state = initialState, action) {
         .set('isLoading', false)
         .set('roles', action.roles);
     case GET_ROLES_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case CREATE_VENUE_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_VENUE_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false)
+    case CREATE_VENUE_ERROR:
       return state
         .set('isLoading', false)
         .set('error', action.error);

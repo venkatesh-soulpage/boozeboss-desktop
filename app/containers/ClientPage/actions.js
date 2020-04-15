@@ -19,6 +19,9 @@ import {
   INVITE_COLLABORATOR_SUCCESS,
   INVITE_COLLABORATOR_ERROR,
   DISMISS,
+  CREATE_VENUE_REQUEST,
+  CREATE_VENUE_SUCCESS,
+  CREATE_VENUE_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -109,6 +112,28 @@ export function getRolesSuccess(roles) {
 export function getRolesError(error) {
   return {
     type: GET_ROLES_ERROR,
+    error,
+  };
+}
+
+/* CREATE VENUE */
+export function createVenue(venue) {
+  return {
+    type: CREATE_VENUE_REQUEST,
+    venue
+  };
+}
+
+export function createVenueSuccess(success) {
+  return {
+    type: CREATE_VENUE_SUCCESS,
+    success
+  };
+}
+
+export function createVenueError(error) {
+  return {
+    type: CREATE_VENUE_ERROR,
     error,
   };
 }

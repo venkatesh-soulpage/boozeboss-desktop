@@ -30,4 +30,9 @@ export const GET_ROLES_SUCCESS =
 export const GET_ROLES_ERROR =
   'boozeboss/ClientContainer/GET_ROLES_ERROR';
 
+export const CREATE_VENUE_REQUEST = 'boozeboss/ClientContainer/CREATE_VENUE_REQUEST';
+export const CREATE_VENUE_SUCCESS = 'boozeboss/ClientContainer/CREATE_VENUE_SUCCESS';
+export const CREATE_VENUE_ERROR = 'boozeboss/ClientContainer/CREATE_VENUE_ERROR';
+  
+
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

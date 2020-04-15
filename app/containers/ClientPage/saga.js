@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -12,6 +12,8 @@ import {
   getRolesError,
   inviteCollaboratorSuccess,
   inviteCollaboratorError,
+  createVenueSuccess,
+  createVenueError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -84,6 +86,23 @@ function* inviteCollaboratorSaga(params) {
   }
 }
 
+function* createVenueSaga(params) {
+  const { venue } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/venues`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(venue),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(createVenueSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(createVenueError(jsonError));
+  }
+}
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -100,11 +119,23 @@ function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
 
+function* createVenueRequest() {
+  yield takeLatest(CREATE_VENUE_REQUEST, createVenueSaga);
+}
+
+// Reactive saga
+function* createVenueSuccessRequest() {
+  yield takeLatest(CREATE_VENUE_SUCCESS, getClientsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getClientsRequest),
     fork(inviteClientRequest),
     fork(inviteCollaboratorRequest),
-    fork(getRolesRequest)
+    fork(getRolesRequest),
+    fork(createVenueRequest),
+    // Reactive
+    fork(createVenueSuccessRequest)
   ]);
 }

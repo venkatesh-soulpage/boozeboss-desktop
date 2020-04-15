@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
+import CreateVenueModal from './CreateVenueModal';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -10,7 +11,7 @@ const InfoContainer = styled.div`
   display: flex;
     flex-direction: column;
     flex: 3;
-    margin: 0 2em 0 2em;
+    margin: 0 2em 2em 2em;
 `;
 
 const ClientsLabel = styled.p`
@@ -42,6 +43,10 @@ const FieldLabelContainer = styled.div`
 const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
+
+const StyledMessage = styled(Message)`
+    margin: 0 0 1em 0;
+`
 
 class ClientForm extends Component {
 
@@ -146,8 +151,8 @@ export default class ClientInfo extends Component {
     const { clients, currentClient, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
-                {error && <Message showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                {success && <Message showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
                 {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
                 {clients &&
                 clients.length > 0 && (
@@ -191,6 +196,7 @@ export default class ClientInfo extends Component {
                                         <p>{clients[currentClient].locations_limit}</p>
                                     </FieldContainer>  
                                 </FieldsRow>
+                                <Divider />
                                 <FieldContainer>
                                     <FieldLabelContainer> 
                                         <FieldLabel>Collaborators </FieldLabel>
@@ -248,6 +254,90 @@ export default class ClientInfo extends Component {
                                 </FieldContainer>
                                 <FieldContainer>
                                     <InviteCollaborator 
+                                        {...this.props}
+                                    />
+                                </FieldContainer>
+                                <Divider />
+                                <FieldContainer>
+                                    <FieldLabelContainer> 
+                                        <FieldLabel>Venues</FieldLabel>
+                                    </FieldLabelContainer>
+                                    {clients[currentClient].venues && 
+                                        clients[currentClient].venues.length > 0 ? (
+                                        <Table
+                                            data={clients[currentClient].venues}
+                                        >
+                                            <Column resizable>
+                                                <HeaderCell>
+                                                    Name
+                                                </HeaderCell>
+                                                <Cell dataKey="name">
+                                                    {rowData => rowData.name}
+                                                </Cell>
+                                            </Column>
+                                            <Column resizable>
+                                                <HeaderCell>
+                                                    Address
+                                                </HeaderCell>
+                                                <Cell dataKey="last_name">
+                                                    {rowData => rowData.address}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Contact Name
+                                                </HeaderCell>
+                                                <Cell dataKey="contact_name">
+                                                    {rowData => rowData.contact_name}
+                                                </Cell>
+                                            </Column>
+                                            <Column resizable>
+                                                <HeaderCell>
+                                                    Contact Email
+                                                </HeaderCell>
+                                                <Cell dataKey="contact_email">
+                                                    {rowData => rowData.contact_email}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Telephone # 
+                                                </HeaderCell>
+                                                <Cell dataKey="contact_phone_number">
+                                                    {rowData => rowData.contact_phone_number}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Latitude 
+                                                </HeaderCell>
+                                                <Cell dataKey="latitude">
+                                                    {rowData => rowData.latitude}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Longitude
+                                                </HeaderCell>
+                                                <Cell dataKey="longitude">
+                                                    {rowData => rowData.longitude}
+                                                </Cell>
+                                            </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Actions
+                                                </HeaderCell>
+                                                <Cell dataKey="longitude">
+                                                    Edit | Delete
+                                                </Cell>
+                                            </Column>
+                                        </Table>
+                                    ) : (
+                                        <p>No Venues</p>
+                                    )}
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <CreateVenueModal 
                                         {...this.props}
                                     />
                                 </FieldContainer>
