@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -14,6 +14,8 @@ import {
   inviteCollaboratorError,
   createVenueSuccess,
   createVenueError,
+  deleteVenueSuccess,
+  deleteVenueError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -103,6 +105,22 @@ function* createVenueSaga(params) {
   }
 }
 
+function* deleteVenueSaga(params) {
+  const { venue_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/venues/${venue_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(deleteVenueSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(deleteVenueError(jsonError));
+  }
+}
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -123,9 +141,17 @@ function* createVenueRequest() {
   yield takeLatest(CREATE_VENUE_REQUEST, createVenueSaga);
 }
 
+function* deleteVenueRequest() {
+  yield takeLatest(DELETE_VENUE_REQUEST, deleteVenueSaga);
+}
+
 // Reactive saga
 function* createVenueSuccessRequest() {
   yield takeLatest(CREATE_VENUE_SUCCESS, getClientsSaga);
+}
+
+function* deleteVenueSuccessRequest() {
+  yield takeLatest(DELETE_VENUE_SUCCESS, getClientsSaga);
 }
 
 export default function* rootSaga() {
@@ -135,7 +161,9 @@ export default function* rootSaga() {
     fork(inviteCollaboratorRequest),
     fork(getRolesRequest),
     fork(createVenueRequest),
+    fork(deleteVenueRequest),
     // Reactive
-    fork(createVenueSuccessRequest)
+    fork(createVenueSuccessRequest),
+    fork(deleteVenueSuccessRequest)
   ]);
 }

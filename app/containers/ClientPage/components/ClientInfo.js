@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Panel, Input, Button, Table, InputNumber, Message, Divider } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
+import DeleteVenueModal from './DeleteVenueModal';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -46,6 +47,12 @@ const FieldLabel = styled.b`
 
 const StyledMessage = styled(Message)`
     margin: 0 0 1em 0;
+`
+
+const ActionContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 `
 
 class ClientForm extends Component {
@@ -247,6 +254,14 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.role.name}
                                                 </Cell>
                                             </Column>
+                                            <Column>
+                                                <HeaderCell>
+                                                    Actions
+                                                </HeaderCell>
+                                                <Cell dataKey="actions">
+                                                    Edit | Delete
+                                                </Cell>
+                                            </Column>
                                         </Table>
                                     ) : (
                                         <p>No Collaborators</p>
@@ -323,12 +338,19 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.longitude}
                                                 </Cell>
                                             </Column>
-                                            <Column>
+                                            <Column width={150}>
                                                 <HeaderCell>
                                                     Actions
                                                 </HeaderCell>
-                                                <Cell dataKey="longitude">
-                                                    Edit | Delete
+                                                <Cell dataKey="actions">
+                                                        {rowData => {
+                                                            return (
+                                                                <ActionContainer>
+                                                                    <DeleteVenueModal {...this.props} venue={rowData}/>
+                                                                </ActionContainer>
+                                                            )
+                                                        }} 
+                                                    
                                                 </Cell>
                                             </Column>
                                         </Table>

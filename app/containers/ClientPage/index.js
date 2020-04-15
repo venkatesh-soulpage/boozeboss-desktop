@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient, getRoles, inviteCollaborator, dismiss, createVenue } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, inviteCollaborator, dismiss, createVenue, deleteVenue } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -53,6 +53,7 @@ ClientContainer.propTypes = {
   inviteCollaborator: PropTypes.func.isRequired,
   getRoles: PropTypes.func.isRequired,
   createVenue: PropTypes.func.isRequired,
+  deleteVenue: PropTypes.func.isRequired,
   dismiss: PropTypes.func.isRequired,
   scope: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch) {
     inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
     getRoles: () => dispatch(getRoles()),
     createVenue: (venue) => dispatch(createVenue(venue)),
+    deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     dismiss: type => dispatch(dismiss(type))
   };
 }

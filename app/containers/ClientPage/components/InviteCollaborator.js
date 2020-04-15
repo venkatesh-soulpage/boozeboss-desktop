@@ -61,7 +61,7 @@ export default class InviteCollaborator extends React.Component {
         const {show, data} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open}>+ Invite Collaborator</Button>
+                <Button onClick={this.open} color="green">+ Invite Collaborator</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

@@ -22,6 +22,9 @@ import {
   CREATE_VENUE_REQUEST,
   CREATE_VENUE_SUCCESS,
   CREATE_VENUE_ERROR,
+  DELETE_VENUE_REQUEST,
+  DELETE_VENUE_SUCCESS,
+  DELETE_VENUE_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -134,6 +137,28 @@ export function createVenueSuccess(success) {
 export function createVenueError(error) {
   return {
     type: CREATE_VENUE_ERROR,
+    error,
+  };
+}
+
+/* DELETE VENUE */
+export function deleteVenue(venue_id) {
+  return {
+    type: DELETE_VENUE_REQUEST,
+    venue_id
+  };
+}
+
+export function deleteVenueSuccess(success) {
+  return {
+    type: DELETE_VENUE_SUCCESS,
+    success
+  };
+}
+
+export function deleteVenueError(error) {
+  return {
+    type: DELETE_VENUE_ERROR,
     error,
   };
 }
