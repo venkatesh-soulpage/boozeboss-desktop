@@ -5,11 +5,9 @@ import ClientList from './ClientList';
 import ClientInfo from './ClientInfo';
 
 const StyledContainer = styled.div`
-  display: flex;
+    display: flex;
     flex-direction: row;
     margin: 2em 2em 0 2em;
-    position: sticky; 
-    top: 0;
 `;
 
 export default class ClientsContainer extends Component {
@@ -25,8 +23,8 @@ export default class ClientsContainer extends Component {
   render() {
     return (
             <StyledContainer>
-        <ClientList
-            {...this.props} 
+                <ClientList
+                    {...this.props} 
                     {...this.state}
                     handleSelectCurrentClient={this.handleSelectCurrentClient}
                 />

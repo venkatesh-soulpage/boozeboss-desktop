@@ -8,6 +8,10 @@ const Column = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  align-self: flex-start; 
+  position: sticky;
+  top: 1em;
+  z-index: 99;
 `;
 
 const List = styled.div`
