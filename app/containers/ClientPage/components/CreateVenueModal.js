@@ -54,10 +54,10 @@ export default class CreateVenueModal extends React.Component {
 
     create = async () => {
         const {createVenue, clients, currentClient} = this.props;
-        const {name, address, contact_name, contact_email, contact_phone_number, latitude } = this.state;
+        const {name, address, contact_name, contact_email, contact_phone_number, latitude, longitude } = this.state;
         if ( !name || !address) return;
         const created_by = clients[currentClient].id;
-        await createVenue({name, address, contact_name, contact_email, contact_phone_number, latitude, created_by});
+        await createVenue({name, address, contact_name, contact_email, contact_phone_number, latitude, longitude, created_by});
         this.close();
     }
 

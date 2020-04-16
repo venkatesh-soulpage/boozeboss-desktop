@@ -27,6 +27,7 @@ import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
 import AgencyPage from 'containers/AgencyPage/Loadable';
 import AgencySignupPage from 'containers/AgencySignupPage/Loadable';
+import BriefPage from 'containers/BriefPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import PrivateRoute from 'components/PrivateRoute';
@@ -74,6 +75,13 @@ class App extends React.Component {
             component={AgencyPage}
             scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
             rolesRequired={['ADMIN', 'OWNER', 'MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/briefs"
+            component={BriefPage}
+            scopesRequired={['BRAND']}
+            rolesRequired={['OWNER', 'MANAGER']}
           />
           <GuardedRoute path="/login" component={LoginPage} />
           <GuardedRoute path="/client-signup" component={ClientSignupPage} />

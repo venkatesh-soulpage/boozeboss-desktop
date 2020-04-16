@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Panel, Input, Button, Table } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
+import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -173,11 +174,18 @@ export default class AgencyInfo extends Component {
                                         <p>No Collaborators</p>
                                     )}
                                 </FieldContainer>
-                                <FieldContainer>
-                                    <InviteCollaborator 
-                                        {...this.props}
-                                    />
-                                </FieldContainer>
+                                <RoleValidator
+                                    {...this.props}
+                                    scopes={['ADMIN', 'AGENCY']}
+                                    scope={['ADMIN', 'OWNER', 'MANAGER']}
+                                >
+                                    <FieldContainer>
+                                        <InviteCollaborator 
+                                            {...this.props}
+                                        />
+                                    </FieldContainer>
+                                </RoleValidator>
+                                
                             </DataContainer>
                         </Panel>
                     )}

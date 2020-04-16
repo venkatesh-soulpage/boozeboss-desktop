@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Icon, Nav, Dropdown } from 'rsuite';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole } from '../../containers/App/selectors';
 import { logout } from '../../containers/App/actions'
+
+const StyledLogo = styled.img`
+  max-width: 100px;
+`
 
 class Header extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -45,7 +50,7 @@ class Header extends React.Component {
         <Navbar.Body>
           <Nav activeKey={pathname}>
             <Link to="/">
-              <Nav.Item icon={<Icon icon="glass" />}>Booze Boss</Nav.Item>
+              <Nav.Item ><StyledLogo src={require('../../images/logo_transparent.png')} /></Nav.Item>
             </Link>
             {this.validateRoles(['ADMIN'], ['ADMIN']) && (
               <Link to="/clients">
@@ -65,6 +70,11 @@ class Header extends React.Component {
             {this.validateRoles(['ADMIN', 'BRAND'], ['ADMIN', 'OWNER']) && (
               <Link to="/agencies">
                 <Nav.Item>Agencies</Nav.Item>
+              </Link>
+            )} 
+            {this.validateRoles(['ADMIN', 'BRAND'], ['ADMIN', 'OWNER', 'MANAGER']) && (
+              <Link to="/briefs">
+                <Nav.Item>Briefs</Nav.Item>
               </Link>
             )} 
             
