@@ -13,7 +13,20 @@ const Column = styled.div`
   flex-direction: column;
   align-self: flex-start; 
   position: sticky;
-  top: 1em;
+  top: 0;
+  bottom: 0;
+  height: 85vh;
+  overflow-y: auto;
+`;
+
+const AddSection = styled.div`
+  display: flex;
+  flex: 1;
+  max-height: 45px;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  margin: 0 0.5em 0.5em;
   z-index: 99;
 `;
 
@@ -21,7 +34,8 @@ const List = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  margin: 0 0.5em 0.5em 0.5em;
 `;
 
 const MessageLabel = styled.p`
@@ -31,14 +45,21 @@ const MessageLabel = styled.p`
 `;
 
 const StyledPanel = styled(Panel)`
+  display: flex;
+  flex-direction: row;
   width: 100%;
-  margin: 0.5em 0 0 0.5em;
+  margin: 0.5em 0 0.5em 0;
 
   ${props => props.isSelected && 'background-color: #E8E8E8;'} &:hover {
     cursor: pointer;
     opacity: 0.75;
   }
 `;
+
+const PanelColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 class BriefContainer extends Component {
   handleSelectCurrentBrief = () => {
@@ -56,8 +77,10 @@ class BriefContainer extends Component {
             isSelected={currentBrief === index}
             onClick={this.handleSelectCurrentBrief}
           >
-            <b>New Brief</b>
-            <p>(Draft)</p>
+            <PanelColumn>
+              <b>New Brief</b>
+              <p>(Draft)</p>
+            </PanelColumn>
           </StyledPanel>
         ) : (
           <StyledPanel
@@ -65,9 +88,11 @@ class BriefContainer extends Component {
             isSelected={currentBrief === index}
             onClick={this.handleSelectCurrentBrief}
           >
-            <b>{brief.name}</b>
-            <p>{brief.created_at && moment(brief.created_at).format('DD/MM/YYYY')}</p>
-            <p>{brief.status}</p>
+            <PanelColumn>
+              <b>{brief.name}</b>
+              <p>{brief.created_at && moment(brief.created_at).format('DD/MM/YYYY')}</p>
+              <p>{brief.status}</p>
+            </PanelColumn>
           </StyledPanel>
         )}
       </React.Fragment>
@@ -90,19 +115,21 @@ export default class BriefsList extends Component {
       briefs.filter(brief => brief.isDraft).length > 0;
     return (
       <Column>
-        <RoleValidator
-          {...this.props}
-          scopes={['BRAND']}
-          roles={['OWNER', 'MANAGER']}
-        >
-          <Button
-            color="green"
-            onClick={this.handleAddBriefDraft}
-            disabled={isActiveDraft}
+        <AddSection>
+          <RoleValidator  
+            {...this.props}
+            scopes={['BRAND']}
+            roles={['OWNER']}
           >
-            + New Brief
-          </Button>
-        </RoleValidator>
+            <Button
+              color="green"
+              onClick={this.handleAddBriefDraft}
+              disabled={isActiveDraft}
+            >
+              + New Brief
+            </Button>
+          </RoleValidator>
+        </AddSection>
         <List>
           {(!briefs || briefs.length < 1) && (
             <MessageLabel>No Briefs registered</MessageLabel>

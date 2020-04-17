@@ -14,13 +14,24 @@ const Column = styled.div`
   z-index: 99;
 `;
 
+const AddSection = styled.div`
+  display: flex;
+  flex: 1;
+  max-height: 45px;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  margin: 0 0.5em 0.5em;
+  z-index: 99;
+`;
+
 const List = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  margin: 0 0.5em 0.5em 0.5em;
 `;
-
 const MessageLabel = styled.p`
   font-family: Roboto;
   font-size: 1.25em;
@@ -28,8 +39,10 @@ const MessageLabel = styled.p`
 `;
 
 const StyledPanel = styled(Panel)`
+  display: flex;
+  flex-direction: row;
   width: 100%;
-  margin: 0.5em 0 0 0.5em;
+  margin: 0.5em 0 0.5em 0;
 
   ${props => props.isSelected && 'background-color: #E8E8E8;'} &:hover {
     cursor: pointer;
@@ -85,19 +98,21 @@ export default class AgencyList extends Component {
       agencies.filter(agency => agency.isDraft).length > 0;
     return (
       <Column>
-        <RoleValidator
-          {...this.props}
-          scopes={['ADMIN', 'BRAND']}
-          roles={['ADMIN', 'OWNER']}
-        >
-          <Button
-            color="green"
-            onClick={this.handleAddAgencyDraft}
-            disabled={isActiveDraft}
+        <AddSection>
+          <RoleValidator
+            {...this.props}
+            scopes={['ADMIN', 'BRAND']}
+            roles={['ADMIN', 'OWNER']}
           >
-            + Add Agency
-          </Button>
-        </RoleValidator>
+            <Button
+              color="green"
+              onClick={this.handleAddAgencyDraft}
+              disabled={isActiveDraft}
+            >
+              + Add Agency
+            </Button>
+          </RoleValidator>
+        </AddSection>
         <List>
           {(!agencies || agencies.length < 1) && (
             <MessageLabel>No Agencies registered</MessageLabel>

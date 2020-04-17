@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider,IconButton, Icon } from 'rsuite';
+import moment from 'moment';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -46,10 +47,11 @@ const StyledMessage = styled(Message)`
     margin: 0 0 1em 0;
 `
 
-const ActionContainer = styled.div`
+const ActionsContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 `
 
 class BriefForm extends Component {
@@ -68,10 +70,23 @@ class BriefForm extends Component {
         createBrief({...this.state});
     };
 
+    removeDraft = () => {
+        const {deleteBriefDraft} = this.props;
+        deleteBriefDraft();
+    }
+
     render() {
         const {name, description} = this.state;
         return (
             <Panel bordered>
+                <ActionsContainer>
+                    <FieldContainer>
+                        <p>DRAFT</p>
+                        <p>{moment().format('DD/MM/YYYY')}</p>
+                    </FieldContainer>
+                    <IconButton icon={<Icon icon="trash"/>} onClick={this.removeDraft}/>
+                </ActionsContainer>
+                <Divider />
                 <DataContainer>
                     <FieldContainer>
                         <FieldLabel>Name</FieldLabel>
@@ -100,6 +115,16 @@ class BriefForm extends Component {
 
 export default class BriefsInfo extends Component {
 
+    handleDelete = async () => {
+        const {deleteBrief, briefs, currentBrief, handleSelectCurrentBrief} = this.props;
+        // If is the last on the list
+        const isLast = briefs.length === 1;
+        if (((currentBrief + 1) >= briefs.length) && !isLast) {
+            await handleSelectCurrentBrief(currentBrief - 1);
+        }
+        await deleteBrief(briefs[currentBrief].id);
+    }
+
   render() {
     const { briefs, currentBrief, error, success, dismiss } = this.props;
         return (
@@ -115,6 +140,14 @@ export default class BriefsInfo extends Component {
                     ) : (
                         <Panel bordered>
                             <DataContainer>
+                                <ActionsContainer>
+                                    <FieldContainer>
+                                        <p>{briefs[currentBrief].status}</p>
+                                        <p>{moment(briefs[currentBrief].created_at).format('DD/MM/YYYY')}</p>
+                                    </FieldContainer>
+                                    <IconButton icon={<Icon icon="trash"/>} onClick={this.handleDelete}/>
+                                </ActionsContainer>
+                                <Divider />
                                 <FieldContainer>
                                     <FieldLabel>Name</FieldLabel>
                                     <p>{briefs[currentBrief].name}</p>

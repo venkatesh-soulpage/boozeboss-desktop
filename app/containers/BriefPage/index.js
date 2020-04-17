@@ -19,7 +19,7 @@ import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft } from './actions';
 
 
 
@@ -44,8 +44,11 @@ export class BriefPage extends React.Component {
 
 BriefPage.propTypes = {
   addBriefDraft: PropTypes.func.isRequired,
+  deleteBriefDraft: PropTypes.func.isRequired,
   getBriefs: PropTypes.func.isRequired, 
   createBrief: PropTypes.func.isRequired, 
+  deleteBrief: PropTypes.func.isRequired, 
+  dismiss: PropTypes.func.isRequired, 
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -59,8 +62,11 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     addBriefDraft: () => dispatch(addBriefDraft()),
+    deleteBriefDraft: () => dispatch(deleteBriefDraft()),
     getBriefs: () => dispatch(getBriefs()),
-    createBrief: (brief) => dispatch(createBrief(brief))
+    createBrief: (brief) => dispatch(createBrief(brief)),
+    deleteBrief: (brief_id) => dispatch(deleteBrief(brief_id)),
+    dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }
 

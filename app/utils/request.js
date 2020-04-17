@@ -44,9 +44,7 @@ export default function request(url, options) {
     ...options.headers,
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    Authorization: `Bearer ${
-      localStorage.getItem('jwt') ? localStorage.getItem('jwt') : ''
-    }`,
+    Authorization: `Bearer ${localStorage.getItem('jwt') ? localStorage.getItem('jwt') : ''}`,
   };
   return fetch(url, options)
     .then(checkStatus)

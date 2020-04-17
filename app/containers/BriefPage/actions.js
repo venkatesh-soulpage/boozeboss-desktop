@@ -5,14 +5,20 @@
  */
 
 import { 
-  ADD_BRIEF_DRAFT, 
+  ADD_BRIEF_DRAFT, DELETE_BRIEF_DRAFT,
   GET_BRIEFS_REQUEST, GET_BRIEFS_SUCCESS, GET_BRIEFS_ERROR, 
-  CREATE_BRIEF_REQUEST, CREATE_BRIEF_SUCCESS, CREATE_BRIEF_ERROR,
+  CREATE_BRIEF_REQUEST, CREATE_BRIEF_SUCCESS, CREATE_BRIEF_ERROR, DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS, DISMISS, 
 } from './constants';
 
 export function addBriefDraft() {
   return {
     type: ADD_BRIEF_DRAFT,
+  };
+}
+
+export function deleteBriefDraft() {
+  return {
+    type: DELETE_BRIEF_DRAFT,
   };
 }
 
@@ -58,3 +64,34 @@ export function createBriefError(error) {
     error
   };
 }
+
+// DELETE Brief
+export function deleteBrief(brief_id) {
+  return {
+    type: DELETE_BRIEF_REQUEST,
+    brief_id
+  };
+}
+
+export function deleteBriefSuccess(success) {
+  return {
+    type: DELETE_BRIEF_SUCCESS,
+    success
+  };
+}
+
+export function deleteBriefError(error) {
+  return {
+    type: DELETE_BRIEF_ERROR,
+    error
+  };
+}
+
+// Dismiss success and error messages
+export function dismiss(dismiss_type) {
+  return {
+    type: DISMISS,
+    dismiss_type,
+  };
+}
+

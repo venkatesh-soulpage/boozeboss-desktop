@@ -5,6 +5,7 @@
  */
 
 export const ADD_BRIEF_DRAFT = 'boozeboss/BriefsContainer/ADD_BRIEF_DRAFT';
+export const DELETE_BRIEF_DRAFT = 'boozeboss/BriefsContainer/DELETE_BRIEF_DRAFT';
 
 export const GET_BRIEFS_REQUEST =
   'boozeboss/BriefsContainer/GET_BRIEFS_REQUEST';
@@ -17,3 +18,11 @@ export const CREATE_BRIEF_REQUEST =
 export const CREATE_BRIEF_SUCCESS =
   'boozeboss/BriefsContainer/CREATE_BRIEF_SUCCESS';
 export const CREATE_BRIEF_ERROR = 'boozeboss/BriefsContainer/CREATE_BRIEF_ERROR';
+
+export const DELETE_BRIEF_REQUEST =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_REQUEST';
+export const DELETE_BRIEF_SUCCESS =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_SUCCESS';
+export const DELETE_BRIEF_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_ERROR';
+
+export const DISMISS = 'boozeboss/BriefsContainer/DISMISS';

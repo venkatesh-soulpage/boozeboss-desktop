@@ -31,6 +31,7 @@ export default class BriefsContainer extends Component {
                 <BriefsInfo 
                     {...this.props} 
                     {...this.state}
+                    handleSelectCurrentBrief={this.handleSelectCurrentBrief}
                 /> 
             </StyledContainer>
         )
