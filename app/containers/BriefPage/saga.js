@@ -7,7 +7,7 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS
 } from './constants';
 
 import {
@@ -15,7 +15,7 @@ import {
   createBriefSuccess, createBriefError, 
   deleteBriefSuccess, deleteBriefError, 
   getVenuesSuccess, getVenuesError,
-  createBriefEventSuccess, createBriefEventError
+  createBriefEventSuccess, createBriefEventError, updateBriefStatusSuccess, updateBriefStatusError
 } from './actions';
 
 function* getBriefsSaga() {
@@ -99,6 +99,23 @@ function* createBriefEventSaga(params) {
   }
 }
 
+function* updateBriefStatusSaga(params) {
+  const {brief_id, status} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/update-status`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({status})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateBriefStatusSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateBriefStatusError(jsonError));
+  }
+}
+
 function* getBriefsRequest() {
   yield takeLatest(GET_BRIEFS_REQUEST, getBriefsSaga);
 }
@@ -119,6 +136,10 @@ function* createBriefEventRequest() {
   yield takeLatest(CREATE_BRIEF_EVENT_REQUEST, createBriefEventSaga);
 }
 
+function* updateBriefStatusRequest() {
+  yield takeLatest(UPDATE_BRIEF_STATUS_REQUEST, updateBriefStatusSaga);
+}
+
 // Reactive Saga
 function* deleteBriefSuccessRequest() {
   yield takeLatest(DELETE_BRIEF_SUCCESS, getBriefsSaga);
@@ -128,6 +149,10 @@ function* createBriefEventSuccessRequest() {
   yield takeLatest(CREATE_BRIEF_EVENT_SUCCESS, getBriefsSaga);
 }
 
+function* updateBriefStatusSuccessRequest() {
+  yield takeLatest(UPDATE_BRIEF_STATUS_SUCCESS, getBriefsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getBriefsRequest),
@@ -135,8 +160,10 @@ export default function* rootSaga() {
     fork(deleteBriefRequest),
     fork(getVenuesRequest),
     fork(createBriefEventRequest),
+    fork(updateBriefStatusRequest),
     // Reactive
     fork(deleteBriefSuccessRequest),
-    fork(createBriefEventSuccessRequest)
+    fork(createBriefEventSuccessRequest),
+    fork(updateBriefStatusSuccessRequest),
   ]);
 }

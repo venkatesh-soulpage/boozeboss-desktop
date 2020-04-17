@@ -21,7 +21,10 @@ import {
   GET_VENUES_ERROR,
   CREATE_BRIEF_EVENT_REQUEST,
   CREATE_BRIEF_EVENT_SUCCESS,
-  CREATE_BRIEF_EVENT_ERROR
+  CREATE_BRIEF_EVENT_ERROR,
+  UPDATE_BRIEF_STATUS_REQUEST,
+  UPDATE_BRIEF_STATUS_SUCCESS,
+  UPDATE_BRIEF_STATUS_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -72,6 +75,12 @@ function briefPageReducer(state = initialState, action) {
     case CREATE_BRIEF_EVENT_SUCCESS:
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
     case CREATE_BRIEF_EVENT_ERROR:
+      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+    case UPDATE_BRIEF_STATUS_REQUEST:
+      return state.set('isLoading', true);
+    case UPDATE_BRIEF_STATUS_SUCCESS:
+      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+    case UPDATE_BRIEF_STATUS_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
     case DISMISS:
       return state.set(action.dismiss_type, null);

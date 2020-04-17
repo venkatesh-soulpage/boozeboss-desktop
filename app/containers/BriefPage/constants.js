@@ -37,4 +37,10 @@ export const CREATE_BRIEF_EVENT_SUCCESS =
   'boozeboss/BriefsContainer/CREATE_BRIEF_EVENT_SUCCESS';
 export const CREATE_BRIEF_EVENT_ERROR = 'boozeboss/BriefsContainer/CREATE_BRIEF_EVENT_ERROR';
 
+export const UPDATE_BRIEF_STATUS_REQUEST =
+  'boozeboss/BriefsContainer/UPDATE_BRIEF_STATUS_REQUEST';
+export const UPDATE_BRIEF_STATUS_SUCCESS =
+  'boozeboss/BriefsContainer/UPDATE_BRIEF_STATUS_SUCCESS';
+export const UPDATE_BRIEF_STATUS_ERROR = 'boozeboss/BriefsContainer/UPDATE_BRIEF_STATUS_ERROR';
+
 export const DISMISS = 'boozeboss/BriefsContainer/DISMISS';

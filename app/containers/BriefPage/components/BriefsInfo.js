@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Panel, Input, Button, Table, InputNumber, Message, Divider,IconButton, Icon } from 'rsuite';
 import moment from 'moment';
 import NewEvent from './NewEvent';
+import SubmitBriefConfirm from './SubmitBriefConfirm';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -146,7 +147,12 @@ export default class BriefsInfo extends Component {
                                         <p>{briefs[currentBrief].status}</p>
                                         <p>{moment(briefs[currentBrief].created_at).format('DD/MM/YYYY')}</p>
                                     </FieldContainer>
-                                    <IconButton icon={<Icon icon="trash"/>} onClick={this.handleDelete}/>
+                                    {briefs[currentBrief].status === 'DRAFT' && (
+                                        <FieldContainer>
+                                            <IconButton icon={<Icon icon="trash"/>} style={{textAlign: 'center'}} onClick={this.handleDelete}/> 
+                                            <SubmitBriefConfirm {...this.props} />
+                                        </FieldContainer>
+                                    )}
                                 </ActionsContainer>
                                 <Divider />
                                 <FieldContainer>

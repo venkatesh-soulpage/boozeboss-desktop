@@ -13,7 +13,10 @@ import {
   DISMISS,
   CREATE_BRIEF_EVENT_SUCCESS,
   CREATE_BRIEF_EVENT_ERROR,
-  CREATE_BRIEF_EVENT_REQUEST, 
+  CREATE_BRIEF_EVENT_REQUEST,
+  UPDATE_BRIEF_STATUS_REQUEST,
+  UPDATE_BRIEF_STATUS_SUCCESS,
+  UPDATE_BRIEF_STATUS_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -133,6 +136,29 @@ export function createBriefEventSuccess(success) {
 export function createBriefEventError(error) {
   return {
     type: CREATE_BRIEF_EVENT_ERROR,
+    error
+  };
+}
+
+// Update Brief status
+export function updateBriefStatus(brief_id, status) {
+  return {
+    type: UPDATE_BRIEF_STATUS_REQUEST,
+    brief_id,
+    status
+  };
+}
+
+export function updateBriefStatusSuccess(success) {
+  return {
+    type: UPDATE_BRIEF_STATUS_SUCCESS,
+    success
+  };
+}
+
+export function updateBriefStatusError(error) {
+  return {
+    type: UPDATE_BRIEF_STATUS_ERROR,
     error
   };
 }
