@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Panel, Input, Button, Table, InputNumber, Message, Divider,IconButton, Icon } from 'rsuite';
 import moment from 'moment';
+import NewEvent from './NewEvent';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -155,6 +156,85 @@ export default class BriefsInfo extends Component {
                                 <FieldContainer>
                                     <FieldLabel>Description</FieldLabel>
                                     <p>{briefs[currentBrief].description}</p>
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Events</FieldLabel>
+                                    {briefs[currentBrief].brief_events && 
+                                        briefs[currentBrief].brief_events.length > 0 ? (
+                                            <Table
+                                                data={briefs[currentBrief].brief_events}
+                                            >
+                                                <Column resizable width={120}>
+                                                    <HeaderCell>
+                                                        Start Time
+                                                    </HeaderCell>
+                                                    <Cell dataKey="start_time">
+                                                        {rowData => moment(rowData.start_time).format('HH:MM DD/MM/YY')}
+                                                    </Cell>
+                                                </Column>
+                                                <Column resizable width={120}>
+                                                    <HeaderCell>
+                                                        End Time
+                                                    </HeaderCell>
+                                                    <Cell dataKey="end_time">
+                                                        {rowData => moment(rowData.end_time).format('HH:MM DD/MM/YY')}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={120} resizable>
+                                                    <HeaderCell>
+                                                        Expected Guests
+                                                    </HeaderCell>
+                                                    <Cell dataKey="expected_guests">
+                                                        {rowData => rowData.expected_guests}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={120} resizable>
+                                                    <HeaderCell>
+                                                        Venue
+                                                    </HeaderCell>
+                                                    <Cell dataKey="venue">
+                                                        {rowData => rowData.venue.name}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={120} resizable>
+                                                    <HeaderCell>
+                                                        Drinks Enabled
+                                                    </HeaderCell>
+                                                    <Cell dataKey="drinks_enabled">
+                                                        {rowData => rowData.drinks_enabled ? 'Yes' : 'No'}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={120} resizable>
+                                                    <HeaderCell>
+                                                        Cocktails Enabled
+                                                    </HeaderCell>
+                                                    <Cell dataKey="venue">
+                                                        {rowData => rowData.cocktails_enabled ? 'Yes' : 'No'}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={120} resizable>
+                                                    <HeaderCell>
+                                                        Free Drinks Enabled
+                                                    </HeaderCell>
+                                                    <Cell dataKey="venue">
+                                                        {rowData => rowData.free_drinks_enabled ? 'Yes' : 'No'}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={250}>
+                                                    <HeaderCell>
+                                                        Actions
+                                                    </HeaderCell>
+                                                    <Cell dataKey="venue">
+                                                        Show More | Edit
+                                                    </Cell>
+                                                </Column>
+                                            </Table>
+                                        ) : (
+                                            <p>No Events</p>
+                                        )}
+                                    <NewEvent 
+                                        {...this.props}
+                                    />
                                 </FieldContainer>
                             </ DataContainer>
                         </Panel>

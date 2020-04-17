@@ -15,11 +15,20 @@ import {
   DELETE_BRIEF_SUCCESS,
   DELETE_BRIEF_ERROR,
   DISMISS,
-  DELETE_BRIEF_DRAFT
+  DELETE_BRIEF_DRAFT,
+  GET_VENUES_REQUEST,
+  GET_VENUES_SUCCESS,
+  GET_VENUES_ERROR,
+  CREATE_BRIEF_EVENT_REQUEST,
+  CREATE_BRIEF_EVENT_SUCCESS,
+  CREATE_BRIEF_EVENT_ERROR
 } from './constants';
 
 export const initialState = fromJS({
   briefs: null,
+  venues: null,
+  success: null,
+  error: null,
 });
 
 function briefPageReducer(state = initialState, action) {
@@ -52,6 +61,18 @@ function briefPageReducer(state = initialState, action) {
         .set('isLoading', false);
     case DELETE_BRIEF_ERROR:
       return state.set('error', action.error).set('isLoading', false);
+    case GET_VENUES_REQUEST:
+      return state.set('isLoading', true);
+    case GET_VENUES_SUCCESS:
+      return state.set('venues', action.venues).set('isLoading', false);
+    case GET_VENUES_ERROR:
+      return state.set('error', action.error).set('isLoading', false);
+    case CREATE_BRIEF_EVENT_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_BRIEF_EVENT_SUCCESS:
+      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+    case CREATE_BRIEF_EVENT_ERROR:
+      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
     case DISMISS:
       return state.set(action.dismiss_type, null);
     default:

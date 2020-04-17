@@ -6,6 +6,11 @@ const makeSelectBriefs = () =>
   createSelector(selectBriefs, briefsState =>
     briefsState.get('briefs'),
   );
+
+const makeSelectVenues = () =>
+  createSelector(selectBriefs, briefsState =>
+    briefsState.get('venues'),
+  );
   
 const makeSelectError = () =>
   createSelector(selectBriefs, briefsState =>
@@ -19,6 +24,7 @@ const makeSelectSuccess = () =>
 
 export { 
   makeSelectBriefs,
+  makeSelectVenues,
   makeSelectSuccess,
   makeSelectError
 };

@@ -7,7 +7,13 @@
 import { 
   ADD_BRIEF_DRAFT, DELETE_BRIEF_DRAFT,
   GET_BRIEFS_REQUEST, GET_BRIEFS_SUCCESS, GET_BRIEFS_ERROR, 
-  CREATE_BRIEF_REQUEST, CREATE_BRIEF_SUCCESS, CREATE_BRIEF_ERROR, DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS, DISMISS, 
+  CREATE_BRIEF_REQUEST, CREATE_BRIEF_SUCCESS, CREATE_BRIEF_ERROR,
+  DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS, DELETE_BRIEF_ERROR,
+  GET_VENUES_REQUEST, GET_VENUES_SUCCESS, GET_VENUES_ERROR,
+  DISMISS,
+  CREATE_BRIEF_EVENT_SUCCESS,
+  CREATE_BRIEF_EVENT_ERROR,
+  CREATE_BRIEF_EVENT_REQUEST, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -86,6 +92,51 @@ export function deleteBriefError(error) {
     error
   };
 }
+
+// GET Venues
+export function getVenues() {
+  return {
+    type: GET_VENUES_REQUEST,
+  };
+}
+
+export function getVenuesSuccess(venues) {
+  return {
+    type: GET_VENUES_SUCCESS,
+    venues
+  };
+}
+
+export function getVenuesError(error) {
+  return {
+    type: GET_VENUES_ERROR,
+    error
+  };
+}
+
+// CREATE Brief
+export function createBriefEvent(brief_id, briefEvent) {
+  return {
+    type: CREATE_BRIEF_EVENT_REQUEST,
+    brief_id,
+    briefEvent,
+  };
+}
+
+export function createBriefEventSuccess(success) {
+  return {
+    type: CREATE_BRIEF_EVENT_SUCCESS,
+    success
+  };
+}
+
+export function createBriefEventError(error) {
+  return {
+    type: CREATE_BRIEF_EVENT_ERROR,
+    error
+  };
+}
+
 
 // Dismiss success and error messages
 export function dismiss(dismiss_type) {
