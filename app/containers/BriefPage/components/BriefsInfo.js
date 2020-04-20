@@ -238,9 +238,11 @@ export default class BriefsInfo extends Component {
                                         ) : (
                                             <p>No Events</p>
                                         )}
-                                    <NewEvent 
-                                        {...this.props}
-                                    />
+                                    {briefs[currentBrief].status === 'DRAFT' && (
+                                        <NewEvent 
+                                            {...this.props}
+                                        />
+                                    )}
                                 </FieldContainer>
                             </ DataContainer>
                         </Panel>

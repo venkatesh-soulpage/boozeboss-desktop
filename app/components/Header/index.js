@@ -72,7 +72,7 @@ class Header extends React.Component {
                 <Nav.Item>Agencies</Nav.Item>
               </Link>
             )} 
-            {this.validateRoles(['ADMIN', 'BRAND'], ['ADMIN', 'OWNER', 'MANAGER']) && (
+            {this.validateRoles(['BRAND'], ['OWNER', 'MANAGER']) && (
               <Link to="/briefs">
                 <Nav.Item>Briefs</Nav.Item>
               </Link>
@@ -81,6 +81,11 @@ class Header extends React.Component {
           </Nav>
           {isAuthenticated ? (
             <Nav pullRight>
+              {this.validateRoles(['ADMIN'], ['ADMIN']) && (
+                <Link to="/system">
+                  <Nav.Item>System</Nav.Item>
+                </Link>
+              )} 
               <Dropdown title="More" placement="bottomStart">
                 <Dropdown.Item onSelect={this.handleLogout}>
                   Logout
