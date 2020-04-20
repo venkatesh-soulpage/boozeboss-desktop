@@ -5,6 +5,7 @@ import { Panel, Input, Button, Table, InputNumber, Message, Divider } from 'rsui
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal';
+import ClientAddLocationModal from './ClientAddLocationModal';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -55,6 +56,16 @@ const ActionContainer = styled.div`
     align-items: center;
 `
 
+const Countries = styled.ul`
+    display: flex;
+    flex-direction: column;
+    margin: 1em 0 1em 0;
+`
+
+const Country = styled.li`
+    font-weight: bold;
+`
+
 class ClientForm extends Component {
 
     state = {
@@ -66,6 +77,10 @@ class ClientForm extends Component {
         brands_limit: 10,
         warehouses_limit: 1,
         locations_limit: 1,
+        identity_verifications_limit: 100,
+        agencies_limit: 1,
+        agency_collaborators_limit: 1,
+        selected_locations: [],
   };
 
   handleChange = (value, name) => {
@@ -77,8 +92,14 @@ class ClientForm extends Component {
         inviteClient({...this.state});
   };
 
+    addLocation = (location) => {
+        this.setState({
+            selected_locations: [...this.state.selected_locations, location]
+        })
+    }
+
     render() {
-        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit} = this.state;
+        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit, selected_locations, identity_verifications_limit, agencies_limit, agency_collaborators_limit} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
@@ -98,7 +119,7 @@ class ClientForm extends Component {
                         />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Briefs / Month Limit</FieldLabel>
+                            <FieldLabel>Briefs / Year Limit</FieldLabel>
                             <InputNumber 
                                 value={briefs_limit}
                                 onChange={(value) => this.handleChange(value, 'briefs_limit')}
@@ -125,6 +146,45 @@ class ClientForm extends Component {
                                 onChange={(value) => this.handleChange(value, 'locations_limit')}
                             />
                         </FieldContainer>  
+                        <FieldContainer>
+                            <FieldLabel>ID Verifications Limit</FieldLabel>
+                            <InputNumber 
+                                value={identity_verifications_limit}
+                                onChange={(value) => this.handleChange(value, 'identity_verifications_limit')}
+                            />
+                        </FieldContainer>  
+                        <FieldContainer>
+                            <FieldLabel>Agencies Limit</FieldLabel>
+                            <InputNumber 
+                                value={agencies_limit}
+                                onChange={(value) => this.handleChange(value, 'agencies_limit')}
+                            />
+                        </FieldContainer>  
+                        <FieldContainer>
+                            <FieldLabel>Agencies Collaborators Limit</FieldLabel>
+                            <InputNumber 
+                                value={agency_collaborators_limit}
+                                onChange={(value) => this.handleChange(value, 'agency_collaborators_limit')}
+                            />
+                        </FieldContainer>  
+                    </FieldsRow>
+                    <FieldsRow>
+                        <FieldContainer>
+                            <FieldLabel>Locations</FieldLabel>
+                            <Countries>
+                                {selected_locations 
+                                    && selected_locations.length > 0
+                                    && selected_locations.map(selected => {
+                                        return <Country>{selected.name}</Country>
+                                })}
+                            </Countries>
+                            <ClientAddLocationModal 
+                                {...this.props} 
+                                selected_locations={selected_locations}
+                                locations_limit={locations_limit}
+                                addLocation={this.addLocation}
+                            />
+                        </FieldContainer>
                     </FieldsRow>
                     <FieldContainer>
                         <FieldLabel>Description</FieldLabel>
@@ -181,6 +241,19 @@ export default class ClientInfo extends Component {
                                     <FieldLabel>Contact</FieldLabel>
                                     <p>{clients[currentClient].contact_email}</p>
                                 </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Locations</FieldLabel>
+                                    {clients[currentClient].locations 
+                                        && clients[currentClient].locations.length > 0 ? (
+                                            <Countries>
+                                                {clients[currentClient].locations.map(loc => (
+                                                    <Country>{loc.location.name}</Country>
+                                                ))}
+                                            </Countries>
+                                        ) : (
+                                            <p>No locations defined</p>
+                                        )}
+                                </FieldContainer>
                                 <FieldsRow>
                                     <FieldContainer>
                                         <FieldLabel>Collaborators Limit</FieldLabel>
@@ -201,6 +274,18 @@ export default class ClientInfo extends Component {
                                     <FieldContainer>
                                         <FieldLabel>Locations Limit</FieldLabel>
                                         <p>{clients[currentClient].locations_limit}</p>
+                                    </FieldContainer>  
+                                    <FieldContainer>
+                                        <FieldLabel>Identity Verification Limit</FieldLabel>
+                                        <p>{clients[currentClient].identity_verifications_limit}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Agencies Limit</FieldLabel>
+                                        <p>{clients[currentClient].agencies_limit}</p>
+                                    </FieldContainer>    
+                                    <FieldContainer>
+                                        <FieldLabel>Agencies Collaborators Limit</FieldLabel>
+                                        <p>{clients[currentClient].agency_collaborators_limit}</p>
                                     </FieldContainer>  
                                 </FieldsRow>
                                 <Divider />

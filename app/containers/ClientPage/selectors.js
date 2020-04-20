@@ -11,6 +11,11 @@ const makeSelectClients = () =>
   createSelector(selectClients, clientsState =>
     clientsState.get('roles'),
   );
+
+const makeSelectLocations = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('locations'),
+  );
   
 const makeSelectError = () =>
   createSelector(selectClients, clientsState =>
@@ -25,6 +30,7 @@ const makeSelectSuccess = () =>
 export { 
   makeSelectClients,
   makeSelectRoles,
+  makeSelectLocations,
   makeSelectError,
   makeSelectSuccess
 };

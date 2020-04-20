@@ -25,6 +25,9 @@ import {
   DELETE_VENUE_REQUEST,
   DELETE_VENUE_SUCCESS,
   DELETE_VENUE_ERROR,
+  GET_LOCATIONS_REQUEST,
+  GET_LOCATIONS_SUCCESS,
+  GET_LOCATIONS_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -162,6 +165,28 @@ export function deleteVenueError(error) {
     error,
   };
 }
+
+/* GET Locations */
+export function getLocations() {
+  return {
+    type: GET_LOCATIONS_REQUEST,
+  };
+}
+
+export function getLocationsSuccess(locations) {
+  return {
+    type: GET_LOCATIONS_SUCCESS,
+    locations,
+  };
+}
+
+export function getLocationsError(error) {
+  return {
+    type: GET_LOCATIONS_ERROR,
+    error,
+  };
+}
+
 
 // Dismiss success and error messages
 export function dismiss(dismiss_type) {

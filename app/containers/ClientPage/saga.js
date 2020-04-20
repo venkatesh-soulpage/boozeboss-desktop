@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -16,6 +16,8 @@ import {
   createVenueError,
   deleteVenueSuccess,
   deleteVenueError,
+  getLocationsSuccess,
+  getLocationsError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -66,6 +68,21 @@ function* getRolesSaga() {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(getRolesError(jsonError));
+  }
+}
+
+function* getLocationsSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/locations`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getLocationsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getLocationsError(jsonError));
   }
 }
 
@@ -137,6 +154,10 @@ function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
 
+function* getLocationsRequest() {
+  yield takeLatest(GET_LOCATIONS_REQUEST, getLocationsSaga);
+}
+
 function* createVenueRequest() {
   yield takeLatest(CREATE_VENUE_REQUEST, createVenueSaga);
 }
@@ -160,6 +181,7 @@ export default function* rootSaga() {
     fork(inviteClientRequest),
     fork(inviteCollaboratorRequest),
     fork(getRolesRequest),
+    fork(getLocationsRequest),
     fork(createVenueRequest),
     fork(deleteVenueRequest),
     // Reactive

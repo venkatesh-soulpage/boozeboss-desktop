@@ -37,6 +37,12 @@ export const CREATE_VENUE_ERROR = 'boozeboss/ClientContainer/CREATE_VENUE_ERROR'
 export const DELETE_VENUE_REQUEST = 'boozeboss/ClientContainer/DELETE_VENUE_REQUEST';
 export const DELETE_VENUE_SUCCESS = 'boozeboss/ClientContainer/DELETE_VENUE_SUCCESS';
 export const DELETE_VENUE_ERROR = 'boozeboss/ClientContainer/DELETE_VENUE_ERROR';
+
+export const GET_LOCATIONS_REQUEST =
+  'boozeboss/ClientContainer/GET_LOCATIONS_REQUEST';
+export const GET_LOCATIONS_SUCCESS =
+  'boozeboss/ClientContainer/GET_LOCATIONS_SUCCESS';
+export const GET_LOCATIONS_ERROR = 'boozeboss/ClientContainer/GET_LOCATIONS_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

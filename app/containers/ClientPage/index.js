@@ -14,21 +14,25 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess } from './selectors';
+import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectLocations } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient, getRoles, inviteCollaborator, dismiss, createVenue, deleteVenue } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
   componentDidMount = () => {
-    const { getClients, getRoles } = this.props;
+    const { getClients, getRoles, getLocations, scope } = this.props;
     getClients();
     getRoles();
+
+    if (scope === 'ADMIN') {
+      getLocations();
+    }
   };
 
   render() {
@@ -47,11 +51,13 @@ export class ClientContainer extends React.Component {
 ClientContainer.propTypes = {
   clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   roles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  locations: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   getClients: PropTypes.func.isRequired,
   addClientDraft: PropTypes.func.isRequired,
   inviteClient: PropTypes.func.isRequired,
   inviteCollaborator: PropTypes.func.isRequired,
   getRoles: PropTypes.func.isRequired,
+  getLocations: PropTypes.func.isRequired,
   createVenue: PropTypes.func.isRequired,
   deleteVenue: PropTypes.func.isRequired,
   dismiss: PropTypes.func.isRequired,
@@ -64,6 +70,7 @@ ClientContainer.propTypes = {
 const mapStateToProps = createStructuredSelector({
   clients: makeSelectClients(),
   roles: makeSelectRoles(),
+  locations: makeSelectLocations(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
   error: makeSelectError(),
@@ -77,6 +84,7 @@ function mapDispatchToProps(dispatch) {
     inviteClient: client => dispatch(inviteClient(client)),
     inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
     getRoles: () => dispatch(getRoles()),
+    getLocations: () => dispatch(getLocations()),
     createVenue: (venue) => dispatch(createVenue(venue)),
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     dismiss: type => dispatch(dismiss(type))

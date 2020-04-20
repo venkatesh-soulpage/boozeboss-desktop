@@ -25,12 +25,16 @@ import {
   DISMISS,
   DELETE_VENUE_REQUEST,
   DELETE_VENUE_SUCCESS,
-  DELETE_VENUE_ERROR
+  DELETE_VENUE_ERROR,
+  GET_LOCATIONS_REQUEST,
+  GET_LOCATIONS_SUCCESS,
+  GET_LOCATIONS_ERROR
 } from './constants';
 
 export const initialState = fromJS({
   clients: null,
   roles: null,
+  locations: null,
   isLoading: false,
   error: null,
   success: null,
@@ -71,6 +75,16 @@ function clientContainerReducer(state = initialState, action) {
         .set('isLoading', false)
         .set('roles', action.roles);
     case GET_ROLES_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case GET_LOCATIONS_REQUEST:
+      return state.set('isLoading', true);
+    case GET_LOCATIONS_SUCCESS:
+      return state
+        .set('isLoading', false)
+        .set('locations', action.locations);
+    case GET_LOCATIONS_ERROR:
       return state
         .set('isLoading', false)
         .set('error', action.error);
