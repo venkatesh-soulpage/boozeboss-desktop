@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Panel, Input, Button, Table } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import RoleValidator from 'components/RoleValidator';
+import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -151,6 +152,14 @@ export default class AgencyInfo extends Component {
                                                 </HeaderCell>
                                                 <Cell dataKey="email">
                                                     {rowData => rowData.account.email}
+                                                </Cell>
+                                            </Column>
+                                            <Column resizable>
+                                                <HeaderCell>
+                                                    Phone #
+                                                </HeaderCell>
+                                                <Cell dataKey="email">
+                                                    {rowData => parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
                                                 </Cell>
                                             </Column>
                                             <Column>

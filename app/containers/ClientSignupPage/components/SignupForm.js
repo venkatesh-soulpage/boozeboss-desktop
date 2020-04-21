@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Dropdown } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 import PropTypes from 'prop-types';
 
 const StyledContainer = styled.div`
@@ -62,6 +65,7 @@ export default class SignupForm extends Component {
       }
   
       handleChange = (value, name) => {
+        console.log(name, value);
         this.setState({[name]: value})
       }
   
@@ -111,16 +115,18 @@ export default class SignupForm extends Component {
                   onChange={(value) => this.handleChange(value, 'last_name')}
                 />
               </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="phone" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Phone number"
-                  value={phone_number}
+              <PhoneInput
+                  style={{...styles, zIndex: 99}}
+                  country={'us'}
+                  enableSearch
+                  disableSearchIcon
+                  inputProps={{
+                    name: 'phone',
+                    required: true,
+                    autoFocus: true
+                  }}
                   onChange={(value) => this.handleChange(value, 'phone_number')}
                 />
-              </InputGroup>
               <InputGroup style={styles}>
                 <InputGroup.Addon>
                   <Icon icon="lock" />

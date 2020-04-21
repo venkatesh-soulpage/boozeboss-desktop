@@ -3,6 +3,8 @@ import { Button, Input, Message,  InputGroup, Icon } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -111,16 +113,17 @@ export default class SignupForm extends Component {
                   onChange={(value) => this.handleChange(value, 'last_name')}
                 />
               </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="phone" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Phone number"
-                  value={phone_number}
+              <PhoneInput
+                  style={{...styles, zIndex: 99}}
+                  country={'us'}
+                  enableSearch
+                  disableSearchIcon
+                  inputProps={{
+                    name: 'phone',
+                    required: true,
+                  }}
                   onChange={(value) => this.handleChange(value, 'phone_number')}
                 />
-              </InputGroup>
               <InputGroup style={styles}>
                 <InputGroup.Addon>
                   <Icon icon="lock" />
