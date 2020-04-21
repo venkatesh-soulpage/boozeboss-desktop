@@ -1,23 +1,13 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
-/**
- * Direct selector to the clientSignup state domain
- */
+const selectAgencySignup = state => state.get('agencySignup');
 
-const selectAgencySignupDomain = state =>
-  state.get('agencySignup', initialState);
+const makeSelectSla = () =>
+  createSelector(selectAgencySignup, agencySignupState =>
+    agencySignupState.get('sla'),
+  );
 
-/**
- * Other specific selectors
- */
 
-/**
- * Default selector used by ClientSignup
- */
-
-const makeSelectAgencySignup = () =>
-  createSelector(selectClientSignupDomain, substate => substate.toJS());
-
-export default makeSelectAgencySignup;
-export { selectAgencySignupDomain };
+export { 
+  makeSelectSla
+};

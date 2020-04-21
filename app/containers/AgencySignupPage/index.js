@@ -14,13 +14,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectClientSignup from './selectors';
+import  { makeSelectSla } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { SignupForm } from './components';
-import { agencySignup } from './actions';
+import { agencySignup, getSla } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class AgencySignup extends React.Component {
@@ -37,13 +37,20 @@ export class AgencySignup extends React.Component {
   }
 }
 
-AgencySignup.propTypes = {};
+AgencySignup.propTypes = {
+  agencySignup: PropTypes.func.isRequired,
+  getSla: PropTypes.func.isRequired,
+  sla: PropTypes.object,
+};
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  sla: makeSelectSla(),
+});
 
 function mapDispatchToProps(dispatch) {
   return {
     agencySignup: auth => dispatch(agencySignup(auth)),
+    getSla: (agency_id) => dispatch(getSla(agency_id)),
   };
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import RoleValidator from 'components/RoleValidator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
@@ -25,13 +25,18 @@ const DataContainer = styled.div`
 
 const FieldContainer = styled.div`
     display: flex;
-  flex-direction: column;
-    margin: 1em 0 1em 0;
+    flex-direction: column;
+    margin: 1em 0 1em 1em;
 `;
 
 const FieldLabel = styled.b`
     margin: 0 0 0.5em 0;
 `;
+
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 class AgencyForm extends Component {
 
@@ -39,6 +44,9 @@ class AgencyForm extends Component {
         name: null,
         description: null,
         owner_email: null,
+        sla_terms: null,
+        sla_hours_before_event_creation: 24,
+        sla_hours_before_event_update: 12,
     };
 
     handleChange = (value, name) => {
@@ -47,12 +55,16 @@ class AgencyForm extends Component {
 
     submitAgency = () => {
         const { inviteAgency } = this.props;
-        const {name, description, owner_email} = this.state;
-        inviteAgency({ name, description, owner_email });
+        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update} = this.state;
+        inviteAgency({ 
+            name, description, owner_email, sla_terms, 
+            sla_hours_before_event_creation: new Number(sla_hours_before_event_creation), 
+            sla_hours_before_event_update: new Number(sla_hours_before_event_update),
+        });
     };
 
     render() {
-        const {name, description, owner_email} = this.props;
+        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
@@ -61,7 +73,7 @@ class AgencyForm extends Component {
                         <Input 
                             value={name}
                             onChange={(value) => this.handleChange(value, 'name')}
-            />
+                    />
                     </FieldContainer>
                     <FieldContainer>
                         <FieldLabel>Description</FieldLabel>
@@ -72,6 +84,33 @@ class AgencyForm extends Component {
                             onChange={(value) => this.handleChange(value, 'description')}
                         />
                     </FieldContainer>
+                    <FieldContainer>
+                        <FieldLabel>SLA Terms</FieldLabel>
+                        <Input
+                            componentClass="textarea" 
+                            style={{resize: 'auto' }}
+                            rows={3} 
+                            value={sla_terms}
+                            onChange={(value) => this.handleChange(value, 'sla_terms')}
+                        />
+                    </FieldContainer>
+                    <FieldRow>
+                        <FieldContainer>
+                            <FieldLabel>Hours Before Brief Creation</FieldLabel>
+                            <InputNumber 
+                                onChange={(value) => this.handleChange(value, 'sla_hours_before_event_creation')}
+                                value={sla_hours_before_event_creation}
+                            /> 
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Hours Before Brief Update</FieldLabel>
+                            <InputNumber 
+                                defaultValue={sla_hours_before_event_update}
+                                value={sla_hours_before_event_update}
+                                onChange={(value) => this.handleChange(value, 'sla_hours_before_event_update')}
+                            /> 
+                        </FieldContainer>
+                    </FieldRow>
                     <FieldContainer>
                         <FieldLabel>Owner Email</FieldLabel>
                         <p>(We will send an invite to this email)</p>
@@ -118,11 +157,24 @@ export default class AgencyInfo extends Component {
                                         <p>{agencies[currentAgency].client.name}</p>
                                     </FieldContainer>
                                 )}
-                                
                                 <FieldContainer>
                                     <FieldLabel>Contact</FieldLabel>
                                     <p>{agencies[currentAgency].contact_email}</p>
                                 </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>SLA Terms</FieldLabel>
+                                    <p>{agencies[currentAgency].sla_terms}</p>
+                                </FieldContainer>
+                                <FieldRow>
+                                    <FieldContainer>
+                                        <FieldLabel>Hours Before Brief Creation</FieldLabel>
+                                        <p>{agencies[currentAgency].sla_hours_before_event_creation}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Hours Before Brief Update</FieldLabel>
+                                        <p>{agencies[currentAgency].sla_hours_before_event_update}</p>
+                                    </FieldContainer>
+                                </FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Collaborators</FieldLabel>
                                     {agencies[currentAgency].agency_collaborators &&

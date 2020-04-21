@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Checkbox } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+
+import { decode } from 'utils/tokenUtils';
+import SLAModal from './SLAModal';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -39,6 +42,10 @@ const StyledMessage = styled(Message)`
   margin: 0.75em;
 `
 
+const SlaContainer = styled.div`
+  margin: 1em 0 1em 0;
+`
+
 const styles = {
   width: '300px',
   margin: '0.75em'
@@ -53,13 +60,28 @@ export default class SignupForm extends Component {
         phone_number: null,
         password: null,
         confirm: null,
-        token: null
+        token: null,
+        sla_open: false,
+        sla_accepted: false,
       }
+
+      requestSla = (token) => {
+        const { getSla } = this.props;
+        const decoded = decode(token);
+        if (decoded.agency_id) {
+          getSla(decoded.agency_id);
+        }
+      } 
 
       componentDidMount = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const email  = urlParams.get('email');
         const token  = urlParams.get('token');
+        
+        if (token) {
+          this.requestSla(token);
+        }
+
         this.setState({email, token});
       }
   
@@ -69,16 +91,18 @@ export default class SignupForm extends Component {
   
       handleSubmit = () => {
         const {agencySignup} = this.props;
-        const {email, first_name, last_name, phone_number, password, confirm, token} = this.state;
+        const {email, first_name, last_name, phone_number, password, confirm, token, sla_accepted} = this.state;
 
         if (password !== confirm) return;
-
+        if (!sla_accepted) return alert('Please accept the SLA');
         agencySignup({email, first_name, last_name, phone_number,  password, token});
       }
+
+
   
       render() {
-          const {error} = this.props;
-          const {email, first_name, last_name, phone_number, password, confirm} = this.state;
+          const {error, sla} = this.props;
+          const {email, first_name, last_name, phone_number, password, confirm, sla_open, sla_accepted} = this.state;
           return (
           <StyledContainer>
               <h4>You have been invited to join Booze Boss</h4>
@@ -146,6 +170,19 @@ export default class SignupForm extends Component {
                   onChange={(value) => this.handleChange(value, 'confirm')}
                 />
               </InputGroup>
+              <SlaContainer>
+                  <SLAModal 
+                    {...this.props}
+                    handleChange={this.handleChange}
+                  />
+                  <Checkbox 
+                    disabled={!sla_open} 
+                    value={sla_accepted}
+                    onChange={(value) => this.handleChange(!sla_accepted ,'sla_accepted')}
+                  >
+                    I have read and accept the SLA
+                  </Checkbox>
+              </SlaContainer>
               <StyledButton 
                 color="green"
                 onClick={this.handleSubmit}
