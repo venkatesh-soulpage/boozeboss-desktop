@@ -172,6 +172,14 @@ export default class BriefsInfo extends Component {
                                             >
                                                 <Column resizable width={120}>
                                                     <HeaderCell>
+                                                        Setup Time
+                                                    </HeaderCell>
+                                                    <Cell dataKey="setup_time">
+                                                        {rowData => moment(rowData.setup_time).format('HH:MM DD/MM/YY')}
+                                                    </Cell>
+                                                </Column>
+                                                <Column resizable width={120}>
+                                                    <HeaderCell>
                                                         Start Time
                                                     </HeaderCell>
                                                     <Cell dataKey="start_time">

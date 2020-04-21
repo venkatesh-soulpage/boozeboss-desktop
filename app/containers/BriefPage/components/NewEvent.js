@@ -23,6 +23,7 @@ export default class NewEvent extends React.Component {
       super(props);
       this.state = {
         show: false,
+        setup_time: null,
         start_time: null,
         end_time: null,
         venuesData: null,
@@ -30,6 +31,7 @@ export default class NewEvent extends React.Component {
         hourly_expected_guests: null,
         drinks_enabled: false,
         recee_required: false,
+        recee_time: false,
         cocktails_enabled: false,
         cocktails_per_guest: null,
         free_drinks_enabled: false,
@@ -69,12 +71,14 @@ export default class NewEvent extends React.Component {
     addEvent = async () => {
         const {createBriefEvent, briefs, currentBrief} = this.props;
         const {
+            setup_time,
             start_time,
             end_time,
             expected_guests,
             hourly_expected_guests,
             drinks_enabled,
             recee_required,
+            recee_time,
             cocktails_enabled,
             cocktails_per_guest,
             free_drinks_enabled,
@@ -87,12 +91,14 @@ export default class NewEvent extends React.Component {
         await createBriefEvent(
             briefs[currentBrief].id,
             {
+                setup_time,
                 start_time,
                 end_time,
                 expected_guests,
                 hourly_expected_guests,
                 drinks_enabled,
                 recee_required,
+                recee_time,
                 cocktails_enabled,
                 cocktails_per_guest,
                 free_drinks_enabled,
@@ -114,6 +120,19 @@ export default class NewEvent extends React.Component {
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
+                        <FieldContainer>
+                            <FieldLabel>Setup Time</FieldLabel>
+                            <DatePicker
+                                format="YYYY-MM-DD HH:mm:ss"
+                                ranges={[
+                                {
+                                    label: 'Now',
+                                    value: new Date()
+                                }
+                                ]}
+                                onChange={(value) => this.handleChange(value, 'setup_time')}
+                            />
+                        </FieldContainer>
                         <FieldRow>
                             <FieldContainer>
                                 <FieldLabel>Start Time</FieldLabel>
@@ -160,10 +179,9 @@ export default class NewEvent extends React.Component {
                         </FieldRow>
                         <FieldRow>
                             <FieldContainer>
-                                <FieldLabel>Options</FieldLabel>
+                                <FieldLabel>Drink Options</FieldLabel>
                                 <FieldRow>
-                                    <Checkbox onChange={(value) => this.handleChange(!drinks_enabled, 'drinks_enabled')}>Enable Drinks</Checkbox>
-                                    <Checkbox onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
+                                    <Checkbox defaultChecked={drinks_enabled} onChange={(value) => this.handleChange(!drinks_enabled, 'drinks_enabled')}>Enable Drinks</Checkbox>
                                 </FieldRow>
                             </FieldContainer>
                         </FieldRow>
@@ -171,7 +189,7 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Cocktails</FieldLabel>
-                                    <Checkbox onChange={(value) => this.handleChange(!cocktails_enabled, 'cocktails_enabled')}>Enable Cocktails</Checkbox>
+                                    <Checkbox defaultChecked={cocktails_enabled} onChange={(value) => this.handleChange(!cocktails_enabled, 'cocktails_enabled')}>Enable Cocktails</Checkbox>
                                 </FieldContainer>
                                 <FieldContainer>
                                     <FieldLabel>Cocktails per guest</FieldLabel>
@@ -196,7 +214,32 @@ export default class NewEvent extends React.Component {
                                     /> 
                                 </FieldContainer>
                             </FieldRow>
-                        )}      
+                        )}   
+                        <FieldRow>
+                            <FieldContainer>
+                                <FieldLabel>Recee Options</FieldLabel>
+                                <FieldRow>
+                                    <Checkbox onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
+                                </FieldRow>
+                            </FieldContainer>
+                        </FieldRow> 
+                        { recee_required && (
+                            <FieldRow>
+                                <FieldContainer>
+                                    <FieldLabel>Recee Time</FieldLabel>
+                                    <DatePicker
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                        ranges={[
+                                        {
+                                            label: 'Now',
+                                            value: new Date()
+                                        }
+                                        ]}
+                                        onChange={(value) => this.handleChange(value, 'recee_time')}
+                                    />
+                                </FieldContainer>
+                            </FieldRow> 
+                        )}  
                         <FieldContainer>
                             <FieldLabel>Comments</FieldLabel>
                             <Input 
