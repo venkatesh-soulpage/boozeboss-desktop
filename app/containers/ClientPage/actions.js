@@ -28,6 +28,9 @@ import {
   GET_LOCATIONS_REQUEST,
   GET_LOCATIONS_SUCCESS,
   GET_LOCATIONS_ERROR,
+  CREATE_BRAND_REQUEST,
+  CREATE_BRAND_SUCCESS,
+  CREATE_BRAND_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -140,6 +143,28 @@ export function createVenueSuccess(success) {
 export function createVenueError(error) {
   return {
     type: CREATE_VENUE_ERROR,
+    error,
+  };
+}
+
+/* CREATE BRAND */
+export function createBrand(brand) {
+  return {
+    type: CREATE_BRAND_REQUEST,
+    brand
+  };
+}
+
+export function createBrandcSuccess(success) {
+  return {
+    type: CREATE_BRAND_SUCCESS,
+    success
+  };
+}
+
+export function createBrandError(error) {
+  return {
+    type: CREATE_BRAND_ERROR,
     error,
   };
 }

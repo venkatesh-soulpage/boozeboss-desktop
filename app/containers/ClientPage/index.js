@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -39,7 +39,7 @@ export class ClientContainer extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>ClientContainer</title>
+          <title>Client Container</title>
           <meta name="description" content="Description of ClientContainer" />
         </Helmet>
         <ClientsContainer {...this.props} />
@@ -59,6 +59,7 @@ ClientContainer.propTypes = {
   getRoles: PropTypes.func.isRequired,
   getLocations: PropTypes.func.isRequired,
   createVenue: PropTypes.func.isRequired,
+  createBrand: PropTypes.func.isRequired,
   deleteVenue: PropTypes.func.isRequired,
   dismiss: PropTypes.func.isRequired,
   scope: PropTypes.string.isRequired,
@@ -86,6 +87,7 @@ function mapDispatchToProps(dispatch) {
     getRoles: () => dispatch(getRoles()),
     getLocations: () => dispatch(getLocations()),
     createVenue: (venue) => dispatch(createVenue(venue)),
+    createBrand: (brand) => dispatch(createBrand(brand)),
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     dismiss: type => dispatch(dismiss(type))
   };

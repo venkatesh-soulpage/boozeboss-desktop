@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -18,6 +18,8 @@ import {
   deleteVenueError,
   getLocationsSuccess,
   getLocationsError,
+  createBrandcSuccess,
+  createBrandError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -122,6 +124,23 @@ function* createVenueSaga(params) {
   }
 }
 
+function* createBrandSaga(params) {
+  const { brand } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/brands`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(brand),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(createBrandcSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(createBrandError(jsonError));
+  }
+}
+
 function* deleteVenueSaga(params) {
   const { venue_id } = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/venues/${venue_id}`;
@@ -162,6 +181,10 @@ function* createVenueRequest() {
   yield takeLatest(CREATE_VENUE_REQUEST, createVenueSaga);
 }
 
+function* createBrandRequest() {
+  yield takeLatest(CREATE_BRAND_REQUEST, createBrandSaga);
+}
+
 function* deleteVenueRequest() {
   yield takeLatest(DELETE_VENUE_REQUEST, deleteVenueSaga);
 }
@@ -169,6 +192,10 @@ function* deleteVenueRequest() {
 // Reactive saga
 function* createVenueSuccessRequest() {
   yield takeLatest(CREATE_VENUE_SUCCESS, getClientsSaga);
+}
+
+function* createBrandSuccessRequest() {
+  yield takeLatest(CREATE_BRAND_SUCCESS, getClientsSaga);
 }
 
 function* deleteVenueSuccessRequest() {
@@ -183,9 +210,11 @@ export default function* rootSaga() {
     fork(getRolesRequest),
     fork(getLocationsRequest),
     fork(createVenueRequest),
+    fork(createBrandRequest),
     fork(deleteVenueRequest),
     // Reactive
     fork(createVenueSuccessRequest),
-    fork(deleteVenueSuccessRequest)
+    fork(deleteVenueSuccessRequest),
+    fork(createBrandSuccessRequest),
   ]);
 }

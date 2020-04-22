@@ -8,6 +8,8 @@ import DeleteVenueModal from './DeleteVenueModal';
 import ClientAddLocationModal from './ClientAddLocationModal';
 
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import ClientBrandsTable from './ClientBrandsTable';
+import CreateBrandModal from './CreateBrandModal';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -472,6 +474,16 @@ export default class ClientInfo extends Component {
                                 </FieldContainer>
                                 <FieldContainer>
                                     <CreateVenueModal 
+                                        {...this.props}
+                                    />
+                                </FieldContainer>
+                                <Divider />
+                                <FieldContainer>
+                                    <ClientBrandsTable
+                                        {...this.props} 
+                                        brands={clients[currentClient].brands}
+                                    />
+                                    <CreateBrandModal 
                                         {...this.props}
                                     />
                                 </FieldContainer>

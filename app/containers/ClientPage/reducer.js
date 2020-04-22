@@ -28,7 +28,10 @@ import {
   DELETE_VENUE_ERROR,
   GET_LOCATIONS_REQUEST,
   GET_LOCATIONS_SUCCESS,
-  GET_LOCATIONS_ERROR
+  GET_LOCATIONS_ERROR,
+  CREATE_BRAND_REQUEST,
+  CREATE_BRAND_SUCCESS,
+  CREATE_BRAND_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -95,6 +98,16 @@ function clientContainerReducer(state = initialState, action) {
         .set('success', action.success)
         .set('isLoading', false)
     case CREATE_VENUE_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case CREATE_BRAND_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_BRAND_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false)
+    case CREATE_BRAND_ERROR:
       return state
         .set('isLoading', false)
         .set('error', action.error);

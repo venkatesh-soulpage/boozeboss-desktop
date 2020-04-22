@@ -34,6 +34,10 @@ export const CREATE_VENUE_REQUEST = 'boozeboss/ClientContainer/CREATE_VENUE_REQU
 export const CREATE_VENUE_SUCCESS = 'boozeboss/ClientContainer/CREATE_VENUE_SUCCESS';
 export const CREATE_VENUE_ERROR = 'boozeboss/ClientContainer/CREATE_VENUE_ERROR';
 
+export const CREATE_BRAND_REQUEST = 'boozeboss/ClientContainer/CREATE_BRAND_REQUEST';
+export const CREATE_BRAND_SUCCESS = 'boozeboss/ClientContainer/CREATE_BRAND_SUCCESS';
+export const CREATE_BRAND_ERROR = 'boozeboss/ClientContainer/CREATE_BRAND_ERROR';
+
 export const DELETE_VENUE_REQUEST = 'boozeboss/ClientContainer/DELETE_VENUE_REQUEST';
 export const DELETE_VENUE_SUCCESS = 'boozeboss/ClientContainer/DELETE_VENUE_SUCCESS';
 export const DELETE_VENUE_ERROR = 'boozeboss/ClientContainer/DELETE_VENUE_ERROR';
