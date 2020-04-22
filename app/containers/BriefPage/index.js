@@ -13,13 +13,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues} from './selectors';
+import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues, makeSelectAgencies} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies } from './actions';
 
 
 
@@ -27,9 +27,10 @@ import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBrie
 export class BriefPage extends React.Component {
   
   componentDidMount = () => {
-    const {getBriefs, getVenues} = this.props;
+    const {getBriefs, getVenues, getAgencies} = this.props;
     getBriefs();
     getVenues();
+    getAgencies();
   }
   
   render() {
@@ -61,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
   scope: makeSelectScope(),
   role: makeSelectRole(),
   briefs: makeSelectBriefs(),
+  agencies: makeSelectAgencies(),
   venues: makeSelectVenues(),
   error: makeSelectError(),
   success: makeSelectSuccess(),
@@ -72,6 +74,7 @@ function mapDispatchToProps(dispatch) {
     deleteBriefDraft: () => dispatch(deleteBriefDraft()),
     getBriefs: () => dispatch(getBriefs()),
     getVenues: () => dispatch(getVenues()),
+    getAgencies: () => dispatch(getAgencies()),
     createBrief: (brief) => dispatch(createBrief(brief)),
     deleteBrief: (brief_id) => dispatch(deleteBrief(brief_id)),
     createBriefEvent: (brief_id, briefEvent) => dispatch(createBriefEvent(brief_id, briefEvent)),

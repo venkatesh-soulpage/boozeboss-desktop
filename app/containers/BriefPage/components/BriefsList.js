@@ -103,7 +103,8 @@ class BriefContainer extends Component {
 export default class BriefsList extends Component {
 
   handleAddBriefDraft = () => {
-    const { addBriefDraft } = this.props;
+    const { addBriefDraft, getPickerData } = this.props;
+    getPickerData();
     addBriefDraft();
   };
 

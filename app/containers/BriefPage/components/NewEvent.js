@@ -23,6 +23,7 @@ export default class NewEvent extends React.Component {
       super(props);
       this.state = {
         show: false,
+        name: null,
         setup_time: null,
         start_time: null,
         end_time: null,
@@ -71,6 +72,7 @@ export default class NewEvent extends React.Component {
     addEvent = async () => {
         const {createBriefEvent, briefs, currentBrief} = this.props;
         const {
+            name,
             setup_time,
             start_time,
             end_time,
@@ -91,6 +93,7 @@ export default class NewEvent extends React.Component {
         await createBriefEvent(
             briefs[currentBrief].id,
             {
+                name,
                 setup_time,
                 start_time,
                 end_time,
@@ -113,13 +116,20 @@ export default class NewEvent extends React.Component {
     }
 
     render() {
-        const {show, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
+        const {show, name, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open}>+ New Event</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
+                        <FieldContainer>
+                                <FieldLabel>Event Name</FieldLabel>
+                                <Input 
+                                    onChange={(value) => this.handleChange(value, 'name')}
+                                    value={name}
+                                /> 
+                            </FieldContainer>
                         <FieldContainer>
                             <FieldLabel>Setup Time</FieldLabel>
                             <DatePicker

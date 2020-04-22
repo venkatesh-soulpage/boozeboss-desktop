@@ -24,12 +24,16 @@ import {
   CREATE_BRIEF_EVENT_ERROR,
   UPDATE_BRIEF_STATUS_REQUEST,
   UPDATE_BRIEF_STATUS_SUCCESS,
-  UPDATE_BRIEF_STATUS_ERROR
+  UPDATE_BRIEF_STATUS_ERROR,
+  GET_AGENCIES_REQUEST,
+  GET_AGENCIES_SUCCESS,
+  GET_AGENCIES_ERROR
 } from './constants';
 
 export const initialState = fromJS({
   briefs: null,
   venues: null,
+  agencies: null,
   success: null,
   error: null,
 });
@@ -46,6 +50,12 @@ function briefPageReducer(state = initialState, action) {
     case GET_BRIEFS_SUCCESS:
       return state.set('briefs', action.briefs).set('isLoading', false);
     case GET_BRIEFS_ERROR:
+      return state.set('error', action.error).set('isLoading', false);
+    case GET_AGENCIES_REQUEST:
+      return state.set('isLoading', true);
+    case GET_AGENCIES_SUCCESS:
+      return state.set('agencies', action.agencies).set('isLoading', false);
+    case GET_AGENCIES_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case CREATE_BRIEF_REQUEST:
       return state.set('isLoading', true);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider,IconButton, Icon } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider,IconButton, Icon, SelectPicker } from 'rsuite';
 import moment from 'moment';
 import NewEvent from './NewEvent';
 import SubmitBriefConfirm from './SubmitBriefConfirm';
@@ -61,6 +61,7 @@ class BriefForm extends Component {
     state = {
         name: null,
         description: null,
+        agency_id: null,
     };
 
     handleChange = (value, name) => {
@@ -78,6 +79,7 @@ class BriefForm extends Component {
     }
 
     render() {
+        const {agenciesData} = this.props;
         const {name, description} = this.state;
         return (
             <Panel bordered>
@@ -96,6 +98,19 @@ class BriefForm extends Component {
                             value={name}
                             onChange={(value) => this.handleChange(value, 'name')}
                         />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <FieldLabel>Agency</FieldLabel>
+                        {agenciesData && agenciesData.length > 0 ? (
+                            <SelectPicker 
+                                searchable={false}
+                                data={agenciesData}
+                                onChange={(value) => this.handleChange(value, 'agency_id')}
+                            />
+                        ) : (
+                            <p>No agencies</p>
+                        )}
+                        
                     </FieldContainer>
                     <FieldContainer>
                         <FieldLabel>Description</FieldLabel>
@@ -155,10 +170,16 @@ export default class BriefsInfo extends Component {
                                     )}
                                 </ActionsContainer>
                                 <Divider />
-                                <FieldContainer>
-                                    <FieldLabel>Name</FieldLabel>
-                                    <p>{briefs[currentBrief].name}</p>
-                                </FieldContainer>
+                                <FieldsRow>
+                                    <FieldContainer>
+                                        <FieldLabel>Name</FieldLabel>
+                                        <p>{briefs[currentBrief].name}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Agency</FieldLabel>
+                                        <p>{briefs[currentBrief].agency.name}</p>
+                                    </FieldContainer>
+                                </FieldsRow>
                                 <FieldContainer>
                                     <FieldLabel>Description</FieldLabel>
                                     <p>{briefs[currentBrief].description}</p>
@@ -170,6 +191,14 @@ export default class BriefsInfo extends Component {
                                             <Table
                                                 data={briefs[currentBrief].brief_events}
                                             >
+                                                <Column resizable width={120}>
+                                                    <HeaderCell>
+                                                        Event Name
+                                                    </HeaderCell>
+                                                    <Cell dataKey="name">
+                                                        {rowData => rowData.name}
+                                                    </Cell>
+                                                </Column>
                                                 <Column resizable width={120}>
                                                     <HeaderCell>
                                                         Setup Time

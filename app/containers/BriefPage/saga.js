@@ -7,7 +7,7 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST
 } from './constants';
 
 import {
@@ -15,7 +15,7 @@ import {
   createBriefSuccess, createBriefError, 
   deleteBriefSuccess, deleteBriefError, 
   getVenuesSuccess, getVenuesError,
-  createBriefEventSuccess, createBriefEventError, updateBriefStatusSuccess, updateBriefStatusError
+  createBriefEventSuccess, createBriefEventError, updateBriefStatusSuccess, updateBriefStatusError, getAgenciesSuccess, getAgenciesError
 } from './actions';
 
 function* getBriefsSaga() {
@@ -81,6 +81,21 @@ function* getVenuesSaga() {
   }
 }
 
+function* getAgenciesSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/agencies`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getAgenciesSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getAgenciesError(jsonError));
+  }
+}
+
 
 function* createBriefEventSaga(params) {
   const {brief_id, briefEvent} = params;
@@ -132,6 +147,10 @@ function* getVenuesRequest() {
   yield takeLatest(GET_VENUES_REQUEST, getVenuesSaga);
 }
 
+function* getAgenciesRequest() {
+  yield takeLatest(GET_AGENCIES_REQUEST, getAgenciesSaga);
+}
+
 function* createBriefEventRequest() {
   yield takeLatest(CREATE_BRIEF_EVENT_REQUEST, createBriefEventSaga);
 }
@@ -159,6 +178,7 @@ export default function* rootSaga() {
     fork(createBriefRequest),
     fork(deleteBriefRequest),
     fork(getVenuesRequest),
+    fork(getAgenciesRequest),
     fork(createBriefEventRequest),
     fork(updateBriefStatusRequest),
     // Reactive

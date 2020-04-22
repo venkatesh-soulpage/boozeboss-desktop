@@ -31,6 +31,12 @@ export const GET_VENUES_SUCCESS =
   'boozeboss/BriefsContainer/GET_VENUES_SUCCESS';
 export const GET_VENUES_ERROR = 'boozeboss/BriefsContainer/GET_VENUES_ERROR';
 
+export const GET_AGENCIES_REQUEST =
+  'boozeboss/BriefsContainer/GET_AGENCIES_REQUEST';
+export const GET_AGENCIES_SUCCESS =
+  'boozeboss/BriefsContainer/GET_AGENCIES_SUCCESS';
+export const GET_AGENCIES_ERROR = 'boozeboss/BriefsContainer/GET_AGENCIES_ERROR';
+
 export const CREATE_BRIEF_EVENT_REQUEST =
   'boozeboss/BriefsContainer/CREATE_BRIEF_EVENT_REQUEST';
 export const CREATE_BRIEF_EVENT_SUCCESS =

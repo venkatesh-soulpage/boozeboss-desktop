@@ -16,7 +16,10 @@ import {
   CREATE_BRIEF_EVENT_REQUEST,
   UPDATE_BRIEF_STATUS_REQUEST,
   UPDATE_BRIEF_STATUS_SUCCESS,
-  UPDATE_BRIEF_STATUS_ERROR, 
+  UPDATE_BRIEF_STATUS_ERROR,
+  GET_AGENCIES_REQUEST,
+  GET_AGENCIES_SUCCESS,
+  GET_AGENCIES_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -159,6 +162,27 @@ export function updateBriefStatusSuccess(success) {
 export function updateBriefStatusError(error) {
   return {
     type: UPDATE_BRIEF_STATUS_ERROR,
+    error
+  };
+}
+
+// Get Agencies
+export function getAgencies() {
+  return {
+    type: GET_AGENCIES_REQUEST,
+  };
+}
+
+export function getAgenciesSuccess(agencies) {
+  return {
+    type: GET_AGENCIES_SUCCESS,
+    agencies
+  };
+}
+
+export function getAgenciesError(error) {
+  return {
+    type: GET_AGENCIES_ERROR,
     error
   };
 }

@@ -14,10 +14,24 @@ export default class BriefsContainer extends Component {
 
     state = {
         currentBrief: 0,
+        agenciesData: null,
     }
 
-  handleSelectCurrentBrief = currentBrief => {
+    handleSelectCurrentBrief = currentBrief => {
         this.setState({currentBrief})
+    }
+
+    getPickerData = ()  => {
+        const {agencies} = this.props;
+        if (!agencies) return [];
+        const agenciesData = agencies.map(agency => {
+            return {
+                label: agency.name,
+                value: agency.id,
+                role: agency.name,
+            }
+        })
+        this.setState({agenciesData});
     }
 
   render() {
@@ -27,6 +41,7 @@ export default class BriefsContainer extends Component {
                     {...this.props} 
                     {...this.state}
                     handleSelectCurrentBrief={this.handleSelectCurrentBrief}
+                    getPickerData={this.getPickerData}
                 />
                 <BriefsInfo 
                     {...this.props} 
