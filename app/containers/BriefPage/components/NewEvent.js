@@ -260,7 +260,10 @@ export default class NewEvent extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Venue</FieldLabel>
+                            <FieldRow>
+                                <FieldLabel>Venue</FieldLabel>
+                                <a href="/clients#new-venue">+ Add new venue</a>
+                            </FieldRow>
                             <SelectPicker 
                                 searchable={false}
                                 data={venuesData}

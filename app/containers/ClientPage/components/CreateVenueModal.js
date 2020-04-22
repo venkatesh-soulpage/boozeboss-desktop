@@ -65,7 +65,7 @@ export default class CreateVenueModal extends React.Component {
         const {show} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open} color="green">+ Add Venue</Button>
+                <Button id="new-venue" onClick={this.open} color="green">+ Add Venue</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
