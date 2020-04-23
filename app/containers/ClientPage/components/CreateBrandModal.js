@@ -29,6 +29,16 @@ const product_types = [
         role: 'Ginebra',
     },
     {
+        label: 'Soda',
+        value: 'Soda',
+        role: 'Soda',
+    },
+    {
+        label: 'Ingredient',
+        value: 'Ingredient',
+        role: 'Ingredient',
+    },
+    {
         label: 'Other',
         value: 'Other',
         role: 'Other',

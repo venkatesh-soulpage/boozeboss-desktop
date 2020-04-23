@@ -20,6 +20,7 @@ export default class ProductsTable extends Component {
                 {products && products.length > 0 ? (
                     <Table
                         data={products}
+                        autoHeight
                     >
                         <Column width={150} resizable>
                             <HeaderCell>
@@ -42,7 +43,7 @@ export default class ProductsTable extends Component {
                                 Brand
                             </HeaderCell>
                             <Cell dataKey="name">
-                                {rowData => <a>{rowData.brand.name}</a>}
+                                {rowData => <a>{rowData.brand ? rowData.brand.name : 'N/A'}</a>}
                             </Cell>
                         </Column>
                         <Column resizable>

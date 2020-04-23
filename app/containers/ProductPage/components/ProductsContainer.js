@@ -6,13 +6,17 @@ import { Divider } from 'rsuite';
 
 const StyledContainer = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
+    max-width: 1100px;
     margin: 1em 2em 0 2em;
 `
 
 const StyledRow = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: row;
+    justify-content: center;
     margin: 1em 0 0 0;
 `
 

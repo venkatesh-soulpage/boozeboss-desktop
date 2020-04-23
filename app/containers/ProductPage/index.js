@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,6 +21,12 @@ import saga from './saga';
 import messages from './messages';
 import { getProducts, addProduct, getBrands } from './actions';
 import { ProductsContainer } from './components'
+
+const Products = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`
 
 /* eslint-disable react/prefer-stateless-function */
 export class Product extends React.Component {
@@ -37,9 +44,12 @@ export class Product extends React.Component {
           <title>Product</title>
           <meta name="description" content="Description of Product" />
         </Helmet>
-        <ProductsContainer 
-          {...this.props}
-        />
+        <Products>
+          <ProductsContainer 
+            {...this.props}
+          />
+        </Products>
+        
       </div>
     );
   }
