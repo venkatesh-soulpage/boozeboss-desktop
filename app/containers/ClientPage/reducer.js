@@ -31,7 +31,10 @@ import {
   GET_LOCATIONS_ERROR,
   CREATE_BRAND_REQUEST,
   CREATE_BRAND_SUCCESS,
-  CREATE_BRAND_ERROR
+  CREATE_BRAND_ERROR,
+  CREATE_WAREHOUSE_REQUEST,
+  CREATE_WAREHOUSE_SUCCESS,
+  CREATE_WAREHOUSE_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -108,6 +111,16 @@ function clientContainerReducer(state = initialState, action) {
         .set('success', action.success)
         .set('isLoading', false)
     case CREATE_BRAND_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case CREATE_WAREHOUSE_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_WAREHOUSE_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false)
+    case CREATE_WAREHOUSE_ERROR:
       return state
         .set('isLoading', false)
         .set('error', action.error);

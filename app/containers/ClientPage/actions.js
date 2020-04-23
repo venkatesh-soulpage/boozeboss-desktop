@@ -31,6 +31,9 @@ import {
   CREATE_BRAND_REQUEST,
   CREATE_BRAND_SUCCESS,
   CREATE_BRAND_ERROR,
+  CREATE_WAREHOUSE_REQUEST,
+  CREATE_WAREHOUSE_SUCCESS,
+  CREATE_WAREHOUSE_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -165,6 +168,28 @@ export function createBrandcSuccess(success) {
 export function createBrandError(error) {
   return {
     type: CREATE_BRAND_ERROR,
+    error,
+  };
+}
+
+/* CREATE WAREHOUSE */
+export function createWarehouse(warehouse) {
+  return {
+    type: CREATE_WAREHOUSE_REQUEST,
+    warehouse
+  };
+}
+
+export function createWarehouseSuccess(success) {
+  return {
+    type: CREATE_WAREHOUSE_SUCCESS,
+    success
+  };
+}
+
+export function createWarehouseError(error) {
+  return {
+    type: CREATE_WAREHOUSE_ERROR,
     error,
   };
 }
