@@ -15,11 +15,11 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectProducts, makeSelectBrands } from './selectors';
+import { makeSelectProducts, makeSelectBrands, makeSelectSuccess, makeSelectError } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getProducts, addProduct, getBrands } from './actions';
+import { getProducts, addProduct, getBrands, updateProduct, dismiss } from './actions';
 import { ProductsContainer } from './components'
 
 const Products = styled.div`
@@ -58,20 +58,27 @@ export class Product extends React.Component {
 Product.propTypes = {
   products: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   addProduct: PropTypes.func.isRequired,
+  updateProduct: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   getBrands: PropTypes.func.isRequired,
+  success: PropTypes.string,
+  error: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   products: makeSelectProducts(),
   brands: makeSelectBrands(),
+  success: makeSelectSuccess(),
+  error: makeSelectError(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     getProducts: () => dispatch(getProducts()),
     addProduct: (product) => dispatch(addProduct(product)),
+    updateProduct: (product_id, product) => dispatch(updateProduct(product_id, product)),
     getBrands: () => dispatch(getBrands()),
+    dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }
 

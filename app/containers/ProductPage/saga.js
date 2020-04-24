@@ -6,11 +6,13 @@ import {
   GET_PRODUCTS_REQUEST,
   ADD_PRODUCT_REQUEST,
   ADD_PRODUCT_SUCCESS,
-  GET_BRANDS_REQUEST
+  GET_BRANDS_REQUEST,
+  UPDATE_PRODUCT_REQUEST,
+  UPDATE_PRODUCT_SUCCESS
 } from './constants';
 
 import {
-  getProductsSuccess, getProductsError, addProductSuccess, addProductError, getBrandsSuccess, getBrandsError
+  getProductsSuccess, getProductsError, addProductSuccess, addProductError, getBrandsSuccess, getBrandsError, updateProductSuccess, updateProductError
 } from './actions';
 
 function* getProductsSaga() {
@@ -45,6 +47,23 @@ function* addProductSaga(params) {
   }
 }
 
+function* updateProductSaga(params) {
+  const {product_id, product} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/products/${product_id}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(product)
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateProductSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateProductError(jsonError));
+  }
+}
+
 function* getBrandsSaga() {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/brands`;
   const options = {
@@ -69,6 +88,10 @@ function* addProductRequest() {
   yield takeLatest(ADD_PRODUCT_REQUEST, addProductSaga);
 }
 
+function* updateProductRequest() {
+  yield takeLatest(UPDATE_PRODUCT_REQUEST, updateProductSaga);
+}
+
 function* getBrandsRequest() {
   yield takeLatest(GET_BRANDS_REQUEST, getBrandsSaga);
 }
@@ -78,12 +101,18 @@ function* addProductSuccessRequest() {
   yield takeLatest(ADD_PRODUCT_SUCCESS, getProductsSaga)
 }
 
+function* updateProductSuccessRequest() {
+  yield takeLatest(UPDATE_PRODUCT_SUCCESS, getProductsSaga)
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getProductsRequest),
     fork(addProductRequest),
+    fork(updateProductRequest),
     fork(getBrandsRequest),
     // Reactive
     fork(addProductSuccessRequest),
+    fork(updateProductSuccessRequest),
   ]);
 }

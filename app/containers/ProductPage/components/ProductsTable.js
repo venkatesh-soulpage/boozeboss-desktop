@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import {Table} from 'rsuite';
+import UpdateProductModal from './UpdateProductModal';
 
 const { Column, HeaderCell, Cell} = Table;
 
@@ -91,7 +92,7 @@ export default class ProductsTable extends Component {
                                 Actions
                             </HeaderCell>
                             <Cell dataKey="base_price">
-                                <p>Edit | Delete</p>
+                                {rowData => <UpdateProductModal {...this.props} product={rowData}/>}
                             </Cell>
                         </Column>
                     </Table>
