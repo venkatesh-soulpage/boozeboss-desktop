@@ -28,6 +28,7 @@ import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
 import AgencyPage from 'containers/AgencyPage/Loadable';
 import AgencySignupPage from 'containers/AgencySignupPage/Loadable';
 import BriefPage from 'containers/BriefPage/Loadable';
+import WarehousePage from 'containers/WarehousePage/Loadable';
 import ProductPage from 'containers/ProductPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
@@ -98,6 +99,13 @@ class App extends React.Component {
             component={ProductPage}
             scopesRequired={['BRAND']}
             rolesRequired={['OWNER', 'MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/stock"
+            component={WarehousePage}
+            scopesRequired={['BRAND']}
+            rolesRequired={['OWNER', 'WAREHOUSE_MANAGER']}
           />
           <GuardedRoute path="/login" component={LoginPage} />
           <GuardedRoute path="/client-signup" component={ClientSignupPage} />
