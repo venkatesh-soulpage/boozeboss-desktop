@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import { Table } from 'rsuite';
+import ProductTransactions from './ProductTransactions';
+import WarehouseRemoveStock from './WarehouseRemoveStock';
 
 const {Column, HeaderCell, Cell } = Table;
 
@@ -61,6 +63,22 @@ export default class InventoryTable extends Component {
                             </HeaderCell>
                             <Cell dataKey="quantity">
                                 {rowData => rowData.quantity}
+                            </Cell>
+                        </Column>
+                        <Column resizable width={150}>
+                            <HeaderCell>
+                                Transactions
+                            </HeaderCell>
+                            <Cell dataKey="quantity">
+                                {rowData => <ProductTransactions warehouses={warehouses} currentWarehouse={currentWarehouse} transactions={rowData.transactions} product={rowData.product}/>}
+                            </Cell>
+                        </Column>
+                        <Column resizable width={150}>
+                            <HeaderCell>
+                                Actions
+                            </HeaderCell>
+                            <Cell dataKey="quantity">
+                                {rowData => <WarehouseRemoveStock {...this.props} product={rowData.product}/>}
                             </Cell>
                         </Column>
                     </Table>

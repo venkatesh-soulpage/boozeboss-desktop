@@ -4,7 +4,7 @@
  *
  */
 
-import { GET_WAREHOUSES_REQUEST, GET_WAREHOUSES_SUCCESS, GET_WAREHOUSES_ERROR, GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, ADD_PRODUCT_STOCK_REQUEST, ADD_PRODUCT_STOCK_SUCCESS, ADD_PRODUCT_STOCK_ERROR, DISMISS } from './constants';
+import { GET_WAREHOUSES_REQUEST, GET_WAREHOUSES_SUCCESS, GET_WAREHOUSES_ERROR, GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, ADD_PRODUCT_STOCK_REQUEST, ADD_PRODUCT_STOCK_SUCCESS, ADD_PRODUCT_STOCK_ERROR, DISMISS, REMOVE_PRODUCT_STOCK_REQUEST, REMOVE_PRODUCT_STOCK_SUCCESS, REMOVE_PRODUCT_STOCK_ERROR } from './constants';
 
 
 // Get Warehouses
@@ -67,6 +67,29 @@ export function addProductStockSuccess(success) {
 export function addProductStockError(error) {
   return {
     type: ADD_PRODUCT_STOCK_ERROR,
+    error
+  };
+}
+
+// Remove product stock
+export function removeProductStock(stock, warehouse_id) {
+  return {
+    type: REMOVE_PRODUCT_STOCK_REQUEST,
+    stock,
+    warehouse_id
+  };
+}
+
+export function removeProductStockSuccess(success) {
+  return {
+    type: REMOVE_PRODUCT_STOCK_SUCCESS,
+    success,
+  };
+}
+
+export function removeProductStockError(error) {
+  return {
+    type: REMOVE_PRODUCT_STOCK_ERROR,
     error
   };
 }

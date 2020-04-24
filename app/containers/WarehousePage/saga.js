@@ -3,12 +3,12 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { 
-  GET_WAREHOUSES_REQUEST, GET_PRODUCTS_REQUEST, ADD_PRODUCT_STOCK_REQUEST, ADD_PRODUCT_STOCK_SUCCESS
+  GET_WAREHOUSES_REQUEST, GET_PRODUCTS_REQUEST, ADD_PRODUCT_STOCK_REQUEST, ADD_PRODUCT_STOCK_SUCCESS, REMOVE_PRODUCT_STOCK_SUCCESS, REMOVE_PRODUCT_STOCK_REQUEST
 } from './constants';
 
 import {
   getWarehousesSuccess, getWarehousesError, 
-  getProductsSuccess, getProductsError, addProductStockSuccess, addProductStockError
+  getProductsSuccess, getProductsError, addProductStockSuccess, addProductStockError, removeProductStockSuccess, removeProductStockError
 } from './actions';
 
 function* getWarehousesSaga() {
@@ -58,6 +58,23 @@ function* addProductStockSaga(params) {
   }
 }
 
+function* removeProductStockSaga(params) {
+  const {stock, warehouse_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/warehouses/${warehouse_id}/remove-stock`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(stock)
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(removeProductStockSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(removeProductStockError(jsonError));
+  }
+}
+
 function* getWarehousesRequest() {
   yield takeLatest(GET_WAREHOUSES_REQUEST, getWarehousesSaga);
 }
@@ -70,9 +87,17 @@ function* addProductStockRequest() {
   yield takeLatest(ADD_PRODUCT_STOCK_REQUEST, addProductStockSaga);
 }
 
+function* removeProductStockRequest() {
+  yield takeLatest(REMOVE_PRODUCT_STOCK_REQUEST, removeProductStockSaga);
+}
+
 // Reactive Saga
 function* addProductStockSuccessRequest() {
   yield takeLatest(ADD_PRODUCT_STOCK_SUCCESS, getWarehousesSaga);
+}
+
+function* removeProductStockSuccessRequest() {
+  yield takeLatest(REMOVE_PRODUCT_STOCK_SUCCESS, getWarehousesSaga);
 }
 
 export default function* rootSaga() {
@@ -80,7 +105,9 @@ export default function* rootSaga() {
     fork(getWarehousesRequest),
     fork(getProductsRequest),
     fork(addProductStockRequest),
+    fork(removeProductStockRequest),
     // Reactive
     fork(addProductStockSuccessRequest),
+    fork(removeProductStockSuccessRequest),
   ]);
 }

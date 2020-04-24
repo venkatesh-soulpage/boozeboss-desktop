@@ -9,7 +9,10 @@ import {
   GET_WAREHOUSES_REQUEST, GET_WAREHOUSES_SUCCESS, GET_WAREHOUSES_ERROR, 
   GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, 
   ADD_PRODUCT_STOCK_REQUEST, ADD_PRODUCT_STOCK_SUCCESS, ADD_PRODUCT_STOCK_ERROR, 
-  DISMISS 
+  DISMISS, 
+  REMOVE_PRODUCT_STOCK_REQUEST,
+  REMOVE_PRODUCT_STOCK_SUCCESS,
+  REMOVE_PRODUCT_STOCK_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -42,6 +45,13 @@ function warehouseReducer(state = initialState, action) {
       return state
         .set('success', action.success);
     case ADD_PRODUCT_STOCK_ERROR:
+      return state.set('error', action.error);
+    case REMOVE_PRODUCT_STOCK_REQUEST:
+      return state;
+    case REMOVE_PRODUCT_STOCK_SUCCESS:
+      return state
+        .set('success', action.success);
+    case REMOVE_PRODUCT_STOCK_ERROR:
       return state.set('error', action.error);
     case DISMISS:
       return state.set(action.dismiss_type, null);

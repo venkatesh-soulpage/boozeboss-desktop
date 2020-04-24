@@ -18,7 +18,7 @@ import makeSelectWarehouse, { makeSelectWarehouses, makeSelectProducts, makeSele
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getWarehouses, getProducts, addProductStock, dismiss } from './actions';
+import { getWarehouses, getProducts, addProductStock, removeProductStock, dismiss } from './actions';
 import { WarehousesContainer } from './components';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -50,6 +50,7 @@ Warehouse.propTypes = {
   getWarehouses: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   addProductStock: PropTypes.func.isRequired,
+  removeProductStock: PropTypes.func.isRequired,
   dismiss: PropTypes.func.isRequired,
 };
 
@@ -65,6 +66,7 @@ function mapDispatchToProps(dispatch) {
     getWarehouses: () => dispatch(getWarehouses()),
     getProducts: () => dispatch(getProducts()),
     addProductStock: (stock, warehouse_id) => dispatch(addProductStock(stock, warehouse_id)),
+    removeProductStock: (stock, warehouse_id) => dispatch(removeProductStock(stock, warehouse_id)),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }
