@@ -27,7 +27,16 @@ import {
   UPDATE_BRIEF_STATUS_ERROR,
   GET_AGENCIES_REQUEST,
   GET_AGENCIES_SUCCESS,
-  GET_AGENCIES_ERROR
+  GET_AGENCIES_ERROR,
+  CREATE_BRIEF_PRODUCT_REQUEST,
+  CREATE_BRIEF_PRODUCT_SUCCESS,
+  CREATE_BRIEF_PRODUCT_ERROR,
+  GET_PRODUCTS_REQUEST,
+  GET_PRODUCTS_SUCCESS,
+  GET_PRODUCTS_ERROR,
+  DELETE_BRIEF_PRODUCT_REQUEST,
+  DELETE_BRIEF_PRODUCT_SUCCESS,
+  DELETE_BRIEF_PRODUCT_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -80,11 +89,29 @@ function briefPageReducer(state = initialState, action) {
       return state.set('venues', action.venues).set('isLoading', false);
     case GET_VENUES_ERROR:
       return state.set('error', action.error).set('isLoading', false);
+    case GET_PRODUCTS_REQUEST:
+      return state.set('isLoading', true);
+    case GET_PRODUCTS_SUCCESS:
+      return state.set('products', action.products).set('isLoading', false);
+    case GET_PRODUCTS_ERROR:
+      return state.set('error', action.error).set('isLoading', false);
     case CREATE_BRIEF_EVENT_REQUEST:
       return state.set('isLoading', true);
     case CREATE_BRIEF_EVENT_SUCCESS:
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
     case CREATE_BRIEF_EVENT_ERROR:
+      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+    case CREATE_BRIEF_PRODUCT_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_BRIEF_PRODUCT_SUCCESS:
+      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+    case CREATE_BRIEF_PRODUCT_ERROR:
+      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+    case DELETE_BRIEF_PRODUCT_REQUEST:
+      return state.set('isLoading', true);
+    case DELETE_BRIEF_PRODUCT_SUCCESS:
+      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+    case DELETE_BRIEF_PRODUCT_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
     case UPDATE_BRIEF_STATUS_REQUEST:
       return state.set('isLoading', true);

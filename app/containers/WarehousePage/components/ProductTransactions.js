@@ -83,7 +83,7 @@ export default class ProductTransactions extends React.Component {
                                         Date
                                     </HeaderCell>
                                     <Cell dataKey="date">
-                                        {rowData => moment(rowData.created_at).format('DD/MM/YYYY HH:MM')}
+                                        {rowData => moment(rowData.created_at).format('DD/MM/YYYY hh:mm')}
                                     </Cell>
                                 </Column>
                             </Table>                   

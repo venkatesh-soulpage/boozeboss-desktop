@@ -116,12 +116,12 @@ export default class BriefsList extends Component {
       briefs.filter(brief => brief.isDraft).length > 0;
     return (
       <Column>
-        <AddSection>
-          <RoleValidator  
-            {...this.props}
-            scopes={['BRAND']}
-            roles={['OWNER']}
-          >
+        <RoleValidator  
+          {...this.props}
+          scopes={['BRAND']}
+          roles={['OWNER']}
+        >
+          <AddSection>
             <Button
               color="green"
               onClick={this.handleAddBriefDraft}
@@ -129,8 +129,8 @@ export default class BriefsList extends Component {
             >
               + New Brief
             </Button>
-          </RoleValidator>
-        </AddSection>
+          </AddSection>
+        </RoleValidator>
         <List>
           {(!briefs || briefs.length < 1) && (
             <MessageLabel>No Briefs registered</MessageLabel>

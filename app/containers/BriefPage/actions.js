@@ -19,7 +19,16 @@ import {
   UPDATE_BRIEF_STATUS_ERROR,
   GET_AGENCIES_REQUEST,
   GET_AGENCIES_SUCCESS,
-  GET_AGENCIES_ERROR, 
+  GET_AGENCIES_ERROR,
+  CREATE_BRIEF_PRODUCT_REQUEST,
+  CREATE_BRIEF_PRODUCT_SUCCESS,
+  CREATE_BRIEF_PRODUCT_ERROR,
+  GET_PRODUCTS_REQUEST,
+  GET_PRODUCTS_ERROR,
+  GET_PRODUCTS_SUCCESS,
+  DELETE_BRIEF_PRODUCT_REQUEST,
+  DELETE_BRIEF_PRODUCT_SUCCESS,
+  DELETE_BRIEF_PRODUCT_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -120,6 +129,27 @@ export function getVenuesError(error) {
   };
 }
 
+// GET Products
+export function getProducts() {
+  return {
+    type: GET_PRODUCTS_REQUEST,
+  };
+}
+
+export function getProductsSuccess(products) {
+  return {
+    type: GET_PRODUCTS_SUCCESS,
+    products
+  };
+}
+
+export function getProductsError(error) {
+  return {
+    type: GET_PRODUCTS_ERROR,
+    error
+  };
+}
+
 // CREATE Brief
 export function createBriefEvent(brief_id, briefEvent) {
   return {
@@ -139,6 +169,52 @@ export function createBriefEventSuccess(success) {
 export function createBriefEventError(error) {
   return {
     type: CREATE_BRIEF_EVENT_ERROR,
+    error
+  };
+}
+
+// CREATE Product
+export function createBriefProduct(brief_id, briefProduct) {
+  return {
+    type: CREATE_BRIEF_PRODUCT_REQUEST,
+    brief_id,
+    briefProduct,
+  };
+}
+
+export function createBriefProductSuccess(success) {
+  return {
+    type: CREATE_BRIEF_PRODUCT_SUCCESS,
+    success
+  };
+}
+
+export function createBriefProductError(error) {
+  return {
+    type: CREATE_BRIEF_PRODUCT_ERROR,
+    error
+  };
+}
+
+// DELETE Product
+export function deleteBriefProduct(brief_id, brief_product_id) {
+  return {
+    type: DELETE_BRIEF_PRODUCT_REQUEST,
+    brief_id,
+    brief_product_id,
+  };
+}
+
+export function deleteBriefProductSuccess(success) {
+  return {
+    type: DELETE_BRIEF_PRODUCT_SUCCESS,
+    success
+  };
+}
+
+export function deleteBriefProductError(error) {
+  return {
+    type: DELETE_BRIEF_PRODUCT_ERROR,
     error
   };
 }

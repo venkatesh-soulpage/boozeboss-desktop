@@ -12,6 +12,11 @@ const makeSelectVenues = () =>
     briefsState.get('venues'),
   );
   
+const makeSelectProducts = () =>
+  createSelector(selectBriefs, briefsState =>
+    briefsState.get('products'),
+  );
+  
 const makeSelectAgencies = () =>
   createSelector(selectBriefs, briefsState =>
     briefsState.get('agencies'),
@@ -30,6 +35,7 @@ const makeSelectSuccess = () =>
 export { 
   makeSelectBriefs,
   makeSelectVenues,
+  makeSelectProducts,
   makeSelectAgencies,
   makeSelectSuccess,
   makeSelectError

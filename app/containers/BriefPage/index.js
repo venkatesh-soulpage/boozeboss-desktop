@@ -13,13 +13,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues, makeSelectAgencies} from './selectors';
+import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues, makeSelectAgencies, makeSelectProducts} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct } from './actions';
 
 
 
@@ -27,10 +27,14 @@ import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBrie
 export class BriefPage extends React.Component {
   
   componentDidMount = () => {
-    const {getBriefs, getVenues, getAgencies} = this.props;
+    const {getBriefs, getVenues, getAgencies, getProducts, scope} = this.props;
     getBriefs();
-    getVenues();
-    getAgencies();
+    
+    if (scope === 'BRAND') {
+      getVenues();
+      getAgencies();
+      getProducts();
+    }
   }
   
   render() {
@@ -47,11 +51,14 @@ export class BriefPage extends React.Component {
 BriefPage.propTypes = {
   briefs: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   venues: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  products: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   addBriefDraft: PropTypes.func.isRequired,
   deleteBriefDraft: PropTypes.func.isRequired,
   getBriefs: PropTypes.func.isRequired, 
   getVenues: PropTypes.func.isRequired, 
   createBrief: PropTypes.func.isRequired, 
+  createBriefProduct: PropTypes.func.isRequired, 
+  deleteBriefProduct: PropTypes.func.isRequired, 
   updateBriefStatus: PropTypes.func.isRequired,
   createBriefEvent: PropTypes.func.isRequired,
   deleteBrief: PropTypes.func.isRequired, 
@@ -64,6 +71,7 @@ const mapStateToProps = createStructuredSelector({
   briefs: makeSelectBriefs(),
   agencies: makeSelectAgencies(),
   venues: makeSelectVenues(),
+  products: makeSelectProducts(),
   error: makeSelectError(),
   success: makeSelectSuccess(),
 });
@@ -74,10 +82,13 @@ function mapDispatchToProps(dispatch) {
     deleteBriefDraft: () => dispatch(deleteBriefDraft()),
     getBriefs: () => dispatch(getBriefs()),
     getVenues: () => dispatch(getVenues()),
+    getProducts: () => dispatch(getProducts()),
     getAgencies: () => dispatch(getAgencies()),
     createBrief: (brief) => dispatch(createBrief(brief)),
     deleteBrief: (brief_id) => dispatch(deleteBrief(brief_id)),
     createBriefEvent: (brief_id, briefEvent) => dispatch(createBriefEvent(brief_id, briefEvent)),
+    createBriefProduct: (brief_id, briefProduct) => dispatch(createBriefProduct(brief_id, briefProduct)),
+    deleteBriefProduct: (brief_id, brief_product_id) => dispatch(deleteBriefProduct(brief_id, brief_product_id)),
     updateBriefStatus: (brief_id, status) => dispatch(updateBriefStatus(brief_id, status)),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };

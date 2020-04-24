@@ -90,7 +90,7 @@ class App extends React.Component {
             exact
             path="/briefs"
             component={BriefPage}
-            scopesRequired={['BRAND']}
+            scopesRequired={['BRAND', 'AGENCY']}
             rolesRequired={['OWNER', 'MANAGER']}
           />
           <PrivateRoute
