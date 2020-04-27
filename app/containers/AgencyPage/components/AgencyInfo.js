@@ -238,7 +238,7 @@ export default class AgencyInfo extends Component {
                                 <RoleValidator
                                     {...this.props}
                                     scopes={['ADMIN', 'AGENCY']}
-                                    scope={['ADMIN', 'OWNER', 'MANAGER']}
+                                    roles={['ADMIN', 'OWNER', 'MANAGER']}
                                 >
                                     <FieldContainer>
                                         <InviteCollaborator 
