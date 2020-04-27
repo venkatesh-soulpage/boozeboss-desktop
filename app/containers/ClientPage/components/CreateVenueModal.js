@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {Modal, Button, Input, SelectPicker} from 'rsuite'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
 
 const FieldContainer = styled.div`
@@ -11,6 +13,11 @@ const FieldContainer = styled.div`
 const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
+
+const styles = {
+    width: '300px',
+    margin: '0.75em 0 0 0'
+  }
 
 export default class CreateVenueModal extends React.Component {
     constructor(props) {
@@ -98,7 +105,16 @@ export default class CreateVenueModal extends React.Component {
                         </FieldContainer>
                         <FieldContainer>
                             <FieldLabel>Contact Phone Number</FieldLabel>
-                            <Input 
+                            <PhoneInput
+                                style={{...styles, zIndex: 99}}
+                                country={'us'}
+                                enableSearch
+                                disableSearchIcon
+                                inputProps={{
+                                    name: 'phone',
+                                    required: true,
+                                    autoFocus: true
+                                }}
                                 onChange={(value) => this.handleChange(value, 'contact_phone_number')}
                             />
                         </FieldContainer>

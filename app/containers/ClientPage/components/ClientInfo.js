@@ -430,12 +430,12 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.contact_email}
                                                 </Cell>
                                             </Column>
-                                            <Column>
+                                            <Column resizable>
                                                 <HeaderCell>
                                                     Telephone # 
                                                 </HeaderCell>
                                                 <Cell dataKey="contact_phone_number">
-                                                    {rowData => rowData.contact_phone_number}
+                                                    {rowData => parsePhoneNumberFromString(`+${rowData.contact_phone_number}`) ? parsePhoneNumberFromString(`+${rowData.contact_phone_number}`).formatInternational() : ''}
                                                 </Cell>
                                             </Column>
                                             <Column>
