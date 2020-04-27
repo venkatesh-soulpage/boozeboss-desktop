@@ -80,6 +80,14 @@ export default class ProductTransactions extends React.Component {
                                 </Column>
                                 <Column flexGrow>
                                     <HeaderCell>
+                                        Done by
+                                    </HeaderCell>
+                                    <Cell dataKey="action">
+                                        {rowData => `${rowData.account.first_name} ${rowData.account.last_name}` }
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
                                         Date
                                     </HeaderCell>
                                     <Cell dataKey="date">
