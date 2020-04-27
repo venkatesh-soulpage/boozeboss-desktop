@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, Button, Icon} from 'rsuite';
 import styled from 'styled-components';
+import RoleValidator from 'components/RoleValidator';
 
 const StyledAction = styled.p`
     margin: 2px 5px 0 5px;
@@ -34,7 +35,14 @@ export default class DeleteProductModal extends React.Component {
         const {show} = this.state;
         return (
             <React.Fragment>
-                <StyledAction onClick={this.open}>Delete</StyledAction>
+                <RoleValidator
+                    {...this.props}
+                    scopes={['BRAND']}
+                    roles={['OWNER', 'MANAGER']}
+                >
+                    <StyledAction onClick={this.open}>Delete</StyledAction>
+                </RoleValidator>
+                
         
                 <Modal backdrop="static" show={show} onHide={this.close} size="xs">
                     <Modal.Body>

@@ -253,6 +253,7 @@ export default class BriefsInfo extends Component {
                                                             {rowData => <DeleteProductModal {...this.props} brief_id={briefs[currentBrief].id} brief_product_id={rowData.id}/>}
                                                         </Cell>
                                                     </Column> 
+                                                    
                                                 </Table>
                                             ) : (
                                                 <p>No Products</p>
