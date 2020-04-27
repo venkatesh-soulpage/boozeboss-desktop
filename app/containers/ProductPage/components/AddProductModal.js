@@ -34,10 +34,9 @@ const metricOptions = [
         value: 'kg',
     },
     {
-        label: 'Milligram (mg)',
-        value: 'mg',
+        label: 'Gram (g)',
+        value: 'g',
     },
-    
 ]
 
 
@@ -77,6 +76,7 @@ export default class AddProductModal extends React.Component {
             ingredients: [...this.state.ingredients, ingredient]
         })
         await this.getCocktailAmount();
+        await this.calculateBasePrice();
     }
 
     getBrandPickerData = ()  => {
@@ -144,10 +144,11 @@ export default class AddProductModal extends React.Component {
         if (!ingredients || ingredients.length < 0 ) return 0;
         
         const metric_amount = ingredients.reduce((acc, curr) => {
-            if ('l' === curr.product.metric) {
+            if ('l' === curr.product.metric || 'kg' === curr.product.metric) {
                 return acc + new Number(curr.amount * 1000);
             } 
-            if ('ml' === curr.product.metric) {
+
+            if ('ml' === curr.product.metric || 'g' === curr.product.metric) {
                 return acc + new Number(curr.amount);
             }
         }, 0)
@@ -155,6 +156,28 @@ export default class AddProductModal extends React.Component {
         this.setState({metric_amount});
     }
 
+    calculateBasePrice = () => {
+        const {ingredients} = this.state;
+        if (!ingredients || ingredients.length < 0 ) return 0;
+        
+        const raw_base_price = ingredients.reduce((acc, curr) => {
+
+            if ('l' === curr.product.metric || 'kg' === curr.product.metric) {
+                let price_per_ml = curr.product.base_price / (curr.product.metric_amount * 1000);
+                return acc + (new Number(curr.amount * 1000) * price_per_ml);
+            } 
+
+            if ('ml' === curr.product.metric || 'g' === curr.product.metric) {
+                let price_per_ml = curr.product.base_price / curr.product.metric_amount;
+                return acc + (new Number(curr.amount) + price_per_ml);
+            }
+        }, 0)
+
+        const base_price = Math.round(raw_base_price * 100) / 100
+
+        this.setState({base_price});
+    }
+ 
     render() {
         const {show, brandOptions, name, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients } = this.state;
         return (
