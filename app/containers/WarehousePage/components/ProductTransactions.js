@@ -47,14 +47,14 @@ export default class ProductTransactions extends React.Component {
 
     render() {
         const {show} = this.state;
-        const {transactions, product} = this.props;
+        const {transactions, product, quantity} = this.props;
         return (
             <React.Fragment>
                 <a onClick={this.open} color="green">Show transactions</a>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Header>
-                        <Modal.Title>{`${product.name} - ${product.metric_amount}${product.metric}`}</Modal.Title>
+                        <Modal.Title>{`${product.name} - ${product.metric_amount}${product.metric} (${quantity} left on stock)`}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
