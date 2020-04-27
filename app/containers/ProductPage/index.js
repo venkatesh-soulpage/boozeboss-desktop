@@ -15,11 +15,11 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectProducts, makeSelectBrands, makeSelectSuccess, makeSelectError } from './selectors';
+import { makeSelectProducts, makeSelectBrands, makeSelectSuccess, makeSelectError, makeSelectProductsEnabled } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getProducts, addProduct, getBrands, updateProduct, dismiss } from './actions';
+import { getProducts, addProduct, getBrands, updateProduct, dismiss, toggleFilter } from './actions';
 import { ProductsContainer } from './components'
 
 const Products = styled.div`
@@ -61,6 +61,8 @@ Product.propTypes = {
   updateProduct: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
   getBrands: PropTypes.func.isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+  dismiss: PropTypes.func.isRequired,
   success: PropTypes.string,
   error: PropTypes.string,
 };
@@ -68,6 +70,7 @@ Product.propTypes = {
 const mapStateToProps = createStructuredSelector({
   products: makeSelectProducts(),
   brands: makeSelectBrands(),
+  productsEnabled: makeSelectProductsEnabled(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
 });
@@ -78,6 +81,7 @@ function mapDispatchToProps(dispatch) {
     addProduct: (product) => dispatch(addProduct(product)),
     updateProduct: (product_id, product) => dispatch(updateProduct(product_id, product)),
     getBrands: () => dispatch(getBrands()),
+    toggleFilter: (filter) => dispatch(toggleFilter(filter)),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }

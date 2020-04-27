@@ -12,6 +12,11 @@ const makeSelectBrands = () =>
     productsState.get('brands'),
   );
 
+const makeSelectProductsEnabled = () =>
+  createSelector(selectProducts, productsState =>
+    productsState.get('productsEnabled'),
+  );
+
 const makeSelectSuccess = () =>
   createSelector(selectProducts, productsState =>
     productsState.get('success'),
@@ -25,6 +30,7 @@ const makeSelectError = () =>
 export { 
   makeSelectProducts,
   makeSelectBrands,
+  makeSelectProductsEnabled,
   makeSelectSuccess,
   makeSelectError
 };

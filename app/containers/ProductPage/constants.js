@@ -20,4 +20,6 @@ export const UPDATE_PRODUCT_REQUEST = 'app/Product/UPDATE_PRODUCT_REQUEST';
 export const UPDATE_PRODUCT_SUCCESS = 'app/Product/UPDATE_PRODUCT_SUCCESS';
 export const UPDATE_PRODUCT_ERROR = 'app/Product/UPDATE_PRODUCT_ERROR';
 
+export const TOGGLE_FILTER = 'app/Product/TOGGLE_FILTER';
+
 export const DISMISS = 'app/Product/DISMISS';

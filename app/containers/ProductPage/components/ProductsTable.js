@@ -14,16 +14,85 @@ const StyledTableSection = styled.div`
 
 
 export default class ProductsTable extends Component {
-    render() {
+
+    state = {
+        sortColumn: null,
+        sortType: null,
+        loading: false,
+    }
+
+    getFilteredProducts = productsEnabled => {
         const {products} = this.props;
+        if (!products) return [];
+
+        // IF both products are enabled return all
+        if (productsEnabled.indexOf('Cocktail') > -1 && productsEnabled.indexOf('Product') > -1) {
+            return products;
+        }
+
+        if (productsEnabled.indexOf('Cocktail') > -1) {
+            return products.filter(product => product.is_cocktail);
+        }
+
+        if (productsEnabled.indexOf('Product') > -1) {
+            return products.filter(product => !product.is_cocktail);
+        }
+    }
+
+    getData = (products) => {
+        const data = products;
+        const { sortColumn, sortType } = this.state;
+    
+        if (sortColumn && sortType) {
+          return data.sort((a, b) => {
+            let x = a[sortColumn];
+            let y = b[sortColumn];
+            if (typeof x === 'string') {
+              x = x.charCodeAt();
+            }
+            if (typeof y === 'string') {
+              y = y.charCodeAt();
+            }
+            if (sortType === 'asc') {
+              return x - y;
+            } else {
+              return y - x;
+            }
+          });
+        }
+        return data;
+      }
+    
+      handleSortColumn = (sortColumn, sortType) => {
+        this.setState({
+          loading: true
+        });
+    
+        setTimeout(() => {
+          this.setState({
+            sortColumn,
+            sortType,
+            loading: false
+          });
+        }, 500);
+      }
+    
+
+    render() {
+        const {productsEnabled} = this.props;
+        const products = this.getFilteredProducts(productsEnabled);
         return (
             <StyledTableSection>
                 {products && products.length > 0 ? (
                     <Table
-                        data={products}
+                        data={this.getData(products)}
                         autoHeight
+                        sortColumn={this.state.sortColumn}
+                        sortType={this.state.sortType}
+                        onSortColumn={this.handleSortColumn}
+                        loading={this.state.loading}
                     >
-                        <Column width={150} resizable>
+                        <Column width={150} resizable sortable>
                             <HeaderCell>
                                 Type
                             </HeaderCell>
@@ -31,7 +100,7 @@ export default class ProductsTable extends Component {
                                 {rowData => rowData.is_cocktail ? 'Cocktail' : 'Product'}
                             </Cell>
                         </Column>
-                        <Column width={150} resizable>
+                        <Column width={150} resizable sortable>
                             <HeaderCell>
                                 Name
                             </HeaderCell>
@@ -39,7 +108,7 @@ export default class ProductsTable extends Component {
                                 {rowData => <b>{rowData.name}</b>}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column resizable sortable>
                             <HeaderCell>
                                 Brand
                             </HeaderCell>
@@ -79,7 +148,7 @@ export default class ProductsTable extends Component {
                                 {rowData => rowData.sku}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column resizable sortable>
                             <HeaderCell>
                                 Base Price
                             </HeaderCell>
