@@ -56,6 +56,21 @@ export default class NewEvent extends React.Component {
         this.setState({[name]: value});
     }
 
+    handleDateChange = (value, name) => {
+        const {agency} = this.props;
+
+        const sla_limit = (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation);
+
+
+        if (value.getTime() < sla_limit) {
+            this.setState({[name]: sla_limit});
+            return alert("You can't select this date because of the SLA terms. Changing to earliest date possible");
+        } else {
+            this.setState({[name]: value});
+        }
+        
+    }
+
     getPickerData = ()  => {
         const {venues} = this.props;
         if (!venues) return [];
@@ -115,8 +130,16 @@ export default class NewEvent extends React.Component {
         this.close();
     }
 
+    goToRoute = (pathname) => {
+        this.props.history.push({
+            pathname,
+            showVenueModal: true,
+        });
+    }
+
     render() {
-        const {show, name, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
+        const {agency} = this.props;
+        const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open}>+ New Event</Button>
@@ -133,41 +156,47 @@ export default class NewEvent extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Setup Time</FieldLabel>
                             <DatePicker
-                                format="YYYY-MM-DD HH:mm:ss"
+                                value={setup_time}
+                                format="YYYY-MM-DD HH:mm"
                                 ranges={[
                                 {
-                                    label: 'Now',
-                                    value: new Date()
+                                    label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
+                                    value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                    closeOverlay: true
                                 }
                                 ]}
-                                onChange={(value) => this.handleChange(value, 'setup_time')}
+                                onOk={(value) => this.handleDateChange(value, 'setup_time')}
                             />
                         </FieldContainer>
                         <FieldRow>
                             <FieldContainer>
                                 <FieldLabel>Start Time</FieldLabel>
                                 <DatePicker
-                                    format="YYYY-MM-DD HH:mm:ss"
+                                    value={start_time}
+                                    format="YYYY-MM-DD HH:mm"
                                     ranges={[
                                     {
-                                        label: 'Now',
-                                        value: new Date()
+                                        label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
+                                        value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                        closeOverlay: true
                                     }
                                     ]}
-                                    onChange={(value) => this.handleChange(value, 'start_time')}
+                                    onOk={(value) => this.handleDateChange(value, 'start_time')}
                                 />
                             </FieldContainer>
                             <FieldContainer>
                                 <FieldLabel>End Time</FieldLabel>
                                 <DatePicker
-                                    format="YYYY-MM-DD HH:mm:ss"
+                                    value={end_time}
+                                    format="YYYY-MM-DD HH:mm"
                                     ranges={[
                                     {
-                                        label: 'Now',
-                                        value: new Date()
+                                        label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
+                                        value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                        closeOverlay: true
                                     }
                                     ]}
-                                    onChange={(value) => this.handleChange(value, 'end_time')}
+                                    onOk={(value) => this.handleDateChange(value, 'end_time')}
                                 />
                             </FieldContainer>
                         </FieldRow>
@@ -262,7 +291,7 @@ export default class NewEvent extends React.Component {
                         <FieldContainer>
                             <FieldRow>
                                 <FieldLabel>Venue</FieldLabel>
-                                <a href="/clients#new-venue">+ Add new venue</a>
+                                <a onClick={() => this.goToRoute('/clients')}>+ Add new venue</a>
                             </FieldRow>
                             <SelectPicker 
                                 searchable={false}

@@ -3,6 +3,11 @@ import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, Inpu
 import styled from 'styled-components';
 import CocktailBuilder from './CocktailBuilder';
 
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -56,6 +61,14 @@ export default class AddProductModal extends React.Component {
         base_price: 1,
         ingredients: [],
       };
+    }
+
+    componentDidMount = () => {
+        const {showProductModal} = this.props.location;
+
+        if (showProductModal) {
+            this.open();
+        }
     }
 
     close = () => {
@@ -178,6 +191,13 @@ export default class AddProductModal extends React.Component {
         this.setState({base_price});
     }
  
+    goToRoute = (pathname) => {
+        this.props.history.push({
+            pathname,
+            showBrandModal: true,
+        });
+    }
+
     render() {
         const {show, brandOptions, name, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients } = this.state;
         return (
@@ -211,7 +231,10 @@ export default class AddProductModal extends React.Component {
                         </FieldContainer>
                         { !is_cocktail ? (
                             <FieldContainer>
-                                <FieldLabel>Brand</FieldLabel>
+                                <FieldRow>
+                                    <FieldLabel>Brand </FieldLabel>
+                                    <a onClick={() => this.goToRoute('/clients')}>+ Add new brand</a>
+                                </FieldRow>
                                 <SelectPicker 
                                     searchable={false}
                                     data={brandOptions}

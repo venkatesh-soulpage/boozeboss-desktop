@@ -62,6 +62,13 @@ export default class NewProduct extends React.Component {
         this.close();
     }
 
+    goToRoute = (pathname) => {
+        this.props.history.push({
+            pathname,
+            showProductModal: true,
+        });
+    }
+
     render() {
         const {show, productsData, limit} = this.state;
         return (
@@ -71,7 +78,11 @@ export default class NewProduct extends React.Component {
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
-                            <FieldLabel>Product</FieldLabel>
+                            <FieldRow>
+                                <FieldLabel>Product</FieldLabel>
+                                <a onClick={() => this.goToRoute('/products')}>+ Add new product</a>
+                            </FieldRow>
+                            
                             <SelectPicker 
                                 searchable={false}
                                 data={productsData}

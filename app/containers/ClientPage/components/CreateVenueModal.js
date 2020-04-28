@@ -34,6 +34,14 @@ export default class CreateVenueModal extends React.Component {
       };
     }
 
+    componentDidMount = () => {
+        const {showVenueModal} = this.props.location;
+
+        if (showVenueModal) {
+            this.open();
+        }
+    }
+
     close = () => {
       this.setState({ show: false });
     }

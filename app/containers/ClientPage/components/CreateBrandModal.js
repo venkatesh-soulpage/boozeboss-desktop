@@ -70,6 +70,14 @@ export default class CreateBrandModal extends React.Component {
         this.setState({[name]: value});
     }
 
+    componentDidMount = () => {
+        const {showBrandModal} = this.props.location;
+
+        if (showBrandModal) {
+            this.open();
+        }
+    }
+
     create = async () => {
         const {createBrand, clients, currentClient} = this.props;
         const {name, description, product_type } = this.state;
