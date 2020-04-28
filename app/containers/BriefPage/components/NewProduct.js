@@ -18,6 +18,10 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
+const StyledButton = styled(Button)`
+    margin: 1em 0 1em 0;
+`
+
 export default class NewProduct extends React.Component {
     constructor(props) {
       super(props);
@@ -73,7 +77,7 @@ export default class NewProduct extends React.Component {
         const {show, productsData, limit} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open}>+ Add Product </Button>
+                <StyledButton onClick={this.open} color="green">+ Add Product </StyledButton>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

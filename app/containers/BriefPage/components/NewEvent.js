@@ -18,6 +18,10 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
+const StyledButton = styled(Button)`
+    margin: 1em 0 1em 0;
+`
+
 export default class NewEvent extends React.Component {
     constructor(props) {
       super(props);
@@ -142,7 +146,7 @@ export default class NewEvent extends React.Component {
         const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open}>+ New Event</Button>
+                <StyledButton  onClick={this.open} color="green">+ New Event</StyledButton>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
