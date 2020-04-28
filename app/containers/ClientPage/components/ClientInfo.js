@@ -12,6 +12,7 @@ import ClientBrandsTable from './ClientBrandsTable';
 import CreateBrandModal from './CreateBrandModal';
 import ClientWarehouseTable from './ClientWarehouseTable';
 import CreateWarehouseModal from './CreateWarehouseModal';
+import ClientAddLocation from './ClientAddLocation';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -276,6 +277,10 @@ export default class ClientInfo extends Component {
                                         ) : (
                                             <p>No locations defined</p>
                                         )}
+                                    <ClientAddLocation 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                    />
                                 </FieldContainer>
                                 <FieldsRow>
                                     <FieldContainer>

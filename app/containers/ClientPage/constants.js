@@ -51,6 +51,12 @@ export const GET_LOCATIONS_REQUEST =
 export const GET_LOCATIONS_SUCCESS =
   'boozeboss/ClientContainer/GET_LOCATIONS_SUCCESS';
 export const GET_LOCATIONS_ERROR = 'boozeboss/ClientContainer/GET_LOCATIONS_ERROR';
+
+export const ADD_LOCATION_REQUEST =
+  'boozeboss/ClientContainer/ADD_LOCATION_REQUEST';
+export const ADD_LOCATION_SUCCESS =
+  'boozeboss/ClientContainer/ADD_LOCATION_SUCCESS';
+export const ADD_LOCATION_ERROR = 'boozeboss/ClientContainer/ADD_LOCATION_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

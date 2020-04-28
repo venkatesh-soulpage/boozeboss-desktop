@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -22,6 +22,8 @@ import {
   createBrandError,
   createWarehouseSuccess,
   createWarehouseError,
+  addClientLocationSuccess,
+  addClientLocationError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -106,6 +108,23 @@ function* inviteCollaboratorSaga(params) {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(inviteCollaboratorError(jsonError));
+  }
+}
+
+function* addClientLocationSaga(params) {
+  const { client_id, location_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients/${client_id}/add-location`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({location_id}),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addClientLocationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addClientLocationError(jsonError));
   }
 }
 
@@ -204,6 +223,10 @@ function* createBrandRequest() {
   yield takeLatest(CREATE_BRAND_REQUEST, createBrandSaga);
 }
 
+function* addClientLocationRequest() {
+  yield takeLatest(ADD_LOCATION_REQUEST, addClientLocationSaga);
+}
+
 function* createWarehouseRequest() {
   yield takeLatest(CREATE_WAREHOUSE_REQUEST, createWarehouseSaga);
 }
@@ -229,6 +252,10 @@ function* createWarehouseSuccesRequest() {
   yield takeLatest(CREATE_WAREHOUSE_SUCCESS, getClientsSaga);
 }
 
+function* addClientLocationSuccessRequest() {
+  yield takeLatest(ADD_LOCATION_SUCCESS, getClientsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getClientsRequest),
@@ -240,10 +267,12 @@ export default function* rootSaga() {
     fork(createBrandRequest),
     fork(createWarehouseRequest),
     fork(deleteVenueRequest),
+    fork(addClientLocationRequest),
     // Reactive
     fork(createVenueSuccessRequest),
     fork(deleteVenueSuccessRequest),
     fork(createBrandSuccessRequest),
     fork(createWarehouseSuccesRequest),
+    fork(addClientLocationSuccessRequest),
   ]);
 }

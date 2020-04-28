@@ -34,6 +34,9 @@ import {
   CREATE_WAREHOUSE_REQUEST,
   CREATE_WAREHOUSE_SUCCESS,
   CREATE_WAREHOUSE_ERROR,
+  ADD_LOCATION_REQUEST,
+  ADD_LOCATION_SUCCESS,
+  ADD_LOCATION_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -233,6 +236,29 @@ export function getLocationsSuccess(locations) {
 export function getLocationsError(error) {
   return {
     type: GET_LOCATIONS_ERROR,
+    error,
+  };
+}
+
+/* POST Locations */
+export function addClientLocation(client_id, location_id) {
+  return {
+    type: ADD_LOCATION_REQUEST,
+    client_id,
+    location_id
+  };
+}
+
+export function addClientLocationSuccess(success) {
+  return {
+    type: ADD_LOCATION_SUCCESS,
+    success,
+  };
+}
+
+export function addClientLocationError(error) {
+  return {
+    type: ADD_LOCATION_ERROR,
     error,
   };
 }
