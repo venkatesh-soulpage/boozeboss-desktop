@@ -8,6 +8,7 @@ import SubmitBriefConfirm from './SubmitBriefConfirm';
 import RoleValidator from 'components/RoleValidator'
 import NewProduct from './NewProduct';
 import DeleteProductModal from './DeleteProductModal';
+import CreateRequisitionConfirm from './CreateRequisitionConfirm';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -188,7 +189,11 @@ export default class BriefsInfo extends Component {
                                             scopes={['AGENCY']}
                                             roles={['OWNER', 'MANAGER']}
                                         >
-                                            <Button onClick={this.newRequisition} color="green">Submit Requisition</Button>
+                                            {briefs[currentBrief].status === 'SUBMITTED' && (
+                                                <FieldContainer>
+                                                    <CreateRequisitionConfirm {...this.props} briefs={briefs} currentBrief={currentBrief} />
+                                                </FieldContainer>
+                                            )}
                                         </RoleValidator>
                                     </ActionsContainer>
                                     <Divider />
@@ -197,11 +202,11 @@ export default class BriefsInfo extends Component {
                                             <FieldLabel>Name</FieldLabel>
                                             <p>{briefs[currentBrief].name}</p>
                                         </FieldContainer>
-                                        <FieldContainer>
-                                            <FieldLabel>Agency</FieldLabel>
-                                            <p>{briefs[currentBrief].agency.name}</p>
-                                        </FieldContainer>
                                     </FieldsRow>
+                                    <FieldContainer>
+                                        <FieldLabel>Agency</FieldLabel>
+                                        <p>{briefs[currentBrief].agency.name}</p>
+                                    </FieldContainer>
                                     <FieldContainer>
                                         <FieldLabel>Description</FieldLabel>
                                         <p>{briefs[currentBrief].description}</p>

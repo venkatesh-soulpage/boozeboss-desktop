@@ -28,7 +28,10 @@ import {
   GET_PRODUCTS_SUCCESS,
   DELETE_BRIEF_PRODUCT_REQUEST,
   DELETE_BRIEF_PRODUCT_SUCCESS,
-  DELETE_BRIEF_PRODUCT_ERROR, 
+  DELETE_BRIEF_PRODUCT_ERROR,
+  CREATE_REQUISITION_REQUEST,
+  CREATE_REQUISITION_SUCCESS,
+  CREATE_REQUISITION_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -238,6 +241,28 @@ export function updateBriefStatusSuccess(success) {
 export function updateBriefStatusError(error) {
   return {
     type: UPDATE_BRIEF_STATUS_ERROR,
+    error
+  };
+}
+
+// Create a new requisition
+export function createRequisition(brief_id) {
+  return {
+    type: CREATE_REQUISITION_REQUEST,
+    brief_id,
+  };
+}
+
+export function createRequisitionSuccess(success) {
+  return {
+    type: CREATE_REQUISITION_SUCCESS,
+    success
+  };
+}
+
+export function createRequisitionError(error) {
+  return {
+    type: CREATE_REQUISITION_ERROR,
     error
   };
 }

@@ -19,7 +19,7 @@ import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition } from './actions';
 
 
 
@@ -90,6 +90,7 @@ function mapDispatchToProps(dispatch) {
     createBriefProduct: (brief_id, briefProduct) => dispatch(createBriefProduct(brief_id, briefProduct)),
     deleteBriefProduct: (brief_id, brief_product_id) => dispatch(deleteBriefProduct(brief_id, brief_product_id)),
     updateBriefStatus: (brief_id, status) => dispatch(updateBriefStatus(brief_id, status)),
+    createRequisition: (brief_id) => dispatch(createRequisition(brief_id)),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }

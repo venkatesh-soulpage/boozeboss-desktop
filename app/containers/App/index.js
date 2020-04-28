@@ -28,6 +28,7 @@ import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
 import AgencyPage from 'containers/AgencyPage/Loadable';
 import AgencySignupPage from 'containers/AgencySignupPage/Loadable';
 import BriefPage from 'containers/BriefPage/Loadable';
+import RequisitionPage from 'containers/RequisitionPage/Loadable';
 import WarehousePage from 'containers/WarehousePage/Loadable';
 import ProductPage from 'containers/ProductPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -90,6 +91,13 @@ class App extends React.Component {
             exact
             path="/briefs"
             component={BriefPage}
+            scopesRequired={['BRAND', 'AGENCY']}
+            rolesRequired={['OWNER', 'MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/requisitions"
+            component={RequisitionPage}
             scopesRequired={['BRAND', 'AGENCY']}
             rolesRequired={['OWNER', 'MANAGER']}
           />

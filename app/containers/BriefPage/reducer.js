@@ -36,7 +36,10 @@ import {
   GET_PRODUCTS_ERROR,
   DELETE_BRIEF_PRODUCT_REQUEST,
   DELETE_BRIEF_PRODUCT_SUCCESS,
-  DELETE_BRIEF_PRODUCT_ERROR
+  DELETE_BRIEF_PRODUCT_ERROR,
+  CREATE_REQUISITION_REQUEST,
+  CREATE_REQUISITION_SUCCESS,
+  CREATE_REQUISITION_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -118,6 +121,12 @@ function briefPageReducer(state = initialState, action) {
     case UPDATE_BRIEF_STATUS_SUCCESS:
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
     case UPDATE_BRIEF_STATUS_ERROR:
+      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+    case CREATE_REQUISITION_REQUEST:
+      return state.set('isLoading', true);
+    case CREATE_REQUISITION_SUCCESS:
+      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+    case CREATE_REQUISITION_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
     case DISMISS:
       return state.set(action.dismiss_type, null);

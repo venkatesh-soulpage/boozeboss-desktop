@@ -7,7 +7,7 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS
 } from './constants';
 
 import {
@@ -15,7 +15,13 @@ import {
   createBriefSuccess, createBriefError, 
   deleteBriefSuccess, deleteBriefError, 
   getVenuesSuccess, getVenuesError,
-  createBriefEventSuccess, createBriefEventError, updateBriefStatusSuccess, updateBriefStatusError, getAgenciesSuccess, getAgenciesError, createBriefProductSuccess, createBriefProductError, getProductsSuccess, getProductsError, deleteBriefProductSuccess, deleteBriefProductError
+  createBriefEventSuccess, createBriefEventError, 
+  updateBriefStatusSuccess, updateBriefStatusError, 
+  getAgenciesSuccess, getAgenciesError, 
+  createBriefProductSuccess, createBriefProductError, 
+  getProductsSuccess, getProductsError, 
+  deleteBriefProductSuccess, deleteBriefProductError, 
+  createRequisitionSuccess, createRequisitionError
 } from './actions';
 
 function* getBriefsSaga() {
@@ -179,6 +185,23 @@ function* updateBriefStatusSaga(params) {
   }
 }
 
+function* createRequisitionSaga(params) {
+  const {brief_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({brief_id})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(createRequisitionSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(createRequisitionError(jsonError));
+  }
+}
+
 function* getBriefsRequest() {
   yield takeLatest(GET_BRIEFS_REQUEST, getBriefsSaga);
 }
@@ -219,6 +242,10 @@ function* updateBriefStatusRequest() {
   yield takeLatest(UPDATE_BRIEF_STATUS_REQUEST, updateBriefStatusSaga);
 }
 
+function* createRequisitionRequest() {
+  yield takeLatest(CREATE_REQUISITION_REQUEST, createRequisitionSaga);
+}
+
 // Reactive Saga
 function* deleteBriefSuccessRequest() {
   yield takeLatest(DELETE_BRIEF_SUCCESS, getBriefsSaga);
@@ -240,6 +267,10 @@ function* updateBriefStatusSuccessRequest() {
   yield takeLatest(UPDATE_BRIEF_STATUS_SUCCESS, getBriefsSaga);
 }
 
+function* createRequisitionSuccessRequest() {
+  yield takeLatest(CREATE_REQUISITION_SUCCESS, getBriefsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getBriefsRequest),
@@ -252,11 +283,13 @@ export default function* rootSaga() {
     fork(createBriefProductRequest),
     fork(deleteBriefProductRequest),
     fork(updateBriefStatusRequest),
+    fork(createRequisitionRequest),
     // Reactive
     fork(deleteBriefSuccessRequest),
     fork(createBriefEventSuccessRequest),
     fork(createBriefProductSuccessRequest),
     fork(deleteBriefProductSuccessRequest),
     fork(updateBriefStatusSuccessRequest),
+    fork(createRequisitionSuccessRequest),
   ]);
 }
