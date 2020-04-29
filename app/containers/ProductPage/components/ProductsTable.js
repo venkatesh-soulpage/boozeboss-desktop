@@ -92,7 +92,7 @@ export default class ProductsTable extends Component {
                         onSortColumn={this.handleSortColumn}
                         loading={this.state.loading}
                     >
-                        <Column width={150} resizable sortable>
+                        <Column width={150} resizable>
                             <HeaderCell>
                                 Type
                             </HeaderCell>

@@ -14,11 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectRequisition, { makeSelectRequisitions, makeSelectSuccess, makeSelectError } from './selectors';
+import makeSelectRequisition, { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder } from './actions';
 import { RequisitionsContainer } from './components'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -49,6 +49,7 @@ Requisition.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   requisitions: makeSelectRequisitions(),
+  products: makeSelectProducts(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
 });
@@ -56,6 +57,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getRequisitions: () => dispatch(getRequisitions()),
+    getClientProducts: (client_id) => dispatch(getClientProducts(client_id)),
+    createRequisitionOrder: (requisition_id, order) => dispatch(createRequisitionOrder(requisition_id, order)),
   };
 }
 

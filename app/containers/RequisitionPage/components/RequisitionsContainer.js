@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import RequisitionsList from './RequisitionsList';
 import RequisitionInfo from './RequisitionInfo';
+import moment from 'moment';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -17,8 +18,8 @@ export default class RequisitionsContainer extends Component {
         agenciesData: null,
     }
 
-    handleSelectCurrentBrief = currentBrief => {
-        this.setState({currentBrief})
+    handleSelectCurrentRequisition = currentRequisition => {
+        this.setState({currentRequisition})
     }
 
     getPickerData = ()  => {
@@ -40,7 +41,7 @@ export default class RequisitionsContainer extends Component {
                 <RequisitionsList
                     {...this.props} 
                     {...this.state}
-                    handleSelectCurrentBrief={this.handleSelectCurrentBrief}
+                    handleSelectCurrentRequisition={this.handleSelectCurrentRequisition}
                     getPickerData={this.getPickerData}
                 />
                 <RequisitionInfo 

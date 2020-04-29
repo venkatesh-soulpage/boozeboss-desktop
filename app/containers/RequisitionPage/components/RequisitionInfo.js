@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Divider } from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import RequisitionEvent from './RequisitionEvent';
+import RequisitionProduct from './RequisitionProduct';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -34,6 +36,12 @@ const FieldLabel = styled.b`
 const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
+    margin: 1em 0 0 0;
+`
+
+const FieldHeader = styled.div`
+    display: flex;
+    flex: 1;
 `
 
 export default class RequisitionInfo extends Component {
@@ -49,8 +57,30 @@ export default class RequisitionInfo extends Component {
                             <DataContainer>
                                 <FieldContainer>
                                     <FieldLabel>ID</FieldLabel>
-                                    <p>{requisitions[currentRequisition].id}</p>
+                                    <p>#{requisitions[currentRequisition].id}</p>
                                 </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Products</FieldLabel>
+                                    {requisitions[currentRequisition].brief && 
+                                        requisitions[currentRequisition].brief.products &&
+                                        requisitions[currentRequisition].brief.products.map(p => <RequisitionProduct {...this.props} brief_product={p}/>)}
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <FieldLabel>Events</FieldLabel>
+                                    <FieldRow>
+                                        <FieldHeader><b>Name</b></FieldHeader>
+                                        <FieldHeader><b>Start Time</b></FieldHeader>
+                                        <FieldHeader><b>End Time</b></FieldHeader>
+                                        <FieldHeader><b>Venue</b></FieldHeader>
+                                        <FieldHeader><b>Expected Guests</b></FieldHeader>
+                                        <FieldHeader><b>Requisition</b></FieldHeader>
+                                    </FieldRow>
+                                    <Divider />
+                                    {requisitions[currentRequisition].brief && 
+                                        requisitions[currentRequisition].brief.brief_events &&
+                                        requisitions[currentRequisition].brief.brief_events.map(be => <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>)}
+                                </FieldContainer>
+                                
                             </DataContainer>
                         </Panel>
                     )}

@@ -182,7 +182,7 @@ export default class AddProductModal extends React.Component {
 
             if ('ml' === curr.product.metric || 'g' === curr.product.metric) {
                 let price_per_ml = curr.product.base_price / curr.product.metric_amount;
-                return acc + (new Number(curr.amount) + price_per_ml);
+                return acc + (new Number(curr.amount) * price_per_ml);
             }
         }, 0)
 

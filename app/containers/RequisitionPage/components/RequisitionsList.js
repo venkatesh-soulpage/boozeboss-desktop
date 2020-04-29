@@ -62,9 +62,9 @@ const PanelColumn = styled.div`
 `
 
 class RequisitionCard extends Component {
-  handleSelectCurrentBrief = () => {
-    const { handleSelectCurrentBrief, index } = this.props;
-    handleSelectCurrentBrief(index);
+  handleSelectCurrentRequisition = () => {
+    const { handleSelectCurrentRequisition, index } = this.props;
+    handleSelectCurrentRequisition(index);
   };
 
   render() {
@@ -73,10 +73,10 @@ class RequisitionCard extends Component {
         <StyledPanel
             shaded
             isSelected={currentRequisition === index}
-            onClick={this.handleSelectCurrentBrief}
+            onClick={this.handleSelectCurrentRequisition}
         >
             <PanelColumn>
-                <b>{requisition.id}</b>
+                <b>#{requisition.id} - {requisition.brief.name}</b>
                 <p>{requisition.status}</p>
             </PanelColumn>
         </StyledPanel>

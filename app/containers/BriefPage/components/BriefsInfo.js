@@ -212,7 +212,7 @@ export default class BriefsInfo extends Component {
                                         <p>{briefs[currentBrief].description}</p>
                                     </FieldContainer>
                                     <FieldContainer>
-                                        <FieldLabel>Products Activated</FieldLabel>
+                                        <FieldLabel>Products Available</FieldLabel>
                                         {briefs[currentBrief].products && 
                                             briefs[currentBrief].products.length > 0 ? (
                                                 <Table

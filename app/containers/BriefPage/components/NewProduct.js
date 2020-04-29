@@ -49,7 +49,7 @@ export default class NewProduct extends React.Component {
     getPickerData = ()  => {
         const {products} = this.props;
         if (!products) return [];
-        const productsData = products.map(product => {
+        const productsData = products.filter(prod => !prod.is_cocktail).map(product => {
             return {
                 label: `${product.name} - ${product.metric_amount}${product.metric} ${product.brand ? `(${product.brand.name})` : ''}`,
                 value: product.id,
@@ -103,7 +103,7 @@ export default class NewProduct extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.addProduct} color="green">
-                        Add Event
+                        Add Product
                     </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel

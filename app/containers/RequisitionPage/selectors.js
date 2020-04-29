@@ -7,6 +7,11 @@ const makeSelectRequisitions = () =>
     requisitionsState.get('requisitions'),
   );
 
+const makeSelectProducts = () =>
+  createSelector(selectRequisitions, requisitionsState =>
+    requisitionsState.get('products'),
+  );
+
   
 const makeSelectError = () =>
   createSelector(selectRequisitions, requisitionsState =>
@@ -18,8 +23,15 @@ const makeSelectSuccess = () =>
     requisitionsState.get('success'),
   );
 
+const makeSelectIsLoadingProducts = () =>
+  createSelector(selectRequisitions, requisitionsState =>
+    requisitionsState.get('isLoadingProducts'),
+  );
+
 export { 
   makeSelectRequisitions,
+  makeSelectProducts,
+  makeSelectIsLoadingProducts,
   makeSelectError,
   makeSelectSuccess
 };
