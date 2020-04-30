@@ -18,7 +18,8 @@ import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectP
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus } from './actions';
+import { makeSelectScope, makeSelectRole } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -52,6 +53,8 @@ const mapStateToProps = createStructuredSelector({
   products: makeSelectProducts(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
+  scope: makeSelectScope(),
+  role: makeSelectRole(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -60,6 +63,7 @@ function mapDispatchToProps(dispatch) {
     getClientProducts: (client_id) => dispatch(getClientProducts(client_id)),
     createRequisitionOrder: (requisition_id, order) => dispatch(createRequisitionOrder(requisition_id, order)),
     deleteRequisitionOrder: (requisition_id, requisition_order_id) => dispatch(deleteRequisitionOrder(requisition_id, requisition_order_id)),
+    updateRequisitionStatus: (requisition_id, status) => dispatch(updateRequisitionStatus(requisition_id, status)),
   };
 }
 

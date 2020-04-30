@@ -5,6 +5,7 @@ import { Panel, Input, Button, Table, InputNumber, Divider } from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import RequisitionEvent from './RequisitionEvent';
 import RequisitionProduct from './RequisitionProduct';
+import ConfirmSubmit from './ConfirmSubmit';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -37,6 +38,7 @@ const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
     margin: 1em 0 0 0;
+    justify-content: space-between;
 `
 
 const FieldHeader = styled.div`
@@ -55,10 +57,18 @@ export default class RequisitionInfo extends Component {
                     requisitions.length > 0 && (
                         <Panel bordered>
                             <DataContainer>
-                                <FieldContainer>
-                                    <FieldLabel>ID</FieldLabel>
-                                    <p>#{requisitions[currentRequisition].id}</p>
-                                </FieldContainer>
+                                <FieldRow>
+                                    <FieldContainer>
+                                        <FieldLabel>ID</FieldLabel>
+                                        <p>#{requisitions[currentRequisition].id}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <p>{requisitions[currentRequisition].status}</p>
+                                        {requisitions[currentRequisition].status === 'DRAFT' && (
+                                            <ConfirmSubmit {...this.props}/>
+                                        )}
+                                    </FieldContainer>
+                                </FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Products</FieldLabel>
                                     {requisitions[currentRequisition].brief && 
@@ -78,7 +88,9 @@ export default class RequisitionInfo extends Component {
                                     <Divider />
                                     {requisitions[currentRequisition].brief && 
                                         requisitions[currentRequisition].brief.brief_events &&
-                                        requisitions[currentRequisition].brief.brief_events.map(be => <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>)}
+                                        requisitions[currentRequisition].brief.brief_events.map(be => (
+                                            <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>
+                                        ))}
                                 </FieldContainer>
                                 
                             </DataContainer>

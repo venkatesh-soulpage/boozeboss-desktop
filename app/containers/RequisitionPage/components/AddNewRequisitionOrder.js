@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldContainer = styled.div`
@@ -47,6 +47,7 @@ export default class AddNewRequisitionOrder extends React.Component {
         show: false,
         product: null,
         units: 0,
+        is_display: false,
         base_price: 0,
       };
     }
@@ -70,6 +71,7 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     handleChange = (value, name) => {
+        console.log(value, name)
         this.setState({[name]: value});
     }
 
@@ -80,12 +82,13 @@ export default class AddNewRequisitionOrder extends React.Component {
 
     submitOrder = () => {
         const {createRequisitionOrder, requisitions, currentRequisition, event} = this.props;
-        const {product, units, base_price} = this.state;
+        const {product, units, base_price, is_display} = this.state;
         const order = {
             brief_event_id: event.id,
             product_id: product.id,
             price: base_price,
             units: Number(units),
+            is_display,
         }
 
         createRequisitionOrder(requisitions[currentRequisition].id, order);
@@ -127,7 +130,7 @@ export default class AddNewRequisitionOrder extends React.Component {
 
     render() {
         const {products} = this.props;
-        const {show, product, units, base_price } = this.state;
+        const {show, product, units, base_price, is_display } = this.state;
         const available_products = this.getPickerData(products);
         return (
             <React.Fragment>
@@ -143,6 +146,17 @@ export default class AddNewRequisitionOrder extends React.Component {
                                 onChange={(value) => this.handleChangeProduct(value, 'product')}
                             />
                         </FieldContainer>
+                        {product && !product.is_cocktail && (
+                           <FieldContainer>
+                                <FieldLabel>Settings</FieldLabel>
+                                <Checkbox 
+                                    checked={is_display}
+                                    onChange={(value) => this.handleChange(!this.state.is_display, 'is_display')}
+                                >
+                                    Is display product (Return to warehouse)
+                                </Checkbox>
+                            </FieldContainer> 
+                        )}
                         {product && (
                             <FieldContainer>
                                 <FieldLabel>Units</FieldLabel>
@@ -160,6 +174,7 @@ export default class AddNewRequisitionOrder extends React.Component {
                                 <FieldLabel>Price</FieldLabel>
                                 <InputGroup>
                                     <InputNumber 
+                                        disabled={is_display}
                                         defaultValue={product.base_price} 
                                         value={base_price || product.base_price}
                                         onChange={(value) => this.handleChange(value, 'base_price')}

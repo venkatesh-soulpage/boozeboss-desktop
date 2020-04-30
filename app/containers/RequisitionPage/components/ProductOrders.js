@@ -39,9 +39,12 @@ const StyledAction = styled.p`
     }
 `
 
-const ProductHeader = (<FieldRow>
+const ProductHeader = (props) => (<FieldRow>
     <FieldHeaderLabel>
         Product Name
+    </FieldHeaderLabel>
+    <FieldHeaderLabel>
+        Display
     </FieldHeaderLabel>
     <FieldHeaderLabel>
         Units
@@ -52,9 +55,12 @@ const ProductHeader = (<FieldRow>
     <FieldHeaderLabel>
         Total Amount
     </FieldHeaderLabel>
-    <FieldHeaderLabel>
-        Actions
-    </FieldHeaderLabel>
+    {props.requisitions[props.currentRequisition].status === 'DRAFT' && (
+        <FieldHeaderLabel>
+            Actions
+        </FieldHeaderLabel>
+    )}
+    
 </FieldRow>)
 
 class DeleteVenueModal extends React.Component {
@@ -104,11 +110,14 @@ class DeleteVenueModal extends React.Component {
 
 class ProductOrder extends Component {
     render () {
-        const {order} = this.props;
+        const {order, requisitions, currentRequisition} = this.props;
         return (
             <FieldRow>
                 <FieldLabel>
                     {order.product.name}
+                </FieldLabel>
+                <FieldLabel>
+                    {order.is_display ? 'Yes' : 'No'}
                 </FieldLabel>
                 <FieldLabel>
                     {order.units}
@@ -119,9 +128,12 @@ class ProductOrder extends Component {
                 <FieldLabel>
                     {order.units * order.product.metric_amount}{order.product.metric}
                 </FieldLabel>
-                <FieldLabel>
-                    <DeleteVenueModal {...this.props}/>
-                </FieldLabel>
+                {requisitions[currentRequisition].status === 'DRAFT' && (
+                    <FieldLabel>
+                        <DeleteVenueModal {...this.props}/>
+                    </FieldLabel>
+                )}
+                
             </FieldRow>
         )
     }
@@ -156,7 +168,7 @@ export default class ProductOrders extends React.Component {
         if (!event_orders || event_orders.length < 1) return <FieldRow><FieldLabel>No products assigned</FieldLabel></FieldRow>
     
         const orders_array = event_orders.map(order => <ProductOrder order={order} {...this.props} closeParent={this.close}/>);
-        return [ProductHeader, ...orders_array];
+        return [<ProductHeader {...this.props}/>, ...orders_array];
     }
 
     render() {

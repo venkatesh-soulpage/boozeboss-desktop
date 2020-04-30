@@ -4,7 +4,7 @@
  *
  */
 
-import { GET_REQUISITIONS_REQUEST, GET_REQUISITIONS_SUCCESS, GET_REQUISITIONS_ERROR, GET_CLIENT_PRODUCTS_SUCCESS, GET_CLIENT_PRODUCTS_REQUEST, GET_CLIENT_PRODUCTS_ERROR, CREATE_REQUISITION_ORDER_SUCCESS, CREATE_REQUISITION_ORDER_ERROR, CREATE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, DELETE_REQUISITION_ORDER_ERROR } from './constants';
+import { GET_REQUISITIONS_REQUEST, GET_REQUISITIONS_SUCCESS, GET_REQUISITIONS_ERROR, GET_CLIENT_PRODUCTS_SUCCESS, GET_CLIENT_PRODUCTS_REQUEST, GET_CLIENT_PRODUCTS_ERROR, CREATE_REQUISITION_ORDER_SUCCESS, CREATE_REQUISITION_ORDER_ERROR, CREATE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, DELETE_REQUISITION_ORDER_ERROR, UPDATE_REQUISITION_ORDER_REQUEST, UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, UPDATE_REQUISITION_STATUS_ERROR } from './constants';
 
 export function getRequisitions() {
   return {
@@ -70,6 +70,29 @@ export function createRequisitionOrderError(error) {
   };
 }
 
+// Update requisition status
+export function updateRequisitionStatus(requisition_id, status) {
+  return {
+    type: UPDATE_REQUISITION_STATUS_REQUEST,
+    requisition_id,
+    status
+  };
+}
+
+export function updateRequisitionStatusSuccess(success) {
+  return {
+    type: UPDATE_REQUISITION_STATUS_SUCCESS,
+    success
+  };
+}
+
+export function updateRequisitionStatusError(error) {
+  return {
+    type: UPDATE_REQUISITION_STATUS_ERROR,
+    error
+  };
+}
+
 // Delete requisition orders
 export function deleteRequisitionOrder(requisition_id, requisition_order_id) {
   return {
@@ -80,6 +103,7 @@ export function deleteRequisitionOrder(requisition_id, requisition_order_id) {
 }
 
 export function deleteRequisitionOrderSuccess(success) {
+  console.log('Success!', success);
   return {
     type: DELETE_REQUISITION_ORDER_SUCCESS,
     success

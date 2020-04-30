@@ -23,7 +23,7 @@ const FieldLabelAction = styled.div`
 
 export default class RequisitionEvent extends Component {
     render() {
-        const {event} = this.props;
+        const {event, requisitions, currentRequisition} = this.props;
         return (
             <div>
                 <FieldRow>
@@ -43,7 +43,9 @@ export default class RequisitionEvent extends Component {
                         {event.expected_guests}
                     </FieldLabel>
                     <FieldLabelAction>
-                        <AddNewRequisitionOrder {...this.props}/>
+                        {requisitions[currentRequisition].status === 'DRAFT' && (
+                            <AddNewRequisitionOrder {...this.props}/>
+                        )}
                         <ProductOrders {...this.props}/>
                     </FieldLabelAction>
                 </FieldRow>
