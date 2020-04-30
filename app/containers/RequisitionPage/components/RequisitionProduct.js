@@ -29,9 +29,20 @@ export default class RequisitionProduct extends Component {
         const requisition = requisitions[currentRequisition];
         const {orders} = requisition;
 
+        // Calculate the bottles
         const currentUnits = orders.reduce((acc, curr) => {
+
+            const ingredient_ids = curr.product.ingredients.map(ing => ing.product_id);
+
             if ( brief_product.product_id === curr.product_id ) {
+                // If its bottle of vodka just add the bottles 
                 return Number(acc) + Number(curr.units);
+            } else if ( ingredient_ids.indexOf(brief_product.product_id) > -1 ){
+                // Calculate bottles from units
+                const ingredient = curr.product.ingredients.find(ing => ing.product_id === brief_product.product_id );
+                const totalml = ingredient.quantity * curr.units;
+                const totalUnits = Math.round(totalml / brief_product.product.metric_amount); 
+                return acc + totalUnits;
             } else {
                 return acc;
             }
@@ -47,10 +58,20 @@ export default class RequisitionProduct extends Component {
         const {requisitions, currentRequisition, brief_product} = this.props;
         const requisition = requisitions[currentRequisition];
         const {orders} = requisition;
+        
 
         const currentUnits = orders.reduce((acc, curr) => {
+
+            const ingredient_ids = curr.product.ingredients.map(ing => ing.product_id);
+
             if ( brief_product.product_id === curr.product_id ) {
                 return Number(acc) + Number(curr.units);
+            } else if ( ingredient_ids.indexOf(brief_product.product_id) > -1 ){
+                // Calculate bottles from units
+                const ingredient = curr.product.ingredients.find(ing => ing.product_id === brief_product.product_id );
+                const totalml = ingredient.quantity * curr.units;
+                const totalUnits = Math.round(totalml / brief_product.product.metric_amount); 
+                return acc + totalUnits;
             } else {
                 return acc;
             }

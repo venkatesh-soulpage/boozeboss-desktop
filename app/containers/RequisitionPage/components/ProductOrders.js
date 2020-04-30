@@ -19,7 +19,7 @@ const FieldContainer = styled.div`
 
 const FieldLabel = styled.p`
     display: flex;
-    align-items: center;
+    text-align: center;
     justify-content: center;
     flex: 1;
 `;
