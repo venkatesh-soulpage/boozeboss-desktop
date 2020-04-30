@@ -14,11 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectRequisition, { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts } from './selectors';
+import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder } from './actions';
 import { RequisitionsContainer } from './components'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -59,6 +59,7 @@ function mapDispatchToProps(dispatch) {
     getRequisitions: () => dispatch(getRequisitions()),
     getClientProducts: (client_id) => dispatch(getClientProducts(client_id)),
     createRequisitionOrder: (requisition_id, order) => dispatch(createRequisitionOrder(requisition_id, order)),
+    deleteRequisitionOrder: (requisition_id, requisition_order_id) => dispatch(deleteRequisitionOrder(requisition_id, requisition_order_id)),
   };
 }
 

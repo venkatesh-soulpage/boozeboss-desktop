@@ -63,7 +63,7 @@ export default class RequisitionInfo extends Component {
                                     <FieldLabel>Products</FieldLabel>
                                     {requisitions[currentRequisition].brief && 
                                         requisitions[currentRequisition].brief.products &&
-                                        requisitions[currentRequisition].brief.products.map(p => <RequisitionProduct {...this.props} brief_product={p}/>)}
+                                        requisitions[currentRequisition].brief.products.map(p => <RequisitionProduct {...this.props} brief_product={p} requisition={requisitions[currentRequisition]}/>)}
                                 </FieldContainer>
                                 <FieldContainer>
                                     <FieldLabel>Events</FieldLabel>

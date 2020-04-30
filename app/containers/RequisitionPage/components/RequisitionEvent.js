@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button, Divider } from 'rsuite';
 import moment from 'moment';
 import AddNewRequisitionOrder from './AddNewRequisitionOrder';
+import ProductOrders from './ProductOrders';
 
 const FieldRow = styled.div`
     display: flex;
@@ -43,7 +44,7 @@ export default class RequisitionEvent extends Component {
                     </FieldLabel>
                     <FieldLabelAction>
                         <AddNewRequisitionOrder {...this.props}/>
-                        <a>Show Products</a>
+                        <ProductOrders {...this.props}/>
                     </FieldLabelAction>
                 </FieldRow>
                 <Divider />

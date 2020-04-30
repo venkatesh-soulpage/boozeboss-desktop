@@ -5,7 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { GET_REQUISITIONS_REQUEST, GET_REQUISITIONS_SUCCESS, GET_REQUISITIONS_ERROR, GET_CLIENT_PRODUCTS_REQUEST, GET_CLIENT_PRODUCTS_SUCCESS, GET_CLIENT_PRODUCTS_ERROR, CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, CREATE_REQUISITION_ORDER_ERROR } from './constants';
+import { GET_REQUISITIONS_REQUEST, GET_REQUISITIONS_SUCCESS, GET_REQUISITIONS_ERROR, GET_CLIENT_PRODUCTS_REQUEST, GET_CLIENT_PRODUCTS_SUCCESS, GET_CLIENT_PRODUCTS_ERROR, CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, CREATE_REQUISITION_ORDER_ERROR, DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, DELETE_REQUISITION_ORDER_ERROR } from './constants';
 
 export const initialState = fromJS({
   requisitions: null,
@@ -37,6 +37,13 @@ function requisitionReducer(state = initialState, action) {
       return state
           .set('success', action.success);
     case CREATE_REQUISITION_ORDER_ERROR:
+      return state.set('error', action.error)
+    case DELETE_REQUISITION_ORDER_REQUEST:
+      return state;
+    case DELETE_REQUISITION_ORDER_SUCCESS:
+      return state
+          .set('success', action.success);
+    case DELETE_REQUISITION_ORDER_ERROR:
       return state.set('error', action.error)
     default:
       return state;
