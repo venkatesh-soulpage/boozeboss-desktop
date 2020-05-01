@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
 import { Uploader, IconButton, Icon } from 'rsuite';
 import styled from 'styled-components';
+import RoleValidator from 'components/RoleValidator'
 
 const AttachmentRow = styled.div`
     display: flex;
-    margin: -0.5em 0 0 0;
+    ${props => props.hasMargin && 'margin: -0.5em 0 0 0;'}
     flex-direction: row;
     justify-items: space-between;
     align-items: center;
 `
+
+const UploaderValidator = styled(Uploader)`
+    .rs-uploader-trigger {
+        visibility: ${props => props.has_scope ? 'visible' : 'hidden'};
+    }
+`
+
 
 export default class BriefAttachmentUploader extends Component {
 
@@ -40,18 +48,26 @@ export default class BriefAttachmentUploader extends Component {
 
     
     render() {
-        const {brief} = this.props;
+        const {brief, scope} = this.props;
         return (
-            <Uploader 
+            <UploaderValidator 
+                has_scope={['BRAND'].indexOf(scope) > -1}
                 fileList={brief.attachments}
                 autoUpload={false}
                 onChange={this.handleUploadChange}
                 removable={false}
                 renderFileInfo={(file, fileElement) => {
                     return (
-                      <AttachmentRow>
+                      <AttachmentRow hasMargin={scope === 'BRAND'}>
                         <span><a href={file.url} target="_blank">{file.file_name} ({file.file_type})</a> </span>
-                        <IconButton style={{margin: '0 1em 0 1em'}} icon={<Icon icon="close"/>} onClick={() => this.handleRemove(file.brief_id, file.id)}/>
+                        <RoleValidator
+                            {...this.props}
+                            scopes={['BRAND']}
+                            roles={['OWNER', 'MANAGER']}
+                        >
+                            <IconButton style={{margin: '0 1em 0 1em'}} icon={<Icon icon="close"/>} onClick={() => this.handleRemove(file.brief_id, file.id)}/>
+                        </RoleValidator>
+                        
                       </AttachmentRow>
                     );
                   }}

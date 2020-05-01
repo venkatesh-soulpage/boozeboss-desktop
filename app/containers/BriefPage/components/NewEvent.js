@@ -36,7 +36,7 @@ export default class NewEvent extends React.Component {
         hourly_expected_guests: null,
         drinks_enabled: false,
         recee_required: false,
-        recee_time: false,
+        recee_time: null,
         cocktails_enabled: false,
         cocktails_per_guest: null,
         free_drinks_enabled: false,

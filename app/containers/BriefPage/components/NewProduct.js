@@ -18,6 +18,11 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
+const StocksLabel = styled.p`
+    margin: 0.5em 0 0.5em 0;
+`;
+
+
 const StyledButton = styled(Button)`
     margin: 1em 0 1em 0;
 `
@@ -29,12 +34,13 @@ export default class NewProduct extends React.Component {
         show: false,
         productsData: null,
         product_id: null,
-        limit: 0
+        limit: 0,
+        maxStocks: 0,
       };
     }
 
     close = () => {
-      this.setState({ show: false });
+      this.setState({ show: false, product_id: null, limit: 0, maxStocks: 0 });
     }
 
     open = () => {
@@ -44,6 +50,25 @@ export default class NewProduct extends React.Component {
 
     handleChange = (value, name) => {
         this.setState({[name]: value});
+    }
+
+    handleProductChange = (value, name) => {
+        this.setState({[name]: value});
+        this.calculateMaxStocks(value);
+    }
+
+    calculateMaxStocks = (product_id) => {
+        const {products} = this.props;
+        const product = products.find(prod => prod.id === product_id);
+
+
+        const {stocks} = product;
+
+        const maxStocks = stocks.reduce((acc, curr) => {
+            return Number(acc) + curr.quantity;
+        }, 0)
+
+        this.setState({maxStocks});
     }
 
     getPickerData = ()  => {
@@ -74,7 +99,7 @@ export default class NewProduct extends React.Component {
     }
 
     render() {
-        const {show, productsData, limit} = this.state;
+        const {show, productsData, limit, product_id, maxStocks} = this.state;
         return (
             <React.Fragment>
                 <StyledButton onClick={this.open} color="green">+ Add Product </StyledButton>
@@ -90,19 +115,23 @@ export default class NewProduct extends React.Component {
                             <SelectPicker 
                                 searchable={false}
                                 data={productsData}
-                                onChange={(value) => this.handleChange(value, 'product_id')}
+                                onChange={(value) => this.handleProductChange(value, 'product_id')}
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Limit</FieldLabel>
+                            <FieldLabel>Limit</FieldLabel> 
+                            {product_id && maxStocks > 0 && <StocksLabel>Stock Available: {maxStocks} units</StocksLabel>}
+                            {product_id && maxStocks < 1 && <StocksLabel>No stock available</StocksLabel>}
                             <InputNumber 
+                                min={0}
+                                max={maxStocks}
                                 onChange={(value) => this.handleChange(value, 'limit')}
                                 value={limit}
                             /> 
                         </FieldContainer>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={this.addProduct} color="green">
+                    <Button onClick={this.addProduct} color="green" disabled={limit > maxStocks}>
                         Add Product
                     </Button>
                     <Button onClick={this.close} appearance="subtle">

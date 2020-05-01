@@ -26,7 +26,7 @@ const AddSection = styled.div`
   flex-direction: column;
   position: sticky;
   top: 0;
-  margin: 0 0.5em 0.5em;
+  margin: 1em 0.5em 0.5em;
   z-index: 99;
 `;
 

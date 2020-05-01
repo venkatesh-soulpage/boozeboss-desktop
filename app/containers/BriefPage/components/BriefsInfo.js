@@ -274,6 +274,7 @@ export default class BriefsInfo extends Component {
                                         {briefs[currentBrief].status === 'DRAFT' && (
                                             <NewProduct 
                                                 {...this.props}
+                                                brief={briefs[currentBrief]}
                                             />
                                         )}
                                     </FieldContainer>
