@@ -6,6 +6,9 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import RequisitionEvent from './RequisitionEvent';
 import RequisitionProduct from './RequisitionProduct';
 import ConfirmSubmit from './ConfirmSubmit';
+import ApproveRequisitionConfirm from './ApproveRequisitionConfirm';
+import RoleValidator from 'components/RoleValidator';
+import DeliverRequisitionOrders from './DeliverRequisitionOrders';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -67,6 +70,25 @@ export default class RequisitionInfo extends Component {
                                         {requisitions[currentRequisition].status === 'DRAFT' && (
                                             <ConfirmSubmit {...this.props}/>
                                         )}
+                                        {requisitions[currentRequisition].status === 'SUBMITTED' && (
+                                            <RoleValidator 
+                                                {...this.props}
+                                                scopes={['BRAND']}
+                                                roles={['OWNER', 'MANAGER']}
+                                            >
+                                                <ApproveRequisitionConfirm {...this.props}/>
+                                            </RoleValidator>
+                                        )}
+                                        {requisitions[currentRequisition].status === 'APPROVED' && (
+                                            <RoleValidator 
+                                                {...this.props}
+                                                scopes={['BRAND']}
+                                                roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                            >
+                                                <DeliverRequisitionOrders {...this.props}/>
+                                            </RoleValidator>
+                                        )}
+                                        
                                     </FieldContainer>
                                 </FieldRow>
                                 <FieldContainer>

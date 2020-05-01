@@ -40,6 +40,7 @@ export default class InventoryTable extends Component {
                     warehouses[currentWarehouse].stocks.length > 0 ? (
                     <Table
                         data={warehouses[currentWarehouse].stocks}
+                        autoHeight
                     >
                         <Column resizable width={150}>
                             <HeaderCell>

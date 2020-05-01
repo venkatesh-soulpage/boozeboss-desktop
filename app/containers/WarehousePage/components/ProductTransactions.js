@@ -52,7 +52,7 @@ export default class ProductTransactions extends React.Component {
             <React.Fragment>
                 <a onClick={this.open} color="green">Show transactions</a>
         
-                <Modal show={show} onHide={this.close}>
+                <Modal show={show} onHide={this.close} size="md">
                     <Modal.Header>
                         <Modal.Title>{`${product.name} - ${product.metric_amount}${product.metric} (${quantity} left on stock)`}</Modal.Title>
                     </Modal.Header>
@@ -76,6 +76,14 @@ export default class ProductTransactions extends React.Component {
                                     </HeaderCell>
                                     <Cell dataKey="action">
                                         {rowData => rowData.action}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Requisition
+                                    </HeaderCell>
+                                    <Cell dataKey="action">
+                                        {rowData => rowData.requisition_id || '-'}
                                     </Cell>
                                 </Column>
                                 <Column flexGrow>

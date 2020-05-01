@@ -9,7 +9,7 @@ import {
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS 
 } from './constants'
 
 import { 
@@ -17,7 +17,7 @@ import {
   getClientProductsSuccess, getClientProductsError, 
   createRequisitionOrderSuccess, createRequisitionOrderError, 
   deleteRequisitionOrderSuccess, deleteRequisitionOrderError, 
-  updateRequisitionStatusSuccess, updateRequisitionStatusError 
+  updateRequisitionStatusSuccess, updateRequisitionStatusError, getWarehousesSuccess, getWarehousesError, updateRequisitionOrdersSuccess, updateRequisitionOrdersError 
 } from './actions'
 
 function* getRequisitionsSaga() {
@@ -32,6 +32,21 @@ function* getRequisitionsSaga() {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(getRequisitionsError(jsonError));
+  }
+}
+
+function* getWarehousesSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/warehouses`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getWarehousesSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getWarehousesError(jsonError));
   }
 }
 
@@ -102,8 +117,30 @@ function* updateRequisitionStatusSaga(params) {
   }
 }
 
+function* updateRequisitionOrdersSaga(params) {
+  const {requisition_id, orders, waybill} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/deliver-orders`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({orders, waybill})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateRequisitionOrdersSuccess(response));
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateRequisitionOrdersError(jsonError));
+  }
+}
+
 function* getRequisitionsRequest() {
   yield takeLatest(GET_REQUISITIONS_REQUEST, getRequisitionsSaga);
+}
+
+function* getWarehousesRequest() {
+  yield takeLatest(GET_WAREHOUSES_REQUEST, getWarehousesSaga);
 }
 
 function* getClientProductsRequest() {
@@ -122,6 +159,10 @@ function* updateRequisitionStatusRequest() {
   yield takeLatest(UPDATE_REQUISITION_STATUS_REQUEST, updateRequisitionStatusSaga);
 }
 
+function* updateRequisitionOrdersRequest() {
+  yield takeLatest(UPDATE_REQUISITION_ORDERS_REQUEST, updateRequisitionOrdersSaga);
+}
+
 // Reactive Saga
 function* createRequisitionOrderSuccessRequest() {
   yield takeLatest(CREATE_REQUISITION_ORDER_SUCCESS, getRequisitionsSaga);
@@ -135,16 +176,23 @@ function* updateRequisitionStatusSuccessRequest() {
   yield takeLatest(UPDATE_REQUISITION_STATUS_SUCCESS, getRequisitionsSaga);
 }
 
+function* updateRequisitionOrdersSuccessRequest() {
+  yield takeLatest(UPDATE_REQUISITION_ORDERS_SUCCESS, getRequisitionsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getRequisitionsRequest),
     fork(getClientProductsRequest),
+    fork(getWarehousesRequest),
     fork(createRequisitionOrderRequest),
     fork(deleteRequisitionOrderRequest),
     fork(updateRequisitionStatusRequest),
+    fork(updateRequisitionOrdersRequest),
     // Reactive
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),
     fork(updateRequisitionStatusSuccessRequest),
+    fork(updateRequisitionOrdersSuccessRequest),
   ]);
 }

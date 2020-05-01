@@ -12,6 +12,11 @@ const makeSelectProducts = () =>
     requisitionsState.get('products'),
   );
 
+const makeSelectWarehouses = () =>
+  createSelector(selectRequisitions, requisitionsState =>
+    requisitionsState.get('warehouses'),
+  );
+
   
 const makeSelectError = () =>
   createSelector(selectRequisitions, requisitionsState =>
@@ -31,6 +36,7 @@ const makeSelectIsLoadingProducts = () =>
 export { 
   makeSelectRequisitions,
   makeSelectProducts,
+  makeSelectWarehouses,
   makeSelectIsLoadingProducts,
   makeSelectError,
   makeSelectSuccess

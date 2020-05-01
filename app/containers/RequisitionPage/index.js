@@ -14,11 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts } from './selectors';
+import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts, makeSelectWarehouses } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
@@ -26,8 +26,12 @@ import { RequisitionsContainer } from './components'
 export class Requisition extends React.Component {
 
   componentDidMount = () => {
-    const {getRequisitions} = this.props;
+    const {getRequisitions, getWarehouses, scope} = this.props;
     getRequisitions();
+
+    if (scope === 'BRAND') {
+      getWarehouses();
+    }
   }
 
 
@@ -51,6 +55,7 @@ Requisition.propTypes = {
 const mapStateToProps = createStructuredSelector({
   requisitions: makeSelectRequisitions(),
   products: makeSelectProducts(),
+  warehouses: makeSelectWarehouses(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
   scope: makeSelectScope(),
@@ -60,10 +65,12 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getRequisitions: () => dispatch(getRequisitions()),
+    getWarehouses: () => dispatch(getWarehouses()),
     getClientProducts: (client_id) => dispatch(getClientProducts(client_id)),
     createRequisitionOrder: (requisition_id, order) => dispatch(createRequisitionOrder(requisition_id, order)),
     deleteRequisitionOrder: (requisition_id, requisition_order_id) => dispatch(deleteRequisitionOrder(requisition_id, requisition_order_id)),
     updateRequisitionStatus: (requisition_id, status) => dispatch(updateRequisitionStatus(requisition_id, status)),
+    updateRequisitionOrders: (requisition_id, orders, waybill) => dispatch(updateRequisitionOrders(requisition_id, orders, waybill)),
   };
 }
 
