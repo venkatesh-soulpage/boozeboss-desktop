@@ -9,6 +9,7 @@ import RoleValidator from 'components/RoleValidator'
 import NewProduct from './NewProduct';
 import DeleteProductModal from './DeleteProductModal';
 import CreateRequisitionConfirm from './CreateRequisitionConfirm';
+import BriefAttachmentUploader from './BriefAttachmentUploader';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -210,6 +211,13 @@ export default class BriefsInfo extends Component {
                                     <FieldContainer>
                                         <FieldLabel>Description</FieldLabel>
                                         <p>{briefs[currentBrief].description}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <FieldLabel>Attachments</FieldLabel>
+                                        <BriefAttachmentUploader
+                                            {...this.props}
+                                            brief={briefs[currentBrief]}
+                                        />
                                     </FieldContainer>
                                     <FieldContainer>
                                         <FieldLabel>Products Available</FieldLabel>

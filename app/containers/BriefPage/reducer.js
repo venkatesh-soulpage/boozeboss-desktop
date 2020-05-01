@@ -39,7 +39,13 @@ import {
   DELETE_BRIEF_PRODUCT_ERROR,
   CREATE_REQUISITION_REQUEST,
   CREATE_REQUISITION_SUCCESS,
-  CREATE_REQUISITION_ERROR
+  CREATE_REQUISITION_ERROR,
+  UPLOAD_BRIEF_ATTACHMENT_REQUEST,
+  UPLOAD_BRIEF_ATTACHMENT_SUCCESS,
+  UPLOAD_BRIEF_ATTACHMENT_ERROR,
+  DELETE_BRIEF_ATTACHMENT_REQUEST,
+  DELETE_BRIEF_ATTACHMENT_SUCCESS,
+  DELETE_BRIEF_ATTACHMENT_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -128,6 +134,26 @@ function briefPageReducer(state = initialState, action) {
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
     case CREATE_REQUISITION_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+    case UPLOAD_BRIEF_ATTACHMENT_REQUEST:
+      return state.set('isLoading', true);
+    case UPLOAD_BRIEF_ATTACHMENT_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false);
+    case UPLOAD_BRIEF_ATTACHMENT_ERROR:
+      return state
+        .set('error', action.error)
+        .set('isLoading', false);
+    case DELETE_BRIEF_ATTACHMENT_REQUEST:
+      return state.set('isLoading', true);
+    case DELETE_BRIEF_ATTACHMENT_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false);
+    case DELETE_BRIEF_ATTACHMENT_ERROR:
+      return state
+        .set('error', action.error)
+        .set('isLoading', false);
     case DISMISS:
       return state.set(action.dismiss_type, null);
     default:

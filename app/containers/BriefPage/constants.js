@@ -73,4 +73,16 @@ export const CREATE_REQUISITION_SUCCESS =
   'boozeboss/BriefsContainer/CREATE_REQUISITION_SUCCESS';
 export const CREATE_REQUISITION_ERROR = 'boozeboss/BriefsContainer/CREATE_REQUISITION_ERROR';
 
+export const UPLOAD_BRIEF_ATTACHMENT_REQUEST =
+  'boozeboss/BriefsContainer/UPLOAD_BRIEF_ATTACHMENT_REQUEST';
+export const UPLOAD_BRIEF_ATTACHMENT_SUCCESS =
+  'boozeboss/BriefsContainer/UPLOAD_BRIEF_ATTACHMENT_SUCCESS';
+export const UPLOAD_BRIEF_ATTACHMENT_ERROR = 'boozeboss/BriefsContainer/UPLOAD_BRIEF_ATTACHMENT_ERROR';
+
+export const DELETE_BRIEF_ATTACHMENT_REQUEST =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_ATTACHMENT_REQUEST';
+export const DELETE_BRIEF_ATTACHMENT_SUCCESS =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_ATTACHMENT_SUCCESS';
+export const DELETE_BRIEF_ATTACHMENT_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_ATTACHMENT_ERROR';
+
 export const DISMISS = 'boozeboss/BriefsContainer/DISMISS';

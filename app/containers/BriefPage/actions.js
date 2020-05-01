@@ -31,7 +31,13 @@ import {
   DELETE_BRIEF_PRODUCT_ERROR,
   CREATE_REQUISITION_REQUEST,
   CREATE_REQUISITION_SUCCESS,
-  CREATE_REQUISITION_ERROR, 
+  CREATE_REQUISITION_ERROR,
+  UPLOAD_BRIEF_ATTACHMENT_REQUEST,
+  UPLOAD_BRIEF_ATTACHMENT_SUCCESS,
+  UPLOAD_BRIEF_ATTACHMENT_ERROR,
+  DELETE_BRIEF_ATTACHMENT_REQUEST,
+  DELETE_BRIEF_ATTACHMENT_SUCCESS,
+  DELETE_BRIEF_ATTACHMENT_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -284,6 +290,52 @@ export function getAgenciesSuccess(agencies) {
 export function getAgenciesError(error) {
   return {
     type: GET_AGENCIES_ERROR,
+    error
+  };
+}
+
+// Upload attachment
+export function uploadBriefAttachment(brief_id, file) {
+  return {
+    type: UPLOAD_BRIEF_ATTACHMENT_REQUEST,
+    brief_id,
+    file
+  };
+}
+
+export function uploadBriefAttachmentSuccess(success) {
+  return {
+    type: UPLOAD_BRIEF_ATTACHMENT_SUCCESS,
+    success
+  };
+}
+
+export function uploadBriefAttachmentError(error) {
+  return {
+    type: UPLOAD_BRIEF_ATTACHMENT_ERROR,
+    error
+  };
+}
+
+// Delete attachment
+export function deleteBriefAttachment(brief_id, brief_attachment_id) {
+  return {
+    type: DELETE_BRIEF_ATTACHMENT_REQUEST,
+    brief_id,
+    brief_attachment_id
+  };
+}
+
+export function deleteBriefAttachmentSuccess(success) {
+  return {
+    type: DELETE_BRIEF_ATTACHMENT_SUCCESS,
+    success
+  };
+}
+
+export function deleteBriefAttachmentError(error) {
+  return {
+    type: DELETE_BRIEF_ATTACHMENT_ERROR,
     error
   };
 }
