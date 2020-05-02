@@ -34,8 +34,8 @@ const metricOptions = [
         value: 'kg',
     },
     {
-        label: 'Milligram (mg)',
-        value: 'mg',
+        label: 'Gram (g)',
+        value: 'g',
     },
     
 ]
