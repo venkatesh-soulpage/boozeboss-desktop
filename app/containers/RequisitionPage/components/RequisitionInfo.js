@@ -91,6 +91,10 @@ export default class RequisitionInfo extends Component {
                                         
                                     </FieldContainer>
                                 </FieldRow>
+                                <FieldLContainer>
+                                    <FieldLabel>Waybill</FieldLabel>
+                                    <p>{requisitions[currentRequisition].waybill || 'N/A'}</p>
+                                </FieldLContainer>
                                 <FieldContainer>
                                     <FieldLabel>Products</FieldLabel>
                                     {requisitions[currentRequisition].brief && 
