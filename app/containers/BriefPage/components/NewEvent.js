@@ -49,6 +49,7 @@ export default class NewEvent extends React.Component {
 
     close = () => {
       this.setState({ show: false });
+      this.reset();
     }
 
     open = () => {
@@ -72,7 +73,20 @@ export default class NewEvent extends React.Component {
         } else {
             this.setState({[name]: value});
         }
-        
+    }
+
+    // Handle recee time so it is done before the event date
+    handleReceeChange = (value, name) => {
+        const {start_time} = this.state;
+
+        if (value.getTime() >= start_time.getTime()) {
+            this.setState({recee_time: null});
+            return alert('Recee date should be before the event Start time');
+        } else {
+            this.handleChange(value, name);
+        }
+
+       
     }
 
     getPickerData = ()  => {
@@ -141,9 +155,30 @@ export default class NewEvent extends React.Component {
         });
     }
 
+    reset = () => {
+        this.setState({
+            name: null,
+            setup_time: null,
+            start_time: null,
+            end_time: null,
+            expected_guests: null,
+            hourly_expected_guests: null,
+            drinks_enabled: false,
+            recee_required: false,
+            recee_time: null,
+            cocktails_enabled: false,
+            cocktails_per_guest: null,
+            free_drinks_enabled: false,
+            free_drinks_per_guest: null,
+            comments: null,
+            cash_collected_by: null,
+            venue_id: null,
+        })
+    }
+
     render() {
         const {agency} = this.props;
-        const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
+        const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, recee_time, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
         return (
             <React.Fragment>
                 <StyledButton  onClick={this.open} color="green">+ New Event</StyledButton>
@@ -266,11 +301,12 @@ export default class NewEvent extends React.Component {
                                 </FieldRow>
                             </FieldContainer>
                         </FieldRow> 
-                        { recee_required && (
+                        { recee_required && start_time && (
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Recee Time</FieldLabel>
                                     <DatePicker
+                                        value={recee_time}
                                         format="YYYY-MM-DD HH:mm:ss"
                                         ranges={[
                                         {
@@ -278,7 +314,7 @@ export default class NewEvent extends React.Component {
                                             value: new Date()
                                         }
                                         ]}
-                                        onChange={(value) => this.handleChange(value, 'recee_time')}
+                                        onOk={(value) => this.handleReceeChange(value, 'recee_time')}
                                     />
                                 </FieldContainer>
                             </FieldRow> 
