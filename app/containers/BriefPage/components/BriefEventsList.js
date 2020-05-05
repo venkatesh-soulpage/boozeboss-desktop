@@ -61,11 +61,11 @@ class BriefCard extends Component {
                     </FieldContainer>
                     <FieldContainer>
                         <FieldLabel>Start Time</FieldLabel>
-                        <p>{moment(event.setup_time).format('DD/MM/YYYY LT')}</p>
+                        <p>{moment(event.start_time).format('DD/MM/YYYY LT')}</p>
                     </FieldContainer>
                     <FieldContainer>
                         <FieldLabel>End Time</FieldLabel>
-                        <p>{moment(event.setup_time).format('DD/MM/YYYY LT')}</p>
+                        <p>{moment(event.end_time).format('DD/MM/YYYY LT')}</p>
                     </FieldContainer>
                 </FieldsRow>
                 <FieldsRow>

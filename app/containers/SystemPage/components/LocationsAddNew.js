@@ -39,6 +39,14 @@ export default class LocationsAddNew extends React.Component {
       };
     }
 
+    componentDidMount = () => {
+        const {showLocationModal} = this.props.location;
+
+        if (showLocationModal) {
+            this.open();
+        }
+    }
+
     close = () => {
       this.setState({ show: false });
     }

@@ -12,6 +12,12 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
 export default class ClientAddLocation extends React.Component {
     constructor(props) {
       super(props);
@@ -64,6 +70,14 @@ export default class ClientAddLocation extends React.Component {
         this.close();
     }
 
+    goToRoute = (pathname) => {
+        this.props.history.push({
+            pathname,
+            showLocationModal: true,
+        });
+    }
+
+
     render() {
         const {show, countries} = this.state;
         return (
@@ -73,7 +87,10 @@ export default class ClientAddLocation extends React.Component {
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
-                            <FieldLabel>Location</FieldLabel>
+                            <FieldRow>
+                                <FieldLabel>Location</FieldLabel>
+                                <a onClick={() => this.goToRoute('/system')}>+ Add new location</a>
+                            </FieldRow>
                             <SelectPicker 
                                 searchable={false}
                                 data={countries}
