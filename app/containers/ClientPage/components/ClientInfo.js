@@ -13,6 +13,7 @@ import CreateBrandModal from './CreateBrandModal';
 import ClientWarehouseTable from './ClientWarehouseTable';
 import CreateWarehouseModal from './CreateWarehouseModal';
 import ClientAddLocation from './ClientAddLocation';
+import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -277,10 +278,16 @@ export default class ClientInfo extends Component {
                                         ) : (
                                             <p>No locations defined</p>
                                         )}
-                                    <ClientAddLocation 
+                                    <RoleValidator
                                         {...this.props}
-                                        client={clients[currentClient]}
-                                    />
+                                        scopes={['ADMIN']}
+                                        roles={['ADMIN']}
+                                    >
+                                        <ClientAddLocation 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                        />
+                                    </RoleValidator>
                                 </FieldContainer>
                                 <FieldsRow>
                                     <FieldContainer>

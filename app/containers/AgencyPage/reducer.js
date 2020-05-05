@@ -26,6 +26,7 @@ export const initialState = fromJS({
   agencies: null,
   roles: null,
   isLoading: false,
+  success: null,
   error: null,
 });
 

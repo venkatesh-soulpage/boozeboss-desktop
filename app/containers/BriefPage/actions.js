@@ -37,7 +37,13 @@ import {
   UPLOAD_BRIEF_ATTACHMENT_ERROR,
   DELETE_BRIEF_ATTACHMENT_REQUEST,
   DELETE_BRIEF_ATTACHMENT_SUCCESS,
-  DELETE_BRIEF_ATTACHMENT_ERROR, 
+  DELETE_BRIEF_ATTACHMENT_ERROR,
+  UPDATE_BRIEF_EVENT_REQUEST,
+  UPDATE_BRIEF_EVENT_SUCCESS,
+  UPDATE_BRIEF_EVENT_ERROR,
+  DELETE_BRIEF_EVENT_REQUEST,
+  DELETE_BRIEF_EVENT_SUCCESS,
+  DELETE_BRIEF_EVENT_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -159,7 +165,7 @@ export function getProductsError(error) {
   };
 }
 
-// CREATE Brief
+// CREATE Brief Event
 export function createBriefEvent(brief_id, briefEvent) {
   return {
     type: CREATE_BRIEF_EVENT_REQUEST,
@@ -178,6 +184,53 @@ export function createBriefEventSuccess(success) {
 export function createBriefEventError(error) {
   return {
     type: CREATE_BRIEF_EVENT_ERROR,
+    error
+  };
+}
+
+// Update Brief event
+export function updateBriefEvent(brief_id, brief_event_id, briefEvent) {
+  return {
+    type: UPDATE_BRIEF_EVENT_REQUEST,
+    brief_id,
+    brief_event_id,
+    briefEvent
+  };
+}
+
+export function updateBriefEventSuccess(success) {
+  return {
+    type: UPDATE_BRIEF_EVENT_SUCCESS,
+    success
+  };
+}
+
+export function updateBriefEventError(error) {
+  return {
+    type: UPDATE_BRIEF_EVENT_ERROR,
+    error
+  };
+}
+
+// Delete Brief event
+export function deleteBriefEvent(brief_id, brief_event_id) {
+  return {
+    type: DELETE_BRIEF_EVENT_REQUEST,
+    brief_id,
+    brief_event_id,
+  };
+}
+
+export function deleteBriefEventSuccess(success) {
+  return {
+    type: DELETE_BRIEF_EVENT_SUCCESS,
+    success
+  };
+}
+
+export function deleteBriefEventError(error) {
+  return {
+    type: DELETE_BRIEF_EVENT_ERROR,
     error
   };
 }

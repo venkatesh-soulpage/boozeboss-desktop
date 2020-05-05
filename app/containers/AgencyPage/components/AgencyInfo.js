@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import RoleValidator from 'components/RoleValidator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 const { Column, HeaderCell, Cell } = Table;
+
+const StyledMessage = styled(Message)`
+    margin: 0 0 1em 0;
+`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -120,7 +124,7 @@ class AgencyForm extends Component {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <Button onClick={this.submitAgency}>Create Agency</Button>
+                        <Button onClick={this.submitAgency} color="green">Create Agency</Button>
                     </FieldContainer>
                 </DataContainer>
             </Panel>
@@ -131,10 +135,12 @@ class AgencyForm extends Component {
 export default class AgencyInfo extends Component {
 
   render() {
-    const { agencies, scope, role, currentAgency } = this.props;
+    const { agencies, scope, role, currentAgency, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
                 {(!agencies || agencies.length < 1) && <ClientsLabel>No Agencies</ClientsLabel> }
+                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
                 {agencies &&
                 agencies.length > 0 && (
                     <React.Fragment>

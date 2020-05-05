@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, DatePicker, InputNumber, Checkbox, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, DatePicker, InputNumber, Checkbox, SelectPicker, IconButton, Icon} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldRow = styled.div`
@@ -18,11 +18,10 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
-const StyledButton = styled(Button)`
-    margin: 1em 0 1em 0;
+const StyledButton = styled(IconButton)`
 `
 
-export default class NewEvent extends React.Component {
+export default class UpdateBriefEvent extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -47,13 +46,18 @@ export default class NewEvent extends React.Component {
       };
     }
 
+    populateFields = () => {
+        const {event} = this.props;
+        this.setState({...event});
+    }
+
     close = () => {
       this.setState({ show: false });
-      this.reset();
     }
 
     open = () => {
       this.setState({ show: true });
+      this.populateFields();
       this.getPickerData();
     }
 
@@ -102,8 +106,8 @@ export default class NewEvent extends React.Component {
         this.setState({venuesData});
     }
 
-    addEvent = async () => {
-        const {createBriefEvent, briefs, currentBrief} = this.props;
+    updateEvent = async () => {
+        const {updateBriefEvent, brief, event} = this.props;
         const {
             name,
             setup_time,
@@ -123,8 +127,9 @@ export default class NewEvent extends React.Component {
             venue_id,
           } = this.state;
         
-        await createBriefEvent(
-            briefs[currentBrief].id,
+        await updateBriefEvent(
+            brief.id,
+            event.id,
             {
                 name,
                 setup_time,
@@ -177,11 +182,11 @@ export default class NewEvent extends React.Component {
     }
 
     render() {
-        const {agency} = this.props;
-        const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, recee_time, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest} = this.state;
+        const {brief} = this.props;
+        const { show, name, setup_time, start_time, end_time, drinks_enabled, recee_required, recee_time, cocktails_enabled, free_drinks_enabled, venuesData, expected_guests, hourly_expected_guests, cocktails_per_guest, free_drinks_per_guest, comments, venue_id, cash_collected_by} = this.state;
         return (
             <React.Fragment>
-                <StyledButton  onClick={this.open} color="green">+ New Event</StyledButton>
+                <StyledButton  onClick={this.open} icon={<Icon icon="edit"/>} />
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
@@ -199,8 +204,8 @@ export default class NewEvent extends React.Component {
                                 format="YYYY-MM-DD HH:mm"
                                 ranges={[
                                 {
-                                    label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
-                                    value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                    label: `SLA (+${brief.agency.sla_hours_before_event_creation} hours)`,
+                                    value: (new Date()).setHours((new Date()).getHours() + brief.agency.sla_hours_before_event_update),
                                     closeOverlay: true
                                 }
                                 ]}
@@ -215,8 +220,8 @@ export default class NewEvent extends React.Component {
                                     format="YYYY-MM-DD HH:mm"
                                     ranges={[
                                     {
-                                        label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
-                                        value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                        label: `SLA (+${brief.agency.sla_hours_before_event_creation} hours)`,
+                                        value: (new Date()).setHours((new Date()).getHours() + brief.agency.sla_hours_before_event_creation),
                                         closeOverlay: true
                                     }
                                     ]}
@@ -230,8 +235,8 @@ export default class NewEvent extends React.Component {
                                     format="YYYY-MM-DD HH:mm"
                                     ranges={[
                                     {
-                                        label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
-                                        value: (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation),
+                                        label: `SLA (+${brief.agency.sla_hours_before_event_creation} hours)`,
+                                        value: (new Date()).setHours((new Date()).getHours() + brief.agency.sla_hours_before_event_creation),
                                         closeOverlay: true
                                     }
                                     ]}
@@ -282,7 +287,7 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Free Drinks</FieldLabel>
-                                    <Checkbox onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Free Drinks</Checkbox>
+                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Free Drinks</Checkbox>
                                 </FieldContainer>
                                 <FieldContainer>
                                     <FieldLabel>Credits per guest</FieldLabel>
@@ -297,7 +302,7 @@ export default class NewEvent extends React.Component {
                             <FieldContainer>
                                 <FieldLabel>Recee Options</FieldLabel>
                                 <FieldRow>
-                                    <Checkbox onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
+                                    <Checkbox defaultChecked={recee_required} onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
                                 </FieldRow>
                             </FieldContainer>
                         </FieldRow> 
@@ -322,6 +327,7 @@ export default class NewEvent extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Comments</FieldLabel>
                             <Input 
+                                value={comments}
                                 componentClass="textarea"
                                 rows={3}
                                 style={{resize: 'auto' }}
@@ -333,7 +339,8 @@ export default class NewEvent extends React.Component {
                                 <FieldLabel>Venue</FieldLabel>
                                 <a onClick={() => this.goToRoute('/clients')}>+ Add new venue</a>
                             </FieldRow>
-                            <SelectPicker 
+                            <SelectPicker
+                                defaultValue={venue_id} 
                                 searchable={false}
                                 data={venuesData}
                                 onChange={(value) => this.handleChange(value, 'venue_id')}
@@ -342,6 +349,7 @@ export default class NewEvent extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Cash Collected by</FieldLabel>
                             <SelectPicker 
+                                defaultValue={cash_collected_by}
                                 searchable={false}
                                 data={[
                                     {
@@ -358,8 +366,8 @@ export default class NewEvent extends React.Component {
                         </FieldContainer>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={this.addEvent} color="green">
-                        Add Event
+                    <Button onClick={this.updateEvent} color="green">
+                        Update Event
                     </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel

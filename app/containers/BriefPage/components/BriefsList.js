@@ -15,7 +15,7 @@ const Column = styled.div`
   position: sticky;
   top: 0;
   bottom: 0;
-  height: 85vh;
+  height: calc(100vh - 45px);
   overflow-y: auto;
 `;
 

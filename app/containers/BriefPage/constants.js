@@ -49,6 +49,18 @@ export const CREATE_BRIEF_EVENT_SUCCESS =
   'boozeboss/BriefsContainer/CREATE_BRIEF_EVENT_SUCCESS';
 export const CREATE_BRIEF_EVENT_ERROR = 'boozeboss/BriefsContainer/CREATE_BRIEF_EVENT_ERROR';
 
+export const UPDATE_BRIEF_EVENT_REQUEST =
+  'boozeboss/BriefsContainer/UPDATE_BRIEF_EVENT_REQUEST';
+export const UPDATE_BRIEF_EVENT_SUCCESS =
+  'boozeboss/BriefsContainer/UPDATE_BRIEF_EVENT_SUCCESS';
+export const UPDATE_BRIEF_EVENT_ERROR = 'boozeboss/BriefsContainer/UPDATE_BRIEF_EVENT_ERROR';
+
+export const DELETE_BRIEF_EVENT_REQUEST =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_EVENT_REQUEST';
+export const DELETE_BRIEF_EVENT_SUCCESS =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_EVENT_SUCCESS';
+export const DELETE_BRIEF_EVENT_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_EVENT_ERROR';
+
 export const CREATE_BRIEF_PRODUCT_REQUEST =
   'boozeboss/BriefsContainer/CREATE_BRIEF_PRODUCT_REQUEST';
 export const CREATE_BRIEF_PRODUCT_SUCCESS =

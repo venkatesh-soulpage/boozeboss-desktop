@@ -8,7 +8,7 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS, UPDATE_BRIEF_EVENT_REQUEST, UPDATE_BRIEF_EVENT_SUCCESS, DELETE_BRIEF_EVENT_REQUEST, DELETE_BRIEF_EVENT_SUCCESS
 } from './constants';
 
 import {
@@ -22,7 +22,11 @@ import {
   createBriefProductSuccess, createBriefProductError, 
   getProductsSuccess, getProductsError, 
   deleteBriefProductSuccess, deleteBriefProductError, 
-  createRequisitionSuccess, createRequisitionError, uploadBriefAttachmentSuccess, uploadBriefAttachmentError, deleteBriefAttachmentSuccess, deleteBriefAttachmentError
+  createRequisitionSuccess, createRequisitionError, 
+  uploadBriefAttachmentSuccess, uploadBriefAttachmentError, 
+  deleteBriefAttachmentSuccess, deleteBriefAttachmentError,
+  updateBriefEventSuccess, updateBriefEventError, 
+  deleteBriefEventSuccess, deleteBriefEventError
 } from './actions';
 
 function* getBriefsSaga() {
@@ -133,6 +137,39 @@ function* createBriefEventSaga(params) {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(createBriefEventError(jsonError));
+  }
+}
+
+function* updateBriefEventSaga(params) {
+  const {brief_id, brief_event_id, briefEvent} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/update-event/${brief_event_id}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(briefEvent)
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateBriefEventSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateBriefEventError(jsonError));
+  }
+}
+
+function* deleteBriefEventSaga(params) {
+  const {brief_id, brief_event_id, briefEvent} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/delete-event/${brief_event_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(deleteBriefEventSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(deleteBriefEventError(jsonError));
   }
 }
 
@@ -269,6 +306,14 @@ function* createBriefEventRequest() {
   yield takeLatest(CREATE_BRIEF_EVENT_REQUEST, createBriefEventSaga);
 }
 
+function* deleteBriefEventRequest() {
+  yield takeLatest(DELETE_BRIEF_EVENT_REQUEST, deleteBriefEventSaga);
+}
+
+function* updateBriefEventRequest() {
+  yield takeLatest(UPDATE_BRIEF_EVENT_REQUEST, updateBriefEventSaga);
+}
+
 function* createBriefProductRequest() {
   yield takeLatest(CREATE_BRIEF_PRODUCT_REQUEST, createBriefProductSaga);
 }
@@ -300,6 +345,14 @@ function* deleteBriefSuccessRequest() {
 
 function* createBriefEventSuccessRequest() {
   yield takeLatest(CREATE_BRIEF_EVENT_SUCCESS, getBriefsSaga);
+}
+
+function* updateBriefEventSuccessRequest() {
+  yield takeLatest(UPDATE_BRIEF_EVENT_SUCCESS, getBriefsSaga);
+}
+
+function* deleteBriefEventSuccessRequest() {
+  yield takeLatest(DELETE_BRIEF_EVENT_SUCCESS, getBriefsSaga);
 }
 
 function* createBriefProductSuccessRequest() {
@@ -335,6 +388,8 @@ export default function* rootSaga() {
     fork(getProductsRequest),
     fork(getAgenciesRequest),
     fork(createBriefEventRequest),
+    fork(updateBriefEventRequest),
+    fork(deleteBriefEventRequest),
     fork(createBriefProductRequest),
     fork(deleteBriefProductRequest),
     fork(updateBriefStatusRequest),
@@ -350,5 +405,7 @@ export default function* rootSaga() {
     fork(createRequisitionSuccessRequest),
     fork(uploadBriefAttachmentSuccessRequest),
     fork(deleteBriefAttachmentSuccessRequest),
+    fork(updateBriefEventSuccessRequest),
+    fork(deleteBriefEventSuccessRequest),
   ]);
 }

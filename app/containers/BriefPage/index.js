@@ -19,7 +19,7 @@ import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment, updateBriefEvent, deleteBriefEvent } from './actions';
 
 
 
@@ -87,6 +87,8 @@ function mapDispatchToProps(dispatch) {
     createBrief: (brief) => dispatch(createBrief(brief)),
     deleteBrief: (brief_id) => dispatch(deleteBrief(brief_id)),
     createBriefEvent: (brief_id, briefEvent) => dispatch(createBriefEvent(brief_id, briefEvent)),
+    updateBriefEvent: (brief_id, brief_event_id, briefEvent) => dispatch(updateBriefEvent(brief_id, brief_event_id, briefEvent)),
+    deleteBriefEvent: (brief_id, brief_event_id) => dispatch(deleteBriefEvent(brief_id, brief_event_id)),
     createBriefProduct: (brief_id, briefProduct) => dispatch(createBriefProduct(brief_id, briefProduct)),
     deleteBriefProduct: (brief_id, brief_product_id) => dispatch(deleteBriefProduct(brief_id, brief_product_id)),
     updateBriefStatus: (brief_id, status) => dispatch(updateBriefStatus(brief_id, status)),

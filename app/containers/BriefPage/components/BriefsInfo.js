@@ -10,6 +10,7 @@ import NewProduct from './NewProduct';
 import DeleteProductModal from './DeleteProductModal';
 import CreateRequisitionConfirm from './CreateRequisitionConfirm';
 import BriefAttachmentUploader from './BriefAttachmentUploader';
+import BriefEventsList from './BriefEventsList';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -98,7 +99,7 @@ class BriefForm extends Component {
                 <Divider />
                 <DataContainer>
                     <FieldContainer>
-                        <FieldLabel>Name</FieldLabel>
+                        <FieldLabel>Brief Title</FieldLabel>
                         <Input 
                             value={name}
                             onChange={(value) => this.handleChange(value, 'name')}
@@ -200,7 +201,7 @@ export default class BriefsInfo extends Component {
                                     <Divider />
                                     <FieldsRow>
                                         <FieldContainer>
-                                            <FieldLabel>Name</FieldLabel>
+                                            <FieldLabel>Brief Title</FieldLabel>
                                             <p>{briefs[currentBrief].name}</p>
                                         </FieldContainer>
                                     </FieldsRow>
@@ -220,7 +221,7 @@ export default class BriefsInfo extends Component {
                                         />
                                     </FieldContainer>
                                     <FieldContainer>
-                                        <FieldLabel>Products Available</FieldLabel>
+                                        <FieldLabel>Select lead brands</FieldLabel>
                                         {briefs[currentBrief].products && 
                                             briefs[currentBrief].products.length > 0 ? (
                                                 <Table
@@ -279,8 +280,9 @@ export default class BriefsInfo extends Component {
                                         )}
                                     </FieldContainer>
                                     <FieldContainer>
-                                        <FieldLabel>Events</FieldLabel>
-                                        {briefs[currentBrief].brief_events && 
+                                        <FieldLabel>Add events to this brief</FieldLabel>
+                                        <BriefEventsList {...this.props} brief={briefs[currentBrief]}/>
+                                        {/* briefs[currentBrief].brief_events && 
                                             briefs[currentBrief].brief_events.length > 0 ? (
                                                 <Table
                                                     data={briefs[currentBrief].brief_events}
@@ -357,18 +359,10 @@ export default class BriefsInfo extends Component {
                                                             {rowData => rowData.free_drinks_enabled ? 'Yes' : 'No'}
                                                         </Cell>
                                                     </Column>
-                                                    {/* <Column width={250}>
-                                                        <HeaderCell>
-                                                            Actions
-                                                        </HeaderCell>
-                                                        <Cell dataKey="venue">
-                                                            Show More | Edit
-                                                        </Cell>
-                                                    </Column> */}
                                                 </Table>
                                             ) : (
                                                 <p>No Events</p>
-                                            )}
+                                            )*/} 
                                         {briefs[currentBrief].status === 'DRAFT' && (
                                             <NewEvent 
                                                 {...this.props}
