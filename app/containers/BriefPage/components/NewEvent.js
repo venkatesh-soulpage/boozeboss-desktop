@@ -63,6 +63,7 @@ export default class NewEvent extends React.Component {
 
     handleDateChange = (value, name) => {
         const {agency} = this.props;
+        const {setup_time, start_time, end_time} = this.state;
 
         const sla_limit = (new Date()).setHours((new Date()).getHours() + agency.sla_hours_before_event_creation);
 
@@ -71,7 +72,51 @@ export default class NewEvent extends React.Component {
             this.setState({[name]: null});
             return alert("You can't select this date because of the SLA terms.");
         } else {
-            this.setState({[name]: value});
+           // Validate dates
+            switch (name) {
+                case 'setup_time':
+                    const after_start_time = start_time && value.getTime() >= start_time.getTime();
+                    const after_end_time = end_time && value.getTime() >= end_time.getTime();
+                    if (after_start_time) {
+                        alert('Setup time should be before start time');
+                        this.setState({[name]: null})
+                    } else if (after_end_time) {
+                        alert('Setup time should be before end time');
+                        this.setState({[name]: null})
+                    } else {
+                        this.setState({[name]: value})
+                    };
+                    break;
+                case 'start_time': 
+                    const start_before_setup_time = setup_time && value.getTime() <= setup_time.getTime();
+                    const start_after_end_time = end_time && value.getTime() >= end_time.getTime();
+                    if (start_before_setup_time) {
+                        alert('Start time should be after setup time');
+                        this.setState({[name]: null});
+                    } else if (start_after_end_time) {
+                        alert('Start time should be before setup time');
+                        this.setState({[name]: null});
+                    } else {
+                        this.setState({[name]: value})
+                    };
+                    break;
+                case 'end_time': 
+                    const end_before_setup_time = setup_time && value.getTime() <= setup_time.getTime();
+                    const end_before_start_time = start_time && value.getTime() <= start_time.getTime();
+                    if (end_before_setup_time) {
+                        alert('End time should be after setup time');
+                        this.setState({[name]: null});
+                    } else if (end_before_start_time) {
+                        alert('End time should be before start time');
+                        this.setState({[name]: null});
+                    } else {
+                        this.setState({[name]: value})
+                    };
+                    break;
+                default: 
+                    return;
+            }
+
         }
     }
 
