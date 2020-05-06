@@ -66,14 +66,6 @@ export default class ClientBrandsTable extends Component {
                                 {rowData => rowData.description}
                             </Cell>
                         </Column>
-                        <Column width={150}>
-                            <HeaderCell>
-                                Actions
-                            </HeaderCell>
-                            <Cell dataKey="actions">
-                                    <p>ok</p>
-                            </Cell>
-                        </Column>
                     </Table>
                 ) : (
                     <p>No Brands</p>

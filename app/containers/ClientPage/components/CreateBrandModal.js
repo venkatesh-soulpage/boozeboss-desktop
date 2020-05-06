@@ -14,36 +14,60 @@ const FieldLabel = styled.b`
 
 const product_types = [
     {
-        label: 'Tequila',
-        value: 'Tequila',
-        role: 'Tequila',
+        label: 'Spirit',
+        value: 'Spirit',
+        role: 'Spirit',
     },
     {
-        label: 'Vodka',
-        value: 'Vodka',
-        role: 'Vodka',
+        label: 'Mixer',
+        value: 'Mixer',
+        role: 'Mixer',
     },
     {
-        label: 'Ginebra',
-        value: 'Ginebra',
-        role: 'Ginebra',
+        label: 'Beer',
+        value: 'Beer',
+        role: 'Beer',
     },
     {
-        label: 'Soda',
-        value: 'Soda',
-        role: 'Soda',
+        label: 'Fruits',
+        value: 'Fruits',
+        role: 'Fruits',
     },
     {
-        label: 'Ingredient',
-        value: 'Ingredient',
-        role: 'Ingredient',
+        label: 'Juice',
+        value: 'Juice',
+        role: 'Juice',
+    },
+    {
+        label: 'Branding Item',
+        value: 'Branding Item',
+        role: 'Branding Item',
+    },
+    {
+        label: 'Consumable',
+        value: 'Consumable',
+        role: 'Consumable',
+    },
+    {
+        label: 'Mobile Bar',
+        value: 'Mobile Bar',
+        role: 'Mobile Bar',
+    },
+    {
+        label: 'Cocktail',
+        value: 'Cocktail',
+        role: 'Cocktail',
+    },
+    {
+        label: 'Bar Equipment',
+        value: 'Bar Equipment',
+        role: 'Bar Equipment',
     },
     {
         label: 'Other',
         value: 'Other',
         role: 'Other',
     },
-
 ]
 
 
@@ -102,7 +126,7 @@ export default class CreateBrandModal extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Product Type (Required)</FieldLabel>
+                            <FieldLabel>Product Category (Required)</FieldLabel>
                             <SelectPicker 
                                 searchable={false}
                                 data={product_types}

@@ -7,8 +7,10 @@ import RequisitionEvent from './RequisitionEvent';
 import RequisitionProduct from './RequisitionProduct';
 import ConfirmSubmit from './ConfirmSubmit';
 import ApproveRequisitionConfirm from './ApproveRequisitionConfirm';
-import RoleValidator from 'components/RoleValidator';
 import DeliverRequisitionOrders from './DeliverRequisitionOrders';
+import Deliveries from './Deliveries';
+import AddNewDelivery from './AddNewDelivery';
+import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -16,7 +18,7 @@ const InfoContainer = styled.div`
   display: flex;
     flex-direction: column;
     flex: 3;
-    margin: 0 2em 0 2em;
+    margin: 0 2em 2em 2em;
 `;
 
 const ClientsLabel = styled.p`
@@ -42,6 +44,7 @@ const FieldRow = styled.div`
     flex-direction: row;
     margin: 1em 0 0 0;
     justify-content: space-between;
+    align-content: center;
 `
 
 const FieldHeader = styled.div`
@@ -62,8 +65,8 @@ export default class RequisitionInfo extends Component {
                             <DataContainer>
                                 <FieldRow>
                                     <FieldContainer>
-                                        <FieldLabel>ID</FieldLabel>
-                                        <p>#{requisitions[currentRequisition].id}</p>
+                                        <FieldLabel>Serial</FieldLabel>
+                                        <p>#{requisitions[currentRequisition].serial_number}</p>
                                     </FieldContainer>
                                     <FieldContainer>
                                         <p>{requisitions[currentRequisition].status}</p>
@@ -118,7 +121,24 @@ export default class RequisitionInfo extends Component {
                                             <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>
                                         ))}
                                 </FieldContainer>
-                                
+                                {requisitions[currentRequisition].status === 'APPROVED' && (
+                                    <FieldContainer>
+                                        <FieldRow>
+                                            <FieldLabel>Deliveries</FieldLabel>
+                                            <RoleValidator
+                                                {...this.props}
+                                                scopes={['BRAND']}
+                                                roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                            >
+                                               <AddNewDelivery {...this.props}/> 
+                                            </RoleValidator>
+                                        </FieldRow>
+                                        <Deliveries 
+                                            {...this.props}
+                                            requisition={requisitions[currentRequisition]}
+                                        />
+                                    </FieldContainer>
+                                )}
                             </DataContainer>
                         </Panel>
                     )}

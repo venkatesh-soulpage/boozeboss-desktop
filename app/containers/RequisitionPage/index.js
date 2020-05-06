@@ -18,7 +18,7 @@ import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectP
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders, createRequisitionDelivery } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
@@ -71,6 +71,7 @@ function mapDispatchToProps(dispatch) {
     deleteRequisitionOrder: (requisition_id, requisition_order_id) => dispatch(deleteRequisitionOrder(requisition_id, requisition_order_id)),
     updateRequisitionStatus: (requisition_id, status) => dispatch(updateRequisitionStatus(requisition_id, status)),
     updateRequisitionOrders: (requisition_id, orders, waybill) => dispatch(updateRequisitionOrders(requisition_id, orders, waybill)),
+    createRequisitionDelivery: (requisition_id, delivery) => dispatch(createRequisitionDelivery(requisition_id, delivery)),
   };
 }
 

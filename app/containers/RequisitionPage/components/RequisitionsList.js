@@ -76,7 +76,7 @@ class RequisitionCard extends Component {
             onClick={this.handleSelectCurrentRequisition}
         >
             <PanelColumn>
-                <b>#{requisition.id} - {requisition.brief.name}</b>
+                <b>#{requisition.serial_number} - {requisition.brief.name}</b>
                 <p>{requisition.status}</p>
             </PanelColumn>
         </StyledPanel>
