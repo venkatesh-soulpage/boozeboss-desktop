@@ -75,8 +75,7 @@ class AddNewDeliveryProduct extends React.Component {
 
 
     close = () => {
-      this.setState({ show: false });
-      this.reset();
+        this.setState({ show: false });
     }
 
     open = () => {
@@ -195,6 +194,7 @@ export default class AddNewDelivery extends React.Component {
 
     close = () => {
       this.setState({ show: false });
+      this.reset();
     }
 
     open = () => {
@@ -243,7 +243,17 @@ export default class AddNewDelivery extends React.Component {
         createRequisitionDelivery(
             requisitions[currentRequisition].id,
             {waybill, warehouse_id, status, deliveryProducts}
-        )
+        );
+        this.close();
+    }
+
+    reset = () => {
+        this.setState({
+            waybill: null,
+            status: null,
+            warehouse_id: null,
+            deliveryProducts: []
+        })
     }
     
     render() {
@@ -288,7 +298,7 @@ export default class AddNewDelivery extends React.Component {
                             {deliveryProducts 
                             && deliveryProducts.length > 0 ? (
                                 <ProductsSection>
-                                    {deliveryProducts.map((deliveryProduct, index) => <DeliveryProduct deliveryProduct={deliveryProduct} isFirst={index < 1}/>)}
+                                    {deliveryProducts.map((deliveryProduct, index) => <DeliveryProduct deliveryProduct={deliveryProduct} isFirst={index < 1} />)}
                                 </ProductsSection>
                             ) : (
                                 <p>No products selected</p> 
@@ -299,6 +309,7 @@ export default class AddNewDelivery extends React.Component {
                                     warehouse_id={warehouse_id}
                                     deliveryProducts={deliveryProducts}
                                     handleAddDeliveryProduct={this.handleAddDeliveryProduct}
+                                    reset={this.reset}
                                 />
                             )}
                         </FieldContainer>

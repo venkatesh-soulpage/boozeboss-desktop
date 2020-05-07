@@ -9,7 +9,7 @@ import {
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS 
 } from './constants'
 
 import { 
@@ -17,7 +17,7 @@ import {
   getClientProductsSuccess, getClientProductsError, 
   createRequisitionOrderSuccess, createRequisitionOrderError, 
   deleteRequisitionOrderSuccess, deleteRequisitionOrderError, 
-  updateRequisitionStatusSuccess, updateRequisitionStatusError, getWarehousesSuccess, getWarehousesError, updateRequisitionOrdersSuccess, updateRequisitionOrdersError, createRequisitionDeliverySuccess, createRequisitionDeliveryError 
+  updateRequisitionStatusSuccess, updateRequisitionStatusError, getWarehousesSuccess, getWarehousesError, updateRequisitionOrdersSuccess, updateRequisitionOrdersError, createRequisitionDeliverySuccess, createRequisitionDeliveryError, updateRequisitionDeliverySuccess, updateRequisitionDeliveryError 
 } from './actions'
 
 function* getRequisitionsSaga() {
@@ -153,6 +153,24 @@ function* createRequisitionDeliverySaga(params) {
   }
 }
 
+function* updateRequisitionDeliverySaga(params) {
+  const {requisition_id, requisition_delivery_id, delivery} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/update-delivery/${requisition_delivery_id}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(delivery)
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateRequisitionDeliverySuccess(response));
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateRequisitionDeliveryError(jsonError));
+  }
+}
+
 function* getRequisitionsRequest() {
   yield takeLatest(GET_REQUISITIONS_REQUEST, getRequisitionsSaga);
 }
@@ -185,6 +203,10 @@ function* createRequisitionDeliveryRequest() {
   yield takeLatest(CREATE_REQUISITION_DELIVERY_REQUEST, createRequisitionDeliverySaga);
 }
 
+function* updateRequisitionDeliveryRequest() {
+  yield takeLatest(UPDATE_REQUISITION_DELIVERY_REQUEST, updateRequisitionDeliverySaga);
+}
+
 // Reactive Saga
 function* createRequisitionOrderSuccessRequest() {
   yield takeLatest(CREATE_REQUISITION_ORDER_SUCCESS, getRequisitionsSaga);
@@ -206,6 +228,10 @@ function* createRequisitionDeliverySuccessRequest() {
   yield takeLatest(CREATE_REQUISITION_DELIVERY_SUCCESS, getRequisitionsSaga);
 }
 
+function* updateRequisitionDeliverySuccessRequest() {
+  yield takeLatest(UPDATE_REQUISITION_DELIVERY_SUCCESS, getRequisitionsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getRequisitionsRequest),
@@ -216,11 +242,13 @@ export default function* rootSaga() {
     fork(updateRequisitionStatusRequest),
     fork(updateRequisitionOrdersRequest),
     fork(createRequisitionDeliveryRequest),
+    fork(updateRequisitionDeliveryRequest),
     // Reactive
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),
     fork(updateRequisitionStatusSuccessRequest),
     fork(updateRequisitionOrdersSuccessRequest),
     fork(createRequisitionDeliverySuccessRequest),
+    fork(updateRequisitionDeliverySuccessRequest),
   ]);
 }

@@ -82,7 +82,7 @@ export default class RequisitionInfo extends Component {
                                                 <ApproveRequisitionConfirm {...this.props}/>
                                             </RoleValidator>
                                         )}
-                                        {requisitions[currentRequisition].status === 'APPROVED' && (
+                                        {/* requisitions[currentRequisition].status === 'APPROVED' && (
                                             <RoleValidator 
                                                 {...this.props}
                                                 scopes={['BRAND']}
@@ -90,14 +90,10 @@ export default class RequisitionInfo extends Component {
                                             >
                                                 <DeliverRequisitionOrders {...this.props}/>
                                             </RoleValidator>
-                                        )}
+                                        ) */}
                                         
                                     </FieldContainer>
                                 </FieldRow>
-                                <FieldContainer>
-                                    <FieldLabel>Waybill</FieldLabel>
-                                    <p>{requisitions[currentRequisition].waybill || 'N/A'}</p>
-                                </FieldContainer>
                                 <FieldContainer>
                                     <FieldLabel>Products</FieldLabel>
                                     {requisitions[currentRequisition].brief && 

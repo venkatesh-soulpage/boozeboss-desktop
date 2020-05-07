@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import {Panel} from 'rsuite';
+import {Panel, Divider, Button} from 'rsuite';
+import moment from 'moment';
+import UpdateDelivery from './UpdateDelivery';
+import RoleValidator from 'components/RoleValidator';
 
 const StyledPanel = styled(Panel)`
     
@@ -15,7 +18,7 @@ const EventSection = styled.div`
 const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: ${props => props.spaced ? 'space-between' : 'flex-start'};
 `;
 
 const FieldContainer = styled.div`
@@ -49,6 +52,28 @@ const DeliveryProduct = (props) => (
 
 const Delivery = (props) => (
     <StyledPanel bordered shaded>
+        <FieldRow spaced>
+            <FieldContainer>
+                <FieldLabel>Created at</FieldLabel>
+                <p>{moment(props.delivery.created_at).format('DD/MM/YYYY LT')}</p>
+            </FieldContainer>
+            <RoleValidator
+                {...props}
+                scopes={['BRAND']}
+                roles={['OWNER', 'WAREHOUSE_MANAGER']}
+            >
+                <FieldContainer>
+                    <FieldLabel>
+                        <UpdateDelivery 
+                            {...props}
+                            delivery={props.delivery}
+                        />
+                    </FieldLabel>
+                </FieldContainer>
+            </RoleValidator>
+            
+        </FieldRow>
+        <Divider />
         <FieldRow>
             <FieldContainer>
                 <FieldLabel>
