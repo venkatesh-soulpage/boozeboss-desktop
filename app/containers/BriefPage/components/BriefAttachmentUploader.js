@@ -22,7 +22,12 @@ export default class BriefAttachmentUploader extends Component {
 
     handleUploadChange = async (files) => {
         const {uploadBriefAttachment, brief} = this.props;
-        
+
+        const currentFile = files[0];
+        const new_size = currentFile.blobFile.size + this.getCurrentStorage();
+
+        if (new_size > brief.client.brief_attachment_limits) return alert('Limit exceeded please contact support@boozeboss.co to upgrade your plan');
+
         for (const file of files) {
             await uploadBriefAttachment(brief.id, file.blobFile);
         }
@@ -33,6 +38,17 @@ export default class BriefAttachmentUploader extends Component {
     handleRemove = (brief_id, brief_attachment_id) => {
         const {deleteBriefAttachment} = this.props;
         deleteBriefAttachment(brief_id, brief_attachment_id);
+    }
+
+    getCurrentStorage = () => {
+        const {brief} = this.props;
+        
+        const totalSize = brief.attachments
+                .reduce((acc, curr) => {
+                    return acc + curr.size;
+                }, 0)
+
+        return totalSize;
     }
 
     getList = (attachments) => {

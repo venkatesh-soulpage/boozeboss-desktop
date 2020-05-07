@@ -347,6 +347,13 @@ export default class ClientInfo extends Component {
                                         field_name='agency_collaborators_limit'
                                         value={clients[currentClient].agency_collaborators_limit}
                                     />   
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Brief Attachments Limit'
+                                        field_name='brief_attachment_limits'
+                                        value={clients[currentClient].brief_attachment_limits}
+                                    />   
                                 </FieldsRow>
                                 <Divider />
                                 <FieldContainer>

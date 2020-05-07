@@ -154,6 +154,29 @@ export default class BriefsInfo extends Component {
         history.push('/requisitions')
     }
 
+    formatSizeUnits = (bytes) => {
+        if      (bytes >= 1073741824) { bytes = (bytes / 1073741824).toFixed(2) + " GB"; }
+        else if (bytes >= 1048576)    { bytes = (bytes / 1048576).toFixed(2) + " MB"; }
+        else if (bytes >= 1024)       { bytes = (bytes / 1024).toFixed(2) + " KB"; }
+        else if (bytes > 1)           { bytes = bytes + " bytes"; }
+        else if (bytes == 1)          { bytes = bytes + " byte"; }
+        else                          { bytes = "0 bytes"; }
+        return bytes;
+    }
+
+    getCurrentStorage = () => {
+        const {briefs, currentBrief} = this.props;
+
+        if (!briefs) return 0;
+        
+        const totalSize = briefs[currentBrief].attachments
+                .reduce((acc, curr) => {
+                    return acc + curr.size;
+                }, 0)
+
+        return this.formatSizeUnits(totalSize)
+    }
+
     render() {
         const { briefs, currentBrief, error, success, dismiss, scope, role } = this.props;
             return (
@@ -214,7 +237,7 @@ export default class BriefsInfo extends Component {
                                         <p>{briefs[currentBrief].description}</p>
                                     </FieldContainer>
                                     <FieldContainer>
-                                        <FieldLabel>Attachments</FieldLabel>
+                                        <FieldLabel>Attachments ({this.getCurrentStorage()} / {this.formatSizeUnits(briefs[currentBrief].client.brief_attachment_limits)})</FieldLabel>
                                         <BriefAttachmentUploader
                                             {...this.props}
                                             brief={briefs[currentBrief]}
