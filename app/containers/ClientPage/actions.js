@@ -37,6 +37,9 @@ import {
   ADD_LOCATION_REQUEST,
   ADD_LOCATION_SUCCESS,
   ADD_LOCATION_ERROR,
+  UPDATE_SLA_REQUEST,
+  UPDATE_SLA_SUCCESS,
+  UPDATE_SLA_ERROR,
 } from './constants';
 
 export function addClientDraft() {
@@ -259,6 +262,29 @@ export function addClientLocationSuccess(success) {
 export function addClientLocationError(error) {
   return {
     type: ADD_LOCATION_ERROR,
+    error,
+  };
+}
+
+/* PUT -  Update client sla */
+export function updateSla(client_id, sla) {
+  return {
+    type: UPDATE_SLA_REQUEST,
+    client_id,
+    sla
+  };
+}
+
+export function updateSlaSuccess(success) {
+  return {
+    type: UPDATE_SLA_SUCCESS,
+    success,
+  };
+}
+
+export function updateSlaError(error) {
+  return {
+    type: UPDATE_SLA_ERROR,
     error,
   };
 }

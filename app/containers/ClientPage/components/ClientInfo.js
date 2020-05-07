@@ -13,6 +13,7 @@ import CreateBrandModal from './CreateBrandModal';
 import ClientWarehouseTable from './ClientWarehouseTable';
 import CreateWarehouseModal from './CreateWarehouseModal';
 import ClientAddLocation from './ClientAddLocation';
+import EditableSLA from './EditableSLA';
 import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -249,7 +250,7 @@ export default class ClientInfo extends Component {
                 {clients &&
                 clients.length > 0 && (
                     <React.Fragment>
-                                {clients[currentClient].isDraft ? (
+                    {clients[currentClient].isDraft ? (
                         <ClientForm {...this.props} />
                     ) : (
                         <Panel bordered>
@@ -290,38 +291,62 @@ export default class ClientInfo extends Component {
                                     </RoleValidator>
                                 </FieldContainer>
                                 <FieldsRow>
-                                    <FieldContainer>
-                                        <FieldLabel>Collaborators Limit</FieldLabel>
-                                        <p>{clients[currentClient].collaborator_limit}</p>
-                                    </FieldContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Briefs / Month Limit</FieldLabel>
-                                        <p>{clients[currentClient].briefs_limit}</p>
-                                    </FieldContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Brands Limit</FieldLabel>
-                                        <p>{clients[currentClient].brands_limit}</p>
-                                    </FieldContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Warehouses Limit</FieldLabel>
-                                        <p>{clients[currentClient].warehouses_limit}</p>
-                                    </FieldContainer>    
-                                    <FieldContainer>
-                                        <FieldLabel>Locations Limit</FieldLabel>
-                                        <p>{clients[currentClient].locations_limit}</p>
-                                    </FieldContainer>  
-                                    <FieldContainer>
-                                        <FieldLabel>Identity Verification Limit</FieldLabel>
-                                        <p>{clients[currentClient].identity_verifications_limit}</p>
-                                    </FieldContainer>
-                                    <FieldContainer>
-                                        <FieldLabel>Agencies Limit</FieldLabel>
-                                        <p>{clients[currentClient].agencies_limit}</p>
-                                    </FieldContainer>    
-                                    <FieldContainer>
-                                        <FieldLabel>Agencies Collaborators Limit</FieldLabel>
-                                        <p>{clients[currentClient].agency_collaborators_limit}</p>
-                                    </FieldContainer>  
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Collaborator limit'
+                                        field_name='collaborator_limit'
+                                        value={clients[currentClient].collaborator_limit}
+                                    />
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Brief Limit / Year'
+                                        field_name='briefs_limit'
+                                        value={clients[currentClient].briefs_limit}
+                                    />
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Brands Limit'
+                                        field_name='brands_limit'
+                                        value={clients[currentClient].brands_limit}
+                                    />
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Warehouses Limit'
+                                        field_name='warehouses_limit'
+                                        value={clients[currentClient].warehouses_limit}
+                                    />  
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Locations Limit'
+                                        field_name='locations_limit'
+                                        value={clients[currentClient].locations_limit}
+                                    />  
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Identity Verification Limit'
+                                        field_name='identity_verifications_limit'
+                                        value={clients[currentClient].identity_verifications_limit}
+                                    />  
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Agencies Limit'
+                                        field_name='agencies_limit'
+                                        value={clients[currentClient].agencies_limit}
+                                    />  
+                                    <EditableSLA 
+                                        {...this.props}
+                                        client={clients[currentClient]}
+                                        field_label='Agencies Collaborators Limit'
+                                        field_name='agency_collaborators_limit'
+                                        value={clients[currentClient].agency_collaborators_limit}
+                                    />   
                                 </FieldsRow>
                                 <Divider />
                                 <FieldContainer>

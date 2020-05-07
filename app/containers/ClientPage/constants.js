@@ -57,6 +57,12 @@ export const ADD_LOCATION_REQUEST =
 export const ADD_LOCATION_SUCCESS =
   'boozeboss/ClientContainer/ADD_LOCATION_SUCCESS';
 export const ADD_LOCATION_ERROR = 'boozeboss/ClientContainer/ADD_LOCATION_ERROR';
+
+export const UPDATE_SLA_REQUEST =
+  'boozeboss/ClientContainer/UPDATE_SLA_REQUEST';
+export const UPDATE_SLA_SUCCESS =
+  'boozeboss/ClientContainer/UPDATE_SLA_SUCCESS';
+export const UPDATE_SLA_ERROR = 'boozeboss/ClientContainer/UPDATE_SLA_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

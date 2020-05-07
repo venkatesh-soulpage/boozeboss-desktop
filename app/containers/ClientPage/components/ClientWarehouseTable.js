@@ -42,7 +42,7 @@ export default class ClientWarehouseTable extends Component {
                     <Table
                         data={warehouses}
                     >
-                        <Column resizable width={120}>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Name
                             </HeaderCell>
@@ -50,7 +50,7 @@ export default class ClientWarehouseTable extends Component {
                                 {rowData => rowData.name}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Address
                             </HeaderCell>
@@ -58,7 +58,7 @@ export default class ClientWarehouseTable extends Component {
                                 {rowData => rowData.address}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Location
                             </HeaderCell>

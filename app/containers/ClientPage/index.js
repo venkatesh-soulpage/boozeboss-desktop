@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation, updateSla } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -90,6 +90,7 @@ function mapDispatchToProps(dispatch) {
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     createWarehouse: (warehouse) => dispatch(createWarehouse(warehouse)), 
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),
+    updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)),
     dismiss: type => dispatch(dismiss(type))
   };
 }
