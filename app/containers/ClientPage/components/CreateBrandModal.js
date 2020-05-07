@@ -12,64 +12,23 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
-const product_types = [
-    {
-        label: 'Spirit',
-        value: 'Spirit',
-        role: 'Spirit',
-    },
-    {
-        label: 'Mixer',
-        value: 'Mixer',
-        role: 'Mixer',
-    },
-    {
-        label: 'Beer',
-        value: 'Beer',
-        role: 'Beer',
-    },
-    {
-        label: 'Fruits',
-        value: 'Fruits',
-        role: 'Fruits',
-    },
-    {
-        label: 'Juice',
-        value: 'Juice',
-        role: 'Juice',
-    },
-    {
-        label: 'Branding Item',
-        value: 'Branding Item',
-        role: 'Branding Item',
-    },
-    {
-        label: 'Consumable',
-        value: 'Consumable',
-        role: 'Consumable',
-    },
-    {
-        label: 'Mobile Bar',
-        value: 'Mobile Bar',
-        role: 'Mobile Bar',
-    },
-    {
-        label: 'Cocktail',
-        value: 'Cocktail',
-        role: 'Cocktail',
-    },
-    {
-        label: 'Bar Equipment',
-        value: 'Bar Equipment',
-        role: 'Bar Equipment',
-    },
-    {
-        label: 'Other',
-        value: 'Other',
-        role: 'Other',
-    },
-]
-
+const categories = {
+    'Liquour': [
+        'Whisky', 'Vodka', 'Rum', 'Brandy', 'Cognac', 'Tequila', 'Liqueur', 'Beer', 'Gin', 'Fortified Wine', 'Sake', 'Table Wine', 'Cachaca', 'Mezcal', 'Bitters', 'Vermount', 'Champagne', 'Other' 
+    ],
+    'Mixers': [
+        'Soda', 'Packed Juice', 'Fresh Juice', 'Syrup', 'Other'
+    ],
+    'Consumable': [
+        'Consumable'
+    ],
+    'Ingredient': [
+        'Whole Fruit', 'Flavoring Bitter', 'Other'
+    ],
+    'Brand Asset': [
+        'Mobile Bars', 'POS', 'Cocktail Equipment'
+    ]
+}
 
 export default class CreateBrandModal extends React.Component {
     constructor(props) {
@@ -78,6 +37,7 @@ export default class CreateBrandModal extends React.Component {
         show: false,
         name: null,
         product_type: null,
+        product_subtype: null,
         description: null,
       };
     }
@@ -104,15 +64,34 @@ export default class CreateBrandModal extends React.Component {
 
     create = async () => {
         const {createBrand, clients, currentClient} = this.props;
-        const {name, description, product_type } = this.state;
-        if ( !name || !description || !product_type) return;
+        const {name, description, product_type, product_subtype } = this.state;
+        if ( !name || !description || !product_type || !product_subtype) return;
         const client_id = clients[currentClient].id;
-        await createBrand({name, description, product_type, client_id});
+        await createBrand({name, description, product_type, product_subtype, client_id});
         this.close();
     }
 
+    getCategories = () => {
+        const category_keys = Object.keys(categories);
+        return category_keys.map(key => {
+            return {
+                label: key, value: key,
+            }
+        })
+    }
+
+    getSubCategories = () => {
+        const {product_type} = this.state;
+        if (!product_type) return [];
+        return categories[product_type].map(key => {
+            return {
+                label: key, value: key,
+            }
+        })
+    }
+
     render() {
-        const {show} = this.state;
+        const {show, product_type} = this.state;
         return (
             <React.Fragment>
                 <Button id="new-venue" onClick={this.open} color="green">+ Add Brand</Button>
@@ -129,8 +108,17 @@ export default class CreateBrandModal extends React.Component {
                             <FieldLabel>Product Category (Required)</FieldLabel>
                             <SelectPicker 
                                 searchable={false}
-                                data={product_types}
+                                data={this.getCategories()}
                                 onChange={(value) => this.handleChange(value, 'product_type')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Product SubCategory (Required)</FieldLabel>
+                            <SelectPicker 
+                                disabled={!product_type}
+                                searchable={false}
+                                data={this.getSubCategories()}
+                                onChange={(value) => this.handleChange(value, 'product_subtype')}
                             />
                         </FieldContainer>
                         <FieldContainer>

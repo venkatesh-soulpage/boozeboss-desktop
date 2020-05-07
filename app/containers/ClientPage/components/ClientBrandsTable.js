@@ -52,13 +52,21 @@ export default class ClientBrandsTable extends Component {
                         </Column>
                         <Column resizable>
                             <HeaderCell>
-                                Type
+                                Category
                             </HeaderCell>
                             <Cell dataKey="product_type">
                                 {rowData => rowData.product_type}
                             </Cell>
                         </Column>
                         <Column resizable>
+                            <HeaderCell>
+                                Sub-Category
+                            </HeaderCell>
+                            <Cell dataKey="product_type">
+                                {rowData => rowData.product_subtype}
+                            </Cell>
+                        </Column>
+                        <Column resizable flexGrow>
                             <HeaderCell>
                                 Description
                             </HeaderCell>
