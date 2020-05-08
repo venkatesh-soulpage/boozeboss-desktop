@@ -19,7 +19,7 @@ import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment, updateBriefEvent, deleteBriefEvent } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment, updateBriefEvent, deleteBriefEvent, hellosignGetTemplate } from './actions';
 
 
 
@@ -95,6 +95,7 @@ function mapDispatchToProps(dispatch) {
     createRequisition: (brief_id) => dispatch(createRequisition(brief_id)),
     uploadBriefAttachment: (brief_id, file) => dispatch(uploadBriefAttachment(brief_id, file)),
     deleteBriefAttachment: (brief_id, brief_attachment_id) => dispatch(deleteBriefAttachment(brief_id, brief_attachment_id)),
+    helloSignGetTemplate: () => dispatch(hellosignGetTemplate()),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }

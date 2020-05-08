@@ -25,9 +25,15 @@ export default class SubmitBriefConfirm extends React.Component {
       this.setState({ show: true });
     }
 
-    submit = () => {
-        const {briefs, currentBrief, updateBriefStatus} = this.props;
-        updateBriefStatus(briefs[currentBrief].id, 'SUBMITTED');
+    submit = (withSign) => {
+        const {briefs, currentBrief, updateBriefStatus, helloSignGetTemplate} = this.props;
+        if (withSign) { 
+            helloSignGetTemplate();
+        } else { 
+            updateBriefStatus(briefs[currentBrief].id, 'SUBMITTED');
+        }
+        
+        
         this.close();
     }
 
@@ -43,8 +49,11 @@ export default class SubmitBriefConfirm extends React.Component {
                         You won't be able to make further changes.
                     </Modal.Body>
                     <Modal.Footer>
+                    <Button onClick={this.submit} color="blue">
+                        Submit with Hellosign
+                    </Button>
                     <Button onClick={this.submit} color="green">
-                        Ok
+                        Submit
                     </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel

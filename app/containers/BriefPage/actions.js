@@ -4,6 +4,13 @@
  *
  */
 
+import HelloSign from 'hellosign-embedded';
+
+const hellosign_client = new HelloSign({
+  clientId: 'f15371c3bc37849ecb9b35403a4af571'
+});
+
+
 import { 
   ADD_BRIEF_DRAFT, DELETE_BRIEF_DRAFT,
   GET_BRIEFS_REQUEST, GET_BRIEFS_SUCCESS, GET_BRIEFS_ERROR, 
@@ -43,7 +50,10 @@ import {
   UPDATE_BRIEF_EVENT_ERROR,
   DELETE_BRIEF_EVENT_REQUEST,
   DELETE_BRIEF_EVENT_SUCCESS,
-  DELETE_BRIEF_EVENT_ERROR, 
+  DELETE_BRIEF_EVENT_ERROR,
+  HELLOSIGN_GET_TEMPLATE_REQUEST,
+  HELLOSIGN_GET_TEMPLATE_SUCCESS,
+  HELLOSIGN_GET_TEMPLATE_ERROR, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -389,6 +399,39 @@ export function deleteBriefAttachmentSuccess(success) {
 export function deleteBriefAttachmentError(error) {
   return {
     type: DELETE_BRIEF_ATTACHMENT_ERROR,
+    error
+  };
+}
+
+// Hellosign get template
+export function hellosignGetTemplate() {
+  return {
+    type: HELLOSIGN_GET_TEMPLATE_REQUEST,
+  };
+}
+
+export function hellosignGetTemplateSuccess(hs) {
+
+  try {
+    const {unclaimed_draft} = hs;
+
+    console.log(hs)
+    hellosign_client.open((unclaimed_draft.claim_url), {
+      skipDomainVerification: true
+    });
+
+    return {
+      type: HELLOSIGN_GET_TEMPLATE_SUCCESS,
+    };
+  } catch (e) {
+    console.log(e)
+  }
+  
+}
+
+export function hellosignGetTemplateError(error) {
+  return {
+    type: HELLOSIGN_GET_TEMPLATE_ERROR,
     error
   };
 }

@@ -97,4 +97,12 @@ export const DELETE_BRIEF_ATTACHMENT_SUCCESS =
   'boozeboss/BriefsContainer/DELETE_BRIEF_ATTACHMENT_SUCCESS';
 export const DELETE_BRIEF_ATTACHMENT_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_ATTACHMENT_ERROR';
 
+export const HELLOSIGN_GET_TEMPLATE_REQUEST =
+  'boozeboss/BriefsContainer/HELLOSIGN_GET_TEMPLATE_REQUEST';
+export const HELLOSIGN_GET_TEMPLATE_SUCCESS =
+  'boozeboss/BriefsContainer/HELLOSIGN_GET_TEMPLATE_SUCCESS';
+export const HELLOSIGN_GET_TEMPLATE_ERROR = 'boozeboss/BriefsContainer/HELLOSIGN_GET_TEMPLATE_ERROR';
+
+
+
 export const DISMISS = 'boozeboss/BriefsContainer/DISMISS';

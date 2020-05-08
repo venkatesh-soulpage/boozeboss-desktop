@@ -8,7 +8,7 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS, UPDATE_BRIEF_EVENT_REQUEST, UPDATE_BRIEF_EVENT_SUCCESS, DELETE_BRIEF_EVENT_REQUEST, DELETE_BRIEF_EVENT_SUCCESS
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS, UPDATE_BRIEF_EVENT_REQUEST, UPDATE_BRIEF_EVENT_SUCCESS, DELETE_BRIEF_EVENT_REQUEST, DELETE_BRIEF_EVENT_SUCCESS, HELLOSIGN_GET_TEMPLATE_REQUEST
 } from './constants';
 
 import {
@@ -26,7 +26,7 @@ import {
   uploadBriefAttachmentSuccess, uploadBriefAttachmentError, 
   deleteBriefAttachmentSuccess, deleteBriefAttachmentError,
   updateBriefEventSuccess, updateBriefEventError, 
-  deleteBriefEventSuccess, deleteBriefEventError
+  deleteBriefEventSuccess, deleteBriefEventError, hellosignGetTemplate, hellosignGetTemplateError, hellosignGetTemplateSuccess
 } from './actions';
 
 function* getBriefsSaga() {
@@ -278,6 +278,22 @@ function* deleteBriefAttachmentSaga(params) {
   }
 }
 
+function* hellosignGetTemplateSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/hellosign`;
+
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(filerequest, requestURL, options);
+    yield put(hellosignGetTemplateSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(hellosignGetTemplateError(jsonError));
+  }
+}
+
 function* getBriefsRequest() {
   yield takeLatest(GET_BRIEFS_REQUEST, getBriefsSaga);
 }
@@ -338,6 +354,10 @@ function* deleteBriefAttachmentRequest() {
   yield takeLatest(DELETE_BRIEF_ATTACHMENT_REQUEST, deleteBriefAttachmentSaga);
 }
 
+function* hellosignGetTemplateRequest() {
+  yield takeLatest(HELLOSIGN_GET_TEMPLATE_REQUEST, hellosignGetTemplateSaga);
+}
+
 // Reactive Saga
 function* deleteBriefSuccessRequest() {
   yield takeLatest(DELETE_BRIEF_SUCCESS, getBriefsSaga);
@@ -396,6 +416,7 @@ export default function* rootSaga() {
     fork(createRequisitionRequest),
     fork(uploadBriefAttachmentRequest),
     fork(deleteBriefAttachmentRequest),
+    fork(hellosignGetTemplateRequest),
     // Reactive
     fork(deleteBriefSuccessRequest),
     fork(createBriefEventSuccessRequest),
