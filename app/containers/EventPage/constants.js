@@ -14,6 +14,10 @@ export const INVITE_GUEST_REQUEST = 'app/Events/INVITE_GUEST_REQUEST';
 export const INVITE_GUEST_SUCCESS = 'app/Events/INVITE_GUEST_SUCCESS';
 export const INVITE_GUEST_ERROR = 'app/Events/INVITE_GUEST_ERROR';
 
+export const DELETE_GUEST_REQUEST = 'app/Events/DELETE_GUEST_REQUEST';
+export const DELETE_GUEST_SUCCESS = 'app/Events/DELETE_GUEST_SUCCESS';
+export const DELETE_GUEST_ERROR = 'app/Events/DELETE_GUEST_ERROR';
+
 export const RESEND_EMAIL_REQUEST = 'app/Events/RESEND_EMAIL_REQUEST';
 export const RESEND_EMAIL_SUCCESS = 'app/Events/RESEND_EMAIL_SUCCESS';
 export const RESEND_EMAIL_ERROR = 'app/Events/RESEND_EMAIL_ERROR';

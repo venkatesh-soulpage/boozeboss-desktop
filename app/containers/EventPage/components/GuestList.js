@@ -26,8 +26,11 @@ const FieldLabel = styled.b`
 export default class GuestList extends Component {
 
     handleResendEmail = (event_guest_id) => {
-        console.log(event_guest_id);
         this.props.resendEmail(event_guest_id);
+    }
+
+    handleDelete = (event_guest_id) => {
+        this.props.deleteGuest(event_guest_id);
     }
 
     render() {
@@ -106,7 +109,7 @@ export default class GuestList extends Component {
                                         Actions
                                     </HeaderCell>
                                     <Cell dataKey="code">
-                                        { rowData => <div><a onClick={() => this.handleResendEmail(rowData.id)}>Send email</a> | <a>Revoke</a></div>}
+                                        { rowData => <div><a onClick={() => this.handleResendEmail(rowData.id)}>Send email</a> | <a onClick={() => this.handleDelete(rowData.id)}>Revoke</a></div>}
                                     </Cell>
                                 </Column>
                             </Table>
