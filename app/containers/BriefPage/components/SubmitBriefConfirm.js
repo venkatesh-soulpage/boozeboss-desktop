@@ -49,10 +49,10 @@ export default class SubmitBriefConfirm extends React.Component {
                         You won't be able to make further changes.
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={this.submit} color="blue">
+                    <Button onClick={() => this.submit(true)} color="blue">
                         Submit with Hellosign
                     </Button>
-                    <Button onClick={this.submit} color="green">
+                    <Button onClick={() => this.submit(false)} color="green">
                         Submit
                     </Button>
                     <Button onClick={this.close} appearance="subtle">

@@ -25,12 +25,22 @@ const StyledButton = styled(Button)`
     align-self: flex-end;
 `
 
+const currencies = [
+    {label: 'US Dollar (USD)', value: 'USD'},
+    {label: 'Euro (EUR)', value: 'EUR'},
+    {label: 'Dirham (AED)', value: 'AED'},
+    {label: 'Pound Sterling (GBP)', value: 'GBP'},
+    {label: 'Brazilian Real (BRL)', value: 'BRL'},
+    {label: 'Mexican Peso (MXN)', value: 'MXN'},
+]
+
 export default class LocationsAddNew extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
         show: false,
         countries: null,
+        currency: null,
         name: null,
         is_country: true,
         parent_location: null,
@@ -83,8 +93,8 @@ export default class LocationsAddNew extends React.Component {
 
     addLocation = async () => {
        const {addLocation} = this.props;
-       const {name, countries, is_country, id_card_available, passport_available, parent_location} = this.state;
-       addLocation({name, countries, is_country, id_card_available, passport_available, parent_location});
+       const {name, countries, is_country, id_card_available, passport_available, parent_location, currency} = this.state;
+       addLocation({name, currency, countries, is_country, id_card_available, passport_available, parent_location});
        this.close();
     }
 
@@ -104,6 +114,16 @@ export default class LocationsAddNew extends React.Component {
                                     onChange={(value) => this.handleChange(value, 'name')}
                                     value={name}
                                 /> 
+                            </FieldContainer>
+                        </FieldRow>
+                        <FieldRow>
+                            <FieldContainer>
+                                <FieldLabel>Currency</FieldLabel>
+                                <SelectPicker 
+                                    searchable={false}
+                                    data={currencies}
+                                    onChange={(value) => this.handleChange(value, 'currency')}
+                                />
                             </FieldContainer>
                         </FieldRow>
                         <FieldRow>

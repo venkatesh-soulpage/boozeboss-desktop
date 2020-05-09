@@ -31,6 +31,7 @@ import BriefPage from 'containers/BriefPage/Loadable';
 import RequisitionPage from 'containers/RequisitionPage/Loadable';
 import WarehousePage from 'containers/WarehousePage/Loadable';
 import ProductPage from 'containers/ProductPage/Loadable';
+import EventPage from 'containers/EventPage/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
 import Header from 'components/Header';
@@ -100,6 +101,13 @@ class App extends React.Component {
             component={RequisitionPage}
             scopesRequired={['BRAND', 'AGENCY']}
             rolesRequired={['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/events"
+            component={EventPage}
+            scopesRequired={['AGENCY']}
+            rolesRequired={['OWNER', 'MANAGER']}
           />
           <PrivateRoute
             exact

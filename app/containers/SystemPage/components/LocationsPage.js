@@ -40,6 +40,14 @@ export default class LocationsPage extends Component {
                                 </Column>
                                 <Column>
                                     <HeaderCell>
+                                        Currency
+                                    </HeaderCell>
+                                    <Cell dataKey="currency">
+                                        {rowData => rowData.currency}
+                                    </Cell>
+                                </Column>
+                                <Column>
+                                    <HeaderCell>
                                         Is Country
                                     </HeaderCell>
                                     <Cell dataKey="is_country">

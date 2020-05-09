@@ -249,6 +249,7 @@ export default class BriefsInfo extends Component {
                                             briefs[currentBrief].products.length > 0 ? (
                                                 <Table
                                                     data={briefs[currentBrief].products}
+                                                    style={{zIndex: 0}}
                                                 >
                                                     <Column resizable width={120}>
                                                         <HeaderCell>

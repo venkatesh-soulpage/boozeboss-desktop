@@ -34,7 +34,7 @@ export default class NewEvent extends React.Component {
         venuesData: null,
         expected_guests: null,
         hourly_expected_guests: null,
-        drinks_enabled: false,
+        drinks_enabled: true,
         recee_required: false,
         recee_time: null,
         cocktails_enabled: false,
@@ -300,14 +300,14 @@ export default class NewEvent extends React.Component {
                                 /> 
                             </FieldContainer>
                         </FieldRow>
-                        <FieldRow>
+                        {/* <FieldRow>
                             <FieldContainer>
                                 <FieldLabel>Drink Options</FieldLabel>
                                 <FieldRow>
                                     <Checkbox defaultChecked={drinks_enabled} onChange={(value) => this.handleChange(!drinks_enabled, 'drinks_enabled')}>Enable Drinks</Checkbox>
                                 </FieldRow>
                             </FieldContainer>
-                        </FieldRow>
+                        </FieldRow> */}
                         {drinks_enabled && (
                             <FieldRow>
                                 <FieldContainer>

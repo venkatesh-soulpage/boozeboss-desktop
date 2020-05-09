@@ -7,7 +7,7 @@
 import HelloSign from 'hellosign-embedded';
 
 const hellosign_client = new HelloSign({
-  clientId: 'f15371c3bc37849ecb9b35403a4af571'
+  clientId: process.env.HELLOSIGN_CLIENT_ID, 
 });
 
 
