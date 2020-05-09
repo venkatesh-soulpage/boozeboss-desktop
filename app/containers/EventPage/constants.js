@@ -13,3 +13,7 @@ export const GET_EVENTS_ERROR = 'app/Events/GET_EVENTS_ERROR';
 export const INVITE_GUEST_REQUEST = 'app/Events/INVITE_GUEST_REQUEST';
 export const INVITE_GUEST_SUCCESS = 'app/Events/INVITE_GUEST_SUCCESS';
 export const INVITE_GUEST_ERROR = 'app/Events/INVITE_GUEST_ERROR';
+
+export const RESEND_EMAIL_REQUEST = 'app/Events/RESEND_EMAIL_REQUEST';
+export const RESEND_EMAIL_SUCCESS = 'app/Events/RESEND_EMAIL_SUCCESS';
+export const RESEND_EMAIL_ERROR = 'app/Events/RESEND_EMAIL_ERROR';

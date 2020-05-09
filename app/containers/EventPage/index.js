@@ -15,7 +15,7 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import {makeSelectEvents, makeSelectSuccess, makeSelectError } from './selectors';
-import { getEvents, inviteGuest } from './actions';
+import { getEvents, inviteGuest, resendEmail } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -58,6 +58,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getEvents: () => dispatch(getEvents()),
     inviteGuest: (guest) => dispatch(inviteGuest(guest)),
+    resendEmail: (event_guest_id) => dispatch(resendEmail(event_guest_id)),
   };
 }
 

@@ -24,9 +24,14 @@ const FieldLabel = styled.b`
 `
 
 export default class GuestList extends Component {
+
+    handleResendEmail = (event_guest_id) => {
+        console.log(event_guest_id);
+        this.props.resendEmail(event_guest_id);
+    }
+
     render() {
         const {event} = this.props;
-        console.log(event);
         return (
             <React.Fragment>
                 <FieldsRow>
@@ -45,7 +50,8 @@ export default class GuestList extends Component {
                         event.event.guests.length > 0 ? (
                             <Table
                                 data={event.event.guests}
-                                style={{margin: '1em 0 0 0'}}
+                                style={{margin: '1em 0 0 0', maxHeight: '30vh'}}
+                                autoHeight
                             >
                                 <Column flexGrow>
                                     <HeaderCell>
@@ -92,7 +98,15 @@ export default class GuestList extends Component {
                                         Signup Code
                                     </HeaderCell>
                                     <Cell dataKey="code">
-                                        {rowData => <b>{rowData.code}</b>}
+                                        {rowData => <b>{rowData.account_id ? '-' : rowData.code}</b>}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Actions
+                                    </HeaderCell>
+                                    <Cell dataKey="code">
+                                        { rowData => <div><a onClick={() => this.handleResendEmail(rowData.id)}>Send email</a> | <a>Revoke</a></div>}
                                     </Cell>
                                 </Column>
                             </Table>

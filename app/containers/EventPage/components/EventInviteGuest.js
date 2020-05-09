@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, Checkbox} from 'rsuite'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
@@ -28,6 +28,7 @@ export default class EventInviteGuest extends React.Component {
         last_name: null,
         email: null,
         phone_number: null,
+        send_email: false,
       };
     }
 
@@ -40,7 +41,14 @@ export default class EventInviteGuest extends React.Component {
     }
 
     close = () => {
-      this.setState({ show: false });
+        this.setState({
+            show: false,
+            first_name: null,
+            last_name: null,
+            email: null,
+            phone_number: null,
+            send_email: false
+        });
     }
 
     open = () => {
@@ -54,14 +62,14 @@ export default class EventInviteGuest extends React.Component {
 
     invite = async () => {
         const {inviteGuest, events, currentEvent} = this.props;
-        const {first_name, last_name, email, phone_number} = this.state;
+        const {first_name, last_name, email, phone_number, send_email} = this.state;
         if ( !first_name) return alert('Missing fields');
-        await inviteGuest({first_name, last_name, email, phone_number, event_id: events[currentEvent].event.id});
+        await inviteGuest({first_name, last_name, email, phone_number, event_id: events[currentEvent].event.id, send_email});
         this.close();
     }
 
     render() {
-        const {show} = this.state;
+        const {show, email, phone_number} = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open} color="green">+ Add Guest</Button>
@@ -89,7 +97,8 @@ export default class EventInviteGuest extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Phone Number</FieldLabel>
                             <PhoneInput
-                                style={{...styles, zIndex: 99}}
+                                style={{width: '300px', zIndex: 99}}
+                                
                                 country={'us'}
                                 enableSearch
                                 disableSearchIcon
@@ -101,6 +110,29 @@ export default class EventInviteGuest extends React.Component {
                                 onChange={(value) => this.handleChange(value, 'phone_number')}
                             />
                         </FieldContainer>
+                        { (email || phone_number) && (
+                            <FieldContainer>
+                                <FieldLabel>Share</FieldLabel>
+                                {email && (
+                                    <Checkbox 
+                                        value={this.state.send_email}
+                                        onChange={(value) => this.handleChange(!this.state.send_email, 'send_email')}
+                                    >   
+                                        Send Email?
+                                    </Checkbox>
+                                )}
+                                {phone_number && (
+                                    <Checkbox 
+                                    value={this.state.send_sms}
+                                    onChange={(value) => this.handleChange(!this.state.send_sms, 'send_sms')}
+                                    disabled
+                                >   
+                                    Send SMS?
+                                </Checkbox>
+                                )}
+                                
+                            </FieldContainer>
+                        )}
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.invite} color="green">
