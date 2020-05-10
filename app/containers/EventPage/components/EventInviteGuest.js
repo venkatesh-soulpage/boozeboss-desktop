@@ -24,6 +24,8 @@ export default class EventInviteGuest extends React.Component {
       super(props);
       this.state = {
         show: false,
+        role_options: null,
+        role_id: null,
         first_name: null,
         last_name: null,
         email: null,
@@ -43,6 +45,7 @@ export default class EventInviteGuest extends React.Component {
     close = () => {
         this.setState({
             show: false,
+            role_id: null,
             first_name: null,
             last_name: null,
             email: null,
@@ -53,7 +56,21 @@ export default class EventInviteGuest extends React.Component {
 
     open = () => {
       this.setState({ show: true });
-      // this.getPickerData();
+      this.getPickerData();
+    }
+
+    getPickerData = () => {
+        const {roles} = this.props;
+        if (!roles) return [];
+
+        const role_options = roles.map(role => {
+            return {
+                label: role.name,
+                value: role.id,
+            }
+        })
+
+        this.setState({role_options});
     }
 
     handleChange = (value, name) => {
@@ -62,20 +79,28 @@ export default class EventInviteGuest extends React.Component {
 
     invite = async () => {
         const {inviteGuest, events, currentEvent} = this.props;
-        const {first_name, last_name, email, phone_number, send_email} = this.state;
-        if ( !first_name) return alert('Missing fields');
-        await inviteGuest({first_name, last_name, email, phone_number, event_id: events[currentEvent].event.id, send_email});
+        const { role_id, first_name, last_name, email, phone_number, send_email} = this.state;
+        if ( !first_name || !role_id) return alert('Missing fields');
+        await inviteGuest({role_id, first_name, last_name, email, phone_number, event_id: events[currentEvent].event.id, send_email});
         this.close();
     }
 
     render() {
-        const {show, email, phone_number} = this.state;
+        const {role_id, show, role_options, email, phone_number} = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open} color="green">+ Add Guest</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
+                        <FieldContainer>
+                            <FieldLabel>Event Role (Required)</FieldLabel>
+                            <SelectPicker 
+                                searchable={false}
+                                data={role_options}
+                                onChange={(value) => this.handleChange(value, 'role_id')}
+                            />
+                        </FieldContainer>
                         <FieldContainer>
                             <FieldLabel>First Name (Required)</FieldLabel>
                             <Input 

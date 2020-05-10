@@ -7,12 +7,13 @@ import {
   INVITE_GUEST_REQUEST, INVITE_GUEST_SUCCESS,
   DELETE_GUEST_REQUEST,
   DELETE_GUEST_SUCCESS,
-  RESEND_EMAIL_REQUEST
+  RESEND_EMAIL_REQUEST,
+  GET_ROLES_REQUEST
 } from './constants';
 
 import {
   getEventsSuccess, getEventsError,
-  inviteGuestSuccess, inviteGuestError, resendEmailError, deleteGuestSuccess, deleteGuestError
+  inviteGuestSuccess, inviteGuestError, resendEmailError, deleteGuestSuccess, deleteGuestError, getRolesSuccess, getRolesError
 } from './actions';
 
 function* getEventsSaga() {
@@ -27,6 +28,21 @@ function* getEventsSaga() {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(getEventsError(jsonError));
+  }
+}
+
+function* getRolesSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/roles?scope=GUEST`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getRolesSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getRolesError(jsonError));
   }
 }
 
@@ -84,6 +100,10 @@ function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
 }
 
+function* getRolesRequest() {
+  yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
+}
+
 function* inviteGuestRequest() {
   yield takeLatest(INVITE_GUEST_REQUEST, inviteGuestSaga);
 }
@@ -108,6 +128,7 @@ function* deleteGuestSuccessRequest() {
 export default function* rootSaga() {
   yield all([
     fork(getEventsRequest),
+    fork(getRolesRequest),
     fork(inviteGuestRequest),
     fork(resendEmailRequest),
     fork(deleteGuestRequest),

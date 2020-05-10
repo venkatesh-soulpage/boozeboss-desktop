@@ -98,6 +98,14 @@ export default class GuestList extends Component {
                                 </Column>
                                 <Column flexGrow>
                                     <HeaderCell>
+                                        Guest Type
+                                    </HeaderCell>
+                                    <Cell dataKey="phone_number">
+                                        {rowData => rowData.role.name}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
                                         Signup Code
                                     </HeaderCell>
                                     <Cell dataKey="code">

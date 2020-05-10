@@ -14,8 +14,8 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {makeSelectEvents, makeSelectSuccess, makeSelectError } from './selectors';
-import { getEvents, inviteGuest, resendEmail, deleteGuest } from './actions';
+import {makeSelectEvents, makeSelectSuccess, makeSelectError, makeSelectRoles } from './selectors';
+import { getEvents, inviteGuest, resendEmail, deleteGuest, getRoles } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -25,8 +25,9 @@ import { EventsContainer } from './components';
 export class EventPage extends React.Component {
 
   componentWillMount = () => {
-    const {getEvents} = this.props;
+    const {getEvents, getRoles} = this.props;
     getEvents();
+    getRoles();
   }
 
   render() {
@@ -50,6 +51,7 @@ EventPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   events: makeSelectEvents(),
+  roles: makeSelectRoles(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
 });
@@ -57,6 +59,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getEvents: () => dispatch(getEvents()),
+    getRoles: () => dispatch(getRoles()),
     inviteGuest: (guest) => dispatch(inviteGuest(guest)),
     resendEmail: (event_guest_id) => dispatch(resendEmail(event_guest_id)),
     deleteGuest: (event_guest_id) => dispatch(deleteGuest(event_guest_id)),

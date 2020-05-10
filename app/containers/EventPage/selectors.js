@@ -7,6 +7,11 @@ const makeSelectEvents = () =>
     eventsState.get('events'),
   );
 
+const makeSelectRoles = () =>
+  createSelector(selectEvents, eventsState =>
+    eventsState.get('roles'),
+  );
+
 const makeSelectSuccess = () =>
   createSelector(selectEvents, eventsState =>
     eventsState.get('success'),
@@ -19,6 +24,7 @@ const makeSelectError = () =>
 
 export { 
   makeSelectEvents,
+  makeSelectRoles,
   makeSelectSuccess,
   makeSelectError
 };
