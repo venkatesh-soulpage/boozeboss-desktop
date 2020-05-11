@@ -28,15 +28,9 @@ import {
   GET_AGENCIES_REQUEST,
   GET_AGENCIES_SUCCESS,
   GET_AGENCIES_ERROR,
-  CREATE_BRIEF_PRODUCT_REQUEST,
-  CREATE_BRIEF_PRODUCT_SUCCESS,
-  CREATE_BRIEF_PRODUCT_ERROR,
-  GET_PRODUCTS_REQUEST,
-  GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_ERROR,
-  DELETE_BRIEF_PRODUCT_REQUEST,
-  DELETE_BRIEF_PRODUCT_SUCCESS,
-  DELETE_BRIEF_PRODUCT_ERROR,
+  GET_BRANDS_REQUEST,
+  GET_BRANDS_SUCCESS,
+  GET_BRANDS_ERROR,
   CREATE_REQUISITION_REQUEST,
   CREATE_REQUISITION_SUCCESS,
   CREATE_REQUISITION_ERROR,
@@ -51,13 +45,20 @@ import {
   UPDATE_BRIEF_EVENT_ERROR,
   DELETE_BRIEF_EVENT_SUCCESS,
   DELETE_BRIEF_EVENT_REQUEST,
-  DELETE_BRIEF_EVENT_ERROR
+  DELETE_BRIEF_EVENT_ERROR,
+  CREATE_BRIEF_BRAND_REQUEST,
+  CREATE_BRIEF_BRAND_SUCCESS,
+  CREATE_BRIEF_BRAND_ERROR,
+  DELETE_BRIEF_BRAND_REQUEST,
+  DELETE_BRIEF_BRAND_SUCCESS,
+  DELETE_BRIEF_BRAND_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
   briefs: null,
   venues: null,
   agencies: null,
+  brands: null,
   success: null,
   error: null,
 });
@@ -104,11 +105,11 @@ function briefPageReducer(state = initialState, action) {
       return state.set('venues', action.venues).set('isLoading', false);
     case GET_VENUES_ERROR:
       return state.set('error', action.error).set('isLoading', false);
-    case GET_PRODUCTS_REQUEST:
+    case GET_BRANDS_REQUEST:
       return state.set('isLoading', true);
-    case GET_PRODUCTS_SUCCESS:
-      return state.set('products', action.products).set('isLoading', false);
-    case GET_PRODUCTS_ERROR:
+    case GET_BRANDS_SUCCESS:
+      return state.set('brands', action.brands).set('isLoading', false);
+    case GET_BRANDS_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case CREATE_BRIEF_EVENT_REQUEST:
       return state.set('isLoading', true);
@@ -128,17 +129,17 @@ function briefPageReducer(state = initialState, action) {
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
     case DELETE_BRIEF_EVENT_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
-    case CREATE_BRIEF_PRODUCT_REQUEST:
+    case CREATE_BRIEF_BRAND_REQUEST:
       return state.set('isLoading', true);
-    case CREATE_BRIEF_PRODUCT_SUCCESS:
+    case CREATE_BRIEF_BRAND_SUCCESS:
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
-    case CREATE_BRIEF_PRODUCT_ERROR:
+    case CREATE_BRIEF_BRAND_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
-    case DELETE_BRIEF_PRODUCT_REQUEST:
+    case DELETE_BRIEF_BRAND_REQUEST:
       return state.set('isLoading', true);
-    case DELETE_BRIEF_PRODUCT_SUCCESS:
+    case DELETE_BRIEF_BRAND_SUCCESS:
       return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
-    case DELETE_BRIEF_PRODUCT_ERROR:
+    case DELETE_BRIEF_BRAND_ERROR:
       return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
     case UPDATE_BRIEF_STATUS_REQUEST:
       return state.set('isLoading', true);

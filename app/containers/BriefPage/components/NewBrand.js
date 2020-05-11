@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, DatePicker, InputNumber, Checkbox, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, DatePicker, InputNumber, Checkbox, SelectPicker, Message} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldRow = styled.div`
@@ -32,15 +32,14 @@ export default class NewProduct extends React.Component {
       super(props);
       this.state = {
         show: false,
-        productsData: null,
-        product_id: null,
+        brandsData: null,
+        brand_id: null,
         limit: 0,
-        maxStocks: 0,
       };
     }
 
     close = () => {
-      this.setState({ show: false, product_id: null, limit: 0, maxStocks: 0 });
+      this.setState({ show: false, brand_id: null, limit: 0});
     }
 
     open = () => {
@@ -54,40 +53,31 @@ export default class NewProduct extends React.Component {
 
     handleProductChange = (value, name) => {
         this.setState({[name]: value});
-        this.calculateMaxStocks(value);
-    }
-
-    calculateMaxStocks = (product_id) => {
-        const {products} = this.props;
-        const product = products.find(prod => prod.id === product_id);
-
-
-        const {stocks} = product;
-
-        const maxStocks = stocks.reduce((acc, curr) => {
-            return Number(acc) + curr.quantity;
-        }, 0)
-
-        this.setState({maxStocks});
     }
 
     getPickerData = ()  => {
-        const {products} = this.props;
-        if (!products) return [];
-        const productsData = products.filter(prod => !prod.is_cocktail).map(product => {
-            return {
-                label: `${product.name} - ${product.metric_amount}${product.metric} ${product.brand ? `(${product.brand.name})` : ''}`,
-                value: product.id,
-                role: product.name,
-            }
-        })
-        this.setState({productsData});
+        const {brands, briefs, currentBrief } = this.props;
+        if (!brands) return [];
+        if (!briefs[currentBrief]) return [];
+
+        const currentBrands = briefs[currentBrief].brands.map(brand => brand.brand_id);
+
+        const brandsData = brands
+            .filter(brand => currentBrands.indexOf(brand.id) < 0)
+            .map(brand => {
+                return {
+                    label: `${brand.name} (${brand.product_type} - ${brand.product_subtype})`,
+                    value: brand.id,
+                    role: brand.name,
+                }
+            })
+        this.setState({brandsData});
     }
 
-    addProduct = async () => {
-        const { createBriefProduct, briefs, currentBrief } = this.props;
-        const {product_id, limit} = this.state;
-        createBriefProduct(briefs[currentBrief].id, {product_id, limit});
+    addBrand = async () => {
+        const { createBriefBrand, briefs, currentBrief } = this.props;
+        const {brand_id, limit} = this.state;
+        createBriefBrand(briefs[currentBrief].id, {brand_id, limit});
         this.close();
     }
 
@@ -99,40 +89,39 @@ export default class NewProduct extends React.Component {
     }
 
     render() {
-        const {show, productsData, limit, product_id, maxStocks} = this.state;
+        const {show, brandsData, limit, brand_id} = this.state;
         return (
             <React.Fragment>
-                <StyledButton onClick={this.open} color="green">+ Add Product </StyledButton>
+                <StyledButton onClick={this.open} color="green">+ Add Brand </StyledButton>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
                             <FieldRow>
-                                <FieldLabel>Product</FieldLabel>
-                                <a onClick={() => this.goToRoute('/products')}>+ Add new product</a>
+                                <FieldLabel>Brand</FieldLabel>
+                                <a onClick={() => this.goToRoute('/clients')}>+ Add new brand</a>
                             </FieldRow>
                             
                             <SelectPicker 
                                 searchable={false}
-                                data={productsData}
-                                onChange={(value) => this.handleProductChange(value, 'product_id')}
+                                data={brandsData}
+                                onChange={(value) => this.handleProductChange(value, 'brand_id')}
                             />
                         </FieldContainer>
                         <FieldContainer>
                             <FieldLabel>Limit</FieldLabel> 
-                            {product_id && maxStocks > 0 && <StocksLabel>Stock Available: {maxStocks} units</StocksLabel>}
-                            {product_id && maxStocks < 1 && <StocksLabel>No stock available</StocksLabel>}
                             <InputNumber 
-                                min={0}
-                                max={maxStocks}
+                                defaultValue={1}
+                                min={1}
                                 onChange={(value) => this.handleChange(value, 'limit')}
                                 value={limit}
                             /> 
                         </FieldContainer>
+                        <Message style={{margin: '0 1em 0 1em'}} description="All the Ingredients and POS Materials are enabled by default for the requisition"/>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={this.addProduct} color="green" disabled={limit > maxStocks}>
-                        Add Product
+                    <Button onClick={this.addBrand} color="green">
+                        Add Brand
                     </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel

@@ -13,13 +13,13 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues, makeSelectAgencies, makeSelectProducts} from './selectors';
+import { makeSelectBriefs, makeSelectSuccess, makeSelectError, makeSelectVenues, makeSelectAgencies, makeSelectBrands} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { BriefsContainer } from './components';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefProduct, getProducts, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment, updateBriefEvent, deleteBriefEvent, hellosignGetTemplate } from './actions';
+import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBriefDraft, getVenues, createBriefEvent, updateBriefStatus, getAgencies, createBriefBrand, getBrands, deleteBriefProduct, createRequisition, uploadBriefAttachment, deleteBriefAttachment, updateBriefEvent, deleteBriefEvent, hellosignGetTemplate, deleteBriefBrand } from './actions';
 
 
 
@@ -27,13 +27,13 @@ import { addBriefDraft, getBriefs, createBrief, deleteBrief, dismiss, deleteBrie
 export class BriefPage extends React.Component {
   
   componentDidMount = () => {
-    const {getBriefs, getVenues, getAgencies, getProducts, scope} = this.props;
+    const {getBriefs, getVenues, getAgencies, getBrands, scope} = this.props;
     getBriefs();
     
     if (scope === 'BRAND') {
       getVenues();
       getAgencies();
-      getProducts();
+      getBrands();
     }
   }
   
@@ -57,7 +57,7 @@ BriefPage.propTypes = {
   getBriefs: PropTypes.func.isRequired, 
   getVenues: PropTypes.func.isRequired, 
   createBrief: PropTypes.func.isRequired, 
-  createBriefProduct: PropTypes.func.isRequired, 
+  createBriefBrand: PropTypes.func.isRequired, 
   deleteBriefProduct: PropTypes.func.isRequired, 
   updateBriefStatus: PropTypes.func.isRequired,
   createBriefEvent: PropTypes.func.isRequired,
@@ -71,7 +71,7 @@ const mapStateToProps = createStructuredSelector({
   briefs: makeSelectBriefs(),
   agencies: makeSelectAgencies(),
   venues: makeSelectVenues(),
-  products: makeSelectProducts(),
+  brands: makeSelectBrands(),
   error: makeSelectError(),
   success: makeSelectSuccess(),
 });
@@ -82,15 +82,15 @@ function mapDispatchToProps(dispatch) {
     deleteBriefDraft: () => dispatch(deleteBriefDraft()),
     getBriefs: () => dispatch(getBriefs()),
     getVenues: () => dispatch(getVenues()),
-    getProducts: () => dispatch(getProducts()),
+    getBrands: () => dispatch(getBrands()),
     getAgencies: () => dispatch(getAgencies()),
     createBrief: (brief) => dispatch(createBrief(brief)),
     deleteBrief: (brief_id) => dispatch(deleteBrief(brief_id)),
     createBriefEvent: (brief_id, briefEvent) => dispatch(createBriefEvent(brief_id, briefEvent)),
     updateBriefEvent: (brief_id, brief_event_id, briefEvent) => dispatch(updateBriefEvent(brief_id, brief_event_id, briefEvent)),
     deleteBriefEvent: (brief_id, brief_event_id) => dispatch(deleteBriefEvent(brief_id, brief_event_id)),
-    createBriefProduct: (brief_id, briefProduct) => dispatch(createBriefProduct(brief_id, briefProduct)),
-    deleteBriefProduct: (brief_id, brief_product_id) => dispatch(deleteBriefProduct(brief_id, brief_product_id)),
+    createBriefBrand: (brief_id, briefBrand) => dispatch(createBriefBrand(brief_id, briefBrand)),
+    deleteBriefBrand: (brief_id, brief_brand_id) => dispatch(deleteBriefBrand(brief_id, brief_brand_id)),
     updateBriefStatus: (brief_id, status) => dispatch(updateBriefStatus(brief_id, status)),
     createRequisition: (brief_id) => dispatch(createRequisition(brief_id)),
     uploadBriefAttachment: (brief_id, file) => dispatch(uploadBriefAttachment(brief_id, file)),

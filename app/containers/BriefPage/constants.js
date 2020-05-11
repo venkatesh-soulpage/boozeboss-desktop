@@ -31,11 +31,11 @@ export const GET_VENUES_SUCCESS =
   'boozeboss/BriefsContainer/GET_VENUES_SUCCESS';
 export const GET_VENUES_ERROR = 'boozeboss/BriefsContainer/GET_VENUES_ERROR';
 
-export const GET_PRODUCTS_REQUEST =
-  'boozeboss/BriefsContainer/GET_PRODUCTS_REQUEST';
-export const GET_PRODUCTS_SUCCESS =
-  'boozeboss/BriefsContainer/GET_PRODUCTS_SUCCESS';
-export const GET_PRODUCTS_ERROR = 'boozeboss/BriefsContainer/GET_PRODUCTS_ERROR';
+export const GET_BRANDS_REQUEST =
+  'boozeboss/BriefsContainer/GET_BRANDS_REQUEST';
+export const GET_BRANDS_SUCCESS =
+  'boozeboss/BriefsContainer/GET_BRANDS_SUCCESS';
+export const GET_BRANDS_ERROR = 'boozeboss/BriefsContainer/GET_BRANDS_ERROR';
 
 export const GET_AGENCIES_REQUEST =
   'boozeboss/BriefsContainer/GET_AGENCIES_REQUEST';
@@ -61,17 +61,17 @@ export const DELETE_BRIEF_EVENT_SUCCESS =
   'boozeboss/BriefsContainer/DELETE_BRIEF_EVENT_SUCCESS';
 export const DELETE_BRIEF_EVENT_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_EVENT_ERROR';
 
-export const CREATE_BRIEF_PRODUCT_REQUEST =
-  'boozeboss/BriefsContainer/CREATE_BRIEF_PRODUCT_REQUEST';
-export const CREATE_BRIEF_PRODUCT_SUCCESS =
-  'boozeboss/BriefsContainer/CREATE_BRIEF_PRODUCT_SUCCESS';
-export const CREATE_BRIEF_PRODUCT_ERROR = 'boozeboss/BriefsContainer/CREATE_BRIEF_PRODUCT_ERROR';
+export const CREATE_BRIEF_BRAND_REQUEST =
+  'boozeboss/BriefsContainer/CREATE_BRIEF_BRAND_REQUEST';
+export const CREATE_BRIEF_BRAND_SUCCESS =
+  'boozeboss/BriefsContainer/CREATE_BRIEF_BRAND_SUCCESS';
+export const CREATE_BRIEF_BRAND_ERROR = 'boozeboss/BriefsContainer/CREATE_BRIEF_BRAND_ERROR';
 
-export const DELETE_BRIEF_PRODUCT_REQUEST =
-  'boozeboss/BriefsContainer/DELETE_BRIEF_PRODUCT_REQUEST';
-export const DELETE_BRIEF_PRODUCT_SUCCESS =
-  'boozeboss/BriefsContainer/DELETE_BRIEF_PRODUCT_SUCCESS';
-export const DELETE_BRIEF_PRODUCT_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_PRODUCT_ERROR';
+export const DELETE_BRIEF_BRAND_REQUEST =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_BRAND_REQUEST';
+export const DELETE_BRIEF_BRAND_SUCCESS =
+  'boozeboss/BriefsContainer/DELETE_BRIEF_BRAND_SUCCESS';
+export const DELETE_BRIEF_BRAND_ERROR = 'boozeboss/BriefsContainer/DELETE_BRIEF_BRAND_ERROR';
 
 export const UPDATE_BRIEF_STATUS_REQUEST =
   'boozeboss/BriefsContainer/UPDATE_BRIEF_STATUS_REQUEST';

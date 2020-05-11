@@ -6,8 +6,8 @@ import moment from 'moment';
 import NewEvent from './NewEvent';
 import SubmitBriefConfirm from './SubmitBriefConfirm';
 import RoleValidator from 'components/RoleValidator'
-import NewProduct from './NewProduct';
-import DeleteProductModal from './DeleteProductModal';
+import NewBrand from './NewBrand';
+import DeleteBrandModal from './DeleteBrandModal';
 import CreateRequisitionConfirm from './CreateRequisitionConfirm';
 import BriefAttachmentUploader from './BriefAttachmentUploader';
 import BriefEventsList from './BriefEventsList';
@@ -245,34 +245,34 @@ export default class BriefsInfo extends Component {
                                     </FieldContainer>
                                     <FieldContainer>
                                         <FieldLabel>Select lead brands</FieldLabel>
-                                        {briefs[currentBrief].products && 
-                                            briefs[currentBrief].products.length > 0 ? (
+                                        {briefs[currentBrief].brands && 
+                                            briefs[currentBrief].brands.length > 0 ? (
                                                 <Table
-                                                    data={briefs[currentBrief].products}
+                                                    data={briefs[currentBrief].brands}
                                                     style={{zIndex: 0}}
                                                 >
-                                                    <Column resizable width={120}>
-                                                        <HeaderCell>
-                                                            Product
-                                                        </HeaderCell>
-                                                        <Cell dataKey="name">
-                                                            {rowData => rowData.product.name}
-                                                        </Cell>
-                                                    </Column>
-                                                    <Column resizable width={120}>
-                                                        <HeaderCell>
-                                                            Presentation
-                                                        </HeaderCell>
-                                                        <Cell dataKey="name">
-                                                            {rowData => `${rowData.product.metric_amount}${rowData.product.metric}`}
-                                                        </Cell>
-                                                    </Column>
                                                     <Column resizable width={120}>
                                                         <HeaderCell>
                                                             Brand
                                                         </HeaderCell>
                                                         <Cell dataKey="name">
-                                                            {rowData => rowData.product.brand ? rowData.product.brand.name : 'N/A'}
+                                                            {rowData => rowData.brand.name}
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column resizable width={120}>
+                                                        <HeaderCell>
+                                                            Category
+                                                        </HeaderCell>
+                                                        <Cell dataKey="name">
+                                                            {rowData => rowData.brand.product_type}
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column resizable width={120}>
+                                                        <HeaderCell>
+                                                            Sub-Category
+                                                        </HeaderCell>
+                                                        <Cell dataKey="name">
+                                                            {rowData => rowData.brand.product_subtype}
                                                         </Cell>
                                                     </Column>
                                                     <Column resizable width={120}>
@@ -288,16 +288,16 @@ export default class BriefsInfo extends Component {
                                                             Actions
                                                         </HeaderCell>
                                                         <Cell dataKey="venue">
-                                                            {rowData => <DeleteProductModal {...this.props} brief_id={briefs[currentBrief].id} brief_product_id={rowData.id}/>}
+                                                            {rowData => <DeleteBrandModal {...this.props} brief_id={briefs[currentBrief].id} brief_brand_id={rowData.id}/>}
                                                         </Cell>
                                                     </Column> 
                                                     
                                                 </Table>
                                             ) : (
-                                                <p>No Products</p>
+                                                <p>No Brands</p>
                                             )}
                                         {briefs[currentBrief].status === 'DRAFT' && (
-                                            <NewProduct 
+                                            <NewBrand 
                                                 {...this.props}
                                                 brief={briefs[currentBrief]}
                                             />

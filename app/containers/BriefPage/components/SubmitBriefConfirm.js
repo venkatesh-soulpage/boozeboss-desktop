@@ -25,15 +25,13 @@ export default class SubmitBriefConfirm extends React.Component {
       this.setState({ show: true });
     }
 
-    submit = (withSign) => {
-        const {briefs, currentBrief, updateBriefStatus, helloSignGetTemplate} = this.props;
-        if (withSign) { 
-            helloSignGetTemplate();
-        } else { 
-            updateBriefStatus(briefs[currentBrief].id, 'SUBMITTED');
-        }
-        
-        
+    submit = async () => {
+        const {briefs, currentBrief, updateBriefStatus} = this.props;
+
+        if (briefs[currentBrief].brands.length < 1) return alert('You should add at least 1 brand.'); 
+        if (briefs[currentBrief].brief_events.length < 1) return alert('You should add at least 1 event.'); 
+
+        updateBriefStatus(briefs[currentBrief].id, 'SUBMITTED');
         this.close();
     }
 
@@ -49,10 +47,7 @@ export default class SubmitBriefConfirm extends React.Component {
                         You won't be able to make further changes.
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={() => this.submit(true)} color="blue">
-                        Submit with Hellosign
-                    </Button>
-                    <Button onClick={() => this.submit(false)} color="green">
+                    <Button onClick={this.submit} color="green">
                         Submit
                     </Button>
                     <Button onClick={this.close} appearance="subtle">

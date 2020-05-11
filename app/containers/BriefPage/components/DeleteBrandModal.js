@@ -11,7 +11,7 @@ const StyledAction = styled.p`
     }
 `
 
-export default class DeleteProductModal extends React.Component {
+export default class DeleteBrandModal extends React.Component {
     
     state = {
         show: false,
@@ -26,8 +26,8 @@ export default class DeleteProductModal extends React.Component {
     }
 
     delete = () => {
-        const {deleteBriefProduct ,brief_id, brief_product_id} = this.props;
-        deleteBriefProduct(brief_id, brief_product_id);
+        const {deleteBriefBrand ,brief_id, brief_brand_id} = this.props;
+        deleteBriefBrand(brief_id, brief_brand_id);
         this.close();
     }
 
@@ -46,7 +46,7 @@ export default class DeleteProductModal extends React.Component {
         
                 <Modal backdrop="static" show={show} onHide={this.close} size="xs">
                     <Modal.Body>
-                        Are you sure you want to delete this Product? 
+                        Are you sure you want to delete this Brand? 
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.delete} color="red">

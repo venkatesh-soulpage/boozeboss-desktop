@@ -27,12 +27,9 @@ import {
   GET_AGENCIES_REQUEST,
   GET_AGENCIES_SUCCESS,
   GET_AGENCIES_ERROR,
-  CREATE_BRIEF_PRODUCT_REQUEST,
-  CREATE_BRIEF_PRODUCT_SUCCESS,
-  CREATE_BRIEF_PRODUCT_ERROR,
-  GET_PRODUCTS_REQUEST,
-  GET_PRODUCTS_ERROR,
-  GET_PRODUCTS_SUCCESS,
+  GET_BRANDS_REQUEST,
+  GET_BRANDS_ERROR,
+  GET_BRANDS_SUCCESS,
   DELETE_BRIEF_PRODUCT_REQUEST,
   DELETE_BRIEF_PRODUCT_SUCCESS,
   DELETE_BRIEF_PRODUCT_ERROR,
@@ -53,7 +50,12 @@ import {
   DELETE_BRIEF_EVENT_ERROR,
   HELLOSIGN_GET_TEMPLATE_REQUEST,
   HELLOSIGN_GET_TEMPLATE_SUCCESS,
-  HELLOSIGN_GET_TEMPLATE_ERROR, 
+  HELLOSIGN_GET_TEMPLATE_ERROR,
+  CREATE_BRIEF_BRAND_REQUEST,
+  CREATE_BRIEF_BRAND_SUCCESS,
+  CREATE_BRIEF_BRAND_ERROR,
+  DELETE_BRIEF_BRAND_REQUEST,
+  DELETE_BRIEF_BRAND_SUCCESS, 
 } from './constants';
 
 export function addBriefDraft() {
@@ -155,22 +157,22 @@ export function getVenuesError(error) {
 }
 
 // GET Products
-export function getProducts() {
+export function getBrands() {
   return {
-    type: GET_PRODUCTS_REQUEST,
+    type: GET_BRANDS_REQUEST,
   };
 }
 
-export function getProductsSuccess(products) {
+export function getBrandsSuccess(brands) {
   return {
-    type: GET_PRODUCTS_SUCCESS,
-    products
+    type: GET_BRANDS_SUCCESS,
+    brands
   };
 }
 
-export function getProductsError(error) {
+export function getBrandsError(error) {
   return {
-    type: GET_PRODUCTS_ERROR,
+    type: GET_BRANDS_ERROR,
     error
   };
 }
@@ -246,47 +248,47 @@ export function deleteBriefEventError(error) {
 }
 
 // CREATE Product
-export function createBriefProduct(brief_id, briefProduct) {
+export function createBriefBrand(brief_id, briefBrand) {
   return {
-    type: CREATE_BRIEF_PRODUCT_REQUEST,
+    type: CREATE_BRIEF_BRAND_REQUEST,
     brief_id,
-    briefProduct,
+    briefBrand,
   };
 }
 
-export function createBriefProductSuccess(success) {
+export function createBriefBrandSuccess(success) {
   return {
-    type: CREATE_BRIEF_PRODUCT_SUCCESS,
+    type: CREATE_BRIEF_BRAND_SUCCESS,
     success
   };
 }
 
-export function createBriefProductError(error) {
+export function createBriefBrandError(error) {
   return {
-    type: CREATE_BRIEF_PRODUCT_ERROR,
+    type: CREATE_BRIEF_BRAND_ERROR,
     error
   };
 }
 
-// DELETE Product
-export function deleteBriefProduct(brief_id, brief_product_id) {
+// DELETE Brand
+export function deleteBriefBrand(brief_id, brief_brand_id) {
   return {
-    type: DELETE_BRIEF_PRODUCT_REQUEST,
+    type: DELETE_BRIEF_BRAND_REQUEST,
     brief_id,
-    brief_product_id,
+    brief_brand_id,
   };
 }
 
-export function deleteBriefProductSuccess(success) {
+export function deleteBriefBrandSuccess(success) {
   return {
-    type: DELETE_BRIEF_PRODUCT_SUCCESS,
+    type: DELETE_BRIEF_BRAND_SUCCESS,
     success
   };
 }
 
-export function deleteBriefProductError(error) {
+export function deleteBriefBrandError(error) {
   return {
-    type: DELETE_BRIEF_PRODUCT_ERROR,
+    type: DELETE_BRIEF_BRAND_ERROR,
     error
   };
 }

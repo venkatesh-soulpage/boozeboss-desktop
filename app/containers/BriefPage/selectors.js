@@ -12,9 +12,9 @@ const makeSelectVenues = () =>
     briefsState.get('venues'),
   );
   
-const makeSelectProducts = () =>
+const makeSelectBrands = () =>
   createSelector(selectBriefs, briefsState =>
-    briefsState.get('products'),
+    briefsState.get('brands'),
   );
   
 const makeSelectAgencies = () =>
@@ -35,7 +35,7 @@ const makeSelectSuccess = () =>
 export { 
   makeSelectBriefs,
   makeSelectVenues,
-  makeSelectProducts,
+  makeSelectBrands,
   makeSelectAgencies,
   makeSelectSuccess,
   makeSelectError

@@ -8,7 +8,18 @@ import {
   CREATE_BRIEF_REQUEST, 
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
-  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, GET_AGENCIES_REQUEST, CREATE_BRIEF_PRODUCT_REQUEST, CREATE_BRIEF_PRODUCT_SUCCESS, GET_PRODUCTS_REQUEST, DELETE_BRIEF_PRODUCT_REQUEST, DELETE_BRIEF_PRODUCT_SUCCESS, CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS, UPDATE_BRIEF_EVENT_REQUEST, UPDATE_BRIEF_EVENT_SUCCESS, DELETE_BRIEF_EVENT_REQUEST, DELETE_BRIEF_EVENT_SUCCESS, HELLOSIGN_GET_TEMPLATE_REQUEST
+  CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, 
+  UPDATE_BRIEF_STATUS_REQUEST, UPDATE_BRIEF_STATUS_SUCCESS, 
+  GET_AGENCIES_REQUEST, 
+  GET_BRANDS_REQUEST, 
+  CREATE_REQUISITION_REQUEST, CREATE_REQUISITION_SUCCESS, 
+  UPLOAD_BRIEF_ATTACHMENT_REQUEST, UPLOAD_BRIEF_ATTACHMENT_SUCCESS, 
+  DELETE_BRIEF_ATTACHMENT_REQUEST, DELETE_BRIEF_ATTACHMENT_SUCCESS, 
+  UPDATE_BRIEF_EVENT_REQUEST, UPDATE_BRIEF_EVENT_SUCCESS, 
+  DELETE_BRIEF_EVENT_REQUEST, DELETE_BRIEF_EVENT_SUCCESS, 
+  HELLOSIGN_GET_TEMPLATE_REQUEST,
+  CREATE_BRIEF_BRAND_REQUEST,CREATE_BRIEF_BRAND_SUCCESS,
+  DELETE_BRIEF_BRAND_REQUEST, DELETE_BRIEF_BRAND_SUCCESS 
 } from './constants';
 
 import {
@@ -20,13 +31,13 @@ import {
   updateBriefStatusSuccess, updateBriefStatusError, 
   getAgenciesSuccess, getAgenciesError, 
   createBriefProductSuccess, createBriefProductError, 
-  getProductsSuccess, getProductsError, 
+  getBrandsSuccess, getBrandsError, 
   deleteBriefProductSuccess, deleteBriefProductError, 
   createRequisitionSuccess, createRequisitionError, 
   uploadBriefAttachmentSuccess, uploadBriefAttachmentError, 
   deleteBriefAttachmentSuccess, deleteBriefAttachmentError,
   updateBriefEventSuccess, updateBriefEventError, 
-  deleteBriefEventSuccess, deleteBriefEventError, hellosignGetTemplate, hellosignGetTemplateError, hellosignGetTemplateSuccess
+  deleteBriefEventSuccess, deleteBriefEventError, hellosignGetTemplate, hellosignGetTemplateError, hellosignGetTemplateSuccess, createBriefBrandSuccess, createBriefBrandError, deleteBriefBrandSuccess, deleteBriefBrandError
 } from './actions';
 
 function* getBriefsSaga() {
@@ -92,18 +103,18 @@ function* getVenuesSaga() {
   }
 }
 
-function* getProductsSaga() {
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/products`;
+function* getBrandsSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/brands`;
   const options = {
     method: 'GET',
   };
 
   try {
     const response = yield call(request, requestURL, options);
-    yield put(getProductsSuccess(response));
+    yield put(getBrandsSuccess(response));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
-    yield put(getProductsError(jsonError));
+    yield put(getBrandsError(jsonError));
   }
 }
 
@@ -173,36 +184,36 @@ function* deleteBriefEventSaga(params) {
   }
 }
 
-function* createBriefProductSaga(params) {
-  const {brief_id, briefProduct} = params;
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/add-product`;
+function* createBriefBrandSaga(params) {
+  const {brief_id, briefBrand} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/add-brand`;
   const options = {
     method: 'POST',
-    body: JSON.stringify(briefProduct)
+    body: JSON.stringify(briefBrand)
   };
 
   try {
     const response = yield call(request, requestURL, options);
-    yield put(createBriefProductSuccess(response));
+    yield put(createBriefBrandSuccess(response));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
-    yield put(createBriefProductError(jsonError));
+    yield put(createBriefBrandError(jsonError));
   }
 }
 
-function* deleteBriefProductSaga(params) {
-  const {brief_id, brief_product_id} = params;
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/delete-product/${brief_product_id}`;
+function* deleteBriefBrandSaga(params) {
+  const {brief_id, brief_brand_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/briefs/${brief_id}/delete-brand/${brief_brand_id}`;
   const options = {
     method: 'DELETE',
   };
 
   try {
     const response = yield call(request, requestURL, options);
-    yield put(deleteBriefProductSuccess(response));
+    yield put(deleteBriefBrandSuccess(response));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
-    yield put(deleteBriefProductError(jsonError));
+    yield put(deleteBriefBrandError(jsonError));
   }
 }
 
@@ -310,8 +321,8 @@ function* getVenuesRequest() {
   yield takeLatest(GET_VENUES_REQUEST, getVenuesSaga);
 }
 
-function* getProductsRequest() {
-  yield takeLatest(GET_PRODUCTS_REQUEST, getProductsSaga);
+function* getBrandsRequest() {
+  yield takeLatest(GET_BRANDS_REQUEST, getBrandsSaga);
 }
 
 function* getAgenciesRequest() {
@@ -330,12 +341,12 @@ function* updateBriefEventRequest() {
   yield takeLatest(UPDATE_BRIEF_EVENT_REQUEST, updateBriefEventSaga);
 }
 
-function* createBriefProductRequest() {
-  yield takeLatest(CREATE_BRIEF_PRODUCT_REQUEST, createBriefProductSaga);
+function* createBriefBrandRequest() {
+  yield takeLatest(CREATE_BRIEF_BRAND_REQUEST, createBriefBrandSaga);
 }
 
-function* deleteBriefProductRequest() {
-  yield takeLatest(DELETE_BRIEF_PRODUCT_REQUEST, deleteBriefProductSaga);
+function* deleteBriefBrandRequest() {
+  yield takeLatest(DELETE_BRIEF_BRAND_REQUEST, deleteBriefBrandSaga);
 }
 
 function* updateBriefStatusRequest() {
@@ -375,12 +386,12 @@ function* deleteBriefEventSuccessRequest() {
   yield takeLatest(DELETE_BRIEF_EVENT_SUCCESS, getBriefsSaga);
 }
 
-function* createBriefProductSuccessRequest() {
-  yield takeLatest(CREATE_BRIEF_PRODUCT_SUCCESS, getBriefsSaga);
+function* createBriefBrandSuccessRequest() {
+  yield takeLatest(CREATE_BRIEF_BRAND_SUCCESS, getBriefsSaga);
 }
 
-function* deleteBriefProductSuccessRequest() {
-  yield takeLatest(DELETE_BRIEF_PRODUCT_SUCCESS, getBriefsSaga);
+function* deleteBriefBrandSuccessRequest() {
+  yield takeLatest(DELETE_BRIEF_BRAND_SUCCESS, getBriefsSaga);
 }
 
 function* updateBriefStatusSuccessRequest() {
@@ -405,13 +416,13 @@ export default function* rootSaga() {
     fork(createBriefRequest),
     fork(deleteBriefRequest),
     fork(getVenuesRequest),
-    fork(getProductsRequest),
+    fork(getBrandsRequest),
     fork(getAgenciesRequest),
     fork(createBriefEventRequest),
     fork(updateBriefEventRequest),
     fork(deleteBriefEventRequest),
-    fork(createBriefProductRequest),
-    fork(deleteBriefProductRequest),
+    fork(createBriefBrandRequest),
+    fork(deleteBriefBrandRequest),
     fork(updateBriefStatusRequest),
     fork(createRequisitionRequest),
     fork(uploadBriefAttachmentRequest),
@@ -420,8 +431,8 @@ export default function* rootSaga() {
     // Reactive
     fork(deleteBriefSuccessRequest),
     fork(createBriefEventSuccessRequest),
-    fork(createBriefProductSuccessRequest),
-    fork(deleteBriefProductSuccessRequest),
+    fork(createBriefBrandSuccessRequest),
+    fork(deleteBriefBrandSuccessRequest),
     fork(updateBriefStatusSuccessRequest),
     fork(createRequisitionSuccessRequest),
     fork(uploadBriefAttachmentSuccessRequest),
