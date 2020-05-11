@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Panel, Input, Button, Table, InputNumber, Divider } from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import RequisitionEvent from './RequisitionEvent';
-import RequisitionProduct from './RequisitionProduct';
+import RequisitionBrand from './RequisitionBrand';
 import ConfirmSubmit from './ConfirmSubmit';
 import ApproveRequisitionConfirm from './ApproveRequisitionConfirm';
 import DeliverRequisitionOrders from './DeliverRequisitionOrders';
@@ -54,93 +54,120 @@ const FieldHeader = styled.div`
 
 export default class RequisitionInfo extends Component {
 
-  render() {
-    const { requisitions, scope, role, currentRequisition } = this.props;
-        return (
-            <InfoContainer>
-                {(!requisitions || requisitions.length < 1) && <ClientsLabel>No Requisitions</ClientsLabel> }
-                {requisitions &&
-                    requisitions.length > 0 && (
-                        <Panel bordered>
-                            <DataContainer>
-                                <FieldRow>
-                                    <FieldContainer>
-                                        <FieldLabel>Serial</FieldLabel>
-                                        <p>#{requisitions[currentRequisition].serial_number}</p>
-                                    </FieldContainer>
-                                    <FieldContainer>
-                                        <p>{requisitions[currentRequisition].status}</p>
-                                        {requisitions[currentRequisition].status === 'DRAFT' && (
-                                            <ConfirmSubmit {...this.props}/>
-                                        )}
-                                        {requisitions[currentRequisition].status === 'SUBMITTED' && (
-                                            <RoleValidator 
-                                                {...this.props}
-                                                scopes={['BRAND']}
-                                                roles={['OWNER', 'MANAGER']}
-                                            >
-                                                <ApproveRequisitionConfirm {...this.props}/>
-                                            </RoleValidator>
-                                        )}
-                                        {/* requisitions[currentRequisition].status === 'APPROVED' && (
-                                            <RoleValidator 
-                                                {...this.props}
-                                                scopes={['BRAND']}
-                                                roles={['OWNER', 'WAREHOUSE_MANAGER']}
-                                            >
-                                                <DeliverRequisitionOrders {...this.props}/>
-                                            </RoleValidator>
-                                        ) */}
-                                        
-                                    </FieldContainer>
-                                </FieldRow>
-                                <FieldContainer>
-                                    <FieldLabel>Products</FieldLabel>
-                                    {requisitions[currentRequisition].brief && 
-                                        requisitions[currentRequisition].brief.products &&
-                                        requisitions[currentRequisition].brief.products.map(p => <RequisitionProduct {...this.props} brief_product={p} requisition={requisitions[currentRequisition]}/>)}
-                                </FieldContainer>
-                                <FieldContainer>
-                                    <FieldLabel>Events</FieldLabel>
+    getBrandsSummary = () => {
+        const {requisitions, currentRequisition} = this.props;
+        if (!requisitions) return;
+
+        const requisition = requisitions[currentRequisition];
+        const {orders} = requisition;
+
+        // Get all the brands contained on cocktails
+        const brands = [];
+        orders.map(order => {
+            if (order.product.is_cocktail) {
+                order.product.ingredients.map(ing => {
+                    brands.push(JSON.stringify(ing.brand));
+                })
+            } else {
+                brands.push(JSON.stringify(order.product.brand));
+            }
+        })
+
+        // Get unique brands
+        const unique = [...new Set(brands)];
+        const unique_brands = unique.map((un) => {
+            const parsed = JSON.parse(un);
+            return parsed;
+        });
+
+        return unique_brands.map(brand => <RequisitionBrand {...this.props} brand={brand} requisition={requisitions[currentRequisition]}/>);
+    }
+
+    render() {
+        const { requisitions, scope, role, currentRequisition } = this.props;
+            return (
+                <InfoContainer>
+                    {(!requisitions || requisitions.length < 1) && <ClientsLabel>No Requisitions</ClientsLabel> }
+                    {requisitions &&
+                        requisitions.length > 0 && (
+                            <Panel bordered>
+                                <DataContainer>
                                     <FieldRow>
-                                        <FieldHeader><b>Name</b></FieldHeader>
-                                        <FieldHeader><b>Start Time</b></FieldHeader>
-                                        <FieldHeader><b>End Time</b></FieldHeader>
-                                        <FieldHeader><b>Venue</b></FieldHeader>
-                                        <FieldHeader><b>Expected Guests</b></FieldHeader>
-                                        <FieldHeader><b>Requisition</b></FieldHeader>
+                                        <FieldContainer>
+                                            <FieldLabel>Serial</FieldLabel>
+                                            <p>#{requisitions[currentRequisition].serial_number}</p>
+                                        </FieldContainer>
+                                        <FieldContainer>
+                                            <p>{requisitions[currentRequisition].status}</p>
+                                            {requisitions[currentRequisition].status === 'DRAFT' && (
+                                                <ConfirmSubmit {...this.props}/>
+                                            )}
+                                            {requisitions[currentRequisition].status === 'SUBMITTED' && (
+                                                <RoleValidator 
+                                                    {...this.props}
+                                                    scopes={['BRAND']}
+                                                    roles={['OWNER', 'MANAGER']}
+                                                >
+                                                    <ApproveRequisitionConfirm {...this.props}/>
+                                                </RoleValidator>
+                                            )}
+                                            {/* requisitions[currentRequisition].status === 'APPROVED' && (
+                                                <RoleValidator 
+                                                    {...this.props}
+                                                    scopes={['BRAND']}
+                                                    roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                                >
+                                                    <DeliverRequisitionOrders {...this.props}/>
+                                                </RoleValidator>
+                                            ) */}
+                                            
+                                        </FieldContainer>
                                     </FieldRow>
-                                    <Divider />
-                                    {requisitions[currentRequisition].brief && 
-                                        requisitions[currentRequisition].brief.brief_events &&
-                                        requisitions[currentRequisition].brief.brief_events.map(be => (
-                                            <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>
-                                        ))}
-                                </FieldContainer>
-                                {requisitions[currentRequisition].status === 'APPROVED' && (
                                     <FieldContainer>
+                                        <FieldLabel>Events</FieldLabel>
                                         <FieldRow>
-                                            <FieldLabel>Deliveries</FieldLabel>
-                                            <RoleValidator
-                                                {...this.props}
-                                                scopes={['BRAND']}
-                                                roles={['OWNER', 'WAREHOUSE_MANAGER']}
-                                            >
-                                               <AddNewDelivery {...this.props}/> 
-                                            </RoleValidator>
+                                            <FieldHeader><b>Name</b></FieldHeader>
+                                            <FieldHeader><b>Start Time</b></FieldHeader>
+                                            <FieldHeader><b>End Time</b></FieldHeader>
+                                            <FieldHeader><b>Venue</b></FieldHeader>
+                                            <FieldHeader><b>Expected Guests</b></FieldHeader>
+                                            <FieldHeader><b>Requisition</b></FieldHeader>
                                         </FieldRow>
-                                        <Deliveries 
-                                            {...this.props}
-                                            requisition={requisitions[currentRequisition]}
-                                        />
+                                        <Divider />
+                                        {requisitions[currentRequisition].brief && 
+                                            requisitions[currentRequisition].brief.brief_events &&
+                                            requisitions[currentRequisition].brief.brief_events.map(be => (
+                                                <RequisitionEvent {...this.props} brief={requisitions[currentRequisition].brief} event={be}/>
+                                            ))}
                                     </FieldContainer>
-                                )}
-                            </DataContainer>
-                        </Panel>
-                    )}
-            </InfoContainer>
-    );
-  }
+                                    <FieldContainer>
+                                        <FieldLabel>Summary</FieldLabel>
+                                        {this.getBrandsSummary()}
+                                       </FieldContainer>
+                                    {requisitions[currentRequisition].status === 'APPROVED' && (
+                                        <FieldContainer>
+                                            <FieldRow>
+                                                <FieldLabel>Deliveries</FieldLabel>
+                                                <RoleValidator
+                                                    {...this.props}
+                                                    scopes={['BRAND']}
+                                                    roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                                >
+                                                <AddNewDelivery {...this.props}/> 
+                                                </RoleValidator>
+                                            </FieldRow>
+                                            <Deliveries 
+                                                {...this.props}
+                                                requisition={requisitions[currentRequisition]}
+                                            />
+                                        </FieldContainer>
+                                    )}
+                                </DataContainer>
+                            </Panel>
+                        )}
+                </InfoContainer>
+        );
+    }
 }
 
 RequisitionInfo.propTypes = {};

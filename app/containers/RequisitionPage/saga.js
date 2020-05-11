@@ -52,7 +52,7 @@ function* getWarehousesSaga() {
 
 function* getClientProductsSaga(params) {
   const {client_id} = params;
-  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/products/${client_id}`;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/products/client-products`;
   const options = {
     method: 'GET',
   };

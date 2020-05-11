@@ -26,12 +26,14 @@ import { RequisitionsContainer } from './components'
 export class Requisition extends React.Component {
 
   componentDidMount = () => {
-    const {getRequisitions, getWarehouses, scope} = this.props;
+    const {getRequisitions, getClientProducts, getWarehouses, scope} = this.props;
     getRequisitions();
 
     if (scope === 'BRAND') {
       getWarehouses();
     }
+
+    getClientProducts();
   }
 
 

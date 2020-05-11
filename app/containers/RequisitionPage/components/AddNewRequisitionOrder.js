@@ -45,7 +45,7 @@ export default class AddNewRequisitionOrder extends React.Component {
       super(props);
       this.state = {
         show: false,
-        product: null,
+        brand: null,
         units: 0,
         is_display: false,
         base_price: 0,
@@ -53,8 +53,8 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     fillData = () => {
-        const {product} = this.props;
-        this.setState({...product});
+        const {brand} = this.props;
+        this.setState({...brand});
     }
 
     close = () => {
@@ -71,7 +71,6 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     handleChange = (value, name) => {
-        console.log(value, name)
         this.setState({[name]: value});
     }
 
@@ -100,14 +99,16 @@ export default class AddNewRequisitionOrder extends React.Component {
 
         if (!products || !requisitions[currentRequisition]) return [];
 
-        const brief_products = requisitions[currentRequisition].brief.products.map(prod => prod.product_id);
+        const brief_brands = requisitions[currentRequisition].brief.brands.map(brand => brand.brand_id);
 
         const available_products = products
-            .filter(prod => {
-                const ingredients_available = prod.ingredients.filter(ing => brief_products.indexOf(ing.product_id) > -1);
-                const has_product = brief_products.indexOf(prod.id) > -1;
-                const has_ingredient = ingredients_available.length > 0;
-                return has_product || has_ingredient;
+            .filter((prod) => {
+        
+                // filters
+                const has_brief_brand = !prod.is_cocktail && brief_brands.indexOf(prod.brand.id) > -1;
+                const is_ingredient = !prod.is_cocktail && prod.brand.product_type !== 'Liquour';
+
+                return has_brief_brand || is_ingredient;
             })
             .map(prod => {
                 return {
@@ -116,7 +117,26 @@ export default class AddNewRequisitionOrder extends React.Component {
                 }
             });
 
-        return available_products;
+        const available_product_ids = available_products.map(prod => prod.value.brand_id); 
+        const available_cocktails = products
+            .filter((prod => {
+                return prod.is_cocktail;
+            }))
+           .filter((prod) => {
+                const ingredient_brands = prod.ingredients.map((ing) => ing.product.brand_id);               
+                const available_ingredients = ingredient_brands.filter(ib => {
+                    return available_product_ids.indexOf(ib) > -1;
+                })
+                return available_ingredients.length >= prod.ingredients.length;
+            }) 
+            .map(prod => {
+                return {
+                    label: prod.is_cocktail ? `${prod.name} - ${prod.metric_amount}${prod.metric} (Cocktail)` : `${prod.name} - ${prod.metric_amount}${prod.metric}`,
+                    value: prod
+                }
+            });
+
+        return [...available_products, ...available_cocktails];
     }
 
     reset = () => {
@@ -141,7 +161,7 @@ export default class AddNewRequisitionOrder extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Product / Cocktail</FieldLabel>
                             <SelectPicker 
-                                searchable={false}
+                                searchable={true}
                                 data={available_products}
                                 onChange={(value) => this.handleChangeProduct(value, 'product')}
                             />
