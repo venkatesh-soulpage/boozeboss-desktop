@@ -38,9 +38,9 @@ export default class NewEvent extends React.Component {
         recee_required: false,
         recee_time: null,
         cocktails_enabled: false,
-        cocktails_per_guest: null,
+        cocktails_per_guest: 1,
         free_drinks_enabled: false,
-        free_drinks_per_guest: null,
+        free_drinks_per_guest: 1,
         comments: null,
         cash_collected_by: null,
         venue_id: null,
@@ -168,6 +168,8 @@ export default class NewEvent extends React.Component {
             venue_id,
           } = this.state;
         
+        if (!name || !setup_time || !start_time || !end_time || !expected_guests || !hourly_expected_guests || !cash_collected_by || !venue_id  ) return alert('Missing fields');
+ 
         await createBriefEvent(
             briefs[currentBrief].id,
             {
@@ -181,9 +183,9 @@ export default class NewEvent extends React.Component {
                 recee_required,
                 recee_time,
                 cocktails_enabled,
-                cocktails_per_guest,
+                cocktails_per_guest: cocktails_enabled ? cocktails_per_guest : 0,
                 free_drinks_enabled,
-                free_drinks_per_guest,
+                free_drinks_per_guest: free_drinks_enabled  ? free_drinks_per_guest : 0,
                 comments,
                 cash_collected_by,
                 venue_id,
@@ -231,14 +233,14 @@ export default class NewEvent extends React.Component {
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
-                                <FieldLabel>Event Name</FieldLabel>
+                                <FieldLabel>Event Name (Required)</FieldLabel>
                                 <Input 
                                     onChange={(value) => this.handleChange(value, 'name')}
                                     value={name}
                                 /> 
                             </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Setup Time</FieldLabel>
+                            <FieldLabel>Setup Time (Required)</FieldLabel>
                             <DatePicker
                                 value={setup_time}
                                 format="YYYY-MM-DD HH:mm"
@@ -254,7 +256,7 @@ export default class NewEvent extends React.Component {
                         </FieldContainer>
                         <FieldRow>
                             <FieldContainer>
-                                <FieldLabel>Start Time</FieldLabel>
+                                <FieldLabel>Start Time (Required)</FieldLabel>
                                 <DatePicker
                                     value={start_time}
                                     format="YYYY-MM-DD HH:mm"
@@ -269,7 +271,7 @@ export default class NewEvent extends React.Component {
                                 />
                             </FieldContainer>
                             <FieldContainer>
-                                <FieldLabel>End Time</FieldLabel>
+                                <FieldLabel>End Time (Required)</FieldLabel>
                                 <DatePicker
                                     value={end_time}
                                     format="YYYY-MM-DD HH:mm"
@@ -286,28 +288,20 @@ export default class NewEvent extends React.Component {
                         </FieldRow>
                         <FieldRow>
                             <FieldContainer>
-                                <FieldLabel>Expected Guests</FieldLabel>
+                                <FieldLabel>Expected Guests (Required)</FieldLabel>
                                 <InputNumber 
                                     onChange={(value) => this.handleChange(value, 'expected_guests')}
                                     value={expected_guests}
                                 /> 
                             </FieldContainer>
                             <FieldContainer>
-                                <FieldLabel>Expected Hourly Guests</FieldLabel>
+                                <FieldLabel>Expected Hourly Guests (Required)</FieldLabel>
                                 <InputNumber 
                                     value={hourly_expected_guests}
                                     onChange={(value) => this.handleChange(value, 'hourly_expected_guests')}
                                 /> 
                             </FieldContainer>
                         </FieldRow>
-                        {/* <FieldRow>
-                            <FieldContainer>
-                                <FieldLabel>Drink Options</FieldLabel>
-                                <FieldRow>
-                                    <Checkbox defaultChecked={drinks_enabled} onChange={(value) => this.handleChange(!drinks_enabled, 'drinks_enabled')}>Enable Drinks</Checkbox>
-                                </FieldRow>
-                            </FieldContainer>
-                        </FieldRow> */}
                         {drinks_enabled && (
                             <FieldRow>
                                 <FieldContainer>
@@ -317,6 +311,8 @@ export default class NewEvent extends React.Component {
                                 <FieldContainer>
                                     <FieldLabel>Cocktails per guest</FieldLabel>
                                     <InputNumber 
+                                        min={1}
+                                        disabled={!cocktails_enabled}
                                         value={cocktails_per_guest}
                                         onChange={(value) => this.handleChange(value, 'cocktails_per_guest')}
                                     /> 
@@ -327,11 +323,12 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Free Drinks</FieldLabel>
-                                    <Checkbox onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Free Drinks</Checkbox>
+                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Free Drinks</Checkbox>
                                 </FieldContainer>
                                 <FieldContainer>
                                     <FieldLabel>Credits per guest</FieldLabel>
                                     <InputNumber 
+                                        disabled={!free_drinks_enabled}
                                         onChange={(value) => this.handleChange(value, 'free_drinks_per_guest')}
                                         value={free_drinks_per_guest}
                                     /> 
@@ -342,17 +339,17 @@ export default class NewEvent extends React.Component {
                             <FieldContainer>
                                 <FieldLabel>Recee Options</FieldLabel>
                                 <FieldRow>
-                                    <Checkbox onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
+                                    <Checkbox disabled={!start_time} onChange={(value) => this.handleChange(!recee_required, 'recee_required')}>Recee Required</Checkbox>
                                 </FieldRow>
                             </FieldContainer>
                         </FieldRow> 
-                        { recee_required && start_time && (
+                        { recee_required && (
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Recee Time</FieldLabel>
                                     <DatePicker
                                         value={recee_time}
-                                        format="YYYY-MM-DD HH:mm:ss"
+                                        format="YYYY-MM-DD HH:mm"
                                         ranges={[
                                         {
                                             label: 'Now',
@@ -375,7 +372,7 @@ export default class NewEvent extends React.Component {
                         </FieldContainer>
                         <FieldContainer>
                             <FieldRow>
-                                <FieldLabel>Venue</FieldLabel>
+                                <FieldLabel>Venue (Required)</FieldLabel>
                                 <a onClick={() => this.goToRoute('/clients')}>+ Add new venue</a>
                             </FieldRow>
                             <SelectPicker 
@@ -385,7 +382,7 @@ export default class NewEvent extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Cash Collected by</FieldLabel>
+                            <FieldLabel>Cash Collected by (Required)</FieldLabel>
                             <SelectPicker 
                                 searchable={false}
                                 data={[
