@@ -68,7 +68,7 @@ class AddNewDeliveryProduct extends React.Component {
       super(props);
       this.state = {
         show: false,
-        order: null,
+        product: null,
         units: null,
       };
     }
@@ -88,8 +88,8 @@ class AddNewDeliveryProduct extends React.Component {
 
     handleAddDeliveryProduct = () => {
         const {handleAddDeliveryProduct} = this.props;
-        const {order, units} = this.state;
-        handleAddDeliveryProduct({order, units});
+        const {product, units} = this.state;
+        handleAddDeliveryProduct({product, units});
         this.close();
     }
 
@@ -98,7 +98,7 @@ class AddNewDeliveryProduct extends React.Component {
     }
 
     getPickerData = () => {
-        const {warehouse_id, warehouses, requisitions, currentRequisition, deliveryProducts} = this.props;
+        const {warehouse_id, warehouses, requisitions, currentRequisition, deliveryProducts, products} = this.props;
         const {orders} = requisitions[currentRequisition];
 
         if (!orders || !warehouses) return [];
@@ -107,15 +107,16 @@ class AddNewDeliveryProduct extends React.Component {
         
         if (!currentWarehouse) return [];
 
-        const deliveryAssigned = deliveryProducts.map(del => del.order.product_id);
+        const deliveryAssigned = deliveryProducts.map(del => del.product.id);
         
-        return orders
-            .filter(order => deliveryAssigned.indexOf(order.product_id))
-            .map(order => {
-            const stock = currentWarehouse.stocks.find(stock => stock.product_id === order.product_id);
+        return products
+            .filter(prod => deliveryAssigned.indexOf(prod.id))
+            .filter(prod => !prod.is_cocktail)
+            .map(prod => {
+            const stock = currentWarehouse.stocks.find(stock => stock.product_id === prod.id);
             return {
-                label: `${order.product.name} (${stock && stock.quantity > 0 ? `${stock.quantity} units available` : 'No stock available'})`,
-                value: order,
+                label: `${prod.name} (${stock && stock.quantity > 0 ? `${stock.quantity} units available` : 'No stock available'})`,
+                value: prod,
             }
         })
     }
@@ -141,7 +142,7 @@ class AddNewDeliveryProduct extends React.Component {
                                 searchable={false}
                                 cleanable={false}
                                 data={this.getPickerData()}
-                                onSelect={(value) => this.handleChange(value, 'order')}
+                                onSelect={(value) => this.handleChange(value, 'product')}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -172,7 +173,7 @@ class AddNewDeliveryProduct extends React.Component {
 
 const DeliveryProduct = (props) => (
     <FieldDeliveryRow isFirst={props.isFirst}>
-        <FieldDeliveryLabel>{props.deliveryProduct.order.product.name}</FieldDeliveryLabel>
+        <FieldDeliveryLabel>{props.deliveryProduct.product.name}</FieldDeliveryLabel>
         <FieldDeliveryLabel>{props.deliveryProduct.units} units</FieldDeliveryLabel>
         <FieldDeliveryLabel>Remove</FieldDeliveryLabel>
     </FieldDeliveryRow>
@@ -264,7 +265,7 @@ export default class AddNewDelivery extends React.Component {
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
-                        <FieldContainer>
+                        {/* <FieldContainer>
                             <FieldLabel>Waybill</FieldLabel>
                             <Input
                                 value={waybill}
@@ -282,7 +283,7 @@ export default class AddNewDelivery extends React.Component {
                                 data={StatusesData}
                                 onSelect={(value) => this.handleChange(value, 'status')}
                             />
-                        </FieldContainer>
+                        </FieldContainer> */}
                         <FieldContainer>
                             <FieldLabel>Warehouse</FieldLabel>
                             <SelectPicker 
