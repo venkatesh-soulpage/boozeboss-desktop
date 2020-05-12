@@ -9,7 +9,7 @@ import {
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS 
 } from './constants'
 
 import { 
@@ -17,7 +17,12 @@ import {
   getClientProductsSuccess, getClientProductsError, 
   createRequisitionOrderSuccess, createRequisitionOrderError, 
   deleteRequisitionOrderSuccess, deleteRequisitionOrderError, 
-  updateRequisitionStatusSuccess, updateRequisitionStatusError, getWarehousesSuccess, getWarehousesError, updateRequisitionOrdersSuccess, updateRequisitionOrdersError, createRequisitionDeliverySuccess, createRequisitionDeliveryError, updateRequisitionDeliverySuccess, updateRequisitionDeliveryError 
+  updateRequisitionStatusSuccess, updateRequisitionStatusError, 
+  getWarehousesSuccess, getWarehousesError, 
+  updateRequisitionOrdersSuccess, updateRequisitionOrdersError,
+  createRequisitionDeliverySuccess, createRequisitionDeliveryError, 
+  updateRequisitionDeliverySuccess, updateRequisitionDeliveryError, 
+  rejectRequisitionSuccess, rejectRequisitionError 
 } from './actions'
 
 function* getRequisitionsSaga() {
@@ -117,6 +122,23 @@ function* updateRequisitionStatusSaga(params) {
   }
 }
 
+function* rejectRequisitionSaga(params) {
+  const {requisition_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/reject`;
+  const options = {
+    method: 'PUT',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(rejectRequisitionSuccess(response));
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(rejectRequisitionError(jsonError));
+  }
+}
+
 function* updateRequisitionOrdersSaga(params) {
   const {requisition_id, orders, waybill} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/deliver-orders`;
@@ -195,6 +217,10 @@ function* updateRequisitionStatusRequest() {
   yield takeLatest(UPDATE_REQUISITION_STATUS_REQUEST, updateRequisitionStatusSaga);
 }
 
+function* rejectRequisitionRequest() {
+  yield takeLatest(REJECT_REQUISITION_STATUS_REQUEST, rejectRequisitionSaga);
+}
+
 function* updateRequisitionOrdersRequest() {
   yield takeLatest(UPDATE_REQUISITION_ORDERS_REQUEST, updateRequisitionOrdersSaga);
 }
@@ -220,6 +246,10 @@ function* updateRequisitionStatusSuccessRequest() {
   yield takeLatest(UPDATE_REQUISITION_STATUS_SUCCESS, getRequisitionsSaga);
 }
 
+function* rejectRequisitionSuccessRequest() {
+  yield takeLatest(REJECT_REQUISITION_STATUS_SUCCESS, getRequisitionsSaga);
+}
+
 function* updateRequisitionOrdersSuccessRequest() {
   yield takeLatest(UPDATE_REQUISITION_ORDERS_SUCCESS, getRequisitionsSaga);
 }
@@ -240,6 +270,7 @@ export default function* rootSaga() {
     fork(createRequisitionOrderRequest),
     fork(deleteRequisitionOrderRequest),
     fork(updateRequisitionStatusRequest),
+    fork(rejectRequisitionRequest),
     fork(updateRequisitionOrdersRequest),
     fork(createRequisitionDeliveryRequest),
     fork(updateRequisitionDeliveryRequest),
@@ -247,6 +278,7 @@ export default function* rootSaga() {
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),
     fork(updateRequisitionStatusSuccessRequest),
+    fork(rejectRequisitionSuccessRequest),
     fork(updateRequisitionOrdersSuccessRequest),
     fork(createRequisitionDeliverySuccessRequest),
     fork(updateRequisitionDeliverySuccessRequest),

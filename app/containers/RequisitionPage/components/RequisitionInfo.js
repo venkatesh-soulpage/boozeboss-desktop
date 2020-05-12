@@ -6,6 +6,8 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import RequisitionEvent from './RequisitionEvent';
 import RequisitionBrand from './RequisitionBrand';
 import ConfirmSubmit from './ConfirmSubmit';
+import RejectRequisition from './RejectRequisition';
+import RequestModifications from './RequestModifications';
 import ApproveRequisitionConfirm from './ApproveRequisitionConfirm';
 import DeliverRequisitionOrders from './DeliverRequisitionOrders';
 import Deliveries from './Deliveries';
@@ -109,6 +111,24 @@ export default class RequisitionInfo extends Component {
                                                     roles={['OWNER', 'MANAGER']}
                                                 >
                                                     <ApproveRequisitionConfirm {...this.props}/>
+                                                </RoleValidator>
+                                            )}
+                                            {requisitions[currentRequisition].status === 'SUBMITTED' && (
+                                                <RoleValidator 
+                                                    {...this.props}
+                                                    scopes={['BRAND']}
+                                                    roles={['OWNER', 'MANAGER']}
+                                                >
+                                                    <RejectRequisition {...this.props}/>
+                                                </RoleValidator>
+                                            )}
+                                            {requisitions[currentRequisition].status === 'SUBMITTED' && (
+                                                <RoleValidator 
+                                                    {...this.props}
+                                                    scopes={['BRAND']}
+                                                    roles={['OWNER', 'MANAGER']}
+                                                >
+                                                    <RequestModifications {...this.props}/>
                                                 </RoleValidator>
                                             )}
                                             {/* requisitions[currentRequisition].status === 'APPROVED' && (
