@@ -117,7 +117,13 @@ export default class GuestList extends Component {
                                         Actions
                                     </HeaderCell>
                                     <Cell dataKey="code">
-                                        { rowData => <div><a onClick={() => this.handleResendEmail(rowData.id)}>Send email</a> | <a onClick={() => this.handleDelete(rowData.id)}>Revoke</a></div>}
+                                        { rowData => (
+                                            <div>
+                                                {rowData.email && !rowData.account_id && <a onClick={() => this.handleResendEmail(rowData.id)}>Send email</a>}
+                                                {rowData.email && !rowData.account_id  && ` | `} 
+                                                <a onClick={() => this.handleDelete(rowData.id)}>Revoke</a>
+                                            </div>
+                                        )}
                                     </Cell>
                                 </Column>
                             </Table>
