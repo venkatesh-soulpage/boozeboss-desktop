@@ -25,6 +25,7 @@ import ForgotPasswordPage from 'containers/ForgotPasswordPage/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
+import VerificationContainer from 'containers/VerificationContainer/Loadable';
 import AgencyPage from 'containers/AgencyPage/Loadable';
 import AgencySignupPage from 'containers/AgencySignupPage/Loadable';
 import BriefPage from 'containers/BriefPage/Loadable';
@@ -87,6 +88,13 @@ class App extends React.Component {
             component={AgencyPage}
             scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
             rolesRequired={['ADMIN', 'OWNER', 'MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/verification"
+            component={VerificationContainer}
+            scopesRequired={['ADMIN']}
+            rolesRequired={['ADMIN']}
           />
           <PrivateRoute
             exact

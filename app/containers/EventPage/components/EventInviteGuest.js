@@ -124,7 +124,7 @@ export default class EventInviteGuest extends React.Component {
                             <PhoneInput
                                 style={{width: '300px', zIndex: 99}}
                                 
-                                country={'us'}
+                                country={'us'} 
                                 enableSearch
                                 disableSearchIcon
                                 inputProps={{
