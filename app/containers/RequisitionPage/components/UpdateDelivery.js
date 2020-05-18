@@ -58,7 +58,7 @@ export default class UpdateDelivery extends React.Component {
         return (
             <React.Fragment>
                 <StyledAction color={color} onClick={this.open} block>{text}</StyledAction>
-                {is_dispute ? (
+                {!is_dispute ? (
                     <Modal backdrop="static" show={show} onHide={this.close} size="xs">
                         <Modal.Body>
                             <p>

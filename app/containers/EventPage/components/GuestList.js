@@ -38,18 +38,20 @@ export default class GuestList extends Component {
         return (
             <React.Fragment>
                 <FieldsRow>
-                    <FieldContainer>
-                        <FieldLabel>
-                            Guests ({event.event.guests.length})
-                        </FieldLabel>
-                    </FieldContainer>
+                    {event && event.event && event.event.guest && (
+                        <FieldContainer>
+                            <FieldLabel>
+                                Guests ({event.event.guests.length})
+                            </FieldLabel>
+                        </FieldContainer>
+                    )}
                     <FieldContainer>
                         <EventInviteGuest 
                             {...this.props}
                         />
                     </FieldContainer>
                 </FieldsRow>
-                {event.event.guests && 
+                {event && event.event && event.event.guests && 
                         event.event.guests.length > 0 ? (
                             <Table
                                 data={event.event.guests}

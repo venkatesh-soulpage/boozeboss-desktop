@@ -81,6 +81,7 @@ export default class EventInviteGuest extends React.Component {
         const {inviteGuest, events, currentEvent} = this.props;
         const { role_id, first_name, last_name, email, phone_number, send_email} = this.state;
         if ( !first_name || !role_id) return alert('Missing fields');
+        console.log(events,events[currentEvent].event);
         await inviteGuest({role_id, first_name, last_name, email, phone_number, event_id: events[currentEvent].event.id, send_email});
         this.close();
     }

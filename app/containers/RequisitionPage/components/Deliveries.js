@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import {Panel, Divider, Button, Message} from 'rsuite';
 import moment from 'moment';
 import UpdateDelivery from './UpdateDelivery';
+import UpdateDispute from './UpdateDispute';
 import RoleValidator from 'components/RoleValidator';
 
 const StyledPanel = styled(Panel)`
-    
+    margin: 1em 0 0 0;
 `
 
 const EventSection = styled.div`
@@ -76,7 +77,27 @@ const Delivery = (props) => (
                     </FieldContainer>
                 </RoleValidator>
             )}
-            <FieldContainer>
+            {props.delivery.status === 'DISPUTED' && (
+                <RoleValidator
+                    {...props}
+                    scopes={['BRAND']}
+                    roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                >
+                    <FieldContainer>
+                        <FieldLabel>
+                            <UpdateDispute 
+                                {...props}
+                            />
+                        </FieldLabel>
+                    </FieldContainer>
+                </RoleValidator>
+            )}
+            <RoleValidator
+                {...props}
+                scopes={['AGENCY']}
+                roles={['OWNER', 'MANAGER']}
+            >
+                <FieldContainer>
                 {props.delivery.status === 'DELIVERED' && (
                     <RoleValidator
                         {...props}
@@ -106,7 +127,8 @@ const Delivery = (props) => (
                             <FieldLabel>
                                 <UpdateDelivery 
                                     text="Dispute"
-                                    status="PROCESSING DELIVERY"
+                                    is_dispute={true}
+                                    status="DISPUTED"
                                     {...props}
                                     delivery={props.delivery}
                                 />
@@ -114,7 +136,8 @@ const Delivery = (props) => (
                         </FieldContainer>
                     </RoleValidator>
                 )}
-            </FieldContainer>
+                </FieldContainer>
+            </ RoleValidator>
         </FieldRow>
         <Divider />
         <FieldRow>
@@ -161,7 +184,9 @@ export default class Deliveries extends Component {
                     requisition.deliveries && 
                     requisition.deliveries.length > 0 ? (
                         <React.Fragment>
-                            {requisition.deliveries.map(delivery => <Delivery {...this.props} delivery={delivery}/>)}
+                            {requisition.deliveries
+                                .filter(delivery => delivery.enabled)
+                                .map(delivery => <Delivery {...this.props} delivery={delivery}/>)}
                         </React.Fragment>
                     ) : (
                         <p>No current deliveries</p>
