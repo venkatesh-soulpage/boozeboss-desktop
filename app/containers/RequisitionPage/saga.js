@@ -2,14 +2,16 @@ import {
   call, put, select, takeLatest, fork, all
 } from 'redux-saga/effects';
 
-import request from 'utils/request'
+import request from 'utils/request';
+import pdfrequest from 'utils/pdfrequest';
+import FileSaver from 'file-saver';
 
 import { 
   GET_REQUISITIONS_REQUEST, 
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REQUEST_REQUISITION_SIGN_REQUEST 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REQUEST_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_REQUEST 
 } from './constants'
 
 import { 
@@ -23,7 +25,8 @@ import {
   createRequisitionDeliverySuccess, createRequisitionDeliveryError, 
   updateRequisitionDeliverySuccess, updateRequisitionDeliveryError, 
   rejectRequisitionSuccess, rejectRequisitionError, 
-  requestSignSuccess, requestSignError
+  requestSignSuccess, requestSignError, 
+  requestSignDocumentSuccess, requestSignDocumentError
 } from './actions'
 import { makeSelectHellosign } from './selectors';
 
@@ -204,8 +207,6 @@ function* requestSignSaga(params) {
 
   const hellosign = yield select(makeSelectHellosign());
 
-  console.log(hellosign);
-
   try {
     const response = yield call(request, requestURL, options);
     yield put(requestSignSuccess(response));
@@ -217,6 +218,25 @@ function* requestSignSaga(params) {
     console.log(error);
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(requestSignError(jsonError));
+  }
+}
+
+function* requestSignDocumentSaga(params) {
+  const {requisition_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/get-signature`;
+  const options = {
+    method: 'GET',
+    responseType: 'blob' 
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield window.open(response.file_url);
+
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(requestSignDocumentError(jsonError));
   }
 }
 
@@ -264,6 +284,10 @@ function* requestSignRequest() {
   yield takeLatest(REQUEST_REQUISITION_SIGN_REQUEST, requestSignSaga);
 }
 
+function* requestSignDocumentRequest() {
+  yield takeLatest(GET_REQUISITION_SIGN_REQUEST, requestSignDocumentSaga);
+}
+
 // Reactive Saga
 function* createRequisitionOrderSuccessRequest() {
   yield takeLatest(CREATE_REQUISITION_ORDER_SUCCESS, getRequisitionsSaga);
@@ -306,6 +330,7 @@ export default function* rootSaga() {
     fork(createRequisitionDeliveryRequest),
     fork(updateRequisitionDeliveryRequest),
     fork(requestSignRequest),
+    fork(requestSignDocumentRequest),
     // Reactive
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),

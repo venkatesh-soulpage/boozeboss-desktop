@@ -35,6 +35,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1em 0 1em 1em;
+    ${props => props.align && `align-items: ${props.align};`}
 `;
 
 const FieldLabel = styled.b`
@@ -85,6 +86,13 @@ export default class RequisitionInfo extends Component {
         return unique_brands.map(brand => <RequisitionBrand {...this.props} brand={brand} requisition={requisitions[currentRequisition]}/>);
     }
 
+    handleRequestDocument = () => {
+        const {requisitions, currentRequisition, requestSignDocument} = this.props;
+        if (!requisitions) return; 
+
+        requestSignDocument(requisitions[currentRequisition].id);
+    }
+
     render() {
         const { requisitions, scope, role, currentRequisition } = this.props;
             return (
@@ -99,7 +107,7 @@ export default class RequisitionInfo extends Component {
                                             <FieldLabel>Serial</FieldLabel>
                                             <p>#{requisitions[currentRequisition].serial_number}</p>
                                         </FieldContainer>
-                                        <FieldContainer>
+                                        <FieldContainer align="flex-end">
                                             <p>{requisitions[currentRequisition].status}</p>
                                             {requisitions[currentRequisition].status === 'DRAFT' && (
                                                 <ConfirmSubmit {...this.props}/>
@@ -131,16 +139,15 @@ export default class RequisitionInfo extends Component {
                                                     <RequestModifications {...this.props}/>
                                                 </RoleValidator>
                                             )}
-                                            {/* requisitions[currentRequisition].status === 'APPROVED' && (
+                                            {requisitions[currentRequisition].status === 'APPROVED' && (
                                                 <RoleValidator 
                                                     {...this.props}
                                                     scopes={['BRAND']}
-                                                    roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                                    roles={['OWNER','MANAGER','WAREHOUSE_MANAGER']}
                                                 >
-                                                    <DeliverRequisitionOrders {...this.props}/>
+                                                    <Button block onClick={this.handleRequestDocument}>Show Document</Button>
                                                 </RoleValidator>
-                                            ) */}
-                                            
+                                            )}
                                         </FieldContainer>
                                     </FieldRow>
                                     <FieldContainer>

@@ -20,6 +20,7 @@ export default class ApproveRequisitionConfirm extends React.Component {
     componentDidMount = () => {
         const {hellosign, requisitions, currentRequisition, updateRequisitionStatus} = this.props;
         hellosign.on('sign', (data) => {
+            console.log(data);
             console.log('Signed', data.signatureId)
             updateRequisitionStatus(requisitions[currentRequisition].id, 'APPROVED', data.signatureId)
         })
