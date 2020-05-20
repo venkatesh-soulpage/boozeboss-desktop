@@ -17,6 +17,14 @@ export default class ApproveRequisitionConfirm extends React.Component {
         show: false,
     }
 
+    componentDidMount = () => {
+        const {hellosign, requisitions, currentRequisition, updateRequisitionStatus} = this.props;
+        hellosign.on('sign', (data) => {
+            console.log('Signed', data.signatureId)
+            updateRequisitionStatus(requisitions[currentRequisition].id, 'APPROVED', data.signatureId)
+        })
+    }
+
     close = () =>  {
       this.setState({ show: false });
     }
@@ -26,8 +34,8 @@ export default class ApproveRequisitionConfirm extends React.Component {
     }
 
     submit = () => {
-        const {requisitions, currentRequisition, updateRequisitionStatus} = this.props;
-        updateRequisitionStatus(requisitions[currentRequisition].id, 'APPROVED');
+        const {requisitions, currentRequisition, requestSign} = this.props;
+        requestSign(requisitions[currentRequisition].id);
         this.close();
     }
 
@@ -40,7 +48,7 @@ export default class ApproveRequisitionConfirm extends React.Component {
                 <Modal backdrop="static" show={show} onHide={this.close} size="xs">
                     <Modal.Body>
                         Are you sure you want to <b>Approve</b> this Requisition?
-                        We will send it to the warehouse manager. 
+                        You need to sign this requisition.
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.submit} color="green">

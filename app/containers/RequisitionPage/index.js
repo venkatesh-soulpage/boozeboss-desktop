@@ -14,11 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts, makeSelectWarehouses } from './selectors';
+import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts, makeSelectWarehouses, makeSelectHellosign } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders, createRequisitionDelivery, updateRequisitionDelivery, rejectRequisition } from './actions';
+import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders, createRequisitionDelivery, updateRequisitionDelivery, rejectRequisition, requestSign } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
@@ -62,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
+  hellosign: makeSelectHellosign(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -71,11 +72,12 @@ function mapDispatchToProps(dispatch) {
     getClientProducts: (client_id) => dispatch(getClientProducts(client_id)),
     createRequisitionOrder: (requisition_id, order) => dispatch(createRequisitionOrder(requisition_id, order)),
     deleteRequisitionOrder: (requisition_id, requisition_order_id) => dispatch(deleteRequisitionOrder(requisition_id, requisition_order_id)),
-    updateRequisitionStatus: (requisition_id, status) => dispatch(updateRequisitionStatus(requisition_id, status)),
+    updateRequisitionStatus: (requisition_id, status, hellosign_signature_id) => dispatch(updateRequisitionStatus(requisition_id, status, hellosign_signature_id)),
     rejectRequisition: (requisition_id) => dispatch(rejectRequisition(requisition_id)),
     updateRequisitionOrders: (requisition_id, orders, waybill) => dispatch(updateRequisitionOrders(requisition_id, orders, waybill)),
     createRequisitionDelivery: (requisition_id, delivery) => dispatch(createRequisitionDelivery(requisition_id, delivery)),
     updateRequisitionDelivery: (requisition_id, requisition_delivery_id, delivery) => dispatch(updateRequisitionDelivery(requisition_id,requisition_delivery_id, delivery)),
+    requestSign: (requisition_id) => dispatch(requestSign(requisition_id)),
   };
 }
 

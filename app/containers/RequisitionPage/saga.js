@@ -9,7 +9,7 @@ import {
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REQUEST_REQUISITION_SIGN_REQUEST 
 } from './constants'
 
 import { 
@@ -22,8 +22,10 @@ import {
   updateRequisitionOrdersSuccess, updateRequisitionOrdersError,
   createRequisitionDeliverySuccess, createRequisitionDeliveryError, 
   updateRequisitionDeliverySuccess, updateRequisitionDeliveryError, 
-  rejectRequisitionSuccess, rejectRequisitionError 
+  rejectRequisitionSuccess, rejectRequisitionError, 
+  requestSignSuccess, requestSignError
 } from './actions'
+import { makeSelectHellosign } from './selectors';
 
 function* getRequisitionsSaga() {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions`;
@@ -105,11 +107,11 @@ function* deleteRequisitionOrderSaga(params) {
 }
 
 function* updateRequisitionStatusSaga(params) {
-  const {requisition_id, status} = params;
+  const {requisition_id, status, hellosign_signature_id} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/update-status`;
   const options = {
     method: 'PUT',
-    body: JSON.stringify({status})
+    body: JSON.stringify({status, hellosign_signature_id})
   };
 
   try {
@@ -193,6 +195,31 @@ function* updateRequisitionDeliverySaga(params) {
   }
 }
 
+function* requestSignSaga(params) {
+  const {requisition_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/request-signature`;
+  const options = {
+    method: 'POST',
+  };
+
+  const hellosign = yield select(makeSelectHellosign());
+
+  console.log(hellosign);
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(requestSignSuccess(response));
+    yield hellosign.open(response, {
+      skipDomainVerification: true
+    });
+
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(requestSignError(jsonError));
+  }
+}
+
 function* getRequisitionsRequest() {
   yield takeLatest(GET_REQUISITIONS_REQUEST, getRequisitionsSaga);
 }
@@ -231,6 +258,10 @@ function* createRequisitionDeliveryRequest() {
 
 function* updateRequisitionDeliveryRequest() {
   yield takeLatest(UPDATE_REQUISITION_DELIVERY_REQUEST, updateRequisitionDeliverySaga);
+}
+
+function* requestSignRequest() {
+  yield takeLatest(REQUEST_REQUISITION_SIGN_REQUEST, requestSignSaga);
 }
 
 // Reactive Saga
@@ -274,6 +305,7 @@ export default function* rootSaga() {
     fork(updateRequisitionOrdersRequest),
     fork(createRequisitionDeliveryRequest),
     fork(updateRequisitionDeliveryRequest),
+    fork(requestSignRequest),
     // Reactive
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),

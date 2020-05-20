@@ -3,6 +3,7 @@
  * Requisition reducer
  *
  */
+import HelloSign from 'hellosign-embedded';
 
 import { fromJS } from 'immutable';
 import { 
@@ -18,12 +19,19 @@ import {
   REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REJECT_REQUISITION_STATUS_ERROR 
 } from './constants';
 
+// Initialize Hellosign
+const hellosign = new HelloSign({
+  clientId: process.env.HELLOSIGN_CLIENT_ID, 
+});
+
+
 export const initialState = fromJS({
   requisitions: null,
   products: null,
   warehouses: null,
   success: null,
   error: null,
+  hellosign: hellosign,
   isLoadingProducts: false,
 });
 
