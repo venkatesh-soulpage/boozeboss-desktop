@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Button, Table } from 'rsuite';
 import EventInviteGuest from './EventInviteGuest';
+import ImportGuestList from './ImportGuestList';
 
 const {Column, HeaderCell, Cell } = Table;
 
@@ -17,10 +18,14 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
+    margin 0 0em 0 1em;
 `
 
 const FieldLabel = styled.b`
     
+`
+
+const TableContainer = styled.div`
 `
 
 export default class GuestList extends Component {
@@ -45,17 +50,30 @@ export default class GuestList extends Component {
                             </FieldLabel>
                         </FieldContainer>
                     )}
-                    <FieldContainer>
-                        <EventInviteGuest 
-                            {...this.props}
-                        />
-                    </FieldContainer>
+                    <FieldsRow>
+                        <FieldContainer />
+                        <FieldContainer>
+                            <FieldsRow>
+                                <FieldContainer>
+                                    <ImportGuestList 
+                                        {...this.props}
+                                    />
+                                </FieldContainer>
+                                <FieldContainer>
+                                    <EventInviteGuest 
+                                        {...this.props}
+                                    />
+                                </FieldContainer>
+                            </FieldsRow>
+                        </FieldContainer>
+                    </FieldsRow>
                 </FieldsRow>
+                <TableContainer>
                 {event && event.event && event.event.guests && 
                         event.event.guests.length > 0 ? (
                             <Table
                                 data={event.event.guests}
-                                style={{margin: '1em 0 0 0', maxHeight: '30vh'}}
+                                style={{margin: '1em 0 0 0'}}
                                 autoHeight
                             >
                                 <Column flexGrow>
@@ -132,6 +150,7 @@ export default class GuestList extends Component {
                         ): (
                             <p>No guests</p>
                         )}
+                    </TableContainer>
             </React.Fragment>
         )
     }

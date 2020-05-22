@@ -33,6 +33,7 @@ const getRole = () => {
 export const initialState = fromJS({
   loading: false,
   error: false,
+  user: null,
   isAuthenticated: !!localStorage.getItem('jwt') && !tokenIsExpired(),
   scope: !!localStorage.getItem('jwt') && getScope(),
   role: !!localStorage.getItem('jwt') && getRole(),
