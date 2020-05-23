@@ -77,7 +77,7 @@ class Header extends React.Component {
                 <Nav.Item>Verify Users</Nav.Item>
               </Link>
             )} 
-            {this.validateRoles(['BRAND'], ['OWNER', 'MANAGER']) && (
+            {this.validateRoles(['BRAND', 'AGENCY'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/products">
                 <Nav.Item>Products</Nav.Item>
               </Link>

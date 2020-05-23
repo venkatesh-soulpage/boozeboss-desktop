@@ -121,8 +121,8 @@ class App extends React.Component {
             exact
             path="/products"
             component={ProductPage}
-            scopesRequired={['BRAND']}
-            rolesRequired={['OWNER', 'MANAGER']}
+            scopesRequired={['BRAND', 'AGENCY']}
+            rolesRequired={['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']}
           />
           <PrivateRoute
             exact
