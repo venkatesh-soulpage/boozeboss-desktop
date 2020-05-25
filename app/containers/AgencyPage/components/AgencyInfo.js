@@ -139,8 +139,8 @@ export default class AgencyInfo extends Component {
         return (
             <InfoContainer>
                 {(!agencies || agencies.length < 1) && <ClientsLabel>No Agencies</ClientsLabel> }
-                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                {/* error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/> */}
+                {/* success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} /> */}
                 {agencies &&
                 agencies.length > 0 && (
                     <React.Fragment>

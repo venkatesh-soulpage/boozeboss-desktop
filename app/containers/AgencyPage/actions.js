@@ -13,6 +13,8 @@ import {
   DISMISS
  } from './constants';
 
+ import { Alert } from 'rsuite';
+
  export function addAgencyDraft() {
   return {
     type: ADD_AGENCY_DRAFT,
@@ -56,6 +58,7 @@ export function inviteAgencySuccess(agency) {
 }
 
 export function inviteAgencyError(error) {
+  Alert.error(error);
   return {
     type: INVITE_AGENCY_ERROR,
     error,
@@ -71,6 +74,7 @@ export function inviteCollaborator(collaborator) {
 }
 
 export function inviteCollaboratorSuccess(success) {
+  Alert.success(success); 
   return {
     type: INVITE_COLLABORATOR_SUCCESS,
     success
@@ -78,6 +82,7 @@ export function inviteCollaboratorSuccess(success) {
 }
 
 export function inviteCollaboratorError(error) {
+  Alert.error(error);
   return {
     type: INVITE_COLLABORATOR_ERROR,
     error,
@@ -99,6 +104,7 @@ export function getRolesSuccess(roles) {
 }
 
 export function getRolesError(error) {
+  Alert.error(error);
   return {
     type: GET_ROLES_ERROR,
     error,

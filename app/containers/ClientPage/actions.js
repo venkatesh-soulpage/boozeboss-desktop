@@ -42,6 +42,8 @@ import {
   UPDATE_SLA_ERROR,
 } from './constants';
 
+import { Alert } from 'rsuite';
+
 export function addClientDraft() {
   return {
     type: ADD_CLIENT_DRAFT,
@@ -100,6 +102,7 @@ export function inviteCollaborator(collaborator) {
 }
 
 export function inviteCollaboratorSuccess(success) {
+  Alert.success(success);
   return {
     type: INVITE_COLLABORATOR_SUCCESS,
     success
@@ -107,6 +110,7 @@ export function inviteCollaboratorSuccess(success) {
 }
 
 export function inviteCollaboratorError(error) {
+  Alert.error(error);
   return {
     type: INVITE_COLLABORATOR_ERROR,
     error,
@@ -143,6 +147,7 @@ export function createVenue(venue) {
 }
 
 export function createVenueSuccess(success) {
+  Alert.success(success);
   return {
     type: CREATE_VENUE_SUCCESS,
     success
@@ -150,6 +155,7 @@ export function createVenueSuccess(success) {
 }
 
 export function createVenueError(error) {
+  Alert.error(error);
   return {
     type: CREATE_VENUE_ERROR,
     error,
@@ -165,6 +171,7 @@ export function createBrand(brand) {
 }
 
 export function createBrandcSuccess(success) {
+  Alert.success(success);
   return {
     type: CREATE_BRAND_SUCCESS,
     success
@@ -172,6 +179,7 @@ export function createBrandcSuccess(success) {
 }
 
 export function createBrandError(error) {
+  Alert.error(error);
   return {
     type: CREATE_BRAND_ERROR,
     error,
@@ -187,6 +195,7 @@ export function createWarehouse(warehouse) {
 }
 
 export function createWarehouseSuccess(success) {
+  Alert.success(success);
   return {
     type: CREATE_WAREHOUSE_SUCCESS,
     success
@@ -194,6 +203,7 @@ export function createWarehouseSuccess(success) {
 }
 
 export function createWarehouseError(error) {
+  Alert.error(error);
   return {
     type: CREATE_WAREHOUSE_ERROR,
     error,
@@ -209,6 +219,7 @@ export function deleteVenue(venue_id) {
 }
 
 export function deleteVenueSuccess(success) {
+  Alert.success(success);
   return {
     type: DELETE_VENUE_SUCCESS,
     success
@@ -216,6 +227,7 @@ export function deleteVenueSuccess(success) {
 }
 
 export function deleteVenueError(error) {
+  Alert.error(error);
   return {
     type: DELETE_VENUE_ERROR,
     error,
@@ -253,6 +265,7 @@ export function addClientLocation(client_id, location_id) {
 }
 
 export function addClientLocationSuccess(success) {
+  Alert.success(success);
   return {
     type: ADD_LOCATION_SUCCESS,
     success,
@@ -260,6 +273,7 @@ export function addClientLocationSuccess(success) {
 }
 
 export function addClientLocationError(error) {
+  Alert.error(error);
   return {
     type: ADD_LOCATION_ERROR,
     error,
@@ -276,6 +290,7 @@ export function updateSla(client_id, sla) {
 }
 
 export function updateSlaSuccess(success) {
+  Alert.success(success);
   return {
     type: UPDATE_SLA_SUCCESS,
     success,
@@ -283,6 +298,7 @@ export function updateSlaSuccess(success) {
 }
 
 export function updateSlaError(error) {
+  Alert.error(error);
   return {
     type: UPDATE_SLA_ERROR,
     error,

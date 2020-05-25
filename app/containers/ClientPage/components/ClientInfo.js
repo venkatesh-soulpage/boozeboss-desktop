@@ -244,8 +244,8 @@ export default class ClientInfo extends Component {
         const { clients, currentClient, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
-                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                {/* error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/> */}
+                {/* success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} /> */}
                 {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
                 {clients &&
                 clients.length > 0 && (
