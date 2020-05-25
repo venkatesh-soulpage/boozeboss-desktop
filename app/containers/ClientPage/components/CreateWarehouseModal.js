@@ -79,7 +79,7 @@ export default class CreateWarehouseModal extends React.Component {
         const locationOptions = locations.map(val => {
             return  {
                 label: `${val.location.name}`,
-                value: val.id,
+                value: val.location.id,
             }
         })
 

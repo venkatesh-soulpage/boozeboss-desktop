@@ -29,6 +29,7 @@ export default class LocationsPage extends Component {
                         {locations && locations.length > 0 && (
                             <Table
                                 data={locations}
+                                autoHeight
                             >
                                 <Column>
                                     <HeaderCell>
