@@ -18,6 +18,31 @@ export default class RequisitionsContainer extends Component {
         agenciesData: null,
     }
 
+    getCurrentRequisition = (requisition_id) => {
+        const {requisitions} = this.props;
+        const requisitions_index = requisitions.map(req => req.id);
+        const currentRequisition = requisitions_index.indexOf(requisition_id);
+
+        if (currentRequisition > -1) {
+            this.setState({currentRequisition});
+        }
+    }
+
+    componentDidMount = () => {
+        const {history, requistions} = this.props;
+        const {location} = history;
+
+        if (location.requisition_id) {
+            if (requistions) {
+                this.getCurrentRequisition(location.requisition_id);
+            } else {
+                setTimeout(() => {
+                    this.getCurrentRequisition(location.requisition_id);
+                }, 500)
+            }
+        }
+    }
+
     handleSelectCurrentRequisition = currentRequisition => {
         this.setState({currentRequisition})
     }

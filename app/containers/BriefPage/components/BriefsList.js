@@ -50,6 +50,10 @@ const StyledPanel = styled(Panel)`
   width: 100%;
   margin: 0.5em 0 0.5em 0;
 
+  .rs-panel-body {
+    width: 100%;
+  }
+
   ${props => props.isSelected && 'background-color: #E8E8E8;'} &:hover {
     cursor: pointer;
     opacity: 0.75;
@@ -61,11 +65,37 @@ const PanelColumn = styled.div`
   flex-direction: column;
 `
 
+const FieldRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; 
+  flex: 1;
+  width: 100%;
+`
+
+const StyledText = styled.b`
+  display: flex;
+  flex: 1;
+`
+
+const StyledLink = styled.a`
+  display: flex;
+  flex: 1;
+`
+
 class BriefContainer extends Component {
   handleSelectCurrentBrief = () => {
     const { handleSelectCurrentBrief, index } = this.props;
     handleSelectCurrentBrief(index);
   };
+
+  goToRequisition = () => {
+    const {brief, history} = this.props;
+    history.push({
+      pathname: '/requisitions',
+      requisition_id: brief.requisition.id,
+    });
+  }
 
   render() {
     const { brief, currentBrief, index } = this.props;
@@ -78,8 +108,8 @@ class BriefContainer extends Component {
             onClick={this.handleSelectCurrentBrief}
           >
             <PanelColumn>
-              <b>New Brief</b>
-              <p>(Draft)</p>
+              <StyledText>New Brief</StyledText>
+              <StyledLink>(Draft)</StyledLink>
             </PanelColumn>
           </StyledPanel>
         ) : (
@@ -89,7 +119,11 @@ class BriefContainer extends Component {
             onClick={this.handleSelectCurrentBrief}
           >
             <PanelColumn>
-              <b>{brief.name}</b>
+              <FieldRow>
+                <b>{brief.name}</b>
+                <a onClick={this.goToRequisition}>{brief.requisition && `(#${brief.requisition.serial_number})`}</a>
+              </FieldRow>
+              
               <p>{brief.created_at && moment(brief.created_at).format('DD/MM/YYYY')}</p>
               <p>{brief.status}</p>
             </PanelColumn>
