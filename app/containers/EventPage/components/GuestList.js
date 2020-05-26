@@ -18,7 +18,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin 0 0em 0 1em;
+    margin ${props => props.margin ? props.margin : '0 0em 0 1em'};
 `
 
 const FieldLabel = styled.b`
@@ -44,14 +44,18 @@ export default class GuestList extends Component {
             <React.Fragment>
                 <FieldsRow>
                     {event && event.event && event.event.guest && (
-                        <FieldContainer>
+                        <FieldContainer margin='0'>
                             <FieldLabel>
                                 Guests ({event.event.guests.length})
                             </FieldLabel>
                         </FieldContainer>
                     )}
                     <FieldsRow>
-                        <FieldContainer />
+                        <FieldContainer>
+                            {event.event.is_master_code_enabled && (
+                                <p>Master Code: <b>{event.event.master_code}</b></p>
+                            )}
+                        </FieldContainer>
                         <FieldContainer>
                             <FieldsRow>
                                 <FieldContainer>
@@ -148,7 +152,9 @@ export default class GuestList extends Component {
                                 </Column>
                             </Table>
                         ): (
-                            <p>No guests</p>
+                            <FieldContainer>
+                                No guests
+                            </FieldContainer>
                         )}
                     </TableContainer>
             </React.Fragment>
