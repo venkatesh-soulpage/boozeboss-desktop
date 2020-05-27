@@ -105,8 +105,8 @@ export default class AddNewRequisitionOrder extends React.Component {
             .filter((prod) => {
         
                 // filters
-                const has_brief_brand = !prod.is_cocktail && brief_brands.indexOf(prod.brand.id) > -1;
-                const is_ingredient = !prod.is_cocktail && prod.brand.product_type !== 'Liquour';
+                const has_brief_brand = !prod.is_cocktail && prod.brand && brief_brands.indexOf(prod.brand.id) > -1;
+                const is_ingredient = !prod.is_cocktail &&  prod.brand && prod.brand.product_type !== 'Liquour';
 
                 return has_brief_brand || is_ingredient;
             })
@@ -191,7 +191,7 @@ export default class AddNewRequisitionOrder extends React.Component {
                         )}
                         {product && (
                             <FieldContainer>
-                                <FieldLabel>Price</FieldLabel>
+                                <FieldLabel>Recommended Price</FieldLabel>
                                 <InputGroup>
                                     <InputNumber 
                                         disabled={is_display}

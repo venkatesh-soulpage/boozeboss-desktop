@@ -12,7 +12,7 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
-const categories_old = {
+/* const categories_old = {
     'Liquour': [
         'Whisky', 'Vodka', 'Rum', 'Brandy', 'Cognac', 'Tequila', 'Liqueur', 'Beer', 'Gin', 'Fortified Wine', 'Sake', 'Table Wine', 'Cachaca', 'Mezcal', 'Bitters', 'Vermount', 'Champagne', 'Other' 
     ],
@@ -28,7 +28,7 @@ const categories_old = {
     'Brand Asset': [
         'Mobile Bars', 'POS', 'Cocktail Equipment'
     ]
-}
+} */
 
 const categories = {
     'Whisky': ['Whisky'],
