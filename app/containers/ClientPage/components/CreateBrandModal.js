@@ -12,7 +12,7 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
-const categories = {
+const categories_old = {
     'Liquour': [
         'Whisky', 'Vodka', 'Rum', 'Brandy', 'Cognac', 'Tequila', 'Liqueur', 'Beer', 'Gin', 'Fortified Wine', 'Sake', 'Table Wine', 'Cachaca', 'Mezcal', 'Bitters', 'Vermount', 'Champagne', 'Other' 
     ],
@@ -28,6 +28,27 @@ const categories = {
     'Brand Asset': [
         'Mobile Bars', 'POS', 'Cocktail Equipment'
     ]
+}
+
+const categories = {
+    'Whisky': ['Whisky'],
+    'Vodka': ['Vodka'],
+    'Rum': ['Rum'],
+    'Brandy': ['Brandy'],
+    'Cognac' : ['Cognac'],
+    'Tequila': ['Tequila'],
+    'Liqueur': ['Liqueur'],
+    'Beer': ['Beer'],
+    'Gin': ['Gin'],
+    'Fortifies Wine': ['Fortified Wine'],
+    'Sake': ['Sake'],
+    'Table Wine': ['Table Wine'],
+    'Cachaca': ['Cachaca'],
+    'Mezcal': ['Mezcal'],
+    'Bitters': ['Bitters'],
+    'Vermount': ['Vermount'],
+    'Champagne': ['Champagne'],
+    'Other': ['Other'],
 }
 
 export default class CreateBrandModal extends React.Component {

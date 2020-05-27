@@ -92,12 +92,20 @@ export default class ProductsTable extends Component {
                         onSortColumn={this.handleSortColumn}
                         loading={this.state.loading}
                     >
-                        <Column width={150} resizable>
+                        <Column width={150} flexGrow sortable>
                             <HeaderCell>
                                 Type
                             </HeaderCell>
-                            <Cell dataKey="type">
-                                {rowData => rowData.is_cocktail ? 'Cocktail' : 'Product'}
+                            <Cell dataKey="product_type">
+                                {rowData => rowData.product_type}
+                            </Cell>
+                        </Column>
+                        <Column width={150} flexGrow sortable>
+                            <HeaderCell>
+                                Subtype
+                            </HeaderCell>
+                            <Cell dataKey="product_subtype">
+                                {rowData => rowData.product_subtype}
                             </Cell>
                         </Column>
                         <Column width={150} resizable sortable>
@@ -108,7 +116,7 @@ export default class ProductsTable extends Component {
                                 {rowData => <b>{rowData.name}</b>}
                             </Cell>
                         </Column>
-                        <Column resizable sortable>
+                        <Column flexGrow sortable>
                             <HeaderCell>
                                 Brand
                             </HeaderCell>
@@ -124,7 +132,7 @@ export default class ProductsTable extends Component {
                                 {rowData => rowData.description}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column width={70}>
                             <HeaderCell>
                                 Amount
                             </HeaderCell>
@@ -132,7 +140,7 @@ export default class ProductsTable extends Component {
                                 {rowData => rowData.metric_amount}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column width={70}>
                             <HeaderCell>
                                 Metric
                             </HeaderCell>
@@ -140,7 +148,7 @@ export default class ProductsTable extends Component {
                                 {rowData => rowData.metric}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 SKU
                             </HeaderCell>

@@ -44,6 +44,39 @@ const metricOptions = [
     },
 ]
 
+const typeOptions = [
+    {label: 'Product', value: 'PRODUCT'},
+    {label: 'Cocktail', value: 'COCKTAIL'},
+    {label: 'Brand Asset', value: 'BRAND_ASSET'},
+    {label: 'Mixer', value: 'MIXER'},
+    {label: 'Ingredient', value: 'INGREDIENT'},
+    {label: 'Consumable', value: 'CONSUMABLE'},
+];
+
+const subtypesOptions = {
+    'MIXER': [
+        {label: 'Soda', value: 'SODA'},
+        {label: 'Packed Juice', value: 'PACKED_JUICE'},
+        {label: 'Fresh Juice', value: 'FRESH_JUICE'},
+        {label: 'Syrup', value: 'SYRUP'},
+        {label: 'Other', value: 'OTHER'},
+    ],
+    'CONSUMABLE': [
+        {label: 'Consumable', value: 'CONSUMABLE'},
+    ],
+    'INGREDIENT': [
+        {label: 'Whole Fruit', value: 'WHOLE_FRUIT'},
+        {label: 'Flavoring Bitter', value: 'FLAVORING_BITTER'},
+        {label: 'Other', value: 'OTHER'},
+    ],
+    'BRAND_ASSET': [
+        {label: 'Mobile Bar', value: 'MOBILE_BAR'},
+        {label: 'POS', value: 'POS'},
+        {label: 'Cocktail Equipment', value: 'COCKTAIL_EQUIPMENT'},
+        {label: 'Other', value: 'OTHER'},
+    ]
+}
+
 
 export default class AddProductModal extends React.Component {
     constructor(props) {
@@ -59,6 +92,8 @@ export default class AddProductModal extends React.Component {
         metric_amount: 0,
         sku: null,
         base_price: 1,
+        product_type: 'PRODUCT',
+        product_subtype: null,
         ingredients: [],
       };
     }
@@ -106,28 +141,40 @@ export default class AddProductModal extends React.Component {
 
     addProduct = () => {
         const { addProduct } = this.props;
-        const { name, brand_id, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients } = this.state;
+        const { name, brand_id, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients, product_type, product_subtype } = this.state;
         
         // Validate depending wether is cocktail or product
-        if (is_cocktail) {
-            if (!name || !description || !metric || !metric_amount || !sku || !base_price) return alert('Missing fields');
-        } else {
-            if (!name || !brand_id || !description || !metric || !metric_amount || !sku || !base_price) return alert('Missing fields');
+        if (product_type === 'PRODUCT') {
+            if (!name || !brand_id || !description || !metric || !metric_amount || !sku || !base_price || !product_type) return alert('Missing fields');
+
+            addProduct({brand_id, name, description, is_cocktail: false, metric, metric_amount, sku, base_price, product_type, product_subtype: 'SPIRIT'}); 
         }
 
-        if (is_cocktail && (!ingredients || ingredients.length < 1)) return alert('Missing ingredients');
-    
-        if (is_cocktail) {
+        // Get the ingredients for the cocktail and submit
+        if (product_type === 'COCKTAIL') {
+            if (!name || !description || !metric || !metric_amount || !sku || !base_price || !product_type ) return alert('Missing fields');
+            if (!ingredients || ingredients.length < 1) return alert('Missing ingredients');
+
             const cocktail_ingredients = ingredients.map(ingredient => {
                 return {
                     product_id: ingredient.product.id,
                     quantity: ingredient.amount
                 }
             }) 
-            addProduct({brand_id, name, description, is_cocktail, metric: 'ml', metric_amount, sku, base_price, cocktail_ingredients}); 
-        } else {
-            addProduct({brand_id, name, description, is_cocktail, metric, metric_amount, sku, base_price}); 
+
+            addProduct({brand_id, name, description, is_cocktail: true, metric: 'ml', metric_amount, sku, base_price, cocktail_ingredients, product_type, product_subtype: 'COCKTAIL'}); 
         }
+
+        if (['BRAND_ASSET', 'CONSUMABLE'].indexOf(product_type) > -1) {
+            if (!name || !description || !sku || !base_price || !product_type || !product_subtype) return alert('Missing fields');
+            addProduct({name, description, is_cocktail: false, metric: 'u', metric_amount: 1, sku, base_price, product_type, product_subtype}); 
+        }
+
+        if (['MIXER', 'INGREDIENT'].indexOf(product_type) > -1) {
+            if (!name || !description  || !metric || !metric_amount  | !sku || !base_price || !product_type || !product_subtype) return alert('Missing fields');
+            addProduct({name, description, metric, metric_amount, is_cocktail: false, sku, base_price, product_type, product_subtype}); 
+        }
+
         this.reset();
     }
 
@@ -199,7 +246,7 @@ export default class AddProductModal extends React.Component {
     }
 
     render() {
-        const {show, brandOptions, name, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients } = this.state;
+        const {show, brandOptions, name, description, is_cocktail, metric, metric_amount, sku, base_price, ingredients, product_type, product_subtype } = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open} color="green">+ Add Product</Button>
@@ -224,12 +271,25 @@ export default class AddProductModal extends React.Component {
                         </FieldContainer>
                         <FieldContainer>
                             <FieldLabel>Product Type</FieldLabel>
-                            <RadioGroup name="radioList" onChange={(value) => this.handleChange(value, 'is_cocktail')} defaultValue={false}>
-                                <Radio value={false}>Product</Radio>
-                                <Radio value={true}>Cocktail</Radio>
-                            </RadioGroup>
+                            <SelectPicker 
+                                data={typeOptions}
+                                searchable={false}
+                                value={product_type}
+                                onChange={(val) => this.handleChange(val, 'product_type')}
+                            />
                         </FieldContainer>
-                        { !is_cocktail ? (
+                        {['MIXER', 'INGREDIENT', 'CONSUMABLE', 'BRAND_ASSET'].indexOf(product_type) > -1 && (
+                            <FieldContainer>
+                                <FieldLabel>Product Subtype</FieldLabel>
+                                <SelectPicker 
+                                    data={subtypesOptions[product_type]}
+                                    searchable={false}
+                                    value={product_subtype}
+                                    onChange={(val) => this.handleChange(val, 'product_subtype')}
+                                />
+                            </FieldContainer>
+                        )}
+                        { product_type === 'PRODUCT' && (
                             <FieldContainer>
                                 <FieldRow>
                                     <FieldLabel>Brand </FieldLabel>
@@ -241,25 +301,28 @@ export default class AddProductModal extends React.Component {
                                     onChange={(value) => this.handleChange(value, 'brand_id')}
                                 />
                             </FieldContainer>
-                        ) : (
+                        )}  
+                        {product_type === 'COCKTAIL' && (
                             <CocktailBuilder 
                                 {...this.props}
                                 ingredients={ingredients}
                                 addIngredient={this.addIngredient}
                             />
                         )}
-                        <FieldContainer>
-                            <FieldLabel>Metric</FieldLabel>
-                            <SelectPicker 
-                                disabled={is_cocktail}
-                                searchable={false}
-                                defaultValue={metric}
-                                value={is_cocktail ? 'ml' : metric}
-                                data={metricOptions}
-                                onChange={(value) => this.handleChange(value, 'metric')}
-                            />
-                        </FieldContainer>
-                        {metric && (
+                        {['PRODUCT', 'COCKTAIL', 'MIXER', 'INGREDIENT'].indexOf(product_type) > -1 && (
+                            <FieldContainer>
+                                <FieldLabel>Metric</FieldLabel>
+                                <SelectPicker 
+                                    disabled={product_type === 'COCKTAIL'}
+                                    searchable={false}
+                                    defaultValue={metric}
+                                    value={product_type === 'COCKTAIL' ? 'ml' : metric}
+                                    data={metricOptions}
+                                    onChange={(value) => this.handleChange(value, 'metric')}
+                                />
+                            </FieldContainer>
+                        )}
+                        {['PRODUCT', 'COCKTAIL', 'MIXER', 'INGREDIENT'].indexOf(product_type) > -1 && metric && (
                             <FieldContainer>
                                 <FieldLabel>Metric Amount</FieldLabel>
                                 <InputGroup>
