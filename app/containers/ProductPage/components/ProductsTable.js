@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components';
 import {Table} from 'rsuite';
 import UpdateProductModal from './UpdateProductModal';
+import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell} = Table;
 
@@ -168,8 +169,26 @@ export default class ProductsTable extends Component {
                             <HeaderCell>
                                 Actions
                             </HeaderCell>
-                            <Cell dataKey="base_price">
-                                {rowData => <UpdateProductModal {...this.props} product={rowData}/>}
+                            <Cell dataKey="actions">
+                                {rowData => (
+                                    <React.Fragment>
+                                       <RoleValidator 
+                                            {...this.props}
+                                            scopes={['BRAND']}
+                                            roles={['OWNER', 'MANAGER']}
+                                        >
+                                            <UpdateProductModal {...this.props} product={rowData}/>  
+                                        </RoleValidator> 
+                                        <RoleValidator 
+                                            {...this.props}
+                                            scopes={['AGENCY']}
+                                            roles={['OWNER', 'MANAGER']}
+                                        >
+                                            <p>No actions</p>
+                                        </RoleValidator> 
+                                    </React.Fragment>
+                                    
+                                )}
                             </Cell>
                         </Column>
                     </Table>

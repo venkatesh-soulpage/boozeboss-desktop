@@ -21,6 +21,7 @@ import saga from './saga';
 import messages from './messages';
 import { getProducts, addProduct, getBrands, updateProduct, dismiss, toggleFilter } from './actions';
 import { ProductsContainer } from './components'
+import { makeSelectScope, makeSelectRole } from '../App/selectors'
 
 const Products = styled.div`
   display: flex;
@@ -68,6 +69,8 @@ Product.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  scope: makeSelectScope(),
+  role: makeSelectRole(),
   products: makeSelectProducts(),
   brands: makeSelectBrands(),
   productsEnabled: makeSelectProductsEnabled(),

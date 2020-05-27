@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Button, Checkbox } from 'rsuite'
 import AddProductModal from './AddProductModal';
+import RoleValidator from 'components/RoleValidator';
 
 const StyledHeader = styled.div`
     display: flex;
@@ -30,7 +31,13 @@ export default class ProductsHeader extends Component {
         return (
             <StyledHeader>
                 <HeaderSection>
-                    <AddProductModal {...this.props}/>
+                    <RoleValidator
+                        {...this.props}
+                        scopes={['BRAND']}
+                        roles={['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']}
+                    >
+                        <AddProductModal {...this.props}/>
+                    </RoleValidator>
                 </HeaderSection>
                 <HeaderSection reverse>
                     <Checkbox 
