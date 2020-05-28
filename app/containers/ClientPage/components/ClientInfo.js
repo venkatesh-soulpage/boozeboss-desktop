@@ -13,7 +13,7 @@ import CreateBrandModal from './CreateBrandModal';
 import ClientWarehouseTable from './ClientWarehouseTable';
 import CreateWarehouseModal from './CreateWarehouseModal';
 import ClientAddLocation from './ClientAddLocation';
-import EditableSLA from './EditableSLA';
+import EditableField from './EditableField';
 import ClientToggleActive from './ClientToggleActive';
 import RoleValidator from 'components/RoleValidator';
 
@@ -264,9 +264,37 @@ export default class ClientInfo extends Component {
                             <DataContainer>
                                 <HeaderRow>
                                     <FieldContainer>
-                                        <h3>{clients[currentClient].name}</h3>
-                                        <p>{clients[currentClient].description}</p>
-                                        <p>{clients[currentClient].contact_email}</p>
+                                        <EditableField 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                            field_label='Name'
+                                            field_name='name'
+                                            value={clients[currentClient].name}
+                                            tag_type='header'
+                                            is_number={false}
+                                            show_label={false}
+                                            margin='0'
+                                        />
+                                        <EditableField 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                            field_label='Description'
+                                            field_name='description'
+                                            value={clients[currentClient].description}
+                                            is_number={false}
+                                            show_label={false}
+                                            margin='0'
+                                        />
+                                       <EditableField 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                            field_label='Contact Email'
+                                            field_name='contact_email'
+                                            value={clients[currentClient].contact_email}
+                                            is_number={false}
+                                            show_label={false}
+                                            margin='0'
+                                        />
                                     </FieldContainer>
                                     <FieldContainer>
                                         <ClientToggleActive     
@@ -300,63 +328,63 @@ export default class ClientInfo extends Component {
                                     </RoleValidator>
                                 </FieldContainer>
                                 <FieldsRow>
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Collaborator limit'
                                         field_name='collaborator_limit'
                                         value={clients[currentClient].collaborator_limit}
                                     />
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Brief Limit / Year'
                                         field_name='briefs_limit'
                                         value={clients[currentClient].briefs_limit}
                                     />
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Brands Limit'
                                         field_name='brands_limit'
                                         value={clients[currentClient].brands_limit}
                                     />
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Warehouses Limit'
                                         field_name='warehouses_limit'
                                         value={clients[currentClient].warehouses_limit}
                                     />  
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Locations Limit'
                                         field_name='locations_limit'
                                         value={clients[currentClient].locations_limit}
                                     />  
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Identity Verification Limit'
                                         field_name='identity_verifications_limit'
                                         value={clients[currentClient].identity_verifications_limit}
                                     />  
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Agencies Limit'
                                         field_name='agencies_limit'
                                         value={clients[currentClient].agencies_limit}
                                     />  
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Agencies Collaborators Limit'
                                         field_name='agency_collaborators_limit'
                                         value={clients[currentClient].agency_collaborators_limit}
                                     />   
-                                    <EditableSLA 
+                                    <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
                                         field_label='Brief Attachments Limit'

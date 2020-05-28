@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { InputNumber, IconButton, Icon } from 'rsuite';
+import { InputNumber, IconButton, Icon, Input } from 'rsuite';
 import RoleValidator from 'components/RoleValidator';
 
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 1em 1em 1em 1em;
+    margin: ${props => props.margin || '1em 1em 1em 1em'};
 `;
 
 const FieldLabel = styled.b`
@@ -20,7 +20,7 @@ const FieldRow = styled.div`
     justify-content: space-between;
 `
 
-export default class EditableSLA extends Component {
+export default class EditableField extends Component {
     
     state = {
         isEditing: false,
@@ -65,20 +65,32 @@ export default class EditableSLA extends Component {
     }
 
     render() {
-        const { field_label, field_name, value } = this.props;
+        const { field_label, field_name, value, show_label, tag_type, is_number, margin } = this.props;
         const {isEditing} = this.state;
         return (
             <React.Fragment>
                 {isEditing ? (
-                    <FieldContainer>
-                        <FieldLabel>{field_label}</FieldLabel>
+                    <FieldContainer margin={margin}>
+                        {show_label && (
+                            <FieldLabel>{field_label}</FieldLabel>
+                        )}
                         <FieldRow>
-                            <InputNumber 
-                                style={{minWidth: '100px', maxWidth: '100%'}}
-                                defaultValue={value}
-                                value={this.state[field_name]}
-                                onChange={(new_value) => this.handleChange(new_value)}
-                            />
+                            {is_number ? (
+                                <InputNumber 
+                                    style={{minWidth: '100px', maxWidth: '100%'}}
+                                    defaultValue={value}
+                                    value={this.state[field_name]}
+                                    onChange={(new_value) => this.handleChange(new_value)}
+                                />
+                            ) : (
+                                <Input 
+                                    style={{minWidth: '100px', maxWidth: '100%'}}
+                                    defaultValue={value}
+                                    value={this.state[field_name]}
+                                    onChange={(new_value) => this.handleChange(new_value)}
+                                />
+                            )}
+                            
                             <RoleValidator
                                 {...this.props}
                                 scopes={['ADMIN']}
@@ -90,15 +102,20 @@ export default class EditableSLA extends Component {
                         
                     </FieldContainer>
                 ) : (
-                    <FieldContainer>
-                        <FieldLabel>{field_label}</FieldLabel>
+                    <FieldContainer margin={margin}>
+                        {show_label && (
+                            <FieldLabel>{field_label}</FieldLabel>
+                        )}
                         <FieldRow>
                             {field_name === 'brief_attachment_limits' ? (
                                 <p>{this.formatSizeUnits(value)}</p>
                             ) : (
-                                <p>{value}</p>
+                                <React.Fragment>
+                                    {(!tag_type || tag_type === 'p') && <p>{value}</p>}
+                                    {tag_type === 'header' && <h3>{value}</h3>}
+                                </React.Fragment>
+                                
                             )}
-                            
                             <RoleValidator
                                 {...this.props}
                                 scopes={['ADMIN']}
@@ -112,4 +129,10 @@ export default class EditableSLA extends Component {
             </React.Fragment>
         )
     }
+}
+
+EditableField.defaultProps = {
+    show_label: true, 
+    tag_type: 'p', 
+    is_number: false
 }
