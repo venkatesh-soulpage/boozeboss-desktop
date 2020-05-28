@@ -14,6 +14,7 @@ import ClientWarehouseTable from './ClientWarehouseTable';
 import CreateWarehouseModal from './CreateWarehouseModal';
 import ClientAddLocation from './ClientAddLocation';
 import EditableSLA from './EditableSLA';
+import ClientToggleActive from './ClientToggleActive';
 import RoleValidator from 'components/RoleValidator';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -73,6 +74,12 @@ const Countries = styled.ul`
 
 const Country = styled.li`
     font-weight: bold;
+`
+
+const HeaderRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `
 
 class ClientForm extends Component {
@@ -255,18 +262,20 @@ export default class ClientInfo extends Component {
                     ) : (
                         <Panel bordered>
                             <DataContainer>
-                                <FieldContainer>
-                                    <FieldLabel>Name</FieldLabel>
-                                    <p>{clients[currentClient].name}</p>
-                                </FieldContainer>
-                                <FieldContainer>
-                                    <FieldLabel>Description</FieldLabel>
-                                    <p>{clients[currentClient].description}</p>
-                                </FieldContainer>
-                                <FieldContainer>
-                                    <FieldLabel>Contact</FieldLabel>
-                                    <p>{clients[currentClient].contact_email}</p>
-                                </FieldContainer>
+                                <HeaderRow>
+                                    <FieldContainer>
+                                        <h3>{clients[currentClient].name}</h3>
+                                        <p>{clients[currentClient].description}</p>
+                                        <p>{clients[currentClient].contact_email}</p>
+                                    </FieldContainer>
+                                    <FieldContainer>
+                                        <ClientToggleActive     
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                        />
+                                    </FieldContainer>
+                                </HeaderRow>
+                                <Divider />
                                 <FieldContainer>
                                     <FieldLabel>Locations</FieldLabel>
                                     {clients[currentClient].locations 

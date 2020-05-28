@@ -90,7 +90,7 @@ function mapDispatchToProps(dispatch) {
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     createWarehouse: (warehouse) => dispatch(createWarehouse(warehouse)), 
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),
-    updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)),
+    updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)), // PATCH method it really works with other client values, need to change.
     dismiss: type => dispatch(dismiss(type))
   };
 }
