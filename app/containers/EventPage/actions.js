@@ -10,7 +10,9 @@ import { DEFAULT_ACTION,
   RESEND_EMAIL_REQUEST, RESEND_EMAIL_SUCCESS, RESEND_EMAIL_ERROR, 
   DELETE_GUEST_REQUEST, DELETE_GUEST_SUCCESS, DELETE_GUEST_ERROR, 
   GET_ROLES_REQUEST, GET_ROLES_SUCCESS, GET_ROLES_ERROR,
-  GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS, ADD_EVENT_PRODUCTS_ERROR 
+  GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, 
+  ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS, ADD_EVENT_PRODUCTS_ERROR, 
+  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS, REMOVE_EVENT_PRODUCTS_ERROR
 } from './constants';
 
 export function defaultAction() {
@@ -167,6 +169,29 @@ export function addEventProductSuccess(success) {
 export function addEventProductError(error) {
   return {
     type: ADD_EVENT_PRODUCTS_ERROR,
+    error
+  };
+}
+
+// Remove Event Product
+export function removeEventProduct(event_id, event_product_id) {
+  return {
+    type: REMOVE_EVENT_PRODUCTS_REQUEST,
+    event_id,
+    event_product_id
+  };
+}
+
+export function removeEventProductSuccess(success) {
+  return {
+    type: REMOVE_EVENT_PRODUCTS_SUCCESS,
+    success
+  };
+}
+
+export function removeEventProductError(error) {
+  return {
+    type: REMOVE_EVENT_PRODUCTS_ERROR,
     error
   };
 }

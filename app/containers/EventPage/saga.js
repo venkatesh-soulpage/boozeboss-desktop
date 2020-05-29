@@ -10,7 +10,8 @@ import {
   RESEND_EMAIL_REQUEST,
   GET_ROLES_REQUEST,
   GET_PRODUCTS_REQUEST,
-  ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS
+  ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS,
+  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS
 } from './constants';
 
 import {
@@ -19,7 +20,9 @@ import {
   resendEmailError, deleteGuestSuccess, 
   resendEmailSuccess, deleteGuestError, 
   getRolesSuccess, getRolesError, 
-  getProductsSuccess, getProductsError, addEventProductSuccess, addEventProductError
+  getProductsSuccess, getProductsError, 
+  addEventProductSuccess, addEventProductError,
+  removeEventProductSuccess, removeEventProductError
 } from './actions';
 
 function* getEventsSaga() {
@@ -134,6 +137,22 @@ function* addEventProductsSaga(params) {
   }
 }
 
+function* removeEventProductsSaga(params) {
+  const {event_id, event_product_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/delete-product/${event_product_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(removeEventProductSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(removeEventProductError(jsonError));
+  }
+}
+
 
 function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
@@ -163,6 +182,10 @@ function* addEventProductRequest() {
   yield takeLatest(ADD_EVENT_PRODUCTS_REQUEST, addEventProductsSaga);
 }
 
+function* removeEventProductRequest() {
+  yield takeLatest(REMOVE_EVENT_PRODUCTS_REQUEST, removeEventProductsSaga);
+}
+
 // Reactive 
 function* inviteGuestSuccessRequest() {
   yield takeLatest(INVITE_GUEST_SUCCESS, getEventsSaga);
@@ -176,6 +199,10 @@ function* addEventProductSuccessRequest() {
   yield takeLatest(ADD_EVENT_PRODUCTS_SUCCESS, getEventsSaga);
 }
 
+function* removeEventProductSuccessRequest() {
+  yield takeLatest(REMOVE_EVENT_PRODUCTS_SUCCESS, getEventsSaga);
+}
+
 
 export default function* rootSaga() {
   yield all([
@@ -186,9 +213,11 @@ export default function* rootSaga() {
     fork(deleteGuestRequest),
     fork(getProductsRequest),
     fork(addEventProductRequest),
+    fork(removeEventProductRequest),
     // Reactive
     fork(inviteGuestSuccessRequest),
     fork(deleteGuestSuccessRequest),
-    fork(addEventProductSuccessRequest)
+    fork(addEventProductSuccessRequest),
+    fork(removeEventProductSuccessRequest)
   ]);
 }

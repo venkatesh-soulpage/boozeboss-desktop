@@ -37,6 +37,11 @@ export default class MenuList extends Component {
         this.props.deleteGuest(event_guest_id);
     } */
 
+    handleRemove = (event_product_id) => {
+        const {removeEventProduct, event} = this.props;
+        removeEventProduct(event.event.id, event_product_id);
+    }
+
     render() {
         const {event} = this.props;
         return (
@@ -108,7 +113,7 @@ export default class MenuList extends Component {
                                         Actions
                                     </HeaderCell>
                                     <Cell dataKey="actions">
-                                        
+                                        {rowData => <a onClick={() => this.handleRemove(rowData.id)} >Remove</a>}
                                     </Cell>
                                 </Column>
                             </Table>
