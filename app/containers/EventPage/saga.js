@@ -8,12 +8,18 @@ import {
   DELETE_GUEST_REQUEST,
   DELETE_GUEST_SUCCESS,
   RESEND_EMAIL_REQUEST,
-  GET_ROLES_REQUEST
+  GET_ROLES_REQUEST,
+  GET_PRODUCTS_REQUEST,
+  ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS
 } from './constants';
 
 import {
   getEventsSuccess, getEventsError,
-  inviteGuestSuccess, inviteGuestError, resendEmailError, deleteGuestSuccess, deleteGuestError, getRolesSuccess, getRolesError
+  inviteGuestSuccess, inviteGuestError, 
+  resendEmailError, deleteGuestSuccess, 
+  resendEmailSuccess, deleteGuestError, 
+  getRolesSuccess, getRolesError, 
+  getProductsSuccess, getProductsError, addEventProductSuccess, addEventProductError
 } from './actions';
 
 function* getEventsSaga() {
@@ -96,6 +102,39 @@ function* deleteGuestSaga(params) {
 }
 
 
+function* getProductsSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/products`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getProductsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getProductsError(jsonError));
+  }
+}
+
+function* addEventProductsSaga(params) {
+  const {event_id, product} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/add-product`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(product),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addEventProductSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addEventProductError(jsonError));
+  }
+}
+
+
 function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
 }
@@ -116,6 +155,14 @@ function* deleteGuestRequest() {
   yield takeLatest(DELETE_GUEST_REQUEST, deleteGuestSaga);
 }
 
+function* getProductsRequest() {
+  yield takeLatest(GET_PRODUCTS_REQUEST, getProductsSaga);
+}
+
+function* addEventProductRequest() {
+  yield takeLatest(ADD_EVENT_PRODUCTS_REQUEST, addEventProductsSaga);
+}
+
 // Reactive 
 function* inviteGuestSuccessRequest() {
   yield takeLatest(INVITE_GUEST_SUCCESS, getEventsSaga);
@@ -125,6 +172,11 @@ function* deleteGuestSuccessRequest() {
   yield takeLatest(DELETE_GUEST_SUCCESS, getEventsSaga);
 }
 
+function* addEventProductSuccessRequest() {
+  yield takeLatest(ADD_EVENT_PRODUCTS_SUCCESS, getEventsSaga);
+}
+
+
 export default function* rootSaga() {
   yield all([
     fork(getEventsRequest),
@@ -132,8 +184,11 @@ export default function* rootSaga() {
     fork(inviteGuestRequest),
     fork(resendEmailRequest),
     fork(deleteGuestRequest),
+    fork(getProductsRequest),
+    fork(addEventProductRequest),
     // Reactive
     fork(inviteGuestSuccessRequest),
-    fork(deleteGuestSuccessRequest)
+    fork(deleteGuestSuccessRequest),
+    fork(addEventProductSuccessRequest)
   ]);
 }

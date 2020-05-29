@@ -6,6 +6,7 @@ import RoleValidator from 'components/RoleValidator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import moment from 'moment';
 import GuestList from './GuestList';
+import MenuList from './MenuList';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -132,13 +133,16 @@ class EventCard extends Component {
                         <p>{event.free_drinks_enabled ? `Yes (${event.free_drinks_per_guest} per guest)` : 'No'}</p>
                     </FieldContainer>
                 </FieldsRow>
-                <Divider />
                 <FieldsRow>
                     <FieldContainer>
                         <FieldLabel>Comments</FieldLabel>
                         <p>{event.comments}</p>
                     </FieldContainer>
                 </FieldsRow>
+                <Divider />
+                <MenuList 
+                    {...this.props}
+                />
                 <Divider />
                 <GuestList 
                     {...this.props}

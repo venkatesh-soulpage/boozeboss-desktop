@@ -40,7 +40,7 @@ export default class WarehouseAddStock extends React.Component {
         const {products} = this.props;
         const productOptions = products.map(prod => {
             return {
-                label: `${prod.name} - ${prod.metric_amount}${prod.metric} (${prod.brand.name})`,
+                label: `${prod.name} - ${prod.metric_amount}${prod.metric} ${prod.brand ? `(${prod.brand.name})` : ''}`,
                 value: prod,
                 role: prod.name,
             }
