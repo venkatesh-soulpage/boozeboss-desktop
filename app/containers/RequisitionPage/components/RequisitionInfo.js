@@ -57,6 +57,10 @@ const FieldHeader = styled.div`
 
 export default class RequisitionInfo extends Component {
 
+componentDidMount = () => {
+    console.log(process.env);
+}
+
     getBrandsSummary = () => {
         const {requisitions, currentRequisition} = this.props;
         if (!requisitions) return;
