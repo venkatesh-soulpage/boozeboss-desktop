@@ -297,10 +297,17 @@ export default class ClientInfo extends Component {
                                         />
                                     </FieldContainer>
                                     <FieldContainer>
-                                        <ClientToggleActive     
+                                        <RoleValidator
                                             {...this.props}
-                                            client={clients[currentClient]}
-                                        />
+                                            scopes={['ADMIN']}
+                                            roles={['ADMIN']}
+                                        >
+                                            <ClientToggleActive     
+                                                {...this.props}
+                                                client={clients[currentClient]}
+                                            />
+                                        </RoleValidator>
+                                        
                                     </FieldContainer>
                                 </HeaderRow>
                                 <Divider />
