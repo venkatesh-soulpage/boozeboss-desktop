@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, INVITE_COLLABORATOR_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -267,6 +267,10 @@ function* createBrandSuccessRequest() {
   yield takeLatest(CREATE_BRAND_SUCCESS, getClientsSaga);
 }
 
+function* inviteCollaboratorSuccessRequest() {
+  yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getClientsSaga);
+}
+
 function* deleteVenueSuccessRequest() {
   yield takeLatest(DELETE_VENUE_SUCCESS, getClientsSaga);
 }
@@ -298,6 +302,7 @@ export default function* rootSaga() {
     fork(updateSlaRequest),
     // Reactive
     fork(createVenueSuccessRequest),
+    fork(inviteCollaboratorSuccessRequest),
     fork(deleteVenueSuccessRequest),
     fork(createBrandSuccessRequest),
     fork(createWarehouseSuccesRequest),

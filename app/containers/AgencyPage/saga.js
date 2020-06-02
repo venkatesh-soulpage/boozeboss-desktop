@@ -2,7 +2,7 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_AGENCIES_REQUEST, INVITE_AGENCY_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST } from './constants';
+import { GET_AGENCIES_REQUEST, INVITE_AGENCY_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS } from './constants';
 import {
   getAgenciesSuccess, getAgenciesError,
   inviteAgencySuccess, inviteAgencyError,
@@ -90,12 +90,19 @@ function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
 
+// Reactive
+function* inviteCollaboratorSuccessRequest() {
+  yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getAgenciesSaga);
+}
+
 
 export default function* rootSaga() {
   yield all([
     fork(getAgenciesRequest),
     fork(inviteAgencyRequest),
     fork(inviteCollaboratorRequest),
-    fork(getRolesRequest)
+    fork(getRolesRequest),
+    // Reactive
+    fork(inviteCollaboratorSuccessRequest)
   ]);
 }

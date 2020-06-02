@@ -16,6 +16,7 @@ import ClientAddLocation from './ClientAddLocation';
 import EditableField from './EditableField';
 import ClientToggleActive from './ClientToggleActive';
 import RoleValidator from 'components/RoleValidator';
+import ClientCollaboratorsTable from './ClientCollaboratorsTable';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -247,6 +248,7 @@ export default class ClientInfo extends Component {
         return null;
       }
 
+
   render() {
         const { clients, currentClient, error, success, dismiss } = this.props;
         return (
@@ -400,82 +402,7 @@ export default class ClientInfo extends Component {
                                     />   
                                 </FieldsRow>
                                 <Divider />
-                                <FieldContainer>
-                                    <FieldLabelContainer> 
-                                        <FieldLabel>Collaborators </FieldLabel>
-                                        <p>{`( ${clients[currentClient].client_collaborators && clients[currentClient].client_collaborators.length} / ${clients[currentClient].collaborator_limit} ) `}</p>
-                                    </FieldLabelContainer>
-                                    {clients[currentClient].client_collaborators && 
-                                        clients[currentClient].client_collaborators.length > 0 ? (
-                                        <Table
-                                            data={clients[currentClient].client_collaborators}
-                                        >
-                                            <Column>
-                                                <HeaderCell>
-                                                    First Name
-                                                </HeaderCell>
-                                                <Cell dataKey="first_name">
-                                                    {rowData => rowData.account.first_name}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Last Name
-                                                </HeaderCell>
-                                                <Cell dataKey="last_name">
-                                                    {rowData => rowData.account.last_name}
-                                                </Cell>
-                                            </Column>
-                                            <Column resizable>
-                                                <HeaderCell>
-                                                    Email
-                                                </HeaderCell>
-                                                <Cell dataKey="email">
-                                                    {rowData => rowData.account.email}
-                                                </Cell>
-                                            </Column>
-                                            <Column resizable>
-                                                <HeaderCell>
-                                                    Phone #
-                                                </HeaderCell>
-                                                <Cell dataKey="phone_number">
-                                                    {rowData => parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Scope
-                                                </HeaderCell>
-                                                <Cell dataKey="scope">
-                                                    {rowData => rowData.role.scope}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Role
-                                                </HeaderCell>
-                                                <Cell dataKey="role">
-                                                    {rowData => rowData.role.name}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Actions
-                                                </HeaderCell>
-                                                <Cell dataKey="actions">
-                                                    Edit | Delete
-                                                </Cell>
-                                            </Column>
-                                        </Table>
-                                    ) : (
-                                        <p>No Collaborators</p>
-                                    )}
-                                </FieldContainer>
-                                <FieldContainer>
-                                    <InviteCollaborator 
-                                        {...this.props}
-                                    />
-                                </FieldContainer>
+                                <ClientCollaboratorsTable {...this.props}/>
                                 <Divider />
                                 <FieldContainer>
                                     <FieldLabelContainer> 

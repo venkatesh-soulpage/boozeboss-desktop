@@ -5,6 +5,7 @@ import { Panel, Input, Button, Table, InputNumber, Message } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import RoleValidator from 'components/RoleValidator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
+import AgencyCollaboratorsTable from './AgencyCollaboratorsTable';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -181,77 +182,7 @@ export default class AgencyInfo extends Component {
                                         <p>{agencies[currentAgency].sla_hours_before_event_update}</p>
                                     </FieldContainer>
                                 </FieldRow>
-                                <FieldContainer>
-                                    <FieldLabel>Collaborators</FieldLabel>
-                                    {agencies[currentAgency].agency_collaborators &&
-                                        agencies[currentAgency].agency_collaborators.length > 0 ? (
-                                        <Table
-                                            data={agencies[currentAgency].agency_collaborators}
-                                        >
-                                            <Column>
-                                                <HeaderCell>
-                                                    First Name
-                                                </HeaderCell>
-                                                <Cell dataKey="first_name">
-                                                    {rowData => rowData.account.first_name}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Last Name
-                                                </HeaderCell>
-                                                <Cell dataKey="last_name">
-                                                    {rowData => rowData.account.last_name}
-                                                </Cell>
-                                            </Column>
-                                            <Column resizable>
-                                                <HeaderCell>
-                                                    Email
-                                                </HeaderCell>
-                                                <Cell dataKey="email">
-                                                    {rowData => rowData.account.email}
-                                                </Cell>
-                                            </Column>
-                                            <Column resizable>
-                                                <HeaderCell>
-                                                    Phone #
-                                                </HeaderCell>
-                                                <Cell dataKey="email">
-                                                    {rowData => parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Scope
-                                                </HeaderCell>
-                                                <Cell dataKey="scope">
-                                                    {rowData => rowData.role.scope}
-                                                </Cell>
-                                            </Column>
-                                            <Column>
-                                                <HeaderCell>
-                                                    Role
-                                                </HeaderCell>
-                                                <Cell dataKey="role">
-                                                    {rowData => rowData.role.name}
-                                                </Cell>
-                                            </Column>
-                                        </Table>
-                                    ) : (
-                                        <p>No Collaborators</p>
-                                    )}
-                                </FieldContainer>
-                                <RoleValidator
-                                    {...this.props}
-                                    scopes={['ADMIN', 'AGENCY']}
-                                    roles={['ADMIN', 'OWNER', 'MANAGER']}
-                                >
-                                    <FieldContainer>
-                                        <InviteCollaborator 
-                                            {...this.props}
-                                        />
-                                    </FieldContainer>
-                                </RoleValidator>
+                                <AgencyCollaboratorsTable {...this.props} />
                                 
                             </DataContainer>
                         </Panel>
