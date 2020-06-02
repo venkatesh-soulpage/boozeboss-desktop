@@ -60,7 +60,7 @@ class CocktailModal extends Component {
             .filter(product => !product.is_cocktail)
             .map(product => {
                 return {
-                    label: `${product.name} - ${product.metric_amount} ${product.metric} (${product.brand.name})`,
+                    label: `${product.name} - ${product.metric_amount} ${product.metric} ${product.brand ? `${product.brand.name}` : ''}`,
                     value: product,
                     role: product.name,
                 }
@@ -127,8 +127,8 @@ class CocktailModal extends Component {
 const Ingredient = ({ingredient}) => (
     <IngredientRow>
         <IngredientLabel>{ingredient.product.name}</IngredientLabel>
-        <IngredientLabel>{ingredient.product.brand.product_type}</IngredientLabel>
-        <IngredientLabel>{ingredient.product.brand.name}</IngredientLabel>
+        <IngredientLabel>{ingredient.product.product_type}</IngredientLabel>
+        <IngredientLabel>{ingredient.product.product_subtype}</IngredientLabel>
         <IngredientLabel>{ingredient.amount}{ingredient.product.metric}</IngredientLabel>
     </IngredientRow>
 )

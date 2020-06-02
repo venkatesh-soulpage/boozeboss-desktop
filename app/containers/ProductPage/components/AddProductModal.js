@@ -293,6 +293,9 @@ export default class AddProductModal extends React.Component {
       metric_amount: 0,
       sku: null,
       base_price: 1,
+      product_type: 'PRODUCT',
+      product_subtype: null,
+      ingredients: [],
     });
     this.close();
   };
@@ -449,7 +452,7 @@ export default class AddProductModal extends React.Component {
                   <FieldLabel>Metric Amount</FieldLabel>
                   <InputGroup>
                     <InputNumber
-                      disabled={is_cocktail}
+                      disabled={product_type === 'COCKTAIL'}
                       defaultValue={metric_amount}
                       value={metric_amount}
                       onChange={value =>
@@ -457,7 +460,7 @@ export default class AddProductModal extends React.Component {
                       }
                     />
                     <InputGroup.Addon>
-                      {is_cocktail ? 'ml' : this.getMetricTag()}
+                      {product_type === 'COCKTAIL' ? 'ml' : this.getMetricTag()}
                     </InputGroup.Addon>
                   </InputGroup>
                 </FieldContainer>

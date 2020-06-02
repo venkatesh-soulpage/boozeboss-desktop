@@ -121,7 +121,7 @@ class BriefContainer extends Component {
             <PanelColumn>
               <FieldRow>
                 <b>{brief.name}</b>
-                <a onClick={this.goToRequisition}>{brief.requisition && `(#${brief.requisition.serial_number})`}</a>
+                <a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a>
               </FieldRow>
               
               <p>{brief.created_at && moment(brief.created_at).format('DD/MM/YYYY')}</p>
