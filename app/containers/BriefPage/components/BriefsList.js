@@ -27,6 +27,7 @@ const AddSection = styled.div`
   position: sticky;
   top: 0;
   margin: 1em 0.5em 0.5em;
+  padding: 0.5em 0 0.5em 0;
   z-index: 99;
 `;
 

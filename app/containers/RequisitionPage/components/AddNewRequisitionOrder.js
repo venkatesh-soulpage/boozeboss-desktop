@@ -94,6 +94,7 @@ export default class AddNewRequisitionOrder extends React.Component {
         this.reset();
     }
 
+
     getPickerData = (products) => {
         const {requisitions, currentRequisition, event} = this.props;
 
@@ -127,7 +128,7 @@ export default class AddNewRequisitionOrder extends React.Component {
                 const available_ingredients = ingredient_brands.filter(ib => {
                     return available_product_ids.indexOf(ib) > -1;
                 })
-                return available_ingredients.length >= prod.ingredients.length;
+                return available_ingredients.length >= 0;
             }) 
             .map(prod => {
                 return {
@@ -136,8 +137,22 @@ export default class AddNewRequisitionOrder extends React.Component {
                 }
             });
 
-        return [...available_products, ...available_cocktails];
-    }
+        const no_brand_products = 
+            products
+                .filter(prod => {
+                    const is_no_brand = ['BRAND_ASSET', 'MIXER', 'INGREDIENT'].indexOf(prod.product_type) > -1;
+                    return is_no_brand;
+                })
+                .map(prod => {
+                    return {
+                        label: `${prod.name} - ${prod.metric_amount}${prod.metric}`,
+                        value: prod
+                    }
+                });
+    
+
+        return [...available_products, ...available_cocktails, ...no_brand_products];
+    } 
 
     reset = () => {
         this.setState({

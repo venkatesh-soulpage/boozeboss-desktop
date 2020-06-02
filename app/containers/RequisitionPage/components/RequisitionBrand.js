@@ -136,7 +136,7 @@ export default class RequisitionProduct extends Component {
     }
     
     getOrderProducts = () => {
-        const {requisitions, currentRequisition, brand} = this.props;
+        const {requisitions, currentRequisition, type} = this.props;
         const requisition = requisitions[currentRequisition];
         const {orders} = requisition;
 
@@ -144,36 +144,35 @@ export default class RequisitionProduct extends Component {
 
         // Filter the products for the brand
         // Products for brands
-        const brand_products_id = orders
-            .filter(order => order.product.brand_id === brand.id)
-            .map(order => order.product_id);
-
+        const category_products = 
+                orders
+                    .filter(order => !order.product.is_cocktail)
+                    .filter(order => order.product.product_type === type)
+                    .map(order => order.product_id);
+            
         const cocktail_products_id = [];
         orders
             .filter(order => order.product.is_cocktail)
             .map(order => {
                 order.product.ingredients.map(ing => {
-                    if (ing.brand.id === brand.id) {
+                    if (ing.product.product_type === type) {
                         cocktail_products_id.push(ing.product_id);
                     }
-                });
-            })
-        
-        const all_ids = [...brand_products_id, ...cocktail_products_id];
-            
-        // Unique products
+                })
+            })   
+
+        const all_ids = [...category_products, ...cocktail_products_id];
         const unique_products = [...new Set(all_ids)];
 
         // Return the available products         
-        return unique_products.map(product_id => <ProductRow {...this.props} product_id={product_id} />)
-        
+        return unique_products.map(product_id => <ProductRow {...this.props} product_id={product_id} />)        
 
     }
 
     render() {
-        const {brand} = this.props;
+        const {type} = this.props;
         return (
-            <Panel header={`${brand.name} (${brand.product_type} - ${brand.product_subtype})`} collapsible bordered>
+            <Panel header={type} collapsible bordered>
                 {this.getOrderProducts()}
             </Panel>
         )

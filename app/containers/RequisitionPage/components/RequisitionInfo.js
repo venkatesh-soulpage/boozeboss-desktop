@@ -57,10 +57,6 @@ const FieldHeader = styled.div`
 
 export default class RequisitionInfo extends Component {
 
-componentDidMount = () => {
-    console.log(process.env);
-}
-
     getBrandsSummary = () => {
         const {requisitions, currentRequisition} = this.props;
         if (!requisitions) return;
@@ -68,26 +64,24 @@ componentDidMount = () => {
         const requisition = requisitions[currentRequisition];
         const {orders} = requisition;
 
-        // Get all the brands contained on cocktails
-        const brands = [];
-        orders.map(order => {
-            if (order.product.is_cocktail) {
-                order.product.ingredients.map(ing => {
-                    brands.push(JSON.stringify(ing.brand));
-                })
-            } else {
-                brands.push(JSON.stringify(order.product.brand));
-            }
-        })
+        const product_types = 
+                orders 
+                    .filter(order => !order.product.is_cocktail)
+                    .map(order => order.product.product_type);
 
-        // Get unique brands
-        const unique = [...new Set(brands)];
-        const unique_brands = unique.map((un) => {
-            const parsed = JSON.parse(un);
-            return parsed;
-        });
+        
+        const ingredient_types =  [];
+        orders
+            .filter(order => order.product.is_cocktail)
+            .map(order => {
+                return order.product.ingredients.map(ing => ingredient_types.push(ing.product.product_type))
+            }) 
 
-        return unique_brands.map(brand => <RequisitionBrand {...this.props} brand={brand} requisition={requisitions[currentRequisition]}/>);
+        const all_types = [...product_types, ...ingredient_types];
+        const unique_types = [...new Set(all_types)];
+        console.log(unique_types)
+
+        return unique_types.map(type => <RequisitionBrand {...this.props} type={type} requisition={requisitions[currentRequisition]}/>);
     }
 
     handleRequestDocument = () => {
