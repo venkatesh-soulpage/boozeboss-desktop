@@ -104,10 +104,10 @@ export default class NewEvent extends React.Component {
                     const end_before_setup_time = setup_time && value.getTime() <= setup_time.getTime();
                     const end_before_start_time = start_time && value.getTime() <= start_time.getTime();
                     if (end_before_setup_time) {
-                        alert('End time should be after setup time');
+                        alert('End time should be after start time');
                         this.setState({[name]: null});
                     } else if (end_before_start_time) {
-                        alert('End time should be before start time');
+                        alert('End time should be after start time');
                         this.setState({[name]: null});
                     } else {
                         this.setState({[name]: value})
