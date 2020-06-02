@@ -17,6 +17,8 @@ import injectReducer from 'utils/injectReducer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import injectSaga from 'utils/injectSaga';
+import saga from './saga';
 // import { makeSelectIsAuthenticated } from './selectors';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -146,4 +148,6 @@ class App extends React.Component {
 
 App.propTypes = {};
 
-export default App;
+const withSaga = injectSaga({ key: 'app', saga });
+
+export default compose(withSaga)(App);

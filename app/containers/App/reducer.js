@@ -9,7 +9,10 @@
 
 
 import { fromJS } from 'immutable';
-import {  AUTHENTICATE, LOGOUT } from './constants';
+import { 
+  AUTHENTICATE, LOGOUT,
+  GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR
+} from './constants';
 
 import { decode } from 'utils/tokenUtils';
 
@@ -49,6 +52,12 @@ const appReducer = (state = initialState, action) => {
       .set('role', action.role);
     case LOGOUT: 
       return state.set('isAuthenticated', false);
+    case GET_USER_REQUEST:
+      return state;
+    case GET_USER_SUCCESS:
+      return state.set('user', action.user);
+    case GET_USER_ERROR:
+      return state.set('error', action.error);
     default:
       return state;
   }

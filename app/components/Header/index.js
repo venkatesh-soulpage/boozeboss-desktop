@@ -7,11 +7,19 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole } from '../../containers/App/selectors';
+import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole, makeSelectUser } from '../../containers/App/selectors';
 import { logout } from '../../containers/App/actions'
+import { getUser } from '../../../../boozeboss-app/app/containers/App/actions';
 
 const StyledLogo = styled.img`
   max-width: 100px;
+`
+
+const TitleSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: -0.5em 0 0 0;
 `
 
 class Header extends React.Component {
@@ -20,6 +28,12 @@ class Header extends React.Component {
   state = {
     pathname: '/',
   };
+
+
+  componentDidMount = () => {
+    const {getUser} = this.props;
+    getUser();
+  }
 
   handleLogout = () => {
     const {logout} = this.props;
@@ -43,7 +57,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { isAuthenticated} = this.props;
+    const { isAuthenticated, user, scope, role } = this.props;
     const { pathname } = this.state;
     return (
       <Navbar>
@@ -111,7 +125,16 @@ class Header extends React.Component {
                   <Nav.Item>System</Nav.Item>
                 </Link>
               )} 
-              <Dropdown title="More" placement="bottomStart">
+              <Dropdown 
+                title={
+                  <TitleSection>
+                    <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
+                    <p>{scope} {role}</p>
+                  </TitleSection>
+                  
+                }
+                placement="bottomEnd"
+              >
                 <Dropdown.Item onSelect={this.handleLogout}>
                   Logout
                 </Dropdown.Item>
@@ -140,10 +163,12 @@ const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
+  user: makeSelectUser()
 });
 
 const mapDispatchToProps = dispatch => ({
     logout: () => dispatch(logout()),
+    getUser: () => dispatch(getUser())
 })
 
 
