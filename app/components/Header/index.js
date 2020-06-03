@@ -8,8 +8,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole, makeSelectUser } from '../../containers/App/selectors';
-import { logout } from '../../containers/App/actions'
-import { getUser } from '../../../../boozeboss-app/app/containers/App/actions';
+import { logout, getUser } from '../../containers/App/actions'
 
 const StyledLogo = styled.img`
   max-width: 100px;
