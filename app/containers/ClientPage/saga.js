@@ -1,8 +1,9 @@
 import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
+import filerequest from 'utils/filerequest';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, INVITE_COLLABORATOR_SUCCESS } from './constants';
+import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, INVITE_COLLABORATOR_SUCCESS, UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS } from './constants';
 import {
   getClientsSuccess,
   getClientsError,
@@ -26,6 +27,8 @@ import {
   addClientLocationError,
   updateSlaSuccess,
   updateSlaError,
+  uploadLogoSuccess,
+  uploadLogoError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -214,6 +217,27 @@ function* updateSlaSaga(params) {
   }
 }
 
+function* uploadLogoSaga(params) {
+  const {client_id, file} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients/${client_id}/upload-logo`;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const options = {
+    method: 'PUT',
+    body: formData
+  };
+
+  try {
+    const response = yield call(filerequest, requestURL, options);
+    yield put(uploadLogoSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(uploadLogoError(jsonError));
+  }
+}
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -258,6 +282,10 @@ function* updateSlaRequest() {
   yield takeLatest(UPDATE_SLA_REQUEST, updateSlaSaga);
 }
 
+function* uploadLogoRequest() {
+  yield takeLatest(UPLOAD_LOGO_REQUEST, uploadLogoSaga);
+}
+
 // Reactive saga
 function* createVenueSuccessRequest() {
   yield takeLatest(CREATE_VENUE_SUCCESS, getClientsSaga);
@@ -287,6 +315,10 @@ function* updateSlaSuccessRequest() {
   yield takeLatest(UPDATE_SLA_SUCCESS, getClientsSaga);
 }
 
+function* uploadLogoSuccessRequest() {
+  yield takeLatest(UPLOAD_LOGO_SUCCESS, getClientsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getClientsRequest),
@@ -300,6 +332,7 @@ export default function* rootSaga() {
     fork(deleteVenueRequest),
     fork(addClientLocationRequest),
     fork(updateSlaRequest),
+    fork(uploadLogoRequest),
     // Reactive
     fork(createVenueSuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
@@ -308,5 +341,6 @@ export default function* rootSaga() {
     fork(createWarehouseSuccesRequest),
     fork(addClientLocationSuccessRequest),
     fork(updateSlaSuccessRequest),
+    fork(uploadLogoSuccessRequest),
   ]);
 }

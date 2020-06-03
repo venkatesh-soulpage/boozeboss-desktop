@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 
 import { ClientsContainer } from './components';
-import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation, updateSla } from './actions';
+import { addClientDraft, getClients, inviteClient, getRoles, getLocations, inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation, updateSla, uploadLogo } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -91,6 +91,7 @@ function mapDispatchToProps(dispatch) {
     createWarehouse: (warehouse) => dispatch(createWarehouse(warehouse)), 
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),
     updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)), // PATCH method it really works with other client values, need to change.
+    uploadLogo: (client_id, file) => dispatch(uploadLogo(client_id, file )), 
     dismiss: type => dispatch(dismiss(type))
   };
 }

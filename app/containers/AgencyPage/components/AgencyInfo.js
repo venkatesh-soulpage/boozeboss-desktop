@@ -183,7 +183,6 @@ export default class AgencyInfo extends Component {
                                     </FieldContainer>
                                 </FieldRow>
                                 <AgencyCollaboratorsTable {...this.props} />
-                                
                             </DataContainer>
                         </Panel>
                     )}

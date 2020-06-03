@@ -17,6 +17,7 @@ import EditableField from './EditableField';
 import ClientToggleActive from './ClientToggleActive';
 import RoleValidator from 'components/RoleValidator';
 import ClientCollaboratorsTable from './ClientCollaboratorsTable';
+import ClientUploadLogo from './ClientUploadLogo';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -38,6 +39,7 @@ const DataContainer = styled.div`
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: ${props => props.align || 'flex-start'};
     margin: 1em 1em 1em 1em;
 `;
 
@@ -81,6 +83,12 @@ const HeaderRow = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+`
+
+const StyledLogo = styled.img`
+    max-width: 250px;
+    max-height: 300px;
+    margin: 0 0 1em 0;
 `
 
 class ClientForm extends Component {
@@ -298,7 +306,10 @@ export default class ClientInfo extends Component {
                                             margin='0'
                                         />
                                     </FieldContainer>
-                                    <FieldContainer>
+                                    <FieldContainer align='flex-end'>
+                                        {clients[currentClient] && clients[currentClient].logo_url && (
+                                            <StyledLogo src={clients[currentClient].logo_url}/>
+                                        )}
                                         <RoleValidator
                                             {...this.props}
                                             scopes={['ADMIN']}
@@ -308,6 +319,13 @@ export default class ClientInfo extends Component {
                                                 {...this.props}
                                                 client={clients[currentClient]}
                                             />
+                                        </RoleValidator>
+                                        <RoleValidator
+                                            {...this.props}
+                                            scopes={['BRAND']}
+                                            roles={['OWNER']}
+                                        >
+                                            <ClientUploadLogo {...this.props}/>
                                         </RoleValidator>
                                         
                                     </FieldContainer>

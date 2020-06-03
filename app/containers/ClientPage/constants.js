@@ -64,5 +64,11 @@ export const UPDATE_SLA_SUCCESS =
   'boozeboss/ClientContainer/UPDATE_SLA_SUCCESS';
 export const UPDATE_SLA_ERROR = 'boozeboss/ClientContainer/UPDATE_SLA_ERROR';
   
+export const UPLOAD_LOGO_REQUEST =
+  'boozeboss/ClientContainer/UPLOAD_LOGO_REQUEST';
+export const UPLOAD_LOGO_SUCCESS =
+  'boozeboss/ClientContainer/UPLOAD_LOGO_SUCCESS';
+export const UPLOAD_LOGO_ERROR = 'boozeboss/ClientContainer/UPLOAD_LOGO_ERROR';
+  
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

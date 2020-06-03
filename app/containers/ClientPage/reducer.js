@@ -37,7 +37,10 @@ import {
   CREATE_WAREHOUSE_ERROR,
   ADD_LOCATION_REQUEST,
   ADD_LOCATION_SUCCESS,
-  ADD_LOCATION_ERROR
+  ADD_LOCATION_ERROR,
+  UPLOAD_LOGO_REQUEST,
+  UPLOAD_LOGO_SUCCESS,
+  UPLOAD_LOGO_ERROR
 } from './constants';
 
 export const initialState = fromJS({
@@ -143,6 +146,16 @@ function clientContainerReducer(state = initialState, action) {
         .set('success', action.success)
         .set('isLoading', false)
     case DELETE_VENUE_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
+    case UPLOAD_LOGO_REQUEST:
+      return state.set('isLoading', true);
+    case UPLOAD_LOGO_SUCCESS:
+      return state
+        .set('success', action.success)
+        .set('isLoading', false)
+    case UPLOAD_LOGO_ERROR:
       return state
         .set('isLoading', false)
         .set('error', action.error);

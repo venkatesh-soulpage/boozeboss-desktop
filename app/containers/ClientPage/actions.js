@@ -40,6 +40,9 @@ import {
   UPDATE_SLA_REQUEST,
   UPDATE_SLA_SUCCESS,
   UPDATE_SLA_ERROR,
+  UPLOAD_LOGO_REQUEST,
+  UPLOAD_LOGO_SUCCESS,
+  UPLOAD_LOGO_ERROR,
 } from './constants';
 
 import { Alert } from 'rsuite';
@@ -301,6 +304,31 @@ export function updateSlaError(error) {
   Alert.error(error);
   return {
     type: UPDATE_SLA_ERROR,
+    error,
+  };
+}
+
+/* PUT -  Upload a logo */
+export function uploadLogo(client_id, file) {
+  return {
+    type: UPLOAD_LOGO_REQUEST,
+    client_id,
+    file
+  };
+}
+
+export function uploadLogoSuccess(success) {
+  Alert.success(success);
+  return {
+    type: UPLOAD_LOGO_SUCCESS,
+    success,
+  };
+}
+
+export function uploadLogoError(error) {
+  Alert.error(error);
+  return {
+    type: UPLOAD_LOGO_ERROR,
     error,
   };
 }
