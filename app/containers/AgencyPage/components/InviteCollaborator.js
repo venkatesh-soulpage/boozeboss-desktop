@@ -20,6 +20,8 @@ export default class InviteCollaborator extends React.Component {
         data: null,
         email: null,
         role_id: null,
+        name: null,
+        custom_message: null,
       };
     }
 
@@ -50,10 +52,10 @@ export default class InviteCollaborator extends React.Component {
 
     invite = async () => {
         const {inviteCollaborator, agencies, currentAgency} = this.props;
-        const {email, role_id} = this.state;
+        const {email, role_id, name, custom_message} = this.state;
         if ( !email || !role_id) return;
         const agency_id = agencies[currentAgency].id;
-        await inviteCollaborator({email, role_id, agency_id});
+        await inviteCollaborator({email, role_id, agency_id, name, custom_message});
         this.close();
     }
 
@@ -78,6 +80,20 @@ export default class InviteCollaborator extends React.Component {
                                 searchable={false}
                                 data={data}
                                 onChange={(value) => this.handleChange(value, 'role_id')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Name (Only display)</FieldLabel>
+                            <Input 
+                                onChange={(value) => this.handleChange(value, 'name')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Custom message (Only display)</FieldLabel>
+                            <Input 
+                                componentClass="textarea"
+                                rows={3}
+                                onChange={(value) => this.handleChange(value, 'custom_message')}
                             />
                         </FieldContainer>
                     </Modal.Body>
