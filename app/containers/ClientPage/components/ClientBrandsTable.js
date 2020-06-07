@@ -8,6 +8,7 @@ const {Column, HeaderCell, Cell } = Table;
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin: 1em 1em 1em 1em;
 `;
 

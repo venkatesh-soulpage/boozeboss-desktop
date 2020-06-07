@@ -39,6 +39,7 @@ const DataContainer = styled.div`
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
+    flex: 1;
     align-items: ${props => props.align || 'flex-start'};
     margin: 1em 1em 1em 1em;
 `;
@@ -430,6 +431,7 @@ export default class ClientInfo extends Component {
                                         clients[currentClient].venues.length > 0 ? (
                                         <Table
                                             data={clients[currentClient].venues}
+                                            width='100%'
                                         >
                                             <Column resizable>
                                                 <HeaderCell>
