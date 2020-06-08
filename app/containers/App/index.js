@@ -37,7 +37,9 @@ import ProductPage from 'containers/ProductPage/Loadable';
 import EventPage from 'containers/EventPage/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
+import Changelog from 'containers/Changelog';
 import Header from 'components/Header';
+import VersioningMenu from 'components/VersioningMenu';
 import PrivateRoute from 'components/PrivateRoute';
 import GuardedRoute from 'components/GuardedRoute';
 
@@ -138,9 +140,11 @@ class App extends React.Component {
           <GuardedRoute path="/agency-signup" component={AgencySignupPage} />
           <GuardedRoute path="/forgot" component={ForgotPasswordPage} />
           <GuardedRoute path="/reset" component={ResetPasswordPage} />
+          <Route path="/changelog" component={Changelog} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
+        <VersioningMenu />
       </AppWrapper>
     );
   }
