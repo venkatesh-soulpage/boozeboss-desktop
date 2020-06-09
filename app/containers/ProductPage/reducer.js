@@ -17,16 +17,22 @@ export const initialState = fromJS({
   success: null,
   error: null,
   productsEnabled: ['Product', 'Cocktail'],
+  isLoading: false,
 });
 
 function productReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PRODUCTS_REQUEST:
-      return state;
+      return state
+        .set('isLoading', true);
     case GET_PRODUCTS_SUCCESS:
-      return state.set('products', action.products);
+      return state
+        .set('isLoading',false)
+        .set('products', action.products);
     case GET_PRODUCTS_ERROR:
-      return state.set('error', action.error);
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
     case ADD_PRODUCT_REQUEST:
       return state;
     case ADD_PRODUCT_SUCCESS:

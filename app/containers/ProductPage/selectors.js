@@ -27,10 +27,16 @@ const makeSelectError = () =>
     productsState.get('error'),
   );
 
+const makeSelectIsLoading = () =>
+  createSelector(selectProducts, productsState =>
+    productsState.get('isLoading'),
+  );
+
 export { 
   makeSelectProducts,
   makeSelectBrands,
   makeSelectProductsEnabled,
   makeSelectSuccess,
-  makeSelectError
+  makeSelectError, 
+  makeSelectIsLoading
 };

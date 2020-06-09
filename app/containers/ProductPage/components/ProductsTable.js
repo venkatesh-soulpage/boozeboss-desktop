@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table } from 'rsuite';
+import { Table, Loader } from 'rsuite';
 import UpdateProductModal from './UpdateProductModal';
 import RoleValidator from 'components/RoleValidator';
 
@@ -12,6 +12,13 @@ const StyledTableSection = styled.div`
   flex: 1;
   justify-content: center;
 `;
+
+const StyledLoaderSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1;
+`
 
 export default class ProductsTable extends Component {
   state = {
@@ -80,7 +87,7 @@ export default class ProductsTable extends Component {
   };
 
   render() {
-    const { productsEnabled } = this.props;
+    const { productsEnabled, isLoading } = this.props;
     const products = this.getFilteredProducts(productsEnabled);
     return (
       <StyledTableSection>
@@ -164,7 +171,15 @@ export default class ProductsTable extends Component {
             </Column>
           </Table>
         ) : (
-          <p>No products</p>
+          <React.Fragment>
+            {isLoading ? (
+              <StyledLoaderSection>
+                <Loader size="md" />
+              </StyledLoaderSection>
+            ) : (
+              <p>No products</p>
+            )}
+          </React.Fragment>
         )}
       </StyledTableSection>
     );

@@ -15,7 +15,7 @@ import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectProducts, makeSelectBrands, makeSelectSuccess, makeSelectError, makeSelectProductsEnabled } from './selectors';
+import { makeSelectProducts, makeSelectBrands, makeSelectSuccess, makeSelectError, makeSelectProductsEnabled, makeSelectIsLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -76,6 +76,7 @@ const mapStateToProps = createStructuredSelector({
   productsEnabled: makeSelectProductsEnabled(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
+  isLoading: makeSelectIsLoading()
 });
 
 function mapDispatchToProps(dispatch) {
