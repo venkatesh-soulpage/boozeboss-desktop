@@ -38,11 +38,13 @@ export const initialState = fromJS({
 function requisitionReducer(state = initialState, action) {
   switch (action.type) {
     case GET_REQUISITIONS_REQUEST:
-      return state;
+      return state.set('isLoading', true);
     case GET_REQUISITIONS_SUCCESS:
-      return state.set('requisitions', action.requisitions);
+      return state
+        .set('isLoading', false)  
+        .set('requisitions', action.requisitions);
     case GET_REQUISITIONS_ERROR:
-      return state;
+      return state.set('isLoading', false);
     case GET_WAREHOUSES_REQUEST:
       return state;
     case GET_WAREHOUSES_SUCCESS:

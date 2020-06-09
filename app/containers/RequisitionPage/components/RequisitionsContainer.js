@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import RequisitionsList from './RequisitionsList';
 import RequisitionInfo from './RequisitionInfo';
 import moment from 'moment';
+import { Loader } from 'rsuite';
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin: 2em 2em 0 2em;
+    justify-content: ${props => props.justify || 'flex-start'};
 `;
 
 export default class RequisitionsContainer extends Component {
@@ -61,20 +63,32 @@ export default class RequisitionsContainer extends Component {
     }
 
   render() {
+    const {isLoading, requisitions} = this.props;
     return (
-            <StyledContainer>
-                <RequisitionsList
-                    {...this.props} 
-                    {...this.state}
-                    handleSelectCurrentRequisition={this.handleSelectCurrentRequisition}
-                    getPickerData={this.getPickerData}
-                />
-                <RequisitionInfo 
-                    {...this.props} 
-                    {...this.state}
-                    handleSelectCurrentBrief={this.handleSelectCurrentBrief}
-                /> 
-            </StyledContainer>
+        <React.Fragment>
+            {!requisitions && isLoading && (
+                <StyledContainer justify="center">
+                    <Loader size="md" />
+                </StyledContainer>
+            )}
+            { requisitions && (
+                <StyledContainer>
+                    <RequisitionsList
+                        {...this.props} 
+                        {...this.state}
+                        handleSelectCurrentRequisition={this.handleSelectCurrentRequisition}
+                        getPickerData={this.getPickerData}
+                    />
+                    <RequisitionInfo 
+                        {...this.props} 
+                        {...this.state}
+                        handleSelectCurrentBrief={this.handleSelectCurrentBrief}
+                    /> 
+                </StyledContainer>
+            )}
+            
+        </React.Fragment>
+            
         )
     }
 }

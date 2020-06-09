@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts, makeSelectWarehouses, makeSelectHellosign } from './selectors';
+import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectProducts, makeSelectWarehouses, makeSelectHellosign, makeSelectIsLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -63,6 +63,7 @@ const mapStateToProps = createStructuredSelector({
   scope: makeSelectScope(),
   role: makeSelectRole(),
   hellosign: makeSelectHellosign(),
+  isLoading: makeSelectIsLoading()
 });
 
 function mapDispatchToProps(dispatch) {
