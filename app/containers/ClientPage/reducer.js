@@ -59,7 +59,9 @@ function clientContainerReducer(state = initialState, action) {
     case GET_CLIENTS_REQUEST:
       return state.set('isLoading', true);
     case GET_CLIENTS_SUCCESS:
-      return state.set('clients', action.clients).set('isLoading', false);
+      return state
+              .set('clients', action.clients)
+              .set('isLoading', false);
     case GET_CLIENTS_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case INVITE_CLIENT_REQUEST:
@@ -79,20 +81,17 @@ function clientContainerReducer(state = initialState, action) {
         .set('isLoading', false)
         .set('error', action.error);
     case GET_ROLES_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case GET_ROLES_SUCCESS:
       return state
-        .set('isLoading', false)
         .set('roles', action.roles);
     case GET_ROLES_ERROR:
       return state
-        .set('isLoading', false)
         .set('error', action.error);
     case GET_LOCATIONS_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case GET_LOCATIONS_SUCCESS:
       return state
-        .set('isLoading', false)
         .set('locations', action.locations);
     case GET_LOCATIONS_ERROR:
       return state

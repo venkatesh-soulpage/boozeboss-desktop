@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectLocations } from './selectors';
+import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectLocations, makeSelectIsLoading } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -75,6 +75,7 @@ const mapStateToProps = createStructuredSelector({
   role: makeSelectRole(),
   error: makeSelectError(),
   success: makeSelectSuccess(),
+  isLoading: makeSelectIsLoading(),
 });
 
 function mapDispatchToProps(dispatch) {

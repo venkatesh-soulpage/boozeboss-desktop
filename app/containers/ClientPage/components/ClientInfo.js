@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider, Loader } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal';

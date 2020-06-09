@@ -27,10 +27,16 @@ const makeSelectSuccess = () =>
     clientsState.get('success'),
   );
 
+const makeSelectIsLoading = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('isLoading'),
+  );
+
 export { 
   makeSelectClients,
   makeSelectRoles,
   makeSelectLocations,
   makeSelectError,
-  makeSelectSuccess
+  makeSelectSuccess,
+  makeSelectIsLoading
 };

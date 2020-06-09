@@ -86,6 +86,7 @@
     "react-dom": "16.6.0",
     "react-helmet": "5.2.0",
     "react-intl": "2.7.2",
+    "react-loader-spinner": "^3.1.14",
     "react-markdown": "^4.3.1",
     "react-phone-input-2": "^2.13.3",
     "react-redux": "5.0.7",
