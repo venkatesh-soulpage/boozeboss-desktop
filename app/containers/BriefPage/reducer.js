@@ -61,6 +61,7 @@ export const initialState = fromJS({
   brands: null,
   success: null,
   error: null,
+  isLoading: false,
 });
 
 function briefPageReducer(state = initialState, action) {
@@ -77,100 +78,94 @@ function briefPageReducer(state = initialState, action) {
     case GET_BRIEFS_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case GET_AGENCIES_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case GET_AGENCIES_SUCCESS:
-      return state.set('agencies', action.agencies).set('isLoading', false);
+      return state.set('agencies', action.agencies);
     case GET_AGENCIES_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
     case CREATE_BRIEF_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case CREATE_BRIEF_SUCCESS:
-      return state
-        .set('isLoading', false);
+      return state;
     case CREATE_BRIEF_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
     case DELETE_BRIEF_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case DELETE_BRIEF_SUCCESS:
       return state
-        .set('success', action.success)
-        .set('isLoading', false);
+        .set('success', action.success);
     case DELETE_BRIEF_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
     case GET_VENUES_REQUEST:
       return state.set('isLoading', true);
     case GET_VENUES_SUCCESS:
-      return state.set('venues', action.venues).set('isLoading', false);
+      return state.set('venues', action.venues);
     case GET_VENUES_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
     case GET_BRANDS_REQUEST:
       return state.set('isLoading', true);
     case GET_BRANDS_SUCCESS:
-      return state.set('brands', action.brands).set('isLoading', false);
+      return state.set('brands', action.brands);
     case GET_BRANDS_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
     case CREATE_BRIEF_EVENT_REQUEST:
       return state.set('isLoading', true);
     case CREATE_BRIEF_EVENT_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case CREATE_BRIEF_EVENT_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case UPDATE_BRIEF_EVENT_REQUEST:
       return state.set('isLoading', true);
     case UPDATE_BRIEF_EVENT_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case UPDATE_BRIEF_EVENT_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case DELETE_BRIEF_EVENT_REQUEST:
       return state.set('isLoading', true);
     case DELETE_BRIEF_EVENT_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case DELETE_BRIEF_EVENT_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case CREATE_BRIEF_BRAND_REQUEST:
       return state.set('isLoading', true);
     case CREATE_BRIEF_BRAND_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case CREATE_BRIEF_BRAND_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case DELETE_BRIEF_BRAND_REQUEST:
       return state.set('isLoading', true);
     case DELETE_BRIEF_BRAND_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case DELETE_BRIEF_BRAND_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case UPDATE_BRIEF_STATUS_REQUEST:
       return state.set('isLoading', true);
     case UPDATE_BRIEF_STATUS_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case UPDATE_BRIEF_STATUS_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case CREATE_REQUISITION_REQUEST:
       return state.set('isLoading', true);
     case CREATE_REQUISITION_SUCCESS:
-      return state.set('success', JSON.stringify(action.success)).set('isLoading', false);
+      return state.set('success', JSON.stringify(action.success));
     case CREATE_REQUISITION_ERROR:
-      return state.set('error', JSON.stringify(action.error)).set('isLoading', false);
+      return state.set('error', JSON.stringify(action.error));
     case UPLOAD_BRIEF_ATTACHMENT_REQUEST:
       return state.set('isLoading', true);
     case UPLOAD_BRIEF_ATTACHMENT_SUCCESS:
       return state
-        .set('success', action.success)
-        .set('isLoading', false);
+        .set('success', action.success);
     case UPLOAD_BRIEF_ATTACHMENT_ERROR:
       return state
-        .set('error', action.error)
-        .set('isLoading', false);
+        .set('error', action.error);
     case DELETE_BRIEF_ATTACHMENT_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case DELETE_BRIEF_ATTACHMENT_SUCCESS:
       return state
-        .set('success', action.success)
-        .set('isLoading', false);
+        .set('success', action.success);
     case DELETE_BRIEF_ATTACHMENT_ERROR:
       return state
-        .set('error', action.error)
-        .set('isLoading', false);
+        .set('error', action.error);
     case DISMISS:
       return state.set(action.dismiss_type, null);
     default:

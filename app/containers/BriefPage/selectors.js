@@ -32,11 +32,17 @@ const makeSelectSuccess = () =>
     briefsState.get('success'),
   );
 
+const makeSelectIsLoading = () =>
+  createSelector(selectBriefs, briefsState =>
+    briefsState.get('isLoading'),
+  );
+
 export { 
   makeSelectBriefs,
   makeSelectVenues,
   makeSelectBrands,
   makeSelectAgencies,
   makeSelectSuccess,
-  makeSelectError
+  makeSelectError, 
+  makeSelectIsLoading,
 };

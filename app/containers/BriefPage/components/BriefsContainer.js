@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BriefsList from './BriefsList';
 import BriefsInfo from './BriefsInfo';
+import { Loader } from 'rsuite';
 
 const StyledContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin: 2em 2em 0 2em;
+    justify-content: ${props => props.justify || 'flex-start'};
 `;
 
 export default class BriefsContainer extends Component {
@@ -35,20 +37,31 @@ export default class BriefsContainer extends Component {
     }
 
   render() {
+    const {isLoading, briefs} = this.props;
     return (
-            <StyledContainer>
-                <BriefsList
-                    {...this.props} 
-                    {...this.state}
-                    handleSelectCurrentBrief={this.handleSelectCurrentBrief}
-                    getPickerData={this.getPickerData}
-                />
-                <BriefsInfo 
-                    {...this.props} 
-                    {...this.state}
-                    handleSelectCurrentBrief={this.handleSelectCurrentBrief}
-                /> 
-            </StyledContainer>
+        <React.Fragment>
+            {!briefs && isLoading && (
+                <StyledContainer justify="center">
+                    <Loader size="md" />
+                </StyledContainer>
+            )}
+            {briefs && (
+                <StyledContainer>
+                    <BriefsList
+                        {...this.props} 
+                        {...this.state}
+                        handleSelectCurrentBrief={this.handleSelectCurrentBrief}
+                        getPickerData={this.getPickerData}
+                    />
+                    <BriefsInfo 
+                        {...this.props} 
+                        {...this.state}
+                        handleSelectCurrentBrief={this.handleSelectCurrentBrief}
+                    /> 
+                </StyledContainer>
+            )}
+            
+        </React.Fragment>
         )
     }
 }
