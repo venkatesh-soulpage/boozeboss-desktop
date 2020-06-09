@@ -20,7 +20,7 @@ import saga from './saga';
 import messages from './messages';
 
 import { AgenciesContainer } from './components';
-import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss, getRoles } from './actions';
+import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss, getRoles, revokeCollaboratorInvitation } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -74,6 +74,7 @@ function mapDispatchToProps(dispatch) {
     addAgencyDraft: () => dispatch(addAgencyDraft()),
     inviteAgency: agency => dispatch(inviteAgency(agency)),
     inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
+    revokeCollaboratorInvitation: collaborator_invitation_id => dispatch(revokeCollaboratorInvitation(collaborator_invitation_id)),
     getRoles: () => dispatch(getRoles()),
     dismiss: (type) => dispatch(dismiss(type)),
   };

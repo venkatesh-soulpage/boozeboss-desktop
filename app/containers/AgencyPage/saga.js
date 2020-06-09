@@ -2,12 +2,19 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
 
-import { GET_AGENCIES_REQUEST, INVITE_AGENCY_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS } from './constants';
+import { 
+  GET_AGENCIES_REQUEST, 
+  INVITE_AGENCY_REQUEST, 
+  GET_ROLES_REQUEST, 
+  INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, 
+  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS 
+} from './constants';
+
 import {
   getAgenciesSuccess, getAgenciesError,
   inviteAgencySuccess, inviteAgencyError,
   inviteCollaboratorSuccess, inviteCollaboratorError,
-  getRolesSuccess, getRolesError,
+  getRolesSuccess, getRolesError, revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError,
 } from './actions';
 
 function* getAgenciesSaga() {
@@ -74,6 +81,22 @@ function* inviteCollaboratorSaga(params) {
   }
 }
 
+function* revokeCollaboratorInvitationSaga(params) {
+  const { collaborator_invitation_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/agencies/revoke-collaborator/${collaborator_invitation_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(revokeCollaboratorInvitationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(revokeCollaboratorInvitationError(jsonError));
+  }
+}
+
 function* getAgenciesRequest() {
   yield takeLatest(GET_AGENCIES_REQUEST, getAgenciesSaga);
 }
@@ -86,6 +109,10 @@ function* inviteCollaboratorRequest() {
   yield takeLatest(INVITE_COLLABORATOR_REQUEST, inviteCollaboratorSaga);
 }
 
+function* revokeCollaboratorInvitationRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITATION_REQUEST, revokeCollaboratorInvitationSaga);
+}
+
 function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
@@ -95,14 +122,20 @@ function* inviteCollaboratorSuccessRequest() {
   yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getAgenciesSaga);
 }
 
+function* revokeCollaboratorInvitationSuccessRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITATION_SUCCESS, getAgenciesSaga);
+}
+
 
 export default function* rootSaga() {
   yield all([
     fork(getAgenciesRequest),
     fork(inviteAgencyRequest),
     fork(inviteCollaboratorRequest),
+    fork(revokeCollaboratorInvitationRequest),
     fork(getRolesRequest),
     // Reactive
-    fork(inviteCollaboratorSuccessRequest)
+    fork(inviteCollaboratorSuccessRequest),
+    fork(revokeCollaboratorInvitationSuccessRequest),
   ]);
 }

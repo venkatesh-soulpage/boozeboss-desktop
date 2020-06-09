@@ -63,10 +63,16 @@ export default class AgencyCollaboratorsTable extends Component {
                     },
                     role: collaborator.role,
                     status: collaborator.status,
+                    collaborator_invitation_id: collaborator.id,
                 })
             })
 
         return collaborators;
+    }
+
+    handleRevoke = (collaborator_invitation_id) => {
+        const { revokeCollaboratorInvitation } = this.props;
+        revokeCollaboratorInvitation(collaborator_invitation_id);
     }
 
 
@@ -97,7 +103,7 @@ export default class AgencyCollaboratorsTable extends Component {
                                     {rowData => rowData.account.last_name}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column resizable>
                                 <HeaderCell>
                                     Email
                                 </HeaderCell>
@@ -134,7 +140,7 @@ export default class AgencyCollaboratorsTable extends Component {
                                     Actions
                                 </HeaderCell>
                                 <Cell dataKey="actions">
-                                    {rowData => rowData.status === 'PENDING' ? 'Revoke' : 'Edit | Remove'}
+                                    {rowData => rowData.status === 'PENDING' ? <a onClick={() => this.handleRevoke(rowData.collaborator_invitation_id)} >Revoke</a> : 'Edit | Remove'}
                                 </Cell>
                             </Column>
                         </Table>
