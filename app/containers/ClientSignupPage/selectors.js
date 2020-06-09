@@ -1,23 +1,18 @@
 import { createSelector } from 'reselect';
-import { initialState } from './reducer';
 
-/**
- * Direct selector to the clientSignup state domain
- */
+const selectClients = state => state.get('clientSignup');
+  
+const makeSelectError = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('error'),
+  );
 
-const selectClientSignupDomain = state =>
-  state.get('clientSignup', initialState);
+const makeSelectSuccess = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('success'),
+  );
 
-/**
- * Other specific selectors
- */
-
-/**
- * Default selector used by ClientSignup
- */
-
-const makeSelectClientSignup = () =>
-  createSelector(selectClientSignupDomain, substate => substate.toJS());
-
-export default makeSelectClientSignup;
-export { selectClientSignupDomain };
+export { 
+  makeSelectError,
+  makeSelectSuccess
+};

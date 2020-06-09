@@ -136,7 +136,7 @@ export default class ClientCollaboratorsTable extends Component {
                                     {rowData => rowData.account.last_name}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column resizable>
                                 <HeaderCell>
                                     Email
                                 </HeaderCell>

@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectClientSignup from './selectors';
+import { makeSelectError, makeSelectSuccess } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -47,6 +47,7 @@ ClientSignup.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  error: makeSelectError()
 });
 
 function mapDispatchToProps(dispatch) {

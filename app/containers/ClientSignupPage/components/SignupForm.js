@@ -65,7 +65,6 @@ export default class SignupForm extends Component {
       }
   
       handleChange = (value, name) => {
-        console.log(name, value);
         this.setState({[name]: value})
       }
   
