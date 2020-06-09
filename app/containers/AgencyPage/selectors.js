@@ -22,9 +22,15 @@ const makeSelectSuccess = () =>
     agenciesState.get('success'),
   );
 
+const makeSelectIsLoading = () =>
+  createSelector(selectAgencies, agenciesState =>
+    agenciesState.get('isLoading'),
+  );
+
 export { 
   makeSelectAgencies,
   makeSelectRoles,
   makeSelectSuccess,
-  makeSelectError
+  makeSelectError,
+  makeSelectIsLoading
 };

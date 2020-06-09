@@ -41,32 +41,28 @@ function agencyPageReducer(state = initialState, action) {
     case GET_AGENCIES_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case INVITE_AGENCY_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case INVITE_AGENCY_SUCCESS:
       const current_agencies = state.get('agencies').splice();
       current_agencies[0] = action.agency;
-      return state.set('agencies', current_agencies).set('isLoading', false);
+      return state.set('agencies', current_agencies);
     case INVITE_AGENCY_ERROR:
-      return state.set('error', action.error).set('isLoading', false);
+      return state.set('error', action.error);
       case INVITE_COLLABORATOR_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case INVITE_COLLABORATOR_SUCCESS:
       return state
-        .set('isLoading', false)
         .set('success', action.success);
     case INVITE_COLLABORATOR_ERROR:
       return state
-        .set('isLoading', false)
         .set('error', action.error);
     case GET_ROLES_REQUEST:
-      return state.set('isLoading', true);
+      return state;
     case GET_ROLES_SUCCESS:
       return state
-        .set('isLoading', false)
         .set('roles', action.roles);
     case GET_ROLES_ERROR:
       return state
-        .set('isLoading', false)
         .set('error', action.error);
     case DISMISS: 
       return state.set(action.dismiss_type, null);

@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AgencyList from './AgencyList';
 import AgencyInfo from './AgencyInfo';
+import {Loader} from 'rsuite';
 
 
 const StyledContainer = styled.div`
-  display: flex;
+    display: flex;
     flex-direction: row;
-  margin: 2em 2em 0 2em;
+    margin: 2em 2em 0 2em;
+    justify-content: ${props => props.justify || 'flex-start'};
 `;
 
 export default class AgenciesContainer extends Component {
@@ -22,18 +24,24 @@ export default class AgenciesContainer extends Component {
     }
 
   render() {
+    const {isLoading, agencies} = this.props;
     return (
-            <StyledContainer>
-                <AgencyList
-                    {...this.props} 
-                    {...this.state}
-                    handleSelectCurrentAgency={this.handleSelectCurrentAgency}
-                />
-                <AgencyInfo 
-                    {...this.props} 
-                    {...this.state}
-                />
-            </StyledContainer>
+        <React.Fragment>
+            {isLoading && !agencies && <StyledContainer justify="center"><Loader size="md" /></StyledContainer>}
+            {agencies && (
+                <StyledContainer>
+                    <AgencyList
+                        {...this.props} 
+                        {...this.state}
+                        handleSelectCurrentAgency={this.handleSelectCurrentAgency}
+                    />
+                    <AgencyInfo 
+                        {...this.props} 
+                        {...this.state}
+                    />
+                </StyledContainer>
+            )}
+        </React.Fragment>
         )
     }
 }
