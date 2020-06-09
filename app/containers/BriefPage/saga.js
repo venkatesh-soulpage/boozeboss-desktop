@@ -5,7 +5,7 @@ import filerequest from 'utils/filerequest';
 
 import { 
   GET_BRIEFS_REQUEST, 
-  CREATE_BRIEF_REQUEST, 
+  CREATE_BRIEF_REQUEST, CREATE_BRIEF_SUCCESS,
   DELETE_BRIEF_REQUEST, DELETE_BRIEF_SUCCESS,
   GET_VENUES_REQUEST, 
   CREATE_BRIEF_EVENT_REQUEST, CREATE_BRIEF_EVENT_SUCCESS, 
@@ -370,6 +370,10 @@ function* hellosignGetTemplateRequest() {
 }
 
 // Reactive Saga
+function* createBriefSuccessRequest() {
+  yield takeLatest(CREATE_BRIEF_SUCCESS, getBriefsSaga);
+}
+
 function* deleteBriefSuccessRequest() {
   yield takeLatest(DELETE_BRIEF_SUCCESS, getBriefsSaga);
 }
@@ -412,6 +416,7 @@ function* deleteBriefAttachmentSuccessRequest() {
 
 export default function* rootSaga() {
   yield all([
+    fork(createBriefSuccessRequest),
     fork(getBriefsRequest),
     fork(createBriefRequest),
     fork(deleteBriefRequest),

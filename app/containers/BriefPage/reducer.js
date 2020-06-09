@@ -85,9 +85,7 @@ function briefPageReducer(state = initialState, action) {
     case CREATE_BRIEF_REQUEST:
       return state.set('isLoading', true);
     case CREATE_BRIEF_SUCCESS:
-      const briefsOnly = state.get('briefs').filter(brief => !brief.isDraft);
       return state
-        .set('briefs', [ ...briefsOnly, action.new_brief])
         .set('isLoading', false);
     case CREATE_BRIEF_ERROR:
       return state.set('error', action.error).set('isLoading', false);
