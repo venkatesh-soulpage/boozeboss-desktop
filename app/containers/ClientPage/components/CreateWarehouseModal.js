@@ -99,7 +99,7 @@ export default class CreateWarehouseModal extends React.Component {
         const {show, locationOptions} = this.state;
         return (
             <React.Fragment>
-                <Button id="new-venue" onClick={this.open} color="green">+ Add Warehouse</Button>
+                <Button id="new-venue" onClick={this.open} color="green" block>+ Add Warehouse</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

@@ -65,9 +65,7 @@ function clientContainerReducer(state = initialState, action) {
     case INVITE_CLIENT_REQUEST:
       return state.set('isLoading', true);
     case INVITE_CLIENT_SUCCESS:
-      const current_clients = state.get('clients').splice();
-      current_clients[0] = action.client;
-      return state.set('clients', current_clients).set('isLoading', false);
+      return state.set('success', action.success).set('isLoading', false);
     case INVITE_CLIENT_ERROR:
       return state.set('error', action.error).set('isLoading', false);
     case INVITE_COLLABORATOR_REQUEST:

@@ -230,7 +230,7 @@ class ClientForm extends Component {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <Button onClick={this.submitClient}>Create Brand</Button>
+                        <Button block color="green" onClick={this.submitClient}>Create Brand</Button>
                     </FieldContainer>
                 </DataContainer>
             </Panel>

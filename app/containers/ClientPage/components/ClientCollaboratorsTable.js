@@ -81,6 +81,7 @@ export default class ClientCollaboratorsTable extends Component {
             collaborators.push(collaborator);
         })
 
+        client.collaborator_invitations &&
         client.collaborator_invitations
             .filter(collaborator => collaborator.status === 'PENDING')
             .map(collaborator => {
@@ -92,10 +93,16 @@ export default class ClientCollaboratorsTable extends Component {
                     },
                     role: collaborator.role,
                     status: collaborator.status,
+                    collaborator_invitation_id: collaborator.id
                 })
             })
 
         return collaborators;
+    }
+
+    handleRevokeCollaboratorInvitation = (collaborator_invitation_id) => {
+        const {revokeCollaboratorInvitation} = this.props;  
+        revokeCollaboratorInvitation(collaborator_invitation_id);
     }
     
     render() {
@@ -106,22 +113,22 @@ export default class ClientCollaboratorsTable extends Component {
                 <FieldContainer>
                     <FieldLabelContainer> 
                         <FieldLabel>Collaborators </FieldLabel>
-                        <p>{`( ${clients[currentClient].client_collaborators && clients[currentClient].client_collaborators.length} / ${clients[currentClient].collaborator_limit} ) `}</p>
+                        <p>({collaborators.length} / {clients[currentClient].collaborator_limit} )</p>
                     </FieldLabelContainer>
                     {collaborators && 
                         collaborators.length > 0 ? (
                         <Table
                             data={collaborators}
                         >
-                            <Column flexGrow>
-                                <HeaderCell>
+                            <Column >
+                                <HeaderCell resizable>
                                     First Name
                                 </HeaderCell>
                                 <Cell dataKey="first_name">
                                     {rowData => rowData.account.first_name}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column resizable >
                                 <HeaderCell>
                                     Last Name
                                 </HeaderCell>
@@ -137,7 +144,7 @@ export default class ClientCollaboratorsTable extends Component {
                                     {rowData => rowData.account.email}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column width={150}>
                                 <HeaderCell>
                                     Phone #
                                 </HeaderCell>
@@ -145,7 +152,7 @@ export default class ClientCollaboratorsTable extends Component {
                                     {rowData => rowData.account.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column width={100}>
                                 <HeaderCell>
                                     Scope
                                 </HeaderCell>
@@ -166,7 +173,7 @@ export default class ClientCollaboratorsTable extends Component {
                                     Actions
                                 </HeaderCell>
                                 <Cell dataKey="actions">
-                                    {rowData => rowData.status === 'PENDING' ? 'Revoke' : 'Edit | Delete'}
+                                    {rowData => rowData.status === 'PENDING' ? <a onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</a> : 'Edit | Delete'}
                                 </Cell>
                             </Column>
                         </Table>

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     margin: 1em 1em 1em 1em;
 `;
 
@@ -16,7 +16,7 @@ const FieldLabel = styled.b`
 `;
 
 const styles = {
-    width: '300px',
+    maxWidth: '200px',
     margin: '0.75em 0 0 0'
   }
 
@@ -81,7 +81,7 @@ export default class CreateVenueModal extends React.Component {
         const {show} = this.state;
         return (
             <React.Fragment>
-                <Button id="new-venue" onClick={this.open} color="green">+ Add Venue</Button>
+                <Button id="new-venue" onClick={this.open} color="green" block>+ Add Venue</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

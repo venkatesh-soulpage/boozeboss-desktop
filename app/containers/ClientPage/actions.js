@@ -43,6 +43,9 @@ import {
   UPLOAD_LOGO_REQUEST,
   UPLOAD_LOGO_SUCCESS,
   UPLOAD_LOGO_ERROR,
+  REVOKE_COLLABORATOR_INVITATION_REQUEST,
+  REVOKE_COLLABORATOR_INVITATION_SUCCESS,
+  REVOKE_COLLABORATOR_INVITATION_ERROR
 } from './constants';
 
 import { Alert } from 'rsuite';
@@ -82,14 +85,16 @@ export function inviteClient(client) {
   };
 }
 
-export function inviteClientSuccess(client) {
+export function inviteClientSuccess(success) {
+  Alert.success(success);
   return {
     type: INVITE_CLIENT_SUCCESS,
-    client,
+    success,
   };
 }
 
 export function inviteClientError(error) {
+  Alert.error(error);
   return {
     type: INVITE_CLIENT_ERROR,
     error,
@@ -116,6 +121,30 @@ export function inviteCollaboratorError(error) {
   Alert.error(error);
   return {
     type: INVITE_COLLABORATOR_ERROR,
+    error,
+  };
+}
+
+/* REVOKE COLLABORATOR INVITATION */
+export function revokeCollaboratorInvitation(collaborator_invitation_id) {
+  return {
+    type: REVOKE_COLLABORATOR_INVITATION_REQUEST,
+    collaborator_invitation_id,
+  };
+}
+
+export function revokeCollaboratorInvitationSuccess(success) {
+  Alert.success(success);
+  return {
+    type: REVOKE_COLLABORATOR_INVITATION_SUCCESS,
+    success
+  };
+}
+
+export function revokeCollaboratorInvitationError(error) {
+  Alert.error(error);
+  return {
+    type: REVOKE_COLLABORATOR_INVITATION_ERROR,
     error,
   };
 }

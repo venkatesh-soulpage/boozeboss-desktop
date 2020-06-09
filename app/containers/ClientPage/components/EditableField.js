@@ -28,7 +28,6 @@ export default class EditableField extends Component {
 
     componentDidMount() {
         const {field_name, value} = this.props;
-        this.setState({[field_name]: value});
     }
 
     formatSizeUnits = (bytes) => {
@@ -78,7 +77,6 @@ export default class EditableField extends Component {
                             {is_number ? (
                                 <InputNumber 
                                     style={{minWidth: '100px', maxWidth: '100%'}}
-                                    defaultValue={value}
                                     value={this.state[field_name]}
                                     onChange={(new_value) => this.handleChange(new_value)}
                                 />

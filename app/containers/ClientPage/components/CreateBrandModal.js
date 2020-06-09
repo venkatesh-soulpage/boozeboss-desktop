@@ -115,7 +115,7 @@ export default class CreateBrandModal extends React.Component {
         const {show, product_type} = this.state;
         return (
             <React.Fragment>
-                <Button id="new-venue" onClick={this.open} color="green">+ Add Brand</Button>
+                <Button id="new-venue" onClick={this.open} color="green" block>+ Add Brand</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

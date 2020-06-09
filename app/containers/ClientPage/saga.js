@@ -3,7 +3,22 @@ import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 import request from 'utils/request';
 import filerequest from 'utils/filerequest';
 
-import { GET_CLIENTS_REQUEST, INVITE_CLIENT_REQUEST, GET_ROLES_REQUEST, INVITE_COLLABORATOR_REQUEST, CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, GET_LOCATIONS_REQUEST, CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS, ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, INVITE_COLLABORATOR_SUCCESS, UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS } from './constants';
+import { 
+  GET_CLIENTS_REQUEST, 
+  INVITE_CLIENT_REQUEST,
+  GET_ROLES_REQUEST, 
+  INVITE_COLLABORATOR_REQUEST, INVITE_CLIENT_SUCCESS,
+  CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, 
+  DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, 
+  GET_LOCATIONS_REQUEST, 
+  CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, 
+  CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS,
+  ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, 
+  UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, 
+  INVITE_COLLABORATOR_SUCCESS, 
+  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS,
+} from './constants';
+
 import {
   getClientsSuccess,
   getClientsError,
@@ -29,6 +44,8 @@ import {
   updateSlaError,
   uploadLogoSuccess,
   uploadLogoError,
+  revokeCollaboratorInvitationSuccess,
+  revokeCollaboratorInvitationError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -113,6 +130,24 @@ function* inviteCollaboratorSaga(params) {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(inviteCollaboratorError(jsonError));
+  }
+}
+
+function* revokeCollaboratorInvitationSaga(params) {
+  const { collaborator_invitation_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/clients/revoke-collaborator/${collaborator_invitation_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(revokeCollaboratorInvitationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(revokeCollaboratorInvitationError(jsonError));
   }
 }
 
@@ -250,6 +285,10 @@ function* inviteCollaboratorRequest() {
   yield takeLatest(INVITE_COLLABORATOR_REQUEST, inviteCollaboratorSaga);
 }
 
+function* revokeCollaboratorInvitationRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITATION_REQUEST, revokeCollaboratorInvitationSaga);
+}
+
 function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
@@ -287,6 +326,10 @@ function* uploadLogoRequest() {
 }
 
 // Reactive saga
+function* inviteClientSuccessRequest() {
+  yield takeLatest(INVITE_CLIENT_SUCCESS, getClientsSaga);
+}
+
 function* createVenueSuccessRequest() {
   yield takeLatest(CREATE_VENUE_SUCCESS, getClientsSaga);
 }
@@ -297,6 +340,10 @@ function* createBrandSuccessRequest() {
 
 function* inviteCollaboratorSuccessRequest() {
   yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getClientsSaga);
+}
+
+function* revokeCollaboratorInvitationSuccessRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITATION_SUCCESS, getClientsSaga);
 }
 
 function* deleteVenueSuccessRequest() {
@@ -324,6 +371,7 @@ export default function* rootSaga() {
     fork(getClientsRequest),
     fork(inviteClientRequest),
     fork(inviteCollaboratorRequest),
+    fork(revokeCollaboratorInvitationRequest),
     fork(getRolesRequest),
     fork(getLocationsRequest),
     fork(createVenueRequest),
@@ -334,8 +382,10 @@ export default function* rootSaga() {
     fork(updateSlaRequest),
     fork(uploadLogoRequest),
     // Reactive
+    fork(inviteClientSuccessRequest),
     fork(createVenueSuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
+    fork(revokeCollaboratorInvitationSuccessRequest),
     fork(deleteVenueSuccessRequest),
     fork(createBrandSuccessRequest),
     fork(createWarehouseSuccesRequest),
