@@ -77,6 +77,7 @@ export default class EditableField extends Component {
                             {is_number ? (
                                 <InputNumber 
                                     style={{minWidth: '100px', maxWidth: '100%'}}
+                                    min={0}
                                     value={this.state[field_name]}
                                     onChange={(new_value) => this.handleChange(new_value)}
                                 />

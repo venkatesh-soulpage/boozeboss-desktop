@@ -50,7 +50,7 @@ export default class ClientAddLocation extends React.Component {
 
         const client_locations = client.locations.map(loc => loc.id);
 
-        const filtered_locations = locations.filter(loc => client_locations.indexOf(loc.id) < 0);
+        const filtered_locations = locations.filter(location => location.is_country).filter(loc => client_locations.indexOf(loc.id) < 0);
 
         const countries = filtered_locations.map(location => {
             return {
@@ -82,7 +82,7 @@ export default class ClientAddLocation extends React.Component {
         const {show, countries} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open} color="green">+ Add Location</Button>
+                <Button onClick={this.open} color="green" block>+ Add Location</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

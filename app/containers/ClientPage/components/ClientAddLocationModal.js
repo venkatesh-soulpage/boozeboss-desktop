@@ -18,7 +18,7 @@ const FieldRow = styled.div`
     justify-content: space-between;
 `
 
-export default class CreateVenueModal extends React.Component {
+export default class ClientAddLocationModal extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -44,7 +44,7 @@ export default class CreateVenueModal extends React.Component {
     getPickerData = ()  => {
         const {locations, selected_locations} = this.props;
         const ids = selected_locations.map(loc => loc.id);
-        const filtered_locations = locations.filter(location => ids.indexOf(location.id) < 0)
+        const filtered_locations = locations.filter(location => location.is_country).filter(location => ids.indexOf(location.id) < 0);
         const countries = filtered_locations.map(location => {
             return {
                 label: location.name,

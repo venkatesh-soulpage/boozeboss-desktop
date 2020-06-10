@@ -18,6 +18,7 @@ import ClientToggleActive from './ClientToggleActive';
 import RoleValidator from 'components/RoleValidator';
 import ClientCollaboratorsTable from './ClientCollaboratorsTable';
 import ClientUploadLogo from './ClientUploadLogo';
+import ClientManageLocation from './ClientManageLocations';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -71,10 +72,11 @@ const ActionContainer = styled.div`
     align-items: center;
 `
 
-const Countries = styled.ul`
+const Countries = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1em 0 1em 0;
+    width: 100%;
 `
 
 const Country = styled.li`
@@ -134,6 +136,7 @@ class ClientForm extends Component {
 
     render() {
         const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit, selected_locations, identity_verifications_limit, agencies_limit, agency_collaborators_limit, expiration_date} = this.state;
+        console.log(selected_locations);
         return (
             <Panel bordered>
                 <DataContainer>
@@ -215,13 +218,55 @@ class ClientForm extends Component {
                     <FieldsRow>
                         <FieldContainer>
                             <FieldLabel>Locations</FieldLabel>
-                            <Countries>
-                                {selected_locations 
-                                    && selected_locations.length > 0
-                                    && selected_locations.map(selected => {
-                                        return <Country>{selected.name}</Country>
-                                })}
-                            </Countries>
+                            {selected_locations && selected_locations.length > 0 && (
+                                <Countries >
+                                    <Table
+                                        data={selected_locations}
+                                        width='100%'
+                                    >
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                Name
+                                            </HeaderCell>
+                                            <Cell dataKey="name">
+                                                {rowData => rowData.name}
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                States Available
+                                            </HeaderCell>
+                                            <Cell dataKey="childrens">
+                                                {rowData => rowData.childrens.length}
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                Currency
+                                            </HeaderCell>
+                                            <Cell dataKey="currency">
+                                                {rowData => rowData.currency}
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                Passport Available
+                                            </HeaderCell>
+                                            <Cell dataKey="passport_available">
+                                                {rowData => rowData.passport_available ? 'Yes' : 'No' }
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                ID Available
+                                            </HeaderCell>
+                                            <Cell dataKey="id_card_available">
+                                                {rowData => rowData.id_card_available ? 'Yes' : 'No'}
+                                            </Cell>
+                                        </Column>
+                                    </Table>
+                                </Countries>
+                            )}
                             <ClientAddLocationModal 
                                 {...this.props} 
                                 selected_locations={selected_locations}
@@ -349,30 +394,6 @@ export default class ClientInfo extends Component {
                                         
                                     </FieldContainer>
                                 </HeaderRow>
-                                <Divider />
-                                <FieldContainer>
-                                    <FieldLabel>Locations</FieldLabel>
-                                    {clients[currentClient].locations 
-                                        && clients[currentClient].locations.length > 0 ? (
-                                            <Countries>
-                                                {clients[currentClient].locations.map(loc => (
-                                                    <Country>{loc.location.name}</Country>
-                                                ))}
-                                            </Countries>
-                                        ) : (
-                                            <p>No locations defined</p>
-                                        )}
-                                    <RoleValidator
-                                        {...this.props}
-                                        scopes={['ADMIN']}
-                                        roles={['ADMIN']}
-                                    >
-                                        <ClientAddLocation 
-                                            {...this.props}
-                                            client={clients[currentClient]}
-                                        />
-                                    </RoleValidator>
-                                </FieldContainer>
                                 <FieldsRow>
                                     <EditableField 
                                         {...this.props}
@@ -442,6 +463,80 @@ export default class ClientInfo extends Component {
                                 <ClientCollaboratorsTable {...this.props}/>
                                 <Divider />
                                 <FieldContainer>
+                                    <FieldLabel>Locations ({clients[currentClient].locations.length} / {clients[currentClient].locations_limit})</FieldLabel>
+                                    {clients[currentClient].locations 
+                                        && clients[currentClient].locations.length > 0 ? (
+                                            <Countries >
+                                                <Table
+                                                    data={clients[currentClient].locations}
+                                                    width='100%'
+                                                >
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            Name
+                                                        </HeaderCell>
+                                                        <Cell dataKey="name">
+                                                            {rowData => rowData.location.name}
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            States Available
+                                                        </HeaderCell>
+                                                        <Cell dataKey="childrens">
+                                                            {rowData => rowData.location.childrens.length}
+                                                        </Cell>
+                                                    </Column> */
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            Currency
+                                                        </HeaderCell>
+                                                        <Cell dataKey="currency">
+                                                            {rowData => rowData.location.currency}
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            Passport Available
+                                                        </HeaderCell>
+                                                        <Cell dataKey="passport_available">
+                                                            {rowData => rowData.location.passport_available ? 'Yes' : 'No' }
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            ID Available
+                                                        </HeaderCell>
+                                                        <Cell dataKey="id_card_available">
+                                                            {rowData => rowData.location.id_card_available ? 'Yes' : 'No'}
+                                                        </Cell>
+                                                    </Column>
+                                                    <Column flexGrow>
+                                                        <HeaderCell>
+                                                            Locations
+                                                        </HeaderCell>
+                                                        <Cell dataKey="id_card_available">
+                                                            {rowData => <ClientManageLocation {...this.props} country={rowData} />}
+                                                        </Cell>
+                                                    </Column>
+                                                </Table>
+                                            </Countries>
+                                        ) : (
+                                            <p>No locations defined</p>
+                                        )}
+                                    <RoleValidator
+                                        {...this.props}
+                                        scopes={['ADMIN']}
+                                        roles={['ADMIN']}
+                                    >
+                                        <ClientAddLocation 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                        />
+                                    </RoleValidator>
+                                </FieldContainer>
+                                <Divider />
+                                <FieldContainer>
                                     <FieldLabelContainer> 
                                         <FieldLabel>Venues</FieldLabel>
                                     </FieldLabelContainer>
@@ -451,7 +546,7 @@ export default class ClientInfo extends Component {
                                             data={clients[currentClient].venues}
                                             width='100%'
                                         >
-                                            <Column resizable>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Name
                                                 </HeaderCell>
@@ -459,7 +554,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.name}
                                                 </Cell>
                                             </Column>
-                                            <Column resizable>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Address
                                                 </HeaderCell>
@@ -467,7 +562,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.address}
                                                 </Cell>
                                             </Column>
-                                            <Column>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Contact Name
                                                 </HeaderCell>
@@ -475,7 +570,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.contact_name}
                                                 </Cell>
                                             </Column>
-                                            <Column resizable>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Contact Email
                                                 </HeaderCell>
@@ -483,7 +578,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.contact_email}
                                                 </Cell>
                                             </Column>
-                                            <Column resizable>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Telephone # 
                                                 </HeaderCell>
@@ -491,7 +586,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => parsePhoneNumberFromString(`+${rowData.contact_phone_number}`) ? parsePhoneNumberFromString(`+${rowData.contact_phone_number}`).formatInternational() : ''}
                                                 </Cell>
                                             </Column>
-                                            <Column>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Latitude 
                                                 </HeaderCell>
@@ -499,7 +594,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.latitude}
                                                 </Cell>
                                             </Column>
-                                            <Column>
+                                            <Column flexGrow>
                                                 <HeaderCell>
                                                     Longitude
                                                 </HeaderCell>

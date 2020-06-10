@@ -5,6 +5,28 @@ export default `
 
 All notable changes to this project will be documented in this file.  
 <br/>
+## [0.11.1] - 2020-06-09
+<br/>
+
+### Added
+
+- Add Loaders to the following containers: Client, Agencies, Products, Briefs, Requisitions
+- Add expiration invite logic to agency collaborators
+- Revoke agency collaborator invites
+- Add expiration date on client creation
+- Add creation date to Client Tab
+- Add expiration date to Client Tab
+- Add UI only to State and Cities logic under client view 
+
+### Changed
+
+- Fix whitescreen on briefs creation
+- Expired invitations are not shown on agencies container
+- Fix a bug where the header wasn't refreshing when changing between accounts
+- Client locations are now shown as a table instead of list 
+- Client locations are only counted as a location limit if it's a country.
+- On admin, system settings we only display countries instead of parents and childrens.
+
 ## [0.11.0] - 2020-06-08
 <br/>
 

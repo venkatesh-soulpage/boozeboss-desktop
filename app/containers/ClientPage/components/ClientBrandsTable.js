@@ -43,7 +43,7 @@ export default class ClientBrandsTable extends Component {
                     <Table
                         data={brands}
                     >
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Name
                             </HeaderCell>
@@ -51,7 +51,7 @@ export default class ClientBrandsTable extends Component {
                                 {rowData => rowData.name}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Category
                             </HeaderCell>
@@ -59,7 +59,7 @@ export default class ClientBrandsTable extends Component {
                                 {rowData => rowData.product_type}
                             </Cell>
                         </Column>
-                        <Column resizable>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Sub-Category
                             </HeaderCell>
@@ -67,7 +67,7 @@ export default class ClientBrandsTable extends Component {
                                 {rowData => rowData.product_subtype}
                             </Cell>
                         </Column>
-                        <Column resizable flexGrow>
+                        <Column flexGrow>
                             <HeaderCell>
                                 Description
                             </HeaderCell>

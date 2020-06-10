@@ -55,14 +55,14 @@ export default class LocationsPage extends Component {
                                         {rowData => rowData.is_country ? 'Yes' : 'No'}
                                     </Cell>
                                 </Column>
-                                <Column>
+{/*                                 <Column>
                                     <HeaderCell>
                                         Parent
                                     </HeaderCell>
                                     <Cell dataKey="parent_location">
                                         {rowData => rowData.parent_location ? <a>{rowData.parent.name}</a> : 'N/A'}
                                     </Cell>
-                                </Column>
+                                </Column> */}
                                 <Column>
                                     <HeaderCell>
                                         ID CARD
