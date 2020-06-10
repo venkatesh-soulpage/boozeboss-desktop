@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Panel } from 'rsuite';
+import moment from 'moment';
 import RoleValidator from 'components/RoleValidator';
 
 import { Button } from 'rsuite';
@@ -39,6 +40,19 @@ const StyledPanel = styled(Panel)`
   }
 `;
 
+const StyledRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: ${props => props.justify || 'flex-start'};
+`
+
+const StyledColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-content: ${props => props.align || 'flex-start'};
+`
+
 class ClientContainer extends Component {
   handleSelectCurrentClient = () => {
     const { handleSelectCurrentClient, index } = this.props;
@@ -64,8 +78,23 @@ class ClientContainer extends Component {
             isSelected={currentClient === index}
             onClick={this.handleSelectCurrentClient}
           >
-            <b>{client.name}</b>
-            {client.owner_id ? <p>Verified</p> : <p>(Waiting for signup)</p>}
+            <StyledRow>
+              <StyledColumn>
+                <b>{client.name}</b>
+                {client && !client.owner_id && <p>(Waiting for signup)</p>}
+              </StyledColumn>
+              <StyledColumn align="flex-end">
+                <StyledRow justify="flex-end">
+                    <p style={{margin: '0 5px 0 5px'}}>Created: </p>
+                    <b>{moment(client.created_at).format('DD/MM/YYYY')}</b>
+                </StyledRow>
+                <StyledRow justify="flex-end">
+                    <p style={{margin: '0 5px 0 5px'}}>Expiration: </p>
+                    <b>{moment(client.expiration_date).format('DD/MM/YYYY')}</b>
+                </StyledRow>
+                
+              </StyledColumn>
+            </StyledRow> 
           </StyledPanel>
         )}
       </React.Fragment>

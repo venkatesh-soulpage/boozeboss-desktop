@@ -6,7 +6,7 @@ import request from 'utils/request'
 
 import { LOGIN_REQUEST } from './constants'
 import { loginSuccess, loginError } from './actions'
-import { authenticate } from '../App/actions'
+import { authenticate, getUser } from '../App/actions'
 
 function* loginSaga(params) {
   const {auth} = params;
@@ -19,6 +19,7 @@ function* loginSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(loginSuccess(response));
+    yield put(getUser());
     yield put(authenticate(response));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;

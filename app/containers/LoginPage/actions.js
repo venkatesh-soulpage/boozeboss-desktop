@@ -17,6 +17,7 @@ export function login(auth) {
 }
 
 export function loginSuccess(token) {
+  localStorage.setItem('jwt', token);
   return {
     token,
     type: LOGIN_SUCCESS,
