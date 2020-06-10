@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider, Loader } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal';
@@ -40,6 +40,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-width: 170px;
     align-items: ${props => props.align || 'flex-start'};
     margin: 1em 1em 1em 1em;
 `;
@@ -106,11 +107,18 @@ class ClientForm extends Component {
         identity_verifications_limit: 100,
         agencies_limit: 1,
         agency_collaborators_limit: 1,
+        expiration_date: new Date(),
         selected_locations: [],
   };
 
   handleChange = (value, name) => {
         this.setState({[name]: value});
+  };
+  
+  
+  handleExpiration = (value, name) => {
+    if (new Date(value).getTime() <= new Date().getTime()) return alert("Can't set expiration");
+    this.setState({[name]: value});
   };
 
   submitClient = () => {
@@ -125,17 +133,19 @@ class ClientForm extends Component {
     }
 
     render() {
-        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit, selected_locations, identity_verifications_limit, agencies_limit, agency_collaborators_limit} = this.state;
+        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit, selected_locations, identity_verifications_limit, agencies_limit, agency_collaborators_limit, expiration_date} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
-                    <FieldContainer>
-                        <FieldLabel>Name</FieldLabel>
-                        <Input 
-                            value={name}
-                            onChange={(value) => this.handleChange(value, 'name')}
-                        />
-                    </FieldContainer>
+                    <FieldsRow>
+                        <FieldContainer>
+                            <FieldLabel>Name</FieldLabel>
+                            <Input 
+                                value={name}
+                                onChange={(value) => this.handleChange(value, 'name')}
+                            />
+                        </FieldContainer>
+                    </FieldsRow>
                     <FieldsRow>
                         <FieldContainer>
                             <FieldLabel>Collaborators Limit</FieldLabel>
@@ -193,6 +203,14 @@ class ClientForm extends Component {
                                 onChange={(value) => this.handleChange(value, 'agency_collaborators_limit')}
                             />
                         </FieldContainer>  
+                        <FieldContainer>
+                            <FieldLabel>Expiration Date</FieldLabel>
+                            <DatePicker 
+                                style={{width: '100%'}}
+                                value={expiration_date}
+                                onChange={(value) => this.handleExpiration(value, 'expiration_date')}
+                            />
+                        </FieldContainer>
                     </FieldsRow>
                     <FieldsRow>
                         <FieldContainer>
