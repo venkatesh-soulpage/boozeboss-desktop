@@ -65,14 +65,19 @@ class Header extends React.Component {
             <Link to="/">
               <Nav.Item ><StyledLogo src={require('../../images/logo_transparent.png')} /></Nav.Item>
             </Link>
-            {this.validateRoles(['ADMIN'], ['ADMIN']) && (
-              <Link to="/clients">
-                <Nav.Item>Clients</Nav.Item>
+            {this.validateRoles(['ADMIN', 'REGION'], ['ADMIN', 'OWNER']) && (
+              <Link to="/organizations">
+                <Nav.Item>Organizations</Nav.Item>
+              </Link>
+            )} 
+            {this.validateRoles(['ADMIN', 'REGION'], ['ADMIN', 'OWNER']) && (
+              <Link to="/teams">
+                <Nav.Item>Teams</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['BRAND'], ['OWNER', 'MANAGER']) && (
-              <Link to="/clients">
-                <Nav.Item>My organization</Nav.Item>
+              <Link to="/teams">
+                <Nav.Item>My Team</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (

@@ -25,6 +25,8 @@ import HomePage from 'containers/HomePage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage/Loadable';
 import ResetPasswordPage from 'containers/ResetPasswordPage/Loadable';
+import OrganizationSignupPage from 'containers/OrganizationSignup/Loadable';
+import OrganizationsPage from 'containers/OrganizationsPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
 import ClientSignupPage from 'containers/ClientSignupPage/Loadable';
 import VerificationContainer from 'containers/VerificationContainer/Loadable';
@@ -69,7 +71,7 @@ class App extends React.Component {
             exact
             path="/"
             component={HomePage}
-            scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
+            scopesRequired={['ADMIN', 'REGION', 'BRAND', 'AGENCY']}
             rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
           />
           <PrivateRoute
@@ -81,9 +83,16 @@ class App extends React.Component {
           />
           <PrivateRoute
             exact
-            path="/clients"
+            path="/organizations"
+            component={OrganizationsPage}
+            scopesRequired={['ADMIN', 'REGION']}
+            rolesRequired={['ADMIN', 'OWNER']}
+          />
+          <PrivateRoute
+            exact
+            path="/teams"
             component={ClientPage}
-            scopesRequired={['ADMIN', 'BRAND']}
+            scopesRequired={['ADMIN', 'BRAND', 'REGION']}
             rolesRequired={['ADMIN', 'OWNER', 'MANAGER']}
           />
           <PrivateRoute
@@ -136,6 +145,7 @@ class App extends React.Component {
             rolesRequired={['OWNER', 'WAREHOUSE_MANAGER']}
           />
           <GuardedRoute path="/login" component={LoginPage} />
+          <GuardedRoute path="/organization-signup" component={OrganizationSignupPage} />
           <GuardedRoute path="/client-signup" component={ClientSignupPage} />
           <GuardedRoute path="/agency-signup" component={AgencySignupPage} />
           <GuardedRoute path="/forgot" component={ForgotPasswordPage} />

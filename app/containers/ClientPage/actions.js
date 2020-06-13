@@ -45,7 +45,10 @@ import {
   UPLOAD_LOGO_ERROR,
   REVOKE_COLLABORATOR_INVITATION_REQUEST,
   REVOKE_COLLABORATOR_INVITATION_SUCCESS,
-  REVOKE_COLLABORATOR_INVITATION_ERROR
+  REVOKE_COLLABORATOR_INVITATION_ERROR,
+  RESEND_INVITE_REQUEST,
+  RESEND_INVITE_SUCCESS,
+  RESEND_INVITE_ERROR
 } from './constants';
 
 import { Alert } from 'rsuite';
@@ -100,6 +103,30 @@ export function inviteClientError(error) {
     error,
   };
 }
+
+// Resend invite collaborator
+export function resendInviteCollaborator(collaborator_invitation_id) {
+  return {
+    type: RESEND_INVITE_REQUEST,
+    collaborator_invitation_id
+  };
+}
+
+export function resendInviteCollaboratorSuccess(success) {
+  Alert.success(success, 2000);
+  return {
+    type: RESEND_INVITE_SUCCESS,
+    success
+  };
+}
+
+export function resendInviteCollaboratorError(error) {
+  return {
+    type: RESEND_INVITE_ERROR,
+    error
+  };
+}
+
 
 /* INVITE COLLABORATOR */
 export function inviteCollaborator(collaborator) {

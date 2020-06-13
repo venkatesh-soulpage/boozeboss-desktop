@@ -53,44 +53,44 @@ const StyledColumn = styled.div`
   align-content: ${props => props.align || 'flex-start'};
 `
 
-class ClientContainer extends Component {
-  handleSelectCurrentClient = () => {
-    const { handleSelectCurrentClient, index } = this.props;
-    handleSelectCurrentClient(index);
+class OrganizationsContainer extends Component {
+  handleSelectCurrentOrganization = () => {
+    const { handleSelectCurrentOrganization, index } = this.props;
+    handleSelectCurrentOrganization(index);
   };
 
   render() {
-    const { client, currentClient, index } = this.props;
+    const { organization, currentOrganization, index } = this.props;
     return (
       <React.Fragment>
-        {client.isDraft ? (
+        {organization.isDraft ? (
           <StyledPanel
             shaded
-            isSelected={currentClient === index}
-            onClick={this.handleSelectCurrentClient}
+            isSelected={currentOrganization === index}
+            onClick={this.handleSelectCurrentOrganization}
           >
-            <b>New Brand Owner</b>
+            <b>New Organization</b>
             <p>Editing...</p>
           </StyledPanel>
         ) : (
           <StyledPanel
             shaded
-            isSelected={currentClient === index}
-            onClick={this.handleSelectCurrentClient}
+            isSelected={currentOrganization === index}
+            onClick={this.handleSelectCurrentOrganization}
           >
             <StyledRow>
               <StyledColumn>
-                <b>{client.name}</b>
-                {client && !client.owner_id && <p>(Waiting for signup)</p>}
+                <b>{organization.name}</b>
+                {organization && !organization.owner_id && <p>(Waiting for signup)</p>}
               </StyledColumn>
               <StyledColumn align="flex-end">
                 <StyledRow justify="flex-end">
                     <p style={{margin: '0 5px 0 5px'}}>Created: </p>
-                    <b>{moment(client.created_at).format('DD/MM/YYYY')}</b>
+                    <b>{moment(currentOrganization.created_at).format('DD/MM/YYYY')}</b>
                 </StyledRow>
                 <StyledRow justify="flex-end">
                     <p style={{margin: '0 5px 0 5px'}}>Expiration: </p>
-                    <b>{moment(client.expiration_date).format('DD/MM/YYYY')}</b>
+                    <b>{moment(currentOrganization.expiration_date).format('DD/MM/YYYY')}</b>
                 </StyledRow>
                 
               </StyledColumn>
@@ -102,42 +102,45 @@ class ClientContainer extends Component {
   }
 }
 
-export default class ClientList extends Component {
-  handleAddClientDraft = () => {
-    const { addClientDraft } = this.props;
-    addClientDraft();
+export default class OrganizationsList extends Component {
+  handleAddOrganizationDraft = () => {
+    const { addOrganizationDraft } = this.props;
+    addOrganizationDraft();
   };
 
   render() {
-    const { clients, currentClient} = this.props;
+    const { organizations, currentOrganization} = this.props;
     const isActiveDraft =
-      clients &&
-      clients.length > 0 &&
-      clients.filter(client => client.isDraft).length > 0;
+      organizations &&
+      organizations.length > 0 &&
+      organizations.filter(organization => organization.isDraft).length > 0;
     return (
       <Column>
         <RoleValidator
           {...this.props}
-          scopes={['ADMIN', 'REGION']}
-          roles={['ADMIN', 'OWNER']}
+          scopes={['ADMIN']}
+          roles={['ADMIN']}
         >
           <Button
             color="green"
-            onClick={this.handleAddClientDraft}
+            onClick={this.handleAddOrganizationDraft}
             disabled={isActiveDraft}
           >
-            + Add Team
+            + Add Organization
           </Button>
         </RoleValidator>
         <List>
-          {clients &&
-            clients.length > 0 &&
-            clients.map((client, index) => (
-              <ClientContainer
+          {(!organizations || organizations.length < 1) && (
+            <MessageLabel>No Current Organizations</MessageLabel>
+          )}
+          {organizations &&
+            organizations.length > 0 &&
+            organizations.map((organization, index) => (
+              <OrganizationsContainer
                 {...this.props}
                 index={index}
-                currentClient={currentClient}
-                client={client}
+                currentOrganization={currentOrganization}
+                organization={organization}
               />
             ))}
         </List>
@@ -146,7 +149,6 @@ export default class ClientList extends Component {
   }
 }
 
-ClientList.propTypes = {
-  clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  
+OrganizationsList.propTypes = {
+  organizations: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker, SelectPicker } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal';
@@ -101,11 +101,13 @@ class ClientForm extends Component {
         name: null,
         description: null,
         owner_email: null,
+        display_name: null,
+        custom_message: null,
         collaborator_limit: 5,
         briefs_limit: 5,
         brands_limit: 10,
         warehouses_limit: 1,
-        locations_limit: 1,
+        location_id: null,
         identity_verifications_limit: 100,
         agencies_limit: 1,
         agency_collaborators_limit: 1,
@@ -134,12 +136,27 @@ class ClientForm extends Component {
         })
     }
 
+    getPickerData = ()  => {
+        const {locations} = this.props;
+        if (!locations) return [];
+        const countries = locations
+            .filter(location => location.is_country)
+            .map(location => {
+                return {
+                    label: location.name,
+                    value: location.id,
+                    role: location.name,
+                }
+            })
+        return countries;
+    }
+
     render() {
-        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, locations_limit, selected_locations, identity_verifications_limit, agencies_limit, agency_collaborators_limit, expiration_date} = this.state;
-        console.log(selected_locations);
+        const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, display_name, custom_message, identity_verifications_limit, agencies_limit, agency_collaborators_limit, expiration_date} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
+                    <Divider>Team Information</Divider>
                     <FieldsRow>
                         <FieldContainer>
                             <FieldLabel>Name</FieldLabel>
@@ -148,7 +165,28 @@ class ClientForm extends Component {
                                 onChange={(value) => this.handleChange(value, 'name')}
                             />
                         </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Location</FieldLabel>
+                            <SelectPicker
+                                searchable={false}
+                                data={this.getPickerData()}
+                                style={{width: '100%'}}
+                                onChange={(value) => this.handleChange(value, 'location_id')}
+                            />
+                        </FieldContainer>
                     </FieldsRow>
+                    <FieldsRow>
+                        <FieldContainer>
+                            <FieldLabel>Description</FieldLabel>
+                            <Input
+                                componentClass="textarea" 
+                                rows={3} 
+                                value={description}
+                                onChange={(value) => this.handleChange(value, 'description')}
+                            />
+                        </FieldContainer>
+                    </FieldsRow>
+                    <Divider>Limits</Divider>
                     <FieldsRow>
                         <FieldContainer>
                             <FieldLabel>Collaborators Limit</FieldLabel>
@@ -178,13 +216,13 @@ class ClientForm extends Component {
                                 onChange={(value) => this.handleChange(value, 'warehouses_limit')}
                             />
                         </FieldContainer>    
-                        <FieldContainer>
+                        {/* <FieldContainer>
                             <FieldLabel>Locations Limit</FieldLabel>
                             <InputNumber 
                                 value={locations_limit}
                                 onChange={(value) => this.handleChange(value, 'locations_limit')}
                             />
-                        </FieldContainer>  
+                        </FieldContainer>  */} 
                         <FieldContainer>
                             <FieldLabel>ID Verifications Limit</FieldLabel>
                             <InputNumber 
@@ -215,85 +253,36 @@ class ClientForm extends Component {
                             />
                         </FieldContainer>
                     </FieldsRow>
+                    <Divider>Invite</Divider>
                     <FieldsRow>
-                        <FieldContainer>
-                            <FieldLabel>Locations</FieldLabel>
-                            {selected_locations && selected_locations.length > 0 && (
-                                <Countries >
-                                    <Table
-                                        data={selected_locations}
-                                        width='100%'
-                                    >
-                                        <Column flexGrow>
-                                            <HeaderCell>
-                                                Name
-                                            </HeaderCell>
-                                            <Cell dataKey="name">
-                                                {rowData => rowData.name}
-                                            </Cell>
-                                        </Column>
-                                        <Column flexGrow>
-                                            <HeaderCell>
-                                                States Available
-                                            </HeaderCell>
-                                            <Cell dataKey="childrens">
-                                                {rowData => rowData.childrens.length}
-                                            </Cell>
-                                        </Column>
-                                        <Column flexGrow>
-                                            <HeaderCell>
-                                                Currency
-                                            </HeaderCell>
-                                            <Cell dataKey="currency">
-                                                {rowData => rowData.currency}
-                                            </Cell>
-                                        </Column>
-                                        <Column flexGrow>
-                                            <HeaderCell>
-                                                Passport Available
-                                            </HeaderCell>
-                                            <Cell dataKey="passport_available">
-                                                {rowData => rowData.passport_available ? 'Yes' : 'No' }
-                                            </Cell>
-                                        </Column>
-                                        <Column flexGrow>
-                                            <HeaderCell>
-                                                ID Available
-                                            </HeaderCell>
-                                            <Cell dataKey="id_card_available">
-                                                {rowData => rowData.id_card_available ? 'Yes' : 'No'}
-                                            </Cell>
-                                        </Column>
-                                    </Table>
-                                </Countries>
-                            )}
-                            <ClientAddLocationModal 
-                                {...this.props} 
-                                selected_locations={selected_locations}
-                                locations_limit={locations_limit}
-                                addLocation={this.addLocation}
+                       <FieldContainer>
+                            <FieldLabel>Team Leader Email</FieldLabel>
+                            <p>(We will send an invite to this email)</p>
+                            <Input 
+                                value={owner_email}
+                                onChange={(value) => this.handleChange(value, 'owner_email')}
                             />
-                        </FieldContainer>
+                        </FieldContainer> 
+                       <FieldContainer>
+                            <FieldLabel>Team Leader Name</FieldLabel>
+                            <p>(Only for email display)</p>
+                            <Input 
+                                value={display_name}
+                                onChange={(value) => this.handleChange(value, 'display_name')}
+                            />
+                        </FieldContainer> 
                     </FieldsRow>
                     <FieldContainer>
-                        <FieldLabel>Description</FieldLabel>
+                        <FieldLabel>Custom Message</FieldLabel>
                         <Input
                             componentClass="textarea" 
                             rows={3} 
-                            value={description}
-                            onChange={(value) => this.handleChange(value, 'description')}
+                            value={custom_message}
+                            onChange={(value) => this.handleChange(value, 'custom_message')}
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <FieldLabel>Owner Email</FieldLabel>
-                        <p>(We will send an invite to this email)</p>
-                        <Input 
-                            value={owner_email}
-                            onChange={(value) => this.handleChange(value, 'owner_email')}
-                        />
-                    </FieldContainer>
-                    <FieldContainer>
-                        <Button block color="green" onClick={this.submitClient}>Create Brand</Button>
+                        <Button block color="green" onClick={this.submitClient}>Invite Team</Button>
                     </FieldContainer>
                 </DataContainer>
             </Panel>
@@ -325,9 +314,7 @@ export default class ClientInfo extends Component {
         const { clients, currentClient, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
-                {/* error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/> */}
-                {/* success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} /> */}
-                {(!clients || clients.length < 1) && <ClientsLabel>No Clients</ClientsLabel> }
+                {(!clients || clients.length < 1) && <ClientsLabel>No Teams</ClientsLabel> }
                 {clients &&
                 clients.length > 0 && (
                     <React.Fragment>
@@ -349,6 +336,9 @@ export default class ClientInfo extends Component {
                                             show_label={false}
                                             margin='0'
                                         />
+                                        <FieldLabel>
+                                           {clients[currentClient] && clients[currentClient].location && clients[currentClient].location.name}
+                                        </FieldLabel>
                                         <EditableField 
                                             {...this.props}
                                             client={clients[currentClient]}
@@ -463,80 +453,6 @@ export default class ClientInfo extends Component {
                                 <ClientCollaboratorsTable {...this.props}/>
                                 <Divider />
                                 <FieldContainer>
-                                    <FieldLabel>Locations ({clients[currentClient].locations.length} / {clients[currentClient].locations_limit})</FieldLabel>
-                                    {clients[currentClient].locations 
-                                        && clients[currentClient].locations.length > 0 ? (
-                                            <Countries >
-                                                <Table
-                                                    data={clients[currentClient].locations}
-                                                    width='100%'
-                                                >
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            Name
-                                                        </HeaderCell>
-                                                        <Cell dataKey="name">
-                                                            {rowData => rowData.location.name}
-                                                        </Cell>
-                                                    </Column>
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            States Available
-                                                        </HeaderCell>
-                                                        <Cell dataKey="childrens">
-                                                            {rowData => rowData.location.childrens.length}
-                                                        </Cell>
-                                                    </Column> */
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            Currency
-                                                        </HeaderCell>
-                                                        <Cell dataKey="currency">
-                                                            {rowData => rowData.location.currency}
-                                                        </Cell>
-                                                    </Column>
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            Passport Available
-                                                        </HeaderCell>
-                                                        <Cell dataKey="passport_available">
-                                                            {rowData => rowData.location.passport_available ? 'Yes' : 'No' }
-                                                        </Cell>
-                                                    </Column>
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            ID Available
-                                                        </HeaderCell>
-                                                        <Cell dataKey="id_card_available">
-                                                            {rowData => rowData.location.id_card_available ? 'Yes' : 'No'}
-                                                        </Cell>
-                                                    </Column>
-                                                    <Column flexGrow>
-                                                        <HeaderCell>
-                                                            Locations
-                                                        </HeaderCell>
-                                                        <Cell dataKey="id_card_available">
-                                                            {rowData => <ClientManageLocation {...this.props} country={rowData} />}
-                                                        </Cell>
-                                                    </Column>
-                                                </Table>
-                                            </Countries>
-                                        ) : (
-                                            <p>No locations defined</p>
-                                        )}
-                                    <RoleValidator
-                                        {...this.props}
-                                        scopes={['ADMIN']}
-                                        roles={['ADMIN']}
-                                    >
-                                        <ClientAddLocation 
-                                            {...this.props}
-                                            client={clients[currentClient]}
-                                        />
-                                    </RoleValidator>
-                                </FieldContainer>
-                                <Divider />
-                                <FieldContainer>
                                     <FieldLabelContainer> 
                                         <FieldLabel>Venues</FieldLabel>
                                     </FieldLabelContainer>
@@ -645,7 +561,6 @@ export default class ClientInfo extends Component {
                                         />
                                         <CreateWarehouseModal 
                                             {...this.props}
-                                            locations={clients[currentClient].locations}
                                         />
                                 </FieldContainer>
                             </DataContainer>

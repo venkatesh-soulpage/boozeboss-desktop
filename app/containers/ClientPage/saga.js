@@ -16,7 +16,7 @@ import {
   ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, 
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, 
   INVITE_COLLABORATOR_SUCCESS, 
-  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS,
+  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS,
 } from './constants';
 
 import {
@@ -46,6 +46,8 @@ import {
   uploadLogoError,
   revokeCollaboratorInvitationSuccess,
   revokeCollaboratorInvitationError,
+  resendInviteCollaboratorSuccess,
+  resendInviteCollaboratorError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -273,6 +275,24 @@ function* uploadLogoSaga(params) {
   }
 }
 
+function* resendInviteSaga(params) {
+  const {collaborator_invitation_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/auth/resend-invitation`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({collaborator_invitation_id})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(resendInviteCollaboratorSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(resendInviteCollaboratorError(jsonError));
+  }
+}
+
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -325,6 +345,10 @@ function* uploadLogoRequest() {
   yield takeLatest(UPLOAD_LOGO_REQUEST, uploadLogoSaga);
 }
 
+function* resendInviteRequest() {
+  yield takeLatest(RESEND_INVITE_REQUEST, resendInviteSaga);
+}
+
 // Reactive saga
 function* inviteClientSuccessRequest() {
   yield takeLatest(INVITE_CLIENT_SUCCESS, getClientsSaga);
@@ -366,6 +390,10 @@ function* uploadLogoSuccessRequest() {
   yield takeLatest(UPLOAD_LOGO_SUCCESS, getClientsSaga);
 }
 
+function* resendInviteSuccessRequest() {
+  yield takeLatest(RESEND_INVITE_SUCCESS, getClientsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getClientsRequest),
@@ -381,6 +409,7 @@ export default function* rootSaga() {
     fork(addClientLocationRequest),
     fork(updateSlaRequest),
     fork(uploadLogoRequest),
+    fork(resendInviteRequest),
     // Reactive
     fork(inviteClientSuccessRequest),
     fork(createVenueSuccessRequest),
@@ -392,5 +421,6 @@ export default function* rootSaga() {
     fork(addClientLocationSuccessRequest),
     fork(updateSlaSuccessRequest),
     fork(uploadLogoSuccessRequest),
+    fork(resendInviteSuccessRequest)
   ]);
 }

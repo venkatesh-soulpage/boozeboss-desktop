@@ -3,7 +3,8 @@ import RoleValidator from 'components/RoleValidator';
 import styled from 'styled-components';
 import {Table} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
-import InviteCollaborator from './InviteCollaborator';
+
+// import InviteCollaborator from './InviteCollaborator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -70,22 +71,25 @@ const StyledAction = styled.a`
     margin: 0 5px 0 0;
 `
 
-export default class ClientCollaboratorsTable extends Component {
+export default class OrganizationCollaboratorsTable extends Component {
 
     mergeCollaborators = () => {
-        const {clients, currentClient} = this.props;
-        const client = clients[currentClient];
+        const {organizations, currentOrganization} = this.props;
 
-        if (!client) return [];
+        if (!organizations) return [];
+
+        const organization = organizations[currentOrganization];
+
+        if (!organization) return [];
 
         const collaborators = [];
 
-        client.client_collaborators.map(collaborator => {
+        organization.collaborators.map(collaborator => {
             collaborators.push(collaborator);
         })
 
-        client.collaborator_invitations &&
-        client.collaborator_invitations
+        organization.collaborator_invitations &&
+        organization.collaborator_invitations
             .filter(collaborator => collaborator.status === 'PENDING')
             .map(collaborator => {
                 collaborators.push({
@@ -106,25 +110,26 @@ export default class ClientCollaboratorsTable extends Component {
 
     handleRevokeCollaboratorInvitation = (collaborator_invitation_id) => {
         const {revokeCollaboratorInvitation} = this.props;  
+        const collaborators = this.mergeCollaborators();
+
+        if (collaborators.length < 2) return alert("Please assign a new colaborator to this organization before deleting this.")
+
         revokeCollaboratorInvitation(collaborator_invitation_id);
     }
 
     handleResendCollaboratorInvitation = (collaborator_invitation_id) => {
-        const {resendInviteCollaborator} = this.props;  
+        const {resendInviteCollaborator} = this.props;
         resendInviteCollaborator(collaborator_invitation_id);
     }
-
-
     
     render() {
-        const {clients, currentClient} = this.props;
+        const {organizations, currentOrganization} = this.props;
         const collaborators = this.mergeCollaborators();
         return (
             <React.Fragment>
                 <FieldContainer>
                     <FieldLabelContainer> 
                         <FieldLabel>Collaborators </FieldLabel>
-                        <p>({collaborators.length} / {clients[currentClient].collaborator_limit} )</p>
                     </FieldLabelContainer>
                     {collaborators && 
                         collaborators.length > 0 ? (
@@ -205,9 +210,9 @@ export default class ClientCollaboratorsTable extends Component {
                     )}
                 </FieldContainer>
                 <FieldContainer>
-                    <InviteCollaborator 
+                    {/* <InviteCollaborator 
                         {...this.props}
-                    />
+                    /> */}
                 </FieldContainer>
             </React.Fragment>
         )

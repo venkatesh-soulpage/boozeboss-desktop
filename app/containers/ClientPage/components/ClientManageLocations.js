@@ -23,6 +23,7 @@ export default class ClientManageLocation extends React.Component {
       super(props);
       this.state = {
         show: false,
+        locations_ids: null
       };
     }
 
@@ -41,7 +42,6 @@ export default class ClientManageLocation extends React.Component {
     parseData = () => {
         const {country} = this.props;
         if (!country) return [];
-
         const data = 
             country.location.childrens.map(state => {
                 return {

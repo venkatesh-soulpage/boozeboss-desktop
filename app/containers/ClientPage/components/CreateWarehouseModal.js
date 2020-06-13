@@ -65,7 +65,6 @@ export default class CreateWarehouseModal extends React.Component {
 
     open = () => {
       this.setState({ show: true });
-      this.getLocationOptions();
     }
 
     handleChange = (value, name) => {
@@ -73,17 +72,19 @@ export default class CreateWarehouseModal extends React.Component {
     }
 
     getLocationOptions = () => {
-        const {locations} = this.props;
-        if (!locations || locations.length < 1) return;
+        const {locations, clients, currentClient} = this.props;
+        if (!locations || locations.length < 1) return [];
+        const location = locations.find(location => clients[currentClient].location_id === location.id);
+        
+        const locationOptions = 
+                    location.childrens.map(children => {
+                        return {
+                            label: children.name,
+                            value: children.id
+                        }
+                    })
 
-        const locationOptions = locations.map(val => {
-            return  {
-                label: `${val.location.name}`,
-                value: val.location.id,
-            }
-        })
-
-        this.setState({locationOptions});
+        return locationOptions;
     }
 
     create = async () => {
@@ -96,7 +97,7 @@ export default class CreateWarehouseModal extends React.Component {
     }
 
     render() {
-        const {show, locationOptions} = this.state;
+        const {show} = this.state;
         return (
             <React.Fragment>
                 <Button id="new-venue" onClick={this.open} color="green" block>+ Add Warehouse</Button>
@@ -122,7 +123,7 @@ export default class CreateWarehouseModal extends React.Component {
                             <FieldLabel>Location</FieldLabel>
                             <SelectPicker 
                                 searchable={false}
-                                data={locationOptions}
+                                data={this.getLocationOptions()}
                                 onChange={(value) => this.handleChange(value, 'location_id')}
                             />
                         </FieldContainer>
