@@ -75,6 +75,8 @@ export default class CreateWarehouseModal extends React.Component {
         const {locations, clients, currentClient} = this.props;
         if (!locations || locations.length < 1) return [];
         const location = locations.find(location => clients[currentClient].location_id === location.id);
+
+        if (!location) return [];
         
         const locationOptions = 
                     location.childrens.map(children => {
