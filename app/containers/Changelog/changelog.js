@@ -5,6 +5,38 @@ export default `
 
 All notable changes to this project will be documented in this file.  
 <br/>
+## [0.12.0] - 2020-06-13
+<br/>
+
+### Added
+
+- Regional Organization Invitations for Admin
+- Added REGION OWNER to available roles
+- Resend collaborator invite email when it already expired under teams & organization tab
+- Regional Organization Signup
+- Regional Organization Panel at '/organizations' only show teams that are owned by the organization.
+- Display name and custom message are available for new organizations and teams
+- Added regional_organization_locations to manage multiple locations at organization table
+
+### Changed
+
+- 'Clients' are now called 'Teams'
+- Refactor authentication middleware
+- Admin can invite organizations and teams separately
+- Moved locations_limit to organization resource.
+- Added regional_organization_id relation to teams.
+- Migrate Client Collaborators and Agency Collaborators to one single table supporting Organization Collaborator.
+- Teams (Clients) support only one country location.
+- Venues, Brands, Warehouses can be managed by both teams and regional organization.
+- Minor UI fixes.
+
+### Removed
+
+- Locations table removed from client view
+- Location Limits removed from client view 
+
+<br/>
+
 ## [0.11.1] - 2020-06-09
 <br/>
 
