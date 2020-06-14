@@ -81,7 +81,7 @@ class OrganizationsContainer extends Component {
             <StyledRow>
               <StyledColumn>
                 <b>{organization.name}</b>
-                {organization && !organization.owner_id && <p>(Waiting for signup)</p>}
+                {organization && organization.collaborators.lenght > 0 && <p>(Waiting for signup)</p>}
               </StyledColumn>
               <StyledColumn align="flex-end">
                 <StyledRow justify="flex-end">
