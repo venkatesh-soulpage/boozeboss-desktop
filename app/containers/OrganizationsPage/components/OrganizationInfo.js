@@ -98,27 +98,35 @@ class OrganizationsForm extends Component {
         locations_limit: 1,
         expiration_date: new Date(),
         selected_locations: [],
-  };
+    };
 
-  handleChange = (value, name) => {
+    handleChange = (value, name) => {
+            this.setState({[name]: value});
+    };
+    
+    
+    handleExpiration = (value, name) => {
+        if (new Date(value).getTime() <= new Date().getTime()) return alert("Can't set expiration");
         this.setState({[name]: value});
-  };
-  
-  
-  handleExpiration = (value, name) => {
-    if (new Date(value).getTime() <= new Date().getTime()) return alert("Can't set expiration");
-    this.setState({[name]: value});
-  };
+    };
 
-  submitClient = () => {
-    const { inviteOrganization } = this.props;
-    inviteOrganization({...this.state});
-  };
+    submitClient = () => {
+        const { inviteOrganization } = this.props;
+        inviteOrganization({...this.state});
+    };
 
     addLocation = (location) => {
         this.setState({
             selected_locations: [...this.state.selected_locations, location]
         })
+    }
+
+    removeLocation = (id) => {
+        let {selected_locations} = this.state;
+        const locations_ids = selected_locations.map(location => location.id);
+        const location_index = locations_ids.indexOf(id);
+        selected_locations.splice(location_index, 1);
+        this.setState({selected_locations});
     }
 
     render() {
@@ -139,6 +147,7 @@ class OrganizationsForm extends Component {
                         <FieldContainer>
                             <FieldLabel>Locations Limit</FieldLabel>
                             <InputNumber 
+                                min={1}
                                 value={locations_limit}
                                 onChange={(value) => this.handleChange(value, 'locations_limit')}
                             />
@@ -199,6 +208,14 @@ class OrganizationsForm extends Component {
                                             </HeaderCell>
                                             <Cell dataKey="id_card_available">
                                                 {rowData => rowData.id_card_available ? 'Yes' : 'No'}
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
+                                                Actions
+                                            </HeaderCell>
+                                            <Cell dataKey="id_card_available">
+                                                {rowData => <a onClick={() => this.removeLocation(rowData.id)}>Remove</a>}
                                             </Cell>
                                         </Column>
                                     </Table>
