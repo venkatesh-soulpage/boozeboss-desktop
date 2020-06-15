@@ -55,7 +55,7 @@ export default class InviteCollaborator extends React.Component {
         const {email, role_id, name, custom_message} = this.state;
         if ( !email || !role_id) return;
         const client_id = clients[currentClient].id;
-        await inviteCollaborator({email, role_id, client_id, name, custom_message});
+        await inviteCollaborator({email, role_id, client_id, display_name: name, custom_message});
         this.close();
     }
 
