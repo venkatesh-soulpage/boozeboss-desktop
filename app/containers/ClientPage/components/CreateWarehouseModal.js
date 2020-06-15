@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, TreePicker} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldContainer = styled.div`
@@ -54,6 +54,7 @@ export default class CreateWarehouseModal extends React.Component {
         show: false,
         locationOptions: [],
         name: null,
+        location_id: null,
         product_type: null,
         description: null,
       };
@@ -68,21 +69,29 @@ export default class CreateWarehouseModal extends React.Component {
     }
 
     handleChange = (value, name) => {
+        console.log(value, name)
         this.setState({[name]: value});
     }
 
     getLocationOptions = () => {
-        const {locations, clients, currentClient} = this.props;
-        if (!locations || locations.length < 1) return [];
-        const location = locations.find(location => clients[currentClient].location_id === location.id);
+        const {clients, currentClient} = this.props;
 
+        const {location} = clients[currentClient];
+         
         if (!location) return [];
         
         const locationOptions = 
-                    location.childrens.map(children => {
+                    location.childrens.map(state => {
+                        const children = state.childrens.map(city => {
+                            return {
+                                label: city.name,
+                                value: city.id,
+                            }
+                        })
                         return {
-                            label: children.name,
-                            value: children.id
+                            label: state.name,
+                            value: state.id,
+                            children
                         }
                     })
 
@@ -99,7 +108,7 @@ export default class CreateWarehouseModal extends React.Component {
     }
 
     render() {
-        const {show} = this.state;
+        const {show, location_id} = this.state;
         return (
             <React.Fragment>
                 <Button id="new-venue" onClick={this.open} color="green" block>+ Add Warehouse</Button>
@@ -123,8 +132,9 @@ export default class CreateWarehouseModal extends React.Component {
                         </FieldContainer> 
                         <FieldContainer>
                             <FieldLabel>Location</FieldLabel>
-                            <SelectPicker 
-                                searchable={false}
+                            <TreePicker 
+                                virtualized
+                                value={location_id}
                                 data={this.getLocationOptions()}
                                 onChange={(value) => this.handleChange(value, 'location_id')}
                             />
