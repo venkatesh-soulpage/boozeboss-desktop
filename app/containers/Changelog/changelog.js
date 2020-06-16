@@ -5,6 +5,29 @@ export default `
 
 All notable changes to this project will be documented in this file.  
 <br/>
+## [0.12.1] - 2020-06-15
+<br/>
+
+### Added
+
+- Added 12 countries with +2,000 states and + 30,000 cities to choose for warehouses and to be implemented.
+- Add feature to remove a location when a regional organization is being created
+- Add refresh token with a span of 3 hours to manage expiration dates on Organizations, Country Teams and Agencies. [more info](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/)
+- Add verification middleware to refresh the token if it already expired
+- Add Login Verification for expired accounts
+- Add refresh token for Organization, Country Team and Agency signup.
+
+### Changed
+
+- Create warehouse modal on country team view now shows state and city level depending on the country
+- Fix a bug on collaborator country team, so it now sends the correct value to the server.
+- Fix UI expiration date on Organizations tab
+- Set expiration date on country team is now exclusive to ADMIN roles, if an organization create a new country team it inherits the regional organization expiration date.
+- Rename 'Stock' to 'Inventory'
+- Minor UI fixes
+
+<br/>
+
 ## [0.12.0] - 2020-06-13
 <br/>
 
