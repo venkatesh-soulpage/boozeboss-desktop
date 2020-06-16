@@ -9,8 +9,8 @@ import {
   GET_ORGANIZATIONS_REQUEST, GET_ORGANIZATIONS_SUCCESS, GET_ORGANIZATIONS_ERROR,
   GET_LOCATIONS_REQUEST, GET_LOCATIONS_SUCCESS, GET_LOCATIONS_ERROR, 
   INVITE_ORGANIZATIONS_REQUEST, INVITE_ORGANIZATIONS_SUCCESS, INVITE_ORGANIZATIONS_ERROR,
-  RESEND_INVITE_ORGANIZATIONS_REQUEST, RESEND_INVITE_ORGANIZATIONS_SUCCESS, RESEND_INVITE_ORGANIZATIONS_ERROR, 
-  RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, RESEND_INVITE_ERROR
+  RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, RESEND_INVITE_ERROR, 
+  SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR
 } from './constants';
 
 import { Alert } from 'rsuite';
@@ -83,6 +83,30 @@ export function resendInviteCollaboratorSuccess(success) {
 export function resendInviteCollaboratorError(error) {
   return {
     type: RESEND_INVITE_ERROR,
+    error
+  };
+}
+
+// Select Primary Location
+export function selectPrimaryLocation(regional_organization_id, regional_organization_location_id) {
+  return {
+    type: SELECT_PRIMARY_LOCATION_REQUEST,
+    regional_organization_id,
+    regional_organization_location_id
+  };
+}
+
+export function selectPrimaryLocationSuccess(success) {
+  Alert.success(success, 2000);
+  return {
+    type: SELECT_PRIMARY_LOCATION_SUCCESS,
+    success
+  };
+}
+
+export function selectPrimaryLocationError(error) {
+  return {
+    type: SELECT_PRIMARY_LOCATION_ERROR,
     error
   };
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Table} from 'rsuite'; 
+import {Table, Modal, Button} from 'rsuite'; 
 import styled from 'styled-components';
 import RoleValidator from 'components/RoleValidator';
 
@@ -24,6 +24,67 @@ const FieldLabel = styled.b`
 
 const {Column, HeaderCell, Cell} = Table;
 
+
+class PrimaryLocation extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        show: false,
+      };
+    }
+
+    componentDidMount = () => {
+    }
+
+    close = () => {
+      this.setState({ show: false });
+    }
+
+    open = () => {
+      this.setState({ show: true });
+      // this.getPickerData();
+    }
+
+    handleChange = (value, name) => {
+        this.setState({[name]: value});
+    }
+
+    handleSelectPrimaryLocation = async () => {
+        const {organization, regional_location, selectPrimaryLocation} = this.props;
+        await selectPrimaryLocation(organization.id, regional_location.id);
+        this.close();
+    }
+
+    render() {
+        const {regional_location} = this.props;
+        const {show} = this.state;
+        return (
+            <React.Fragment>
+                {regional_location.is_primary_location ? (
+                  <b>Primary</b>
+                ) : (
+                  <a onClick={this.open}>Select as Primary</a>
+                )}
+        
+                <Modal show={show} onHide={this.close} size="xs">
+                    <Modal.Body>
+                      <p>Are you sure you want to define this location as primary? All your dashboards and reports would change to the primary location currency.</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button onClick={this.handleSelectPrimaryLocation} color="green">
+                        Change      
+                    </Button>
+                    <Button onClick={this.close} appearance="subtle">
+                        Cancel
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
+            </React.Fragment>
+        );
+    }
+  }
+  
+
 export default class OrganizationLocationsTable extends Component {
     render() {
         const {organizations, currentOrganization} = this.props;
@@ -34,7 +95,7 @@ export default class OrganizationLocationsTable extends Component {
                     && organizations[currentOrganization].locations.length > 0 ? (
                         <Countries >
                             <Table
-                                data={organizations[currentOrganization].locations}
+                                data={organizations[currentOrganization].locations.sort((a,b) => a.id - b.id)}
                                 width='100%'
                             >
                                 <Column flexGrow>
@@ -75,6 +136,14 @@ export default class OrganizationLocationsTable extends Component {
                                     </HeaderCell>
                                     <Cell dataKey="id_card_available">
                                         {rowData => rowData.location.id_card_available ? 'Yes' : 'No'}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Primary Location
+                                    </HeaderCell>
+                                    <Cell dataKey="id_card_available">
+                                        {rowData => <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>}
                                     </Cell>
                                 </Column>
                             </Table>

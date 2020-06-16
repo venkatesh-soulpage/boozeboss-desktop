@@ -5,13 +5,14 @@ import request from 'utils/request';
 import { 
   GET_ORGANIZATIONS_REQUEST, GET_LOCATIONS_REQUEST,
   INVITE_ORGANIZATIONS_REQUEST, INVITE_ORGANIZATIONS_SUCCESS, 
-  RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS
+  RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, 
+  SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS
 } from './constants';
 
 import {
   getOrganizationsSuccess, getOrganizationsError,
   getLocationsSuccess, getLocationsError, inviteOrganizationSuccess, inviteOrganizationError, 
-  resendInviteCollaboratorSuccess, resendInviteCollaboratorError
+  resendInviteCollaboratorSuccess, resendInviteCollaboratorError, selectPrimaryLocationSuccess, selectPrimaryLocationError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -47,7 +48,6 @@ function* getLocationsSaga() {
 function* inviteOrganizationSaga(params) {
   const {organization} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations`;
-  console.log(organization);
   const options = {
     method: 'POST',
     body: JSON.stringify(organization)
@@ -79,6 +79,24 @@ function* resendInviteCollaboratorSaga(params) {
   }
 }
 
+function* selectPrimaryLocationSaga(params) {
+  const {regional_organization_id, regional_organization_location_id} = params;
+  console.log(params)
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations/${regional_organization_id}/locations/select-primary`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({regional_organization_location_id})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(selectPrimaryLocationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(selectPrimaryLocationError(jsonError));
+  }
+}
+
 
 function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
@@ -96,6 +114,10 @@ function* resendInviteCollaboratorRequest() {
   yield takeLatest(RESEND_INVITE_REQUEST, resendInviteCollaboratorSaga);
 }
 
+function* selectPrimaryLocationRequest() {
+  yield takeLatest(SELECT_PRIMARY_LOCATION_REQUEST, selectPrimaryLocationSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -105,14 +127,20 @@ function* resendInviteCollaboratorSuccessRequest() {
   yield takeLatest(RESEND_INVITE_SUCCESS, getOrganizationsSaga);
 }
 
+function* selectPrimaryLocationSuccessRequest() {
+  yield takeLatest(SELECT_PRIMARY_LOCATION_SUCCESS, getOrganizationsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getOrganizationsRequest),
     fork(getLocationsRequest),
     fork(inviteOrganizationRequest),
     fork(resendInviteCollaboratorRequest),
+    fork(selectPrimaryLocationRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),
+    fork(selectPrimaryLocationSuccessRequest),
   ]);
 }
