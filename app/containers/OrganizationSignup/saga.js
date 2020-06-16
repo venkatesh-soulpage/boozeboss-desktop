@@ -20,7 +20,7 @@ function* organizationSignupSaga(params) {
     const response = yield call(request, requestURL, options);
     yield put(signupSuccess(response));
     yield put(getUser());
-    yield put(authenticate(response));
+    yield put(authenticate(response.token));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(signupError(jsonError));

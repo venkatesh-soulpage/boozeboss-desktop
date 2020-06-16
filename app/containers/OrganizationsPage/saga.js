@@ -47,6 +47,7 @@ function* getLocationsSaga() {
 function* inviteOrganizationSaga(params) {
   const {organization} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations`;
+  console.log(organization);
   const options = {
     method: 'POST',
     body: JSON.stringify(organization)

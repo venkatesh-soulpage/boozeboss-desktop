@@ -86,11 +86,11 @@ class OrganizationsContainer extends Component {
               <StyledColumn align="flex-end">
                 <StyledRow justify="flex-end">
                     <p style={{margin: '0 5px 0 5px'}}>Created: </p>
-                    <b>{moment(currentOrganization.created_at).format('DD/MM/YYYY')}</b>
+                    <b>{moment(organization.created_at).format('DD/MM/YYYY')}</b>
                 </StyledRow>
                 <StyledRow justify="flex-end">
                     <p style={{margin: '0 5px 0 5px'}}>Expiration: </p>
-                    <b>{moment(currentOrganization.expiration_date).format('DD/MM/YYYY')}</b>
+                    <b>{moment(organization.expiration_date).format('DD/MM/YYYY')}</b>
                 </StyledRow>
                 
               </StyledColumn>

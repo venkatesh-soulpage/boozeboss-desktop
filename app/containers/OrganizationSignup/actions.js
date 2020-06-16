@@ -15,8 +15,9 @@ export function signup(auth) {
   };
 }
 
-export function signupSuccess(token) {
-  localStorage.setItem('jwt', token);
+export function signupSuccess(credentials) {
+  localStorage.setItem('jwt', credentials.token);
+  localStorage.setItem('refresh_token', credentials.refresh_token);
   return {
     type: SIGNUP_SUCCESS,
   };

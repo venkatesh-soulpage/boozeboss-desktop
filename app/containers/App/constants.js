@@ -16,3 +16,7 @@
  export const GET_USER_REQUEST = 'boozeboss/App/GET_USER_REQUEST';
  export const GET_USER_SUCCESS = 'boozeboss/App/GET_USER_SUCCESS';
  export const GET_USER_ERROR = 'boozeboss/App/GET_USER_ERROR';
+
+ export const REFRESH_TOKEN_REQUEST = 'boozeboss/App/REFRESH_TOKEN_REQUEST';
+ export const REFRESH_TOKEN_SUCCESS = 'boozeboss/App/REFRESH_TOKEN_SUCCESS';
+ export const REFRESH_TOKEN_ERROR = 'boozeboss/App/REFRESH_TOKEN_ERROR';

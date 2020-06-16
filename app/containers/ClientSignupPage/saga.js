@@ -6,7 +6,7 @@ import request from 'utils/request'
 
 import { CLIENT_SIGNUP_REQUEST } from './constants'
 import { clientSignupSuccess, clientSignupError } from './actions'
-import { authenticate } from '../App/actions'
+import { authenticate, getUser } from '../App/actions'
 
 function* clientSignupSaga(params) {
   const {auth} = params;
@@ -19,7 +19,8 @@ function* clientSignupSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(clientSignupSuccess(response));
-    yield put(authenticate(response));
+    yield put(getUser());
+    yield put(authenticate(response.token));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(clientSignupError(jsonError));

@@ -4,7 +4,7 @@ import request from 'utils/request';
 
 import { AGENCY_SIGNUP_REQUEST, GET_SLA_REQUEST } from './constants';
 import { agencySignupSuccess, agencySignupError, getSlaSuccess, getSlaError } from './actions';
-import { authenticate } from '../App/actions';
+import { authenticate, getUser } from '../App/actions';
 
 function* agencySignupSaga(params) {
   const { auth } = params;
@@ -19,6 +19,7 @@ function* agencySignupSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(agencySignupSuccess(response));
+    yield put(getUser());
     yield put(authenticate(response));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;

@@ -16,10 +16,10 @@ export function login(auth) {
   };
 }
 
-export function loginSuccess(token) {
-  localStorage.setItem('jwt', token);
+export function loginSuccess(response) {
+  localStorage.setItem('jwt', response.token);
+  localStorage.setItem('refresh_token', response.refresh_token);
   return {
-    token,
     type: LOGIN_SUCCESS,
   };
 }

@@ -101,7 +101,7 @@ class OrganizationsForm extends Component {
     };
 
     handleChange = (value, name) => {
-            this.setState({[name]: value});
+        this.setState({[name]: value});
     };
     
     
@@ -110,7 +110,7 @@ class OrganizationsForm extends Component {
         this.setState({[name]: value});
     };
 
-    submitClient = () => {
+    submitOrganization = () => {
         const { inviteOrganization } = this.props;
         inviteOrganization({...this.state});
     };
@@ -157,7 +157,7 @@ class OrganizationsForm extends Component {
                             <DatePicker 
                                 style={{width: '100%'}}
                                 value={expiration_date}
-                                onChange={(value) => this.handleExpiration(value, 'expiration_date')}
+                                onChangeCalendarDate={(value) => this.handleExpiration(value, 'expiration_date')}
                             />
                         </FieldContainer>
                     </FieldsRow>
@@ -268,7 +268,7 @@ class OrganizationsForm extends Component {
                     </FieldContainer>
                     <Divider />
                     <FieldContainer>
-                        <Button block color="green" onClick={this.submitClient}>Create Organization</Button>
+                        <Button block color="green" onClick={this.submitOrganization}>Create Organization</Button>
                     </FieldContainer>
                 </DataContainer>
             </Panel>

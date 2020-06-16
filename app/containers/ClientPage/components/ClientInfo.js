@@ -41,7 +41,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-width: 170px;
+    min-width: 300px;
     align-items: ${props => props.align || 'flex-start'};
     margin: 1em 1em 1em 1em;
 `;
@@ -216,13 +216,6 @@ class ClientForm extends Component {
                                 onChange={(value) => this.handleChange(value, 'warehouses_limit')}
                             />
                         </FieldContainer>    
-                        {/* <FieldContainer>
-                            <FieldLabel>Locations Limit</FieldLabel>
-                            <InputNumber 
-                                value={locations_limit}
-                                onChange={(value) => this.handleChange(value, 'locations_limit')}
-                            />
-                        </FieldContainer>  */} 
                         <FieldContainer>
                             <FieldLabel>ID Verifications Limit</FieldLabel>
                             <InputNumber 
@@ -243,15 +236,21 @@ class ClientForm extends Component {
                                 value={agency_collaborators_limit}
                                 onChange={(value) => this.handleChange(value, 'agency_collaborators_limit')}
                             />
-                        </FieldContainer>  
-                        <FieldContainer>
-                            <FieldLabel>Expiration Date</FieldLabel>
-                            <DatePicker 
-                                style={{width: '100%'}}
-                                value={expiration_date}
-                                onChange={(value) => this.handleExpiration(value, 'expiration_date')}
-                            />
-                        </FieldContainer>
+                        </FieldContainer> 
+                        <RoleValidator
+                            {...this.props}
+                            scopes={['ADMIN']}
+                            roles={['ADMIN']}
+                        >
+                            <FieldContainer>
+                                <FieldLabel>Expiration Date</FieldLabel>
+                                <DatePicker 
+                                    style={{width: '100%'}}
+                                    value={expiration_date}
+                                    onChangeCalendarDate={(value) => this.handleExpiration(value, 'expiration_date')}
+                                />
+                            </FieldContainer>
+                        </RoleValidator> 
                     </FieldsRow>
                     <Divider>Invite</Divider>
                     <FieldsRow>

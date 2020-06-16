@@ -77,7 +77,7 @@ export default class OrganizationAddLocationModal extends React.Component {
         const {selected_locations, locations_limit} = this.props;
         return (
             <React.Fragment>
-                <Button onClick={this.open} disabled={selected_locations.length >= locations_limit}>+ Add Location</Button>
+                <Button onClick={this.open} disabled={selected_locations.length >= locations_limit} color="green" block>+ Add Location</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

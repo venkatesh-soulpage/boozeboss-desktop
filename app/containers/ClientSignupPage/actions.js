@@ -13,10 +13,11 @@ export function clientSignup(auth) {
   };
 }
 
-export function clientSignupSuccess(client) {
+export function clientSignupSuccess(credentials) {
+  localStorage.setItem('jwt', credentials.token);
+  localStorage.setItem('refresh_token', credentials.refresh_token);
   return {
     type: CLIENT_SIGNUP_SUCCESS,
-    client
   };
 }
 
