@@ -81,7 +81,7 @@ class ClientContainer extends Component {
             <StyledRow>
               <StyledColumn>
                 <b>{client.name}</b>
-                {client && !client.owner_id && <p>(Waiting for signup)</p>}
+                {client && client.collaborators && client.collaborators.length > 0 && <p>(Waiting for signup)</p>}
               </StyledColumn>
               <StyledColumn align="flex-end">
                 <StyledRow justify="flex-end">
