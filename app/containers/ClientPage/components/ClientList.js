@@ -15,6 +15,7 @@ const Column = styled.div`
   position: sticky;
   top: 1em;
   z-index: 99;
+  max-height: 90vh;
 `;
 
 const List = styled.div`

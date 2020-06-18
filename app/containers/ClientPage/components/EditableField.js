@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { InputNumber, IconButton, Icon, Input } from 'rsuite';
+import { InputNumber, IconButton, Icon, Input, DatePicker } from 'rsuite';
 import RoleValidator from 'components/RoleValidator';
+import moment from 'moment';
 
 const FieldContainer = styled.div`
     display: flex;
@@ -64,7 +65,7 @@ export default class EditableField extends Component {
     }
 
     render() {
-        const { field_label, field_name, value, show_label, tag_type, is_number, margin } = this.props;
+        const { field_label, field_name, value, show_label, tag_type, field_type, margin } = this.props;
         const {isEditing} = this.state;
         return (
             <React.Fragment>
@@ -74,14 +75,24 @@ export default class EditableField extends Component {
                             <FieldLabel>{field_label}</FieldLabel>
                         )}
                         <FieldRow>
-                            {is_number ? (
+                            {field_type === 'number' && (
                                 <InputNumber 
                                     style={{minWidth: '100px', maxWidth: '100%'}}
                                     min={0}
+                                    defaultValue={value}
                                     value={this.state[field_name]}
                                     onChange={(new_value) => this.handleChange(new_value)}
                                 />
-                            ) : (
+                            )}
+                            { field_type === 'date' && (
+                                <DatePicker 
+                                    style={{minWidth: '100px', maxWidth: '100%'}}
+                                    defaultValue={value}
+                                    value={this.state[field_name]}
+                                    onChange={(new_value) => this.handleChange(new_value)}
+                                />
+                            )}
+                            {field_type === 'text' || !field_type && (
                                 <Input 
                                     style={{minWidth: '100px', maxWidth: '100%'}}
                                     defaultValue={value}
@@ -106,14 +117,19 @@ export default class EditableField extends Component {
                             <FieldLabel>{field_label}</FieldLabel>
                         )}
                         <FieldRow>
-                            {field_name === 'brief_attachment_limits' ? (
-                                <p>{this.formatSizeUnits(value)}</p>
-                            ) : (
+                            {field_type === 'date' && <p>{moment(value).format('DD/MM/YYYY')}</p>}
+                            {field_type !== 'date' && (
                                 <React.Fragment>
-                                    {(!tag_type || tag_type === 'p') && <p>{value}</p>}
-                                    {tag_type === 'header' && <h3>{value}</h3>}
+                                    {field_name === 'brief_attachment_limits' ? (
+                                        <p>{this.formatSizeUnits(value)}</p>
+                                    ) : (
+                                        <React.Fragment>
+                                            {(!tag_type || tag_type === 'p') && <p>{value}</p>}
+                                            {tag_type === 'header' && <h3>{value}</h3>}
+                                        </React.Fragment>
+                                        
+                                    )}
                                 </React.Fragment>
-                                
                             )}
                             <RoleValidator
                                 {...this.props}

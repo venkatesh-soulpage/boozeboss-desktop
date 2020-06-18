@@ -389,6 +389,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Collaborator limit'
                                         field_name='collaborator_limit'
+                                        field_type='number'
                                         value={clients[currentClient].collaborator_limit}
                                     />
                                     <EditableField 
@@ -396,6 +397,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Brief Limit / Year'
                                         field_name='briefs_limit'
+                                        field_type='number'
                                         value={clients[currentClient].briefs_limit}
                                     />
                                     <EditableField 
@@ -403,6 +405,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Brands Limit'
                                         field_name='brands_limit'
+                                        field_type='number'
                                         value={clients[currentClient].brands_limit}
                                     />
                                     <EditableField 
@@ -410,6 +413,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Warehouses Limit'
                                         field_name='warehouses_limit'
+                                        field_type='number'
                                         value={clients[currentClient].warehouses_limit}
                                     />  
                                     <EditableField 
@@ -417,6 +421,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Locations Limit'
                                         field_name='locations_limit'
+                                        field_type='number'
                                         value={clients[currentClient].locations_limit}
                                     />  
                                     <EditableField 
@@ -424,6 +429,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Identity Verification Limit'
                                         field_name='identity_verifications_limit'
+                                        field_type='number'
                                         value={clients[currentClient].identity_verifications_limit}
                                     />  
                                     <EditableField 
@@ -431,6 +437,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Agencies Limit'
                                         field_name='agencies_limit'
+                                        field_type='number'
                                         value={clients[currentClient].agencies_limit}
                                     />  
                                     <EditableField 
@@ -438,6 +445,7 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Agencies Collaborators Limit'
                                         field_name='agency_collaborators_limit'
+                                        field_type='number'
                                         value={clients[currentClient].agency_collaborators_limit}
                                     />   
                                     <EditableField 
@@ -445,8 +453,23 @@ export default class ClientInfo extends Component {
                                         client={clients[currentClient]}
                                         field_label='Brief Attachments Limit'
                                         field_name='brief_attachment_limits'
+                                        field_type='number'
                                         value={clients[currentClient].brief_attachment_limits}
                                     />   
+                                    <RoleValidator
+                                        {...this.props}
+                                        scopes={['ADMIN']}
+                                        roles={['ADMIN']}
+                                    >
+                                        <EditableField 
+                                            {...this.props}
+                                            client={clients[currentClient]}
+                                            field_label='Expiration Date'
+                                            field_name='expiration_date'
+                                            field_type='date'
+                                            value={clients[currentClient].expiration_date}
+                                        />   
+                                    </RoleValidator>
                                 </FieldsRow>
                                 <Divider />
                                 <ClientCollaboratorsTable {...this.props}/>
