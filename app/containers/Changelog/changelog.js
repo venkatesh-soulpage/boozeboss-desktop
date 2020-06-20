@@ -5,6 +5,28 @@ export default `
 
 All notable changes to this project will be documented in this file.  
 <br/>
+## [0.12.2] - 2020-06-20
+<br/>
+
+### Added
+
+- Select primary location on organization tab on creation and on update
+- Added categories and subcategories to brand creation
+- Add pagination to products page
+- Add dashboard view to track real time transactions on live events under "/" (Root)
+- Add location filter for dashboard view
+- Seeders for the following models: Organizations, Clients, Agencies, Accounts, Collaborators, Briefs, Requisitions, Events, Guests, Event Products, Wallets, Wallet Orders, Wallet Transactions
+
+
+### Changed
+
+- Fix collaborator invitation
+- Change login strategy for guests, organizations, client and admin.
+- Fix description error on warehouse creation
+- Minor UI fixes
+
+<br/>
+
 ## [0.12.1] - 2020-06-15
 <br/>
 
