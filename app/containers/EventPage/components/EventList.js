@@ -15,19 +15,21 @@ const Column = styled.div`
   position: sticky;
   top: 0;
   bottom: 0;
-  height: calc(100vh - 45px);
+  height: calc(100vh - 60px);
+  margin: 0 0 1em 0;
   overflow-y: auto;
 `;
 
 const AddSection = styled.div`
   display: flex;
   flex: 1;
-  max-height: 15px;
   flex-direction: column;
   position: sticky;
   top: 0;
-  margin: 1em 0.5em 0.5em;
+  margin: 0 0 1em 0;
+  padding: 5px 0 5px 5px;
   z-index: 99;
+  background-color: #fafafa;
 `;
 
 const List = styled.div`

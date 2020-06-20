@@ -52,7 +52,7 @@ export default class GuestList extends Component {
                     )}
                     <FieldsRow>
                         <FieldContainer>
-                            {event.event.is_master_code_enabled && (
+                            {event.event && event.event.is_master_code_enabled && (
                                 <p>Master Code: <b>{event.event.master_code}</b></p>
                             )}
                         </FieldContainer>
@@ -104,7 +104,7 @@ export default class GuestList extends Component {
                                         {rowData => rowData.last_name}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column resizable>
                                     <HeaderCell>
                                         Email
                                     </HeaderCell>

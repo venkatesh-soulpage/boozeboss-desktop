@@ -37,6 +37,7 @@ import RequisitionPage from 'containers/RequisitionPage/Loadable';
 import WarehousePage from 'containers/WarehousePage/Loadable';
 import ProductPage from 'containers/ProductPage/Loadable';
 import EventPage from 'containers/EventPage/Loadable'
+import Dashboard from 'containers/Dashboard/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
 import Changelog from 'containers/Changelog';
@@ -70,8 +71,8 @@ class App extends React.Component {
           <PrivateRoute
             exact
             path="/"
-            component={HomePage}
-            scopesRequired={['ADMIN', 'REGION', 'BRAND', 'AGENCY']}
+            component={Dashboard}
+            scopesRequired={['ADMIN', 'REGION', 'BRAND']}
             rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
           />
           <PrivateRoute
