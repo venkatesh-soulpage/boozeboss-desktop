@@ -10,11 +10,15 @@ import {
   GET_CLIENTS_REQUEST , GET_CLIENTS_SUCCESS, GET_CLIENTS_ERROR, 
   GET_CLIENT_ANALYTICS_REQUEST,
   GET_CLIENT_ANALYTICS_SUCCESS,
-  GET_CLIENT_ANALYTICS_ERROR
+  GET_CLIENT_ANALYTICS_ERROR,
+  GET_ORGANIZATION_EVENTS_REQUEST,
+  GET_ORGANIZATION_EVENTS_SUCCESS,
+  GET_ORGANIZATION_EVENTS_ERROR
 } from './constants';
 
 export const initialState = fromJS({
   events: null,
+  last_events: null,
   clients: null
 });
 
@@ -30,6 +34,12 @@ function dashboardReducer(state = initialState, action) {
       return state;
     case GET_CLIENT_ANALYTICS_SUCCESS:
       return state.set('events', action.analytics);
+    case GET_ORGANIZATION_EVENTS_REQUEST:
+      return state;
+    case GET_ORGANIZATION_EVENTS_SUCCESS:
+      return state.set('last_events', action.last_events);
+    case GET_ORGANIZATION_EVENTS_ERROR:
+      return state;
     case GET_CLIENT_ANALYTICS_ERROR:
       return state;
     case GET_CLIENTS_REQUEST:

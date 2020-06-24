@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Panel, SelectPicker, IconButton, Icon, Alert } from 'rsuite';
+import { Panel, SelectPicker, IconButton, Icon, Alert, Button } from 'rsuite';
 import DashboardHeaderRow from './DashboardHeaderRow';
 import DashboardRow from './DashboardRow';
 import RoleValidator from 'components/RoleValidator';
@@ -101,13 +101,14 @@ export default class DashboardContainer extends Component {
 
     render() {
 
-        const {events} = this.props;
+        const {events, toggleDrawer} = this.props;
         const filtered_events = this.getEvents(events);
         return (
             <StyledContainer>
                 <SyledPanel shaded>
                     <StyledPanelHeader> 
                         <PanelHeaderColumn >
+                            <Button onClick={toggleDrawer}>Last Events</Button>
                             <IconButton icon={<Icon icon="refresh" />} onClick={this.refreshAnalytics}/>
                         </PanelHeaderColumn>
                         <PanelHeaderColumn />

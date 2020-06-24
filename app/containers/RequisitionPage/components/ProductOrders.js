@@ -50,7 +50,7 @@ const ProductHeader = (props) => (<FieldRow>
         Units
     </FieldHeaderLabel>
     <FieldHeaderLabel>
-        Price
+        Suggested Price
     </FieldHeaderLabel>
     <FieldHeaderLabel>
         Total Amount
@@ -178,7 +178,7 @@ export default class ProductOrders extends React.Component {
             <React.Fragment>
                 <a onClick={this.open} color="green">Show Products</a>
         
-                <Modal show={show} onHide={this.close}>
+                <Modal show={show} onHide={this.close} size="md">
                     <Modal.Header>
                         <Modal.Title>Products assigned to {event.name}</Modal.Title>
                     </Modal.Header>

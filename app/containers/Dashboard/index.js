@@ -15,15 +15,19 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { makeSelectScope, makeSelectRole } from '../App/selectors'
-import { makeSelectError, makeSelectIsLoading, makeSelectSuccess, makeSelectEvents, makeSelectClients} from './selectors';
+import { makeSelectError, makeSelectIsLoading, makeSelectSuccess, makeSelectEvents, makeSelectClients, makeSelectLastEvents} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { DashboardContainer } from './components';
-import { getOrganizationAnalytics, getClients, getClientsAnalytics } from './actions';
+import { DashboardContainer, DrawerContainer } from './components';
+import { getOrganizationAnalytics, getClients, getClientsAnalytics, getOrganizationEvents } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.Component {
+
+  state = {
+    show: false,
+  }
 
   componentDidMount = () => {
     const {scope, getOrganizationAnalytics, getClientsAnalytics, getClients} = this.props;
@@ -36,6 +40,13 @@ export class Dashboard extends React.Component {
     }
   }
 
+  toggleDrawer = () => {
+    if (!this.state.show) {
+      this.props.getOrganizationEvents();
+    }
+    this.setState({ show: !this.state.show });
+  }
+
   render() {
     return (
       <div>
@@ -43,7 +54,15 @@ export class Dashboard extends React.Component {
           <title>Dashboard</title>
           <meta name="description" content="Description of Dashboard" />
         </Helmet>
-        <DashboardContainer {...this.props}/>
+        <DashboardContainer 
+          {...this.props}
+          toggleDrawer={this.toggleDrawer}
+        />
+        <DrawerContainer 
+          {...this.props}
+          {...this.state}
+          toggleDrawer={this.toggleDrawer}
+        />
       </div>
     );
   }
@@ -59,6 +78,7 @@ const mapStateToProps = createStructuredSelector({
   success: makeSelectSuccess(),
   error: makeSelectError(),
   events: makeSelectEvents(),
+  last_events: makeSelectLastEvents(),
   clients: makeSelectClients(),
   isLoading: makeSelectIsLoading(),
 });
@@ -68,6 +88,7 @@ function mapDispatchToProps(dispatch) {
     getOrganizationAnalytics: (client_id) => dispatch(getOrganizationAnalytics(client_id)),
     getClientsAnalytics: () => dispatch(getClientsAnalytics()),
     getClients: () => dispatch(getClients()),
+    getOrganizationEvents: () => dispatch(getOrganizationEvents()),
   };
 }
 
