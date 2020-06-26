@@ -27,6 +27,7 @@ const StyledEventColumn = styled.div`
 `
 
 class EventsHeader extends Component {
+
     render() {
         return (
             <StyledEventRow>
@@ -49,6 +50,12 @@ class EventsHeader extends Component {
 
 
 class EventRow extends Component {
+
+    handleEventReport = (event_id) => {
+        const {downloadEventReport} = this.props;
+        downloadEventReport(event_id);
+    }
+
     render() {
         const {last_event} = this.props;
         return (
@@ -63,7 +70,7 @@ class EventRow extends Component {
                     {moment(last_event.ended_at).format('DD/MM/YYYY')}
                 </StyledEventColumn>
                 <StyledEventColumn align="center">
-                    <a>Summary</a>
+                    <a onClick={() => this.handleEventReport(last_event.event.id)}>Summary</a>
                 </StyledEventColumn>
             </StyledEventRow>
         )
@@ -82,7 +89,7 @@ export default class LastEventsContainer extends Component {
                             <EventsHeader />
                             {last_events.map(last_event => {
                                 return (
-                                    <EventRow last_event={last_event}/>
+                                    <EventRow last_event={last_event} {...this.props}/>
                                 )
                             })}
                         </StyledEventsSection>

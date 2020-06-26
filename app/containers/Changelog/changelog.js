@@ -5,6 +5,20 @@ export default `
 
 All notable changes to this project will be documented in this file.  
 <br/>
+## [0.13.1] - 2020-06-25
+<br/>
+
+### Added
+
+- Added last events under report section (Only organization)
+- Added report pdf for last events
+
+### Changed
+
+- Minor UI fixes
+
+<br/>
+
 ## [0.12.2] - 2020-06-20
 <br/>
 

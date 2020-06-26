@@ -79,7 +79,6 @@ export default class RequisitionInfo extends Component {
 
         const all_types = [...product_types, ...ingredient_types];
         const unique_types = [...new Set(all_types)];
-        console.log(unique_types)
 
         return unique_types.map(type => <RequisitionBrand {...this.props} type={type} requisition={requisitions[currentRequisition]}/>);
     }

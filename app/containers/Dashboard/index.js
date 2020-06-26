@@ -20,7 +20,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { DashboardContainer, DrawerContainer } from './components';
-import { getOrganizationAnalytics, getClients, getClientsAnalytics, getOrganizationEvents } from './actions';
+import { getOrganizationAnalytics, getClients, getClientsAnalytics, getOrganizationEvents, downloadEventReportRequest } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.Component {
@@ -89,6 +89,7 @@ function mapDispatchToProps(dispatch) {
     getClientsAnalytics: () => dispatch(getClientsAnalytics()),
     getClients: () => dispatch(getClients()),
     getOrganizationEvents: () => dispatch(getOrganizationEvents()),
+    downloadEventReport: (event_id) => dispatch(downloadEventReportRequest(event_id))
   };
 }
 

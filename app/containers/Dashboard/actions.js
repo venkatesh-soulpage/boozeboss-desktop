@@ -8,7 +8,8 @@ import {
    GET_ORGANIZATION_ANALYTICS_REQUEST, GET_ORGANIZATION_ANALYTICS_SUCCESS, GET_ORGANIZATION_ANALYTICS_ERROR ,
    GET_CLIENTS_REQUEST, GET_CLIENTS_SUCCESS, GET_CLIENTS_ERROR, 
    GET_CLIENT_ANALYTICS_REQUEST, GET_CLIENT_ANALYTICS_SUCCESS, GET_CLIENT_ANALYTICS_ERROR, 
-   GET_ORGANIZATION_EVENTS_REQUEST, GET_ORGANIZATION_EVENTS_SUCCESS, GET_ORGANIZATION_EVENTS_ERROR
+   GET_ORGANIZATION_EVENTS_REQUEST, GET_ORGANIZATION_EVENTS_SUCCESS, GET_ORGANIZATION_EVENTS_ERROR, 
+   DOWNLOAD_EVENT_REPORT_REQUEST, DOWNLOAD_EVENT_REPORT_SUCCESS, DOWNLOAD_EVENT_REPORT_ERROR
 } from './constants';
 
 export function getOrganizationEvents() {
@@ -68,6 +69,29 @@ export function getClientsAnalyticsSuccess(analytics) {
 export function getClientAnalyticsError(error) {
   return {
     type: GET_CLIENT_ANALYTICS_ERROR,
+    error
+  };
+}
+
+/* DOWNLOAD EVENT REPORT */ 
+
+
+export function downloadEventReportRequest(event_id) {
+  return {
+    type: DOWNLOAD_EVENT_REPORT_REQUEST,
+    event_id
+  };
+}
+
+export function downloadEventReportSuccess() {
+  return {
+    type: DOWNLOAD_EVENT_REPORT_SUCCESS,
+  };
+}
+
+export function downloadEventReportError(error) {
+  return {
+    type: DOWNLOAD_EVENT_REPORT_ERROR,
     error
   };
 }
