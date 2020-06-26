@@ -11,7 +11,7 @@ function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
     return null;
   }
-  return response.json();
+  return response.blob();
 }
 
 /**
@@ -48,4 +48,5 @@ export default function request(url, options) {
   };
   return fetch(url, options)
     .then(checkStatus)
+    .then(parseJSON);
 }

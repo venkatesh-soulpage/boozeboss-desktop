@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
-import filerequest from 'utils/filerequest';
 
+import pdfrequest from 'utils/pdfrequest';
 import request from 'utils/request';
 
 import { 
@@ -17,6 +17,31 @@ import {
   getClientsAnalyticsSuccess, getClientAnalyticsError, getOrganizationEventsSuccess, getOrganizationEventsError,
   downloadEventReportSuccess, downloadEventReportError,
 } from './actions';
+
+const showFile = (blob) => {
+  // It is necessary to create a new blob object with mime-type explicitly set
+  // otherwise only Chrome works like it should
+  var newBlob = new Blob([blob], {type: "application/pdf"})
+
+  // IE doesn't allow using a blob object directly as link href
+  // instead it is necessary to use msSaveOrOpenBlob
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(newBlob);
+    return;
+  } 
+
+  // For other browsers: 
+  // Create a link pointing to the ObjectURL containing the blob.
+  const data = window.URL.createObjectURL(newBlob);
+  var link = document.createElement('a');
+  link.href = data;
+  link.download="event.pdf";
+  link.click();
+  setTimeout(function(){
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(data);
+  }, 100);
+}
 
 function* getClientsSaga() {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
@@ -88,12 +113,12 @@ function* downloadEventReportSaga(params) {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/report`;
   const options = {
     method: 'GET',
-    // responseType: 'blob' 
+    responseType: 'blob' 
   };
 
   try {
-    const response = yield call(filerequest, requestURL, options);
-    console.log(typeof response)
+    const response = yield call(pdfrequest, requestURL, options);
+    showFile(response);
   } catch (error) {
     console.log(error);
     const jsonError = yield error.response ? error.response.json() : error;
