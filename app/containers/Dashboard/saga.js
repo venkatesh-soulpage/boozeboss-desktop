@@ -8,13 +8,16 @@ import {
   GET_CLIENTS_REQUEST,
   GET_CLIENT_ANALYTICS_REQUEST,
   GET_ORGANIZATION_EVENTS_REQUEST,
+  GET_CLIENT_EVENTS_REQUEST,
   DOWNLOAD_EVENT_REPORT_REQUEST
 } from './constants';
 
 import {
   getOrganizationAnalyticsSuccess, getOrganizationAnalyticsError,
   getClientsSuccess, getClientsError,
-  getClientsAnalyticsSuccess, getClientAnalyticsError, getOrganizationEventsSuccess, getOrganizationEventsError,
+  getClientsAnalyticsSuccess, getClientAnalyticsError, 
+  getOrganizationEventsSuccess, getOrganizationEventsError,
+  getClientEventsSuccess, getClientEventsError,
   downloadEventReportSuccess, downloadEventReportError,
 } from './actions';
 
@@ -108,6 +111,21 @@ function* getOrganizationEventsSaga() {
   }
 }
 
+function* getClientEventsSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/client`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getClientEventsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getClientEventsError(jsonError));
+  }
+}
+
 function* downloadEventReportSaga(params) {
   const {event_id} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/report`;
@@ -142,6 +160,10 @@ function* getOrganizationEventsRequest() {
   yield takeLatest(GET_ORGANIZATION_EVENTS_REQUEST, getOrganizationEventsSaga);
 }
 
+function* getClientEventRequest() {
+  yield takeLatest(GET_CLIENT_EVENTS_REQUEST, getClientEventsSaga);
+}
+
 function* downloadEventReportRequest() {
   yield takeLatest(DOWNLOAD_EVENT_REPORT_REQUEST, downloadEventReportSaga);
 }
@@ -152,6 +174,7 @@ export default function* rootSaga() {
     fork(getClientsAnalyticsRequest),
     fork(getClientsRequest),
     fork(getOrganizationEventsRequest),
+    fork(getClientEventRequest),
     fork(downloadEventReportRequest),
   ]);
 }

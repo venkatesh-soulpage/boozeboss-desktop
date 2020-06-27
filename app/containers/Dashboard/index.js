@@ -20,7 +20,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { DashboardContainer, DrawerContainer } from './components';
-import { getOrganizationAnalytics, getClients, getClientsAnalytics, getOrganizationEvents, downloadEventReportRequest } from './actions';
+import { getOrganizationAnalytics, getClients, getClientsAnalytics, getOrganizationEvents, getClientEvents, downloadEventReportRequest } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Dashboard extends React.Component {
@@ -41,8 +41,14 @@ export class Dashboard extends React.Component {
   }
 
   toggleDrawer = () => {
+    const {scope} = this.props;
     if (!this.state.show) {
-      this.props.getOrganizationEvents();
+      if (scope === 'REGION') {
+        this.props.getOrganizationEvents();
+      }
+      if (scope === 'BRAND') {
+        this.props.getClientEvents();
+      }
     }
     this.setState({ show: !this.state.show });
   }
@@ -89,6 +95,7 @@ function mapDispatchToProps(dispatch) {
     getClientsAnalytics: () => dispatch(getClientsAnalytics()),
     getClients: () => dispatch(getClients()),
     getOrganizationEvents: () => dispatch(getOrganizationEvents()),
+    getClientEvents: () => dispatch(getClientEvents()),
     downloadEventReport: (event_id) => dispatch(downloadEventReportRequest(event_id))
   };
 }

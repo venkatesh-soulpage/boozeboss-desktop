@@ -9,7 +9,8 @@ import {
    GET_CLIENTS_REQUEST, GET_CLIENTS_SUCCESS, GET_CLIENTS_ERROR, 
    GET_CLIENT_ANALYTICS_REQUEST, GET_CLIENT_ANALYTICS_SUCCESS, GET_CLIENT_ANALYTICS_ERROR, 
    GET_ORGANIZATION_EVENTS_REQUEST, GET_ORGANIZATION_EVENTS_SUCCESS, GET_ORGANIZATION_EVENTS_ERROR, 
-   DOWNLOAD_EVENT_REPORT_REQUEST, DOWNLOAD_EVENT_REPORT_SUCCESS, DOWNLOAD_EVENT_REPORT_ERROR
+   DOWNLOAD_EVENT_REPORT_REQUEST, DOWNLOAD_EVENT_REPORT_SUCCESS, DOWNLOAD_EVENT_REPORT_ERROR,
+   GET_CLIENT_EVENTS_REQUEST, GET_CLIENT_EVENTS_SUCCESS, GET_CLIENT_EVENTS_ERROR
 } from './constants';
 
 export function getOrganizationEvents() {
@@ -28,6 +29,26 @@ export function getOrganizationEventsSuccess(last_events) {
 export function getOrganizationEventsError(error) {
   return {
     type: GET_ORGANIZATION_EVENTS_ERROR,
+    error
+  };
+}
+
+export function getClientEvents() {
+  return {
+    type: GET_CLIENT_EVENTS_REQUEST,
+  };
+}
+
+export function getClientEventsSuccess(last_events) {
+  return {
+    type: GET_CLIENT_EVENTS_SUCCESS,
+    last_events
+  };
+}
+
+export function getClientEventsError(error) {
+  return {
+    type: GET_CLIENT_EVENTS_ERROR,
     error
   };
 }
