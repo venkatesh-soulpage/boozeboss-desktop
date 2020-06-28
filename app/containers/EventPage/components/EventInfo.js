@@ -7,6 +7,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import moment from 'moment';
 import GuestList from './GuestList';
 import MenuList from './MenuList';
+import EventFreeDrinkCondition from './EventFreeDrinkCondition';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -138,6 +139,10 @@ class EventCard extends Component {
                         <FieldLabel>Comments</FieldLabel>
                         <p>{event.comments}</p>
                     </FieldContainer>
+                </FieldsRow>
+                <Divider />
+                <FieldsRow>
+                    <EventFreeDrinkCondition {...this.props}/>
                 </FieldsRow>
                 <Divider />
                 <MenuList 

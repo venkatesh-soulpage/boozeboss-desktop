@@ -1,0 +1,222 @@
+import React, { Component } from 'react'
+import styled from 'styled-components';
+import { Button, Modal, SelectPicker, InputNumber, DatePicker } from 'rsuite';
+
+const FieldContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 10px 0;
+    width: 100%;
+    ${props => props.centered && 'align-items: center;'}
+`;
+
+const FieldsRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    flex-wrap: wrap;
+    ${props => props.isHeader && 'justify-content: space-between;'}
+`;
+
+const FieldLabelContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+
+const InfoContainer = styled.div`
+  display: flex;
+    flex-direction: column;
+    flex: 3;
+    margin: 0 2em 0 2em;
+`;
+
+const ClientsLabel = styled.p`
+  font-size: 1.25em;
+`;
+const DataContainer = styled.div`
+  display: flex;
+    flex-direction: column;
+`;
+
+const FieldLabel = styled.b`
+    margin: 0 0 0.5em 0;
+`;
+
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+const conditions = [
+    {label: 'Demographic', value: 'GENDER'},
+    {label: 'Drinks limit', value: 'LIMIT'},
+    {label: 'Timeframe', value: 'TIMEFRAME'}
+]
+
+class ConditionModal extends Component {
+    
+    state = {
+        show: false, 
+        condition_type: null,
+        min_age: null,
+        max_age: null,
+        gender: null,
+        limit: null,
+        start_time: null,
+        end_time: null,
+    }
+
+    open = () => {
+        this.setState({show: !this.state.show});
+    }
+
+    close = () => {
+        this.setState({show: !this.state.show});
+    }
+
+    handleChange = (name, value) => {
+        this.setState({[name]: value});
+    }
+
+    addCondition = () => {
+        const {event, addEventCondition} = this.props;
+        const {condition_type, min_age, max_age, gender, limit, start_time, end_time} = this.state;
+        addEventCondition(event.event.id, {condition_type, min_age, max_age, gender, limit, start_time, end_time});
+        this.close()
+    }
+    
+    render() {
+        const {show, condition_type, min_age, max_age, gender, limit, start_time, end_time} = this.state; 
+        return (
+            <React.Fragment>
+                <Button onClick={this.open} color="green">+ Add Condition</Button>
+        
+                <Modal show={show} onHide={this.close}>
+                    <Modal.Body>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Condition type (Required)
+                            </FieldLabel>
+                            <SelectPicker 
+                                searchable={false}
+                                data={conditions}
+                                style={{width: '100%'}}
+                                onChange={(value) => this.handleChange('condition_type', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Min Age
+                            </FieldLabel>
+                            <InputNumber 
+                                value={min_age}
+                                onChange={(value) => this.handleChange('min_age', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Max Age
+                            </FieldLabel>
+                            <InputNumber 
+                                value={max_age}
+                                onChange={(value) => this.handleChange('max_age', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Gender
+                            </FieldLabel>
+                            <SelectPicker 
+                                searchable={false}
+                                data={[
+                                    {label: 'Male', value: 'MALE'},
+                                    {label: 'Female', value: 'FEMALE'}
+                                ]}
+                                value={gender}
+                                onChange={(value) => this.handleChange('min_age', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Limit
+                            </FieldLabel>
+                            <InputNumber 
+                                value={limit}
+                                onChange={(value) => this.handleChange('limit', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Start Time
+                            </FieldLabel>
+                            <DatePicker 
+                                format="YYYY-MM-DD HH:mm:ss"
+                                onChange={(value) => this.handleChange('start_time', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                End Time
+                            </FieldLabel>
+                            <DatePicker 
+                                format="YYYY-MM-DD HH:mm:ss"
+                                onChange={(value) => this.handleChange('end_time', value)}
+                            />
+                        </FieldContainer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button onClick={this.addCondition} color="green">
+                        Add Condition
+                    </Button>
+                    <Button onClick={this.close} appearance="subtle">
+                        Cancel
+                    </Button>
+                    </Modal.Footer>
+                </Modal>
+            </React.Fragment>
+        )
+    }
+}
+
+
+export default class EventFreeDrinkCondition extends Component {
+    render() {
+        const {event} = this.props;
+        return (
+            <FieldContainer>
+                <FieldsRow isHeader>
+                   <FieldLabelContainer>
+                        <FieldLabel>
+                            Free Drinks
+                        </FieldLabel>
+                    </FieldLabelContainer> 
+                   <FieldLabelContainer>
+                        <ConditionModal 
+                            {...this.props}
+                        />
+                    </FieldLabelContainer> 
+                </FieldsRow>
+                <FieldsRow>
+                    {event && 
+                        event.event.condition ? (
+                            <FieldsRow>
+                                <FieldContainer>
+                                    <FieldLabel>
+                                        Type
+                                    </FieldLabel>
+                                    <FieldLabel>
+                                        {event.event.condition.condition_type}
+                                    </FieldLabel>
+                                </FieldContainer>
+                            </FieldsRow>
+                        ) : (
+                            <FieldLabel>
+                                No condition
+                            </FieldLabel>
+                        )}
+                </FieldsRow>
+            </FieldContainer>
+        )
+    }
+}

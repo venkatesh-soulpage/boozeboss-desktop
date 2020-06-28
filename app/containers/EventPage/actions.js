@@ -12,7 +12,8 @@ import { DEFAULT_ACTION,
   GET_ROLES_REQUEST, GET_ROLES_SUCCESS, GET_ROLES_ERROR,
   GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, 
   ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS, ADD_EVENT_PRODUCTS_ERROR, 
-  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS, REMOVE_EVENT_PRODUCTS_ERROR
+  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS, REMOVE_EVENT_PRODUCTS_ERROR, 
+  ADD_EVENT_CONDITION_SUCCESS, ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_ERROR
 } from './constants';
 
 export function defaultAction() {
@@ -80,6 +81,29 @@ export function inviteGuestSuccess(success) {
 export function inviteGuestError(error) {
   return {
     type: INVITE_GUEST_ERROR,
+    error
+  };
+}
+
+// Add event condition
+export function addEventCondition(event_id, condition) {
+  return {
+    type: ADD_EVENT_CONDITION_REQUEST,
+    event_id,
+    condition
+  };
+}
+
+export function addEventConditionSuccess(success) {
+  return {
+    type: ADD_EVENT_CONDITION_SUCCESS,
+    success
+  };
+}
+
+export function addEventConditionError(error) {
+  return {
+    type: ADD_EVENT_CONDITION_ERROR,
     error
   };
 }

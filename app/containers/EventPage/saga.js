@@ -11,7 +11,8 @@ import {
   GET_ROLES_REQUEST,
   GET_PRODUCTS_REQUEST,
   ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS,
-  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS
+  REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS,
+  ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_SUCCESS
 } from './constants';
 
 import {
@@ -22,7 +23,8 @@ import {
   getRolesSuccess, getRolesError, 
   getProductsSuccess, getProductsError, 
   addEventProductSuccess, addEventProductError,
-  removeEventProductSuccess, removeEventProductError
+  removeEventProductSuccess, removeEventProductError,
+  addEventConditionSuccess, addEventConditionError
 } from './actions';
 
 function* getEventsSaga() {
@@ -153,6 +155,23 @@ function* removeEventProductsSaga(params) {
   }
 }
 
+function* addEventConditionSaga(params) {
+  const {event_id, condition} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/condition`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(condition),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addEventConditionSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addEventConditionError(jsonError));
+  }
+}
+
 
 function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
@@ -186,6 +205,10 @@ function* removeEventProductRequest() {
   yield takeLatest(REMOVE_EVENT_PRODUCTS_REQUEST, removeEventProductsSaga);
 }
 
+function* addEventConditionRequest() {
+  yield takeLatest(ADD_EVENT_CONDITION_REQUEST, addEventConditionSaga);
+}
+
 // Reactive 
 function* inviteGuestSuccessRequest() {
   yield takeLatest(INVITE_GUEST_SUCCESS, getEventsSaga);
@@ -203,6 +226,10 @@ function* removeEventProductSuccessRequest() {
   yield takeLatest(REMOVE_EVENT_PRODUCTS_SUCCESS, getEventsSaga);
 }
 
+function* addEventConditionSuccessRequest() {
+  yield takeLatest(ADD_EVENT_CONDITION_SUCCESS, getEventsSaga);
+}
+
 
 export default function* rootSaga() {
   yield all([
@@ -214,10 +241,12 @@ export default function* rootSaga() {
     fork(getProductsRequest),
     fork(addEventProductRequest),
     fork(removeEventProductRequest),
+    fork(addEventConditionRequest),
     // Reactive
     fork(inviteGuestSuccessRequest),
     fork(deleteGuestSuccessRequest),
     fork(addEventProductSuccessRequest),
-    fork(removeEventProductSuccessRequest)
+    fork(removeEventProductSuccessRequest),
+    fork(addEventConditionSuccessRequest),
   ]);
 }
