@@ -50,6 +50,8 @@ class AgencyForm extends Component {
         description: null,
         owner_email: null,
         sla_terms: null,
+        display_name: null,
+        custom_message: null,
         sla_hours_before_event_creation: 24,
         sla_hours_before_event_update: 12,
     };
@@ -60,7 +62,7 @@ class AgencyForm extends Component {
 
     submitAgency = () => {
         const { inviteAgency } = this.props;
-        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update} = this.state;
+        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update, display_name, custom_message} = this.state;
         inviteAgency({ 
             name, description, owner_email, sla_terms, 
             sla_hours_before_event_creation: new Number(sla_hours_before_event_creation), 
@@ -69,7 +71,7 @@ class AgencyForm extends Component {
     };
 
     render() {
-        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update} = this.state;
+        const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update, display_name, custom_message} = this.state;
         return (
             <Panel bordered>
                 <DataContainer>
@@ -122,6 +124,23 @@ class AgencyForm extends Component {
                         <Input 
                             value={owner_email}
                             onChange={(value) => this.handleChange(value, 'owner_email')}
+                        />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <FieldLabel>Display Name</FieldLabel>
+                        <Input 
+                            value={display_name}
+                            onChange={(value) => this.handleChange(value, 'display_name')}
+                        />
+                    </FieldContainer>
+                    <FieldContainer>
+                        <FieldLabel>Custom Message</FieldLabel>
+                        <Input
+                            componentClass="textarea" 
+                            style={{resize: 'auto' }}
+                            rows={3} 
+                            value={custom_message}
+                            onChange={(value) => this.handleChange(value, 'custom_message')}
                         />
                     </FieldContainer>
                     <FieldContainer>

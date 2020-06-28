@@ -43,9 +43,7 @@ function agencyPageReducer(state = initialState, action) {
     case INVITE_AGENCY_REQUEST:
       return state;
     case INVITE_AGENCY_SUCCESS:
-      const current_agencies = state.get('agencies').splice();
-      current_agencies[0] = action.agency;
-      return state.set('agencies', current_agencies);
+      return state;
     case INVITE_AGENCY_ERROR:
       return state.set('error', action.error);
       case INVITE_COLLABORATOR_REQUEST:

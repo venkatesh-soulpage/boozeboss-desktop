@@ -7,7 +7,7 @@ import {
   INVITE_AGENCY_REQUEST, 
   GET_ROLES_REQUEST, 
   INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, 
-  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS 
+  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, INVITE_AGENCY_SUCCESS 
 } from './constants';
 
 import {
@@ -118,6 +118,10 @@ function* getRolesRequest() {
 }
 
 // Reactive
+function* inviteAgencySuccessRequest() {
+  yield takeLatest(INVITE_AGENCY_SUCCESS, getAgenciesSaga);
+}
+
 function* inviteCollaboratorSuccessRequest() {
   yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getAgenciesSaga);
 }
@@ -135,6 +139,7 @@ export default function* rootSaga() {
     fork(revokeCollaboratorInvitationRequest),
     fork(getRolesRequest),
     // Reactive
+    fork(inviteAgencySuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
     fork(revokeCollaboratorInvitationSuccessRequest),
   ]);
