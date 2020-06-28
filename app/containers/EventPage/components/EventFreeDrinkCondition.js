@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 import { Button, Modal, SelectPicker, InputNumber, DatePicker } from 'rsuite';
+import moment from 'moment';
 
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin: 10px 0 10px 0;
-    width: 100%;
+    flex: 1;
+    ${props => props.centered && 'align-items: center;'}
+`;
+
+const FieldConditionContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    margin: 10px 25px 10px 0;
     ${props => props.centered && 'align-items: center;'}
 `;
 
@@ -15,7 +24,17 @@ const FieldsRow = styled.div`
     flex-direction: row;
     flex: 1;
     flex-wrap: wrap;
+    width: 100%;
+    margin: 5px 0 0 0;
     ${props => props.isHeader && 'justify-content: space-between;'}
+    ${props => props.isRow && `
+        border-top-color: #DCDCDC;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-bottom-color: #DCDCDC;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+    `}
 `;
 
 const FieldLabelContainer = styled.div`
@@ -40,6 +59,10 @@ const DataContainer = styled.div`
 `;
 
 const FieldLabel = styled.b`
+    margin: 0 0 0.5em 0;
+`;
+
+const FieldConditionLabel = styled.p`
     margin: 0 0 0.5em 0;
 `;
 
@@ -110,8 +133,9 @@ class ConditionModal extends Component {
                                 Min Age
                             </FieldLabel>
                             <InputNumber 
+                                min={18}
                                 value={min_age}
-                                onChange={(value) => this.handleChange('min_age', value)}
+                                onChange={(value) => this.handleChange('min_age', Number(value))}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -120,7 +144,7 @@ class ConditionModal extends Component {
                             </FieldLabel>
                             <InputNumber 
                                 value={max_age}
-                                onChange={(value) => this.handleChange('max_age', value)}
+                                onChange={(value) => this.handleChange('max_age', Number(value))}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -134,7 +158,7 @@ class ConditionModal extends Component {
                                     {label: 'Female', value: 'FEMALE'}
                                 ]}
                                 value={gender}
-                                onChange={(value) => this.handleChange('min_age', value)}
+                                onChange={(value) => this.handleChange('gender', value)}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -143,7 +167,7 @@ class ConditionModal extends Component {
                             </FieldLabel>
                             <InputNumber 
                                 value={limit}
-                                onChange={(value) => this.handleChange('limit', value)}
+                                onChange={(value) => this.handleChange('limit', Number(value))}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -151,6 +175,7 @@ class ConditionModal extends Component {
                                 Start Time
                             </FieldLabel>
                             <DatePicker 
+                                value={start_time}
                                 format="YYYY-MM-DD HH:mm:ss"
                                 onChange={(value) => this.handleChange('start_time', value)}
                             />
@@ -160,6 +185,7 @@ class ConditionModal extends Component {
                                 End Time
                             </FieldLabel>
                             <DatePicker 
+                                value={end_time}
                                 format="YYYY-MM-DD HH:mm:ss"
                                 onChange={(value) => this.handleChange('end_time', value)}
                             />
@@ -181,6 +207,12 @@ class ConditionModal extends Component {
 
 
 export default class EventFreeDrinkCondition extends Component {
+
+    handleRemove = () => {
+        const {event, removeEventCondition} = this.props;
+        removeEventCondition(event.event.id);
+    }
+
     render() {
         const {event} = this.props;
         return (
@@ -200,15 +232,81 @@ export default class EventFreeDrinkCondition extends Component {
                 <FieldsRow>
                     {event && 
                         event.event.condition ? (
-                            <FieldsRow>
-                                <FieldContainer>
+                            <FieldsRow isRow>
+                                <FieldConditionContainer>
                                     <FieldLabel>
                                         Type
                                     </FieldLabel>
-                                    <FieldLabel>
+                                    <FieldConditionLabel>
                                         {event.event.condition.condition_type}
+                                    </FieldConditionLabel>
+                                </FieldConditionContainer>
+                                {event.event.condition.min_age && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Min Age
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {event.event.condition.min_age}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                {event.event.condition.max_age && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Max Age
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {event.event.condition.max_age}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                {event.event.condition.limit && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Limit
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {event.event.condition.limit}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                {event.event.condition.gender && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Gender
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {event.event.condition.gender}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                {event.event.condition.start_time && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Start Time
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {moment(event.event.condition.start_time).format('DD/MM/YYYY LT')}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                {event.event.condition.end_time && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            End Time
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {moment(event.event.condition.end_time).format('DD/MM/YYYY LT')}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
+                                <FieldConditionContainer>
+                                    <FieldLabel>
+                                        Action
                                     </FieldLabel>
-                                </FieldContainer>
+                                    <a onClick={this.handleRemove}>Remove</a>
+                                </FieldConditionContainer>
                             </FieldsRow>
                         ) : (
                             <FieldLabel>

@@ -13,7 +13,8 @@ import { DEFAULT_ACTION,
   GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCTS_ERROR, 
   ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS, ADD_EVENT_PRODUCTS_ERROR, 
   REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS, REMOVE_EVENT_PRODUCTS_ERROR, 
-  ADD_EVENT_CONDITION_SUCCESS, ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_ERROR
+  ADD_EVENT_CONDITION_SUCCESS, ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_ERROR, 
+  REMOVE_EVENT_CONDITION_REQUEST, REMOVE_EVENT_CONDITION_SUCCESS, REMOVE_EVENT_CONDITION_ERROR
 } from './constants';
 
 export function defaultAction() {
@@ -104,6 +105,28 @@ export function addEventConditionSuccess(success) {
 export function addEventConditionError(error) {
   return {
     type: ADD_EVENT_CONDITION_ERROR,
+    error
+  };
+}
+
+// Remove event condition
+export function removeEventCondition(event_id) {
+  return {
+    type: REMOVE_EVENT_CONDITION_REQUEST,
+    event_id,
+  };
+}
+
+export function removeEventConditionSuccess(success) {
+  return {
+    type: REMOVE_EVENT_CONDITION_SUCCESS,
+    success
+  };
+}
+
+export function removeEventConditionError(error) {
+  return {
+    type: REMOVE_EVENT_CONDITION_ERROR,
     error
   };
 }

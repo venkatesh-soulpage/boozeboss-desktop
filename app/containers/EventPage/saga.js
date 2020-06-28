@@ -12,7 +12,8 @@ import {
   GET_PRODUCTS_REQUEST,
   ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS,
   REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS,
-  ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_SUCCESS
+  ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_SUCCESS, 
+  REMOVE_EVENT_CONDITION_REQUEST, REMOVE_EVENT_CONDITION_SUCCESS
 } from './constants';
 
 import {
@@ -24,7 +25,8 @@ import {
   getProductsSuccess, getProductsError, 
   addEventProductSuccess, addEventProductError,
   removeEventProductSuccess, removeEventProductError,
-  addEventConditionSuccess, addEventConditionError
+  addEventConditionSuccess, addEventConditionError, 
+  removeEventConditionSuccess, removeEventConditionError
 } from './actions';
 
 function* getEventsSaga() {
@@ -172,6 +174,22 @@ function* addEventConditionSaga(params) {
   }
 }
 
+function* removeEventConditionSaga(params) {
+  const {event_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/condition`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(removeEventConditionSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(removeEventConditionError(jsonError));
+  }
+}
+
 
 function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
@@ -209,6 +227,10 @@ function* addEventConditionRequest() {
   yield takeLatest(ADD_EVENT_CONDITION_REQUEST, addEventConditionSaga);
 }
 
+function* removeEventConditionRequest() {
+  yield takeLatest(REMOVE_EVENT_CONDITION_REQUEST, removeEventConditionSaga);
+}
+
 // Reactive 
 function* inviteGuestSuccessRequest() {
   yield takeLatest(INVITE_GUEST_SUCCESS, getEventsSaga);
@@ -230,6 +252,10 @@ function* addEventConditionSuccessRequest() {
   yield takeLatest(ADD_EVENT_CONDITION_SUCCESS, getEventsSaga);
 }
 
+function* removeEventConditionSuccessRequest() {
+  yield takeLatest(REMOVE_EVENT_CONDITION_SUCCESS, getEventsSaga);
+}
+
 
 export default function* rootSaga() {
   yield all([
@@ -242,11 +268,13 @@ export default function* rootSaga() {
     fork(addEventProductRequest),
     fork(removeEventProductRequest),
     fork(addEventConditionRequest),
+    fork(removeEventConditionRequest),
     // Reactive
     fork(inviteGuestSuccessRequest),
     fork(deleteGuestSuccessRequest),
     fork(addEventProductSuccessRequest),
     fork(removeEventProductSuccessRequest),
     fork(addEventConditionSuccessRequest),
+    fork(removeEventConditionSuccessRequest),
   ]);
 }
