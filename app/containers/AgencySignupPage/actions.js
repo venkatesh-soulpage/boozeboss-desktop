@@ -25,7 +25,6 @@ export function agencySignupSuccess(credentials) {
   localStorage.setItem('refresh_token', credentials.refresh_token);
   return {
     type: AGENCY_SIGNUP_SUCCESS,
-    agency,
   };
 }
 

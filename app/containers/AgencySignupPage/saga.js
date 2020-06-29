@@ -22,6 +22,7 @@ function* agencySignupSaga(params) {
     yield put(getUser());
     yield put(authenticate(response.token));
   } catch (error) {
+    console.log(error)
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(agencySignupError(jsonError));
   }
