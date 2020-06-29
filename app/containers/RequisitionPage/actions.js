@@ -17,6 +17,8 @@ import {
   REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REJECT_REQUISITION_STATUS_ERROR, 
   REQUEST_REQUISITION_SIGN_REQUEST, REQUEST_REQUISITION_SIGN_SUCCESS, REQUEST_REQUISITION_SIGN_ERROR,
   GET_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_SUCCESS, GET_REQUISITION_SIGN_ERROR } from './constants';
+  
+import { status } from 'utils/status';
 
 
 export function getRequisitions() {
@@ -91,6 +93,7 @@ export function createRequisitionOrder(requisition_id, order) {
 }
 
 export function createRequisitionOrderSuccess(success) {
+  status(success, 'success');
   return {
     type: CREATE_REQUISITION_ORDER_SUCCESS,
     success
@@ -98,6 +101,7 @@ export function createRequisitionOrderSuccess(success) {
 }
 
 export function createRequisitionOrderError(error) {
+  status(error, 'error');
   return {
     type: CREATE_REQUISITION_ORDER_ERROR,
     error
@@ -115,6 +119,7 @@ export function updateRequisitionStatus(requisition_id, status, hellosign_signat
 }
 
 export function updateRequisitionStatusSuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_REQUISITION_STATUS_SUCCESS,
     success
@@ -122,6 +127,7 @@ export function updateRequisitionStatusSuccess(success) {
 }
 
 export function updateRequisitionStatusError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_REQUISITION_STATUS_ERROR,
     error
@@ -137,6 +143,7 @@ export function rejectRequisition(requisition_id) {
 }
 
 export function rejectRequisitionSuccess(success) {
+  status(success, 'success');
   return {
     type: REJECT_REQUISITION_STATUS_SUCCESS,
     success
@@ -144,6 +151,7 @@ export function rejectRequisitionSuccess(success) {
 }
 
 export function rejectRequisitionError(error) {
+  status(error, 'error');
   return {
     type: REJECT_REQUISITION_STATUS_ERROR,
     error
@@ -161,6 +169,7 @@ export function updateRequisitionOrders(requisition_id, orders, waybill) {
 }
 
 export function updateRequisitionOrdersSuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_REQUISITION_ORDERS_SUCCESS,
     success
@@ -168,6 +177,7 @@ export function updateRequisitionOrdersSuccess(success) {
 }
 
 export function updateRequisitionOrdersError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_REQUISITION_ORDERS_ERROR,
     error
@@ -184,6 +194,7 @@ export function deleteRequisitionOrder(requisition_id, requisition_order_id) {
 }
 
 export function deleteRequisitionOrderSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_REQUISITION_ORDER_SUCCESS,
     success
@@ -191,6 +202,7 @@ export function deleteRequisitionOrderSuccess(success) {
 }
 
 export function deleteRequisitionOrderError(error) {
+  status(error, 'error');
   return {
     type: DELETE_REQUISITION_ORDER_ERROR,
     error
@@ -207,6 +219,7 @@ export function createRequisitionDelivery(requisition_id, delivery) {
 }
 
 export function createRequisitionDeliverySuccess(success) {
+  status(success, 'success');
   return {
     type: CREATE_REQUISITION_DELIVERY_SUCCESS,
     success
@@ -214,6 +227,7 @@ export function createRequisitionDeliverySuccess(success) {
 }
 
 export function createRequisitionDeliveryError(error) {
+  status(error, 'error');
   return {
     type: CREATE_REQUISITION_DELIVERY_ERROR,
     error
@@ -231,6 +245,7 @@ export function updateRequisitionDelivery(requisition_id, requisition_delivery_i
 }
 
 export function updateRequisitionDeliverySuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_REQUISITION_DELIVERY_SUCCESS,
     success
@@ -238,6 +253,7 @@ export function updateRequisitionDeliverySuccess(success) {
 }
 
 export function updateRequisitionDeliveryError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_REQUISITION_DELIVERY_ERROR,
     error

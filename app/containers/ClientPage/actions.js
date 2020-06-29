@@ -51,7 +51,7 @@ import {
   RESEND_INVITE_ERROR
 } from './constants';
 
-import { Alert } from 'rsuite';
+import status from 'utils/status';
 
 export function addClientDraft() {
   return {
@@ -89,7 +89,7 @@ export function inviteClient(client) {
 }
 
 export function inviteClientSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: INVITE_CLIENT_SUCCESS,
     success,
@@ -97,7 +97,7 @@ export function inviteClientSuccess(success) {
 }
 
 export function inviteClientError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: INVITE_CLIENT_ERROR,
     error,
@@ -113,7 +113,7 @@ export function resendInviteCollaborator(collaborator_invitation_id) {
 }
 
 export function resendInviteCollaboratorSuccess(success) {
-  Alert.success(success, 2000);
+  status(success, 'success');
   return {
     type: RESEND_INVITE_SUCCESS,
     success
@@ -137,7 +137,7 @@ export function inviteCollaborator(collaborator) {
 }
 
 export function inviteCollaboratorSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: INVITE_COLLABORATOR_SUCCESS,
     success
@@ -145,7 +145,7 @@ export function inviteCollaboratorSuccess(success) {
 }
 
 export function inviteCollaboratorError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: INVITE_COLLABORATOR_ERROR,
     error,
@@ -161,7 +161,7 @@ export function revokeCollaboratorInvitation(collaborator_invitation_id) {
 }
 
 export function revokeCollaboratorInvitationSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: REVOKE_COLLABORATOR_INVITATION_SUCCESS,
     success
@@ -169,7 +169,7 @@ export function revokeCollaboratorInvitationSuccess(success) {
 }
 
 export function revokeCollaboratorInvitationError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: REVOKE_COLLABORATOR_INVITATION_ERROR,
     error,
@@ -206,7 +206,7 @@ export function createVenue(venue) {
 }
 
 export function createVenueSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: CREATE_VENUE_SUCCESS,
     success
@@ -214,7 +214,7 @@ export function createVenueSuccess(success) {
 }
 
 export function createVenueError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: CREATE_VENUE_ERROR,
     error,
@@ -230,7 +230,7 @@ export function createBrand(brand) {
 }
 
 export function createBrandcSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: CREATE_BRAND_SUCCESS,
     success
@@ -238,7 +238,7 @@ export function createBrandcSuccess(success) {
 }
 
 export function createBrandError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: CREATE_BRAND_ERROR,
     error,
@@ -254,7 +254,7 @@ export function createWarehouse(warehouse) {
 }
 
 export function createWarehouseSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: CREATE_WAREHOUSE_SUCCESS,
     success
@@ -262,7 +262,7 @@ export function createWarehouseSuccess(success) {
 }
 
 export function createWarehouseError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: CREATE_WAREHOUSE_ERROR,
     error,
@@ -278,7 +278,7 @@ export function deleteVenue(venue_id) {
 }
 
 export function deleteVenueSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: DELETE_VENUE_SUCCESS,
     success
@@ -286,7 +286,7 @@ export function deleteVenueSuccess(success) {
 }
 
 export function deleteVenueError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: DELETE_VENUE_ERROR,
     error,
@@ -324,7 +324,7 @@ export function addClientLocation(client_id, location_id) {
 }
 
 export function addClientLocationSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: ADD_LOCATION_SUCCESS,
     success,
@@ -332,7 +332,7 @@ export function addClientLocationSuccess(success) {
 }
 
 export function addClientLocationError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: ADD_LOCATION_ERROR,
     error,
@@ -349,7 +349,7 @@ export function updateSla(client_id, sla) {
 }
 
 export function updateSlaSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: UPDATE_SLA_SUCCESS,
     success,
@@ -357,7 +357,7 @@ export function updateSlaSuccess(success) {
 }
 
 export function updateSlaError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: UPDATE_SLA_ERROR,
     error,
@@ -374,7 +374,7 @@ export function uploadLogo(client_id, file) {
 }
 
 export function uploadLogoSuccess(success) {
-  Alert.success(success);
+  status(success, 'success');
   return {
     type: UPLOAD_LOGO_SUCCESS,
     success,
@@ -382,7 +382,7 @@ export function uploadLogoSuccess(success) {
 }
 
 export function uploadLogoError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: UPLOAD_LOGO_ERROR,
     error,

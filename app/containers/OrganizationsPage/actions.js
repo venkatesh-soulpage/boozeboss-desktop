@@ -13,7 +13,7 @@ import {
   SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR
 } from './constants';
 
-import { Alert } from 'rsuite';
+import status from 'utils/status';
 
 export function addOrganizationDraft () {
   return {
@@ -50,7 +50,7 @@ export function inviteOrganization(organization) {
 }
 
 export function inviteOrganizationSuccess(success) {
-  Alert.success(success, 2000);
+  status(success, 'success');
   return {
     type: INVITE_ORGANIZATIONS_SUCCESS,
     success
@@ -58,6 +58,7 @@ export function inviteOrganizationSuccess(success) {
 }
 
 export function inviteOrganizationError(error) {
+  status(error, 'error');
   return {
     type: INVITE_ORGANIZATIONS_ERROR,
     error
@@ -73,7 +74,7 @@ export function resendInviteCollaborator(collaborator_invitation_id) {
 }
 
 export function resendInviteCollaboratorSuccess(success) {
-  Alert.success(success, 2000);
+  status(success, 'success');
   return {
     type: RESEND_INVITE_SUCCESS,
     success
@@ -81,6 +82,7 @@ export function resendInviteCollaboratorSuccess(success) {
 }
 
 export function resendInviteCollaboratorError(error) {
+  status(error, 'error');
   return {
     type: RESEND_INVITE_ERROR,
     error
@@ -97,7 +99,7 @@ export function selectPrimaryLocation(regional_organization_id, regional_organiz
 }
 
 export function selectPrimaryLocationSuccess(success) {
-  Alert.success(success, 2000);
+  status(success, 'success');
   return {
     type: SELECT_PRIMARY_LOCATION_SUCCESS,
     success
@@ -105,6 +107,7 @@ export function selectPrimaryLocationSuccess(success) {
 }
 
 export function selectPrimaryLocationError(error) {
+  status(error, 'error');
   return {
     type: SELECT_PRIMARY_LOCATION_ERROR,
     error

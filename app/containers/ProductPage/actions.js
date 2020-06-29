@@ -10,6 +10,8 @@ import {
   GET_BRANDS_REQUEST, GET_BRANDS_SUCCESS, GET_BRANDS_ERROR, UPDATE_PRODUCT_REQUEST, UPDATE_PRODUCT_SUCCESS, UPDATE_PRODUCT_ERROR, DISMISS, TOGGLE_FILTER
  } from './constants';
 
+ import status from 'utils/status';
+
 export function getProducts() {
   return {
     type: GET_PRODUCTS_REQUEST,
@@ -60,6 +62,7 @@ export function addProduct(product) {
 
 
 export function addProductSuccess(success) {
+  status(success, 'success');
   return {
     type: ADD_PRODUCT_SUCCESS,
     success
@@ -67,6 +70,7 @@ export function addProductSuccess(success) {
 }
 
 export function addProductError(error) {
+  status(error, 'error');
   return {
     type: ADD_PRODUCT_ERROR,
     error,
@@ -85,6 +89,7 @@ export function updateProduct(product_id, product) {
 
 
 export function updateProductSuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_PRODUCT_SUCCESS,
     success
@@ -92,6 +97,7 @@ export function updateProductSuccess(success) {
 }
 
 export function updateProductError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_PRODUCT_ERROR,
     error,

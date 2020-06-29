@@ -17,6 +17,8 @@ import { DEFAULT_ACTION,
   REMOVE_EVENT_CONDITION_REQUEST, REMOVE_EVENT_CONDITION_SUCCESS, REMOVE_EVENT_CONDITION_ERROR
 } from './constants';
 
+import status from 'utils/status';
+
 export function defaultAction() {
   return {
     type: DEFAULT_ACTION,
@@ -73,6 +75,7 @@ export function inviteGuest(guest) {
 }
 
 export function inviteGuestSuccess(success) {
+  status(success, 'success');
   return {
     type: INVITE_GUEST_SUCCESS,
     success
@@ -80,6 +83,7 @@ export function inviteGuestSuccess(success) {
 }
 
 export function inviteGuestError(error) {
+  status(error, 'error');
   return {
     type: INVITE_GUEST_ERROR,
     error
@@ -96,6 +100,7 @@ export function addEventCondition(event_id, condition) {
 }
 
 export function addEventConditionSuccess(success) {
+  status(success, 'success');
   return {
     type: ADD_EVENT_CONDITION_SUCCESS,
     success
@@ -103,6 +108,7 @@ export function addEventConditionSuccess(success) {
 }
 
 export function addEventConditionError(error) {
+  status(error, 'error');
   return {
     type: ADD_EVENT_CONDITION_ERROR,
     error
@@ -118,6 +124,7 @@ export function removeEventCondition(event_id) {
 }
 
 export function removeEventConditionSuccess(success) {
+  status(success, 'success');
   return {
     type: REMOVE_EVENT_CONDITION_SUCCESS,
     success
@@ -125,6 +132,7 @@ export function removeEventConditionSuccess(success) {
 }
 
 export function removeEventConditionError(error) {
+  status(error, 'error');
   return {
     type: REMOVE_EVENT_CONDITION_ERROR,
     error
@@ -140,7 +148,7 @@ export function resendEmail(event_guest_id) {
 }
 
 export function resendEmailSuccess(success) {
-  alert('Email succesfully sent.');
+  status(success, 'success');
   return {
     type: RESEND_EMAIL_SUCCESS,
     success
@@ -148,6 +156,7 @@ export function resendEmailSuccess(success) {
 }
 
 export function resendEmailError(error) {
+  status(error, 'error');
   return {
     type: RESEND_EMAIL_ERROR,
     error
@@ -163,6 +172,7 @@ export function deleteGuest(event_guest_id) {
 }
 
 export function deleteGuestSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_GUEST_SUCCESS,
     success
@@ -170,6 +180,7 @@ export function deleteGuestSuccess(success) {
 }
 
 export function deleteGuestError(error) {
+  status(error, 'error');
   return {
     type: DELETE_GUEST_ERROR,
     error
@@ -207,6 +218,7 @@ export function addEventProduct(event_id, product) {
 }
 
 export function addEventProductSuccess(success) {
+  status(success, 'success');
   return {
     type: ADD_EVENT_PRODUCTS_SUCCESS,
     success
@@ -214,6 +226,7 @@ export function addEventProductSuccess(success) {
 }
 
 export function addEventProductError(error) {
+  status(error, 'error');
   return {
     type: ADD_EVENT_PRODUCTS_ERROR,
     error
@@ -230,6 +243,7 @@ export function removeEventProduct(event_id, event_product_id) {
 }
 
 export function removeEventProductSuccess(success) {
+  status(success, 'success');
   return {
     type: REMOVE_EVENT_PRODUCTS_SUCCESS,
     success
@@ -237,6 +251,7 @@ export function removeEventProductSuccess(success) {
 }
 
 export function removeEventProductError(error) {
+  status(error, 'error');
   return {
     type: REMOVE_EVENT_PRODUCTS_ERROR,
     error

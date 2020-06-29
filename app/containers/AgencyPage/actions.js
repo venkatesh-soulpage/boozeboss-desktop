@@ -15,8 +15,7 @@ import {
   REVOKE_COLLABORATOR_INVITATION_SUCCESS,
   REVOKE_COLLABORATOR_INVITATION_ERROR
  } from './constants';
-
- import { Alert } from 'rsuite';
+ import status from 'utils/status';
 
  export function addAgencyDraft() {
   return {
@@ -54,6 +53,7 @@ export function inviteAgency(agency) {
 }
 
 export function inviteAgencySuccess(agency) {
+  status('Agency created', 'success');
   return {
     type: INVITE_AGENCY_SUCCESS,
     agency,
@@ -61,7 +61,7 @@ export function inviteAgencySuccess(agency) {
 }
 
 export function inviteAgencyError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: INVITE_AGENCY_ERROR,
     error,
@@ -77,7 +77,7 @@ export function inviteCollaborator(collaborator) {
 }
 
 export function inviteCollaboratorSuccess(success) {
-  Alert.success(success); 
+  status(success, 'success');
   return {
     type: INVITE_COLLABORATOR_SUCCESS,
     success
@@ -85,7 +85,7 @@ export function inviteCollaboratorSuccess(success) {
 }
 
 export function inviteCollaboratorError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: INVITE_COLLABORATOR_ERROR,
     error,
@@ -101,7 +101,7 @@ export function revokeCollaboratorInvitation(collaborator_invitation_id) {
 }
 
 export function revokeCollaboratorInvitationSuccess(success) {
-  Alert.success(success); 
+  status(success, 'success');
   return {
     type: REVOKE_COLLABORATOR_INVITATION_SUCCESS,
     success
@@ -109,7 +109,7 @@ export function revokeCollaboratorInvitationSuccess(success) {
 }
 
 export function revokeCollaboratorInvitationError(error) {
-  Alert.error(error);
+  status(error, 'error');
   return {
     type: REVOKE_COLLABORATOR_INVITATION_ERROR,
     error,
@@ -131,7 +131,6 @@ export function getRolesSuccess(roles) {
 }
 
 export function getRolesError(error) {
-  Alert.error(error);
   return {
     type: GET_ROLES_ERROR,
     error,

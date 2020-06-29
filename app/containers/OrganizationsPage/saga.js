@@ -12,7 +12,8 @@ import {
 import {
   getOrganizationsSuccess, getOrganizationsError,
   getLocationsSuccess, getLocationsError, inviteOrganizationSuccess, inviteOrganizationError, 
-  resendInviteCollaboratorSuccess, resendInviteCollaboratorError, selectPrimaryLocationSuccess, selectPrimaryLocationError
+  resendInviteCollaboratorSuccess, resendInviteCollaboratorError, 
+  selectPrimaryLocationSuccess, selectPrimaryLocationError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -81,7 +82,6 @@ function* resendInviteCollaboratorSaga(params) {
 
 function* selectPrimaryLocationSaga(params) {
   const {regional_organization_id, regional_organization_location_id} = params;
-  console.log(params)
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations/${regional_organization_id}/locations/select-primary`;
   const options = {
     method: 'PUT',

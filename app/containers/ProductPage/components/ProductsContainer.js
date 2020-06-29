@@ -30,8 +30,8 @@ export default class ProductsContainer extends Component {
         const {success, error, dismiss} = this.props;
         return (
             <StyledContainer>
-                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                {/* {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />} */}
                 <StyledRow>
                     <ProductsHeader 
                         {...this.props}

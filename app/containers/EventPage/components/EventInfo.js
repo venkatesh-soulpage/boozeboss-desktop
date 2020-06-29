@@ -164,8 +164,8 @@ export default class EventInfo extends Component {
     return (
         <InfoContainer>
             {(!events || events.length < 1) && <ClientsLabel>No Events</ClientsLabel> }
-            {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-            {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+            {/* {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+            {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />} */}
             {events &&
             events.length > 0 && (
                 <EventCard 
