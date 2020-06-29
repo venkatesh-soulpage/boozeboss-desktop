@@ -65,6 +65,11 @@ class Header extends React.Component {
             <Link to="/">
               <Nav.Item ><StyledLogo src={require('../../images/logo_transparent.png')} /></Nav.Item>
             </Link>
+            {this.validateRoles(['REGION', 'CLIENT'], ['OWNER', 'MANAGER']) && (
+              <Link to="/dashboard">
+                <Nav.Item>Live Events</Nav.Item>
+              </Link>
+            )} 
             {this.validateRoles(['ADMIN', 'REGION'], ['ADMIN', 'OWNER']) && (
               <Link to="/organizations">
                 <Nav.Item>Organizations</Nav.Item>

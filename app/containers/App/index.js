@@ -71,9 +71,13 @@ class App extends React.Component {
           <PrivateRoute
             exact
             path="/"
+            component={HomePage}
+          />
+          <PrivateRoute
+            path="/dashboard"
             component={Dashboard}
-            scopesRequired={['ADMIN', 'REGION', 'BRAND']}
-            rolesRequired={['ADMIN', 'MANAGER', 'OWNER']}
+            scopesRequired={['REGION', 'BRAND']}
+            rolesRequired={['MANAGER', 'OWNER']}
           />
           <PrivateRoute
             exact

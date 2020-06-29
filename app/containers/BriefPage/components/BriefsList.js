@@ -154,7 +154,7 @@ export default class BriefsList extends Component {
         <RoleValidator  
           {...this.props}
           scopes={['BRAND']}
-          roles={['OWNER']}
+          roles={['OWNER', 'MANAGER']}
         >
           <AddSection>
             <Button
