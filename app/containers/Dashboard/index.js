@@ -57,7 +57,7 @@ export class Dashboard extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Dashboard</title>
+          <title>Live Events</title>
           <meta name="description" content="Description of Dashboard" />
         </Helmet>
         <DashboardContainer 

@@ -34,7 +34,7 @@ export class Warehouse extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Warehouse</title>
+          <title>Warehouses</title>
           <meta name="description" content="Description of Warehouse" />
         </Helmet>
         <WarehousesContainer 

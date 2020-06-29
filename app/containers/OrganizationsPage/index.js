@@ -35,7 +35,7 @@ export class OrganizationsPage extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Organizations Page</title>
+          <title>Organizations</title>
           <meta name="description" content="Description of OrganizationsPage" />
         </Helmet>
         <OrganizationsContainer 

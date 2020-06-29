@@ -41,7 +41,7 @@ export class Requisition extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Requisition</title>
+          <title>Requisitions</title>
           <meta name="description" content="Description of Requisition" />
         </Helmet>
         <RequisitionsContainer {...this.props}/>

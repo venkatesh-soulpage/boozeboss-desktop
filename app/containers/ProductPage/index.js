@@ -42,7 +42,7 @@ export class Product extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Product</title>
+          <title>Products</title>
           <meta name="description" content="Description of Product" />
         </Helmet>
         <Products>

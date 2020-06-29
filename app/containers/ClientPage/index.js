@@ -39,7 +39,7 @@ export class ClientContainer extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>Client Container</title>
+          <title>Teams</title>
           <meta name="description" content="Description of ClientContainer" />
         </Helmet>
         <ClientsContainer {...this.props} />

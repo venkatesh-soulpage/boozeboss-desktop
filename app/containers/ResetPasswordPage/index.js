@@ -27,7 +27,7 @@ export class ResetPassword extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>ResetPassword</title>
+          <title>Reset Password</title>
           <meta name="description" content="Description of ResetPassword" />
         </Helmet>
         <ResetPasswordForm 
