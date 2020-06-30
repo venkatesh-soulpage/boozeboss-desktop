@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { OrganizationsContainer } from './components'
-import { getOrganizations, addOrganizationDraft, getLocations, inviteOrganization, resendInviteCollaborator, selectPrimaryLocation} from './actions';
+import { getOrganizations, addOrganizationDraft, getLocations, inviteOrganization, resendInviteCollaborator, selectPrimaryLocation, updateSla} from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -65,6 +65,7 @@ function mapDispatchToProps(dispatch) {
     inviteOrganization: (organization) => dispatch(inviteOrganization(organization)),
     resendInviteCollaborator: (collaborator_invitation_id) => dispatch(resendInviteCollaborator(collaborator_invitation_id)),
     selectPrimaryLocation: (regional_organization_id, regional_organization_location_id) => dispatch(selectPrimaryLocation(regional_organization_id, regional_organization_location_id)),
+    updateSla: (regional_organization_id, sla) => dispatch(updateSla(regional_organization_id, sla)),
   };
 }
 

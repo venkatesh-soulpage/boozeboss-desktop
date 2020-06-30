@@ -10,7 +10,8 @@ import {
   GET_LOCATIONS_REQUEST, GET_LOCATIONS_SUCCESS, GET_LOCATIONS_ERROR, 
   INVITE_ORGANIZATIONS_REQUEST, INVITE_ORGANIZATIONS_SUCCESS, INVITE_ORGANIZATIONS_ERROR,
   RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, RESEND_INVITE_ERROR, 
-  SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR
+  SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR,
+  UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, UPDATE_SLA_ERROR,
 } from './constants';
 
 import status from 'utils/status';
@@ -62,6 +63,31 @@ export function inviteOrganizationError(error) {
   return {
     type: INVITE_ORGANIZATIONS_ERROR,
     error
+  };
+}
+
+/* PUT -  Update Organization sla */
+export function updateSla(regional_organization_id, sla) {
+  return {
+    type: UPDATE_SLA_REQUEST,
+    regional_organization_id,
+    sla
+  };
+}
+
+export function updateSlaSuccess(success) {
+  status(success, 'success');
+  return {
+    type: UPDATE_SLA_SUCCESS,
+    success,
+  };
+}
+
+export function updateSlaError(error) {
+  status(error, 'error');
+  return {
+    type: UPDATE_SLA_ERROR,
+    error,
   };
 }
 

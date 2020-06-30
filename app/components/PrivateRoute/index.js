@@ -27,7 +27,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, scopesRequired, r
                 )}
                 {scope === 'BRAND' && (
                   <Redirect
-                    to={{ pathname: '/clients', state: { from: props.location } }}
+                    to={{ pathname: '/teams', state: { from: props.location } }}
                   />
                 )}
                 {scope === 'AGENCY' && (

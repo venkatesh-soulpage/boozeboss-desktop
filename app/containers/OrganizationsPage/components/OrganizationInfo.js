@@ -5,6 +5,7 @@ import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker 
 /* import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal'; */
+import RoleValidator from 'components/RoleValidator';
 import OrganizationAddLocationModal from './OrganizationAddLocationModal';
 import EditableField from './EditableField';
 import OrganizationCollaboratorsTable from './OrganizationCollaboratorsTable';
@@ -371,10 +372,89 @@ export default class OrganizationsInfo extends Component {
                                     <EditableField 
                                         {...this.props}
                                         client={organizations[currentOrganization]}
+                                        field_label='Collaborator limit'
+                                        field_name='collaborator_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].collaborator_limit}
+                                    />
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Brief Limit / Year'
+                                        field_name='briefs_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].briefs_limit}
+                                    />
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Brands Limit'
+                                        field_name='brands_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].brands_limit}
+                                    />
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Warehouses Limit'
+                                        field_name='warehouses_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].warehouses_limit}
+                                    />  
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
                                         field_label='Locations Limit'
                                         field_name='locations_limit'
+                                        field_type='number'
                                         value={organizations[currentOrganization].locations_limit}
                                     />  
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Identity Verification Limit'
+                                        field_name='identity_verifications_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].identity_verifications_limit}
+                                    />  
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Agencies Limit'
+                                        field_name='agencies_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].agencies_limit}
+                                    />  
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Agencies Collaborators Limit'
+                                        field_name='agency_collaborators_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].agency_collaborators_limit}
+                                    />   
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Brief Attachments Limit'
+                                        field_name='brief_attachment_limits'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].brief_attachment_limits}
+                                    />    
+                                    <RoleValidator
+                                        {...this.props}
+                                        scopes={['ADMIN']}
+                                        roles={['ADMIN']}
+                                    >
+                                        <EditableField 
+                                            {...this.props}
+                                            client={organizations[currentOrganization]}
+                                            field_label='Expiration Date'
+                                            field_name='expiration_date'
+                                            field_type='date'
+                                            value={organizations[currentOrganization].expiration_date}
+                                        />   
+                                    </RoleValidator>
                                 </FieldsRow>
                                 <Divider />
                                 <OrganizationCollaboratorsTable {...this.props}/>

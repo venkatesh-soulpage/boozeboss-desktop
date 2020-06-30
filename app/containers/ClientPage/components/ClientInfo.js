@@ -419,14 +419,6 @@ export default class ClientInfo extends Component {
                                     <EditableField 
                                         {...this.props}
                                         client={clients[currentClient]}
-                                        field_label='Locations Limit'
-                                        field_name='locations_limit'
-                                        field_type='number'
-                                        value={clients[currentClient].locations_limit}
-                                    />  
-                                    <EditableField 
-                                        {...this.props}
-                                        client={clients[currentClient]}
                                         field_label='Identity Verification Limit'
                                         field_name='identity_verifications_limit'
                                         field_type='number'

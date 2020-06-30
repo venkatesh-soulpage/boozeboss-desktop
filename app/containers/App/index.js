@@ -63,8 +63,8 @@ class App extends React.Component {
   render() {
     return (
       <AppWrapper>
-        <Helmet titleTemplate="%s - Booze Boss" defaultTitle="Booze Boss">
-          <meta name="description" content="Booze Boss" />
+        <Helmet titleTemplate="%s - Enterprise LiquidIntel" defaultTitle="Enterprise LiquidIntel">
+          <meta name="description" content="Enterprise LiquidIntel" />
         </Helmet>
         <Header />
         <Switch>

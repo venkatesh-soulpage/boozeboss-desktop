@@ -42,7 +42,7 @@ export default class EditableField extends Component {
       }
 
     changeEdit = async () => {
-        const {updateSla, client, field_name} = this.props;
+        const {updateSla, client, field_name, value} = this.props;
 
         // If is editing, and close the modal it triggers a change on an SLA
         if (this.state.isEditing) {
@@ -54,6 +54,8 @@ export default class EditableField extends Component {
 
                 }
             )
+        } else {
+            this.setState({[field_name]: value});
         }
 
         this.setState({isEditing: !this.state.isEditing});

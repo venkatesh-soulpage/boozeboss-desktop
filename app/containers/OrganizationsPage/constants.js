@@ -17,6 +17,10 @@ export const SELECT_PRIMARY_LOCATION_REQUEST = 'app/OrganizationsPage/SELECT_PRI
 export const SELECT_PRIMARY_LOCATION_SUCCESS = 'app/OrganizationsPage/SELECT_PRIMARY_LOCATION_SUCCESS';
 export const SELECT_PRIMARY_LOCATION_ERROR = 'app/OrganizationsPage/SELECT_PRIMARY_LOCATION_ERROR';
 
+export const UPDATE_SLA_REQUEST = 'app/OrganizationsPage/UPDATE_SLA_REQUEST';
+export const UPDATE_SLA_SUCCESS = 'app/OrganizationsPage/UPDATE_SLA_SUCCESS';
+export const UPDATE_SLA_ERROR = 'app/OrganizationsPage/UPDATE_SLA_ERROR';
+
 export const RESEND_INVITE_REQUEST = 'app/OrganizationsPage/RESEND_INVITE_REQUEST';
 export const RESEND_INVITE_SUCCESS = 'app/OrganizationsPage/RESEND_INVITE_SUCCESS';
 export const RESEND_INVITE_ERROR = 'app/OrganizationsPage/RESEND_INVITE_ERROR';
