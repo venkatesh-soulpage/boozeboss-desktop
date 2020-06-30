@@ -243,7 +243,7 @@ export default class NewEvent extends React.Component {
                             <FieldLabel>Setup Time (Required)</FieldLabel>
                             <DatePicker
                                 value={setup_time}
-                                format="YYYY-MM-DD HH:mm"
+                                format="DD-MM-YYYY HH:mm"
                                 ranges={[
                                 {
                                     label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
@@ -259,7 +259,7 @@ export default class NewEvent extends React.Component {
                                 <FieldLabel>Start Time (Required)</FieldLabel>
                                 <DatePicker
                                     value={start_time}
-                                    format="YYYY-MM-DD HH:mm"
+                                    format="DD-MM-YYYY HH:mm"
                                     ranges={[
                                     {
                                         label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
@@ -274,7 +274,7 @@ export default class NewEvent extends React.Component {
                                 <FieldLabel>End Time (Required)</FieldLabel>
                                 <DatePicker
                                     value={end_time}
-                                    format="YYYY-MM-DD HH:mm"
+                                    format="DD-MM-YYYY HH:mm"
                                     ranges={[
                                     {
                                         label: `SLA (+${agency.sla_hours_before_event_creation} hours)`,
@@ -349,7 +349,7 @@ export default class NewEvent extends React.Component {
                                     <FieldLabel>Recee Time</FieldLabel>
                                     <DatePicker
                                         value={recee_time}
-                                        format="YYYY-MM-DD HH:mm"
+                                        format="DD-MM-YYYY HH:mm"
                                         ranges={[
                                         {
                                             label: 'Now',
