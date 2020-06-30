@@ -58,6 +58,8 @@ import {
   DELETE_BRIEF_BRAND_SUCCESS, 
 } from './constants';
 
+import status from 'utils/status';
+
 export function addBriefDraft() {
   return {
     type: ADD_BRIEF_DRAFT,
@@ -122,6 +124,7 @@ export function deleteBrief(brief_id) {
 }
 
 export function deleteBriefSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_BRIEF_SUCCESS,
     success
@@ -129,6 +132,7 @@ export function deleteBriefSuccess(success) {
 }
 
 export function deleteBriefError(error) {
+  status(error, 'error');
   return {
     type: DELETE_BRIEF_ERROR,
     error
@@ -187,6 +191,7 @@ export function createBriefEvent(brief_id, briefEvent) {
 }
 
 export function createBriefEventSuccess(success) {
+  status(success, 'success');
   return {
     type: CREATE_BRIEF_EVENT_SUCCESS,
     success
@@ -194,6 +199,7 @@ export function createBriefEventSuccess(success) {
 }
 
 export function createBriefEventError(error) {
+  status(error, 'error');
   return {
     type: CREATE_BRIEF_EVENT_ERROR,
     error
@@ -211,6 +217,7 @@ export function updateBriefEvent(brief_id, brief_event_id, briefEvent) {
 }
 
 export function updateBriefEventSuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_BRIEF_EVENT_SUCCESS,
     success
@@ -218,6 +225,7 @@ export function updateBriefEventSuccess(success) {
 }
 
 export function updateBriefEventError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_BRIEF_EVENT_ERROR,
     error
@@ -234,6 +242,7 @@ export function deleteBriefEvent(brief_id, brief_event_id) {
 }
 
 export function deleteBriefEventSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_BRIEF_EVENT_SUCCESS,
     success
@@ -241,6 +250,7 @@ export function deleteBriefEventSuccess(success) {
 }
 
 export function deleteBriefEventError(error) {
+  status(error, 'error');
   return {
     type: DELETE_BRIEF_EVENT_ERROR,
     error
@@ -257,6 +267,7 @@ export function createBriefBrand(brief_id, briefBrand) {
 }
 
 export function createBriefBrandSuccess(success) {
+  status(success, 'success');
   return {
     type: CREATE_BRIEF_BRAND_SUCCESS,
     success
@@ -264,6 +275,7 @@ export function createBriefBrandSuccess(success) {
 }
 
 export function createBriefBrandError(error) {
+  status(error, 'error');
   return {
     type: CREATE_BRIEF_BRAND_ERROR,
     error
@@ -280,6 +292,7 @@ export function deleteBriefBrand(brief_id, brief_brand_id) {
 }
 
 export function deleteBriefBrandSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_BRIEF_BRAND_SUCCESS,
     success
@@ -287,6 +300,7 @@ export function deleteBriefBrandSuccess(success) {
 }
 
 export function deleteBriefBrandError(error) {
+  status(error, 'error');
   return {
     type: DELETE_BRIEF_BRAND_ERROR,
     error
@@ -303,6 +317,7 @@ export function updateBriefStatus(brief_id, status) {
 }
 
 export function updateBriefStatusSuccess(success) {
+  status(success, 'success');
   return {
     type: UPDATE_BRIEF_STATUS_SUCCESS,
     success
@@ -310,6 +325,7 @@ export function updateBriefStatusSuccess(success) {
 }
 
 export function updateBriefStatusError(error) {
+  status(error, 'error');
   return {
     type: UPDATE_BRIEF_STATUS_ERROR,
     error
@@ -325,6 +341,7 @@ export function createRequisition(brief_id) {
 }
 
 export function createRequisitionSuccess(success) {
+  status(success, 'success');
   return {
     type: CREATE_REQUISITION_SUCCESS,
     success
@@ -332,6 +349,7 @@ export function createRequisitionSuccess(success) {
 }
 
 export function createRequisitionError(error) {
+  status(error, 'error');
   return {
     type: CREATE_REQUISITION_ERROR,
     error
@@ -369,6 +387,7 @@ export function uploadBriefAttachment(brief_id, file) {
 }
 
 export function uploadBriefAttachmentSuccess(success) {
+  status(success, 'success');
   return {
     type: UPLOAD_BRIEF_ATTACHMENT_SUCCESS,
     success
@@ -376,6 +395,7 @@ export function uploadBriefAttachmentSuccess(success) {
 }
 
 export function uploadBriefAttachmentError(error) {
+  status(error, 'error');
   return {
     type: UPLOAD_BRIEF_ATTACHMENT_ERROR,
     error
@@ -392,6 +412,7 @@ export function deleteBriefAttachment(brief_id, brief_attachment_id) {
 }
 
 export function deleteBriefAttachmentSuccess(success) {
+  status(success, 'success');
   return {
     type: DELETE_BRIEF_ATTACHMENT_SUCCESS,
     success
@@ -399,6 +420,7 @@ export function deleteBriefAttachmentSuccess(success) {
 }
 
 export function deleteBriefAttachmentError(error) {
+  status(error, 'error');
   return {
     type: DELETE_BRIEF_ATTACHMENT_ERROR,
     error

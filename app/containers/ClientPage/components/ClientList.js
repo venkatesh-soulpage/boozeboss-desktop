@@ -15,14 +15,30 @@ const Column = styled.div`
   align-self: flex-start; 
   position: sticky;
   top: 1em;
-  max-height: 90vh;
+  height: calc(100vh - 15px);
+  margin: 0 0 1em 0;
+  padding: 0 0 1em 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
+
+
+const ListHeader = styled.div`
+  display: flex; 
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 0 5px 0 0;
+  background-color: #fafafa;
+`
 
 const List = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
+  padding: 0 15px 0 0;
 `;
 
 const MessageLabel = styled.p`
@@ -117,29 +133,31 @@ export default class ClientList extends Component {
       clients.filter(client => client.isDraft).length > 0;
     return (
       <Column>
-        <RoleValidator
-          {...this.props}
-          scopes={['ADMIN', 'REGION']}
-          roles={['ADMIN', 'OWNER']}
-        >
-          <Button
-            color="green"
-            onClick={this.handleAddClientDraft}
-            disabled={isActiveDraft}
-            style={{minHeight: '40px'}}
-          >
-            + Add Team
-          </Button>
-        </RoleValidator>
-        <RoleValidator
-          {...this.props}
-          scopes={['ADMIN']}
-          roles={['ADMIN']}
-        >
-          <ClientFilter 
+        <ListHeader>
+          <RoleValidator
             {...this.props}
-          />
-        </RoleValidator>
+            scopes={['ADMIN', 'REGION']}
+            roles={['ADMIN', 'OWNER']}
+          >
+            <Button
+              color="green"
+              onClick={this.handleAddClientDraft}
+              disabled={isActiveDraft}
+              style={{minHeight: '40px'}}
+            >
+              + Add Team
+            </Button>
+          </RoleValidator>
+          <RoleValidator
+            {...this.props}
+            scopes={['ADMIN']}
+            roles={['ADMIN']}
+          >
+            <ClientFilter 
+              {...this.props}
+            />
+          </RoleValidator>
+        </ListHeader>
         <List>
           {clients &&
             clients.length > 0 &&

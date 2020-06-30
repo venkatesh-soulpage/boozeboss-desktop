@@ -181,8 +181,8 @@ export default class BriefsInfo extends Component {
         const { briefs, currentBrief, error, success, dismiss, scope, role } = this.props;
             return (
                 <InfoContainer>
-                    {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                    {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                    {/* error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/> */}
+                    {/* success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} /> */}
                     {(!briefs || briefs.length < 1) && <ClientsLabel>No Briefs</ClientsLabel> }
                     {briefs &&
                         briefs.length > 0 && (
