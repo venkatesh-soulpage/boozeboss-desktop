@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, TreePicker, Alert} from 'rsuite'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
+
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 const FieldContainer = styled.div`
     display: flex;
@@ -16,7 +21,6 @@ const FieldLabel = styled.b`
 `;
 
 const styles = {
-    maxWidth: '200px',
     margin: '0.75em 0 0 0'
   }
 
@@ -32,6 +36,7 @@ export default class CreateVenueModal extends React.Component {
         contact_phone_number: null,
         latitude: null,
         longitude: null,
+        location_id: null,
       };
     }
 
@@ -56,29 +61,42 @@ export default class CreateVenueModal extends React.Component {
         this.setState({[name]: value});
     }
 
-    /* getPickerData = ()  => {
-        const {roles} = this.props;
-        const data = roles.map(role => {
-            return {
-                label: role.name,
-                value: role.id,
-                role: role.name,
-            }
-        })
-        this.setState({data});
-    }*/
+    getLocationOptions = () => {
+        const {clients, currentClient} = this.props;
+
+        const {location} = clients[currentClient];
+         
+        if (!location) return [];
+        
+        const locationOptions = 
+                    location.childrens.map(state => {
+                        const children = state.childrens.map(city => {
+                            return {
+                                label: city.name,
+                                value: city.id,
+                            }
+                        })
+                        return {
+                            label: state.name,
+                            value: state.id,
+                            children
+                        }
+                    })
+
+        return locationOptions;
+    }
 
     create = async () => {
         const {createVenue, clients, currentClient} = this.props;
-        const {name, address, contact_name, contact_email, contact_phone_number, latitude, longitude } = this.state;
-        if ( !name || !address) return;
+        const {name, address, contact_name, contact_email, contact_phone_number, latitude, longitude, location_id } = this.state;
+        if ( !name || !address || !location_id) return Alert.error('Missing fields');
         const created_by = clients[currentClient].id;
-        await createVenue({name, address, contact_name, contact_email, contact_phone_number, latitude, longitude, created_by});
+        await createVenue({name, address, contact_name, contact_email, contact_phone_number, latitude, longitude, created_by, location_id});
         this.close();
     }
 
     render() {
-        const {show} = this.state;
+        const {show, location_id} = this.state;
         return (
             <React.Fragment>
                 <Button id="new-venue" onClick={this.open} color="green" block>+ Add Venue</Button>
@@ -92,6 +110,15 @@ export default class CreateVenueModal extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
+                            <FieldLabel>Location (Required)</FieldLabel>
+                            <TreePicker 
+                                virtualized
+                                value={location_id}
+                                data={this.getLocationOptions()}
+                                onChange={(value) => this.handleChange(value, 'location_id')}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
                             <FieldLabel>Address (Required)</FieldLabel>
                             <Input
                                 componentClass="textarea"
@@ -100,23 +127,25 @@ export default class CreateVenueModal extends React.Component {
                                 onChange={(value) => this.handleChange(value, 'address')}
                             />
                         </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Contact Name</FieldLabel>
-                            <Input 
-                                onChange={(value) => this.handleChange(value, 'contact_name')}
-                            />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Contact Email</FieldLabel>
-                            <Input 
-                                onChange={(value) => this.handleChange(value, 'contact_email')}
-                            />
-                        </FieldContainer>
+                        <FieldRow>
+                            <FieldContainer>
+                                <FieldLabel>Contact Name</FieldLabel>
+                                <Input 
+                                    onChange={(value) => this.handleChange(value, 'contact_name')}
+                                />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldLabel>Contact Email</FieldLabel>
+                                <Input 
+                                    onChange={(value) => this.handleChange(value, 'contact_email')}
+                                />
+                            </FieldContainer>
+                        </FieldRow>
                         <FieldContainer>
                             <FieldLabel>Contact Phone Number</FieldLabel>
                             <PhoneInput
                                 style={{...styles, zIndex: 99}}
-                                country={'us'}
+                                placeholder='+46 (271) 123-456'
                                 enableSearch
                                 disableSearchIcon
                                 inputProps={{
@@ -127,18 +156,20 @@ export default class CreateVenueModal extends React.Component {
                                 onChange={(value) => this.handleChange(value, 'contact_phone_number')}
                             />
                         </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Longitude</FieldLabel>
-                            <Input 
-                                onChange={(value) => this.handleChange(value, 'longitude')}
-                            />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Latitude</FieldLabel>
-                            <Input 
-                                onChange={(value) => this.handleChange(value, 'latitude')}
-                            />
-                        </FieldContainer>
+                        <FieldRow>
+                            <FieldContainer>
+                                <FieldLabel>Longitude</FieldLabel>
+                                <Input 
+                                    onChange={(value) => this.handleChange(value, 'longitude')}
+                                />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldLabel>Latitude</FieldLabel>
+                                <Input 
+                                    onChange={(value) => this.handleChange(value, 'latitude')}
+                                />
+                            </FieldContainer>
+                        </FieldRow>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.create} color="green">

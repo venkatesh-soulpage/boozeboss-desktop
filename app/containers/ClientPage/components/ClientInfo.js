@@ -512,7 +512,7 @@ export default class ClientInfo extends Component {
                                                     {rowData => rowData.contact_name}
                                                 </Cell>
                                             </Column>
-                                            <Column flexGrow>
+                                            <Column resizable width={200}>
                                                 <HeaderCell>
                                                     Contact Email
                                                 </HeaderCell>
@@ -530,13 +530,21 @@ export default class ClientInfo extends Component {
                                             </Column>
                                             <Column flexGrow>
                                                 <HeaderCell>
+                                                    Location 
+                                                </HeaderCell>
+                                                <Cell dataKey="latitude">
+                                                    {rowData => rowData.location ? rowData.location.name : 'N/A'}
+                                                </Cell>
+                                            </Column> 
+                                            <Column width={80}>
+                                                <HeaderCell>
                                                     Latitude 
                                                 </HeaderCell>
                                                 <Cell dataKey="latitude">
                                                     {rowData => rowData.latitude}
                                                 </Cell>
                                             </Column>
-                                            <Column flexGrow>
+                                            <Column width={80}>
                                                 <HeaderCell>
                                                     Longitude
                                                 </HeaderCell>
