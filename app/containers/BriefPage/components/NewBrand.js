@@ -34,7 +34,7 @@ export default class NewProduct extends React.Component {
         show: false,
         brandsData: null,
         brand_id: null,
-        limit: 0,
+        limit: 750,
       };
     }
 
@@ -109,10 +109,12 @@ export default class NewProduct extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Limit</FieldLabel> 
+                            <FieldLabel>Limit (aprox. {Math.round(limit / 750)} units)</FieldLabel> 
                             <InputNumber 
-                                defaultValue={1}
-                                min={1}
+                                postfix="ml"
+                                step={100}
+                                defaultValue={750}
+                                min={100}
                                 onChange={(value) => this.handleChange(value, 'limit')}
                                 value={limit}
                             /> 
