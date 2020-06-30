@@ -18,7 +18,7 @@ import {
   REQUEST_REQUISITION_SIGN_REQUEST, REQUEST_REQUISITION_SIGN_SUCCESS, REQUEST_REQUISITION_SIGN_ERROR,
   GET_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_SUCCESS, GET_REQUISITION_SIGN_ERROR } from './constants';
   
-import { status } from 'utils/status';
+import status  from 'utils/status';
 
 
 export function getRequisitions() {

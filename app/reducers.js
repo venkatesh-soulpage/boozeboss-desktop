@@ -5,6 +5,7 @@
 import { combineReducers } from 'redux-immutable';
 import { connectRouter } from 'connected-react-router/immutable';
 
+import { LOGOUT } from 'containers/App/constants';
 import globalReducer from 'containers/App/reducer';
 
 import history from 'utils/history';
@@ -20,7 +21,15 @@ export default function createReducer(injectedReducers = {}) {
     ...injectedReducers,
   });
 
+  const appReducer = (state, action) => {
+    if (action.type === LOGOUT) {
+        state = undefined;
+    }
+
+    return rootReducer(state, action);
+};
+
   // Wrap the root reducer and return a new root reducer with router state
   const mergeWithRouterState = connectRouter(history);
-  return mergeWithRouterState(rootReducer);
+  return mergeWithRouterState(appReducer);
 }

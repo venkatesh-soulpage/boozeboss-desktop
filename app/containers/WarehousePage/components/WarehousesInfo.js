@@ -72,8 +72,8 @@ export default class WarehousesInfo extends Component {
     const { warehouses, currentWarehouse, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
-                {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
-                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />}
+                {/* {error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/>}
+                {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />} */}
                 {(!warehouses || warehouses.length < 1) && <ClientsLabel>No Warehouses</ClientsLabel> }
                 {warehouses &&
                     warehouses.length > 0 && (
