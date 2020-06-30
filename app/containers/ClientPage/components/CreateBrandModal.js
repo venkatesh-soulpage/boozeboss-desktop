@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, Alert} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldContainer = styled.div`
@@ -86,7 +86,7 @@ export default class CreateBrandModal extends React.Component {
     create = async () => {
         const {createBrand, clients, currentClient} = this.props;
         const {name, description, product_type, product_subtype } = this.state;
-        if ( !name || !description || !product_type || !product_subtype) return;
+        if ( !name || !description || !product_type || !product_subtype) return Alert.error('Missing fields', 2000);
         const client_id = clients[currentClient].id;
         await createBrand({name, description, product_type, product_subtype, client_id});
         this.close();

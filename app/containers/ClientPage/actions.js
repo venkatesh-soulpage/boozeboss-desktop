@@ -48,7 +48,11 @@ import {
   REVOKE_COLLABORATOR_INVITATION_ERROR,
   RESEND_INVITE_REQUEST,
   RESEND_INVITE_SUCCESS,
-  RESEND_INVITE_ERROR
+  RESEND_INVITE_ERROR,
+  GET_ORGANIZATIONS_REQUEST,
+  GET_ORGANIZATIONS_SUCCESS,
+  GET_ORGANIZATIONS_ERROR,
+  CHANGE_ORGANIZATION_FILTER
 } from './constants';
 
 import status from 'utils/status';
@@ -364,6 +368,27 @@ export function updateSlaError(error) {
   };
 }
 
+/* GET -  Get organizations request  */
+export function getOrganizations() {
+  return {
+    type: GET_ORGANIZATIONS_REQUEST,
+  };
+}
+
+export function getOrganizationsSuccess(organizations) {
+  return {
+    type: GET_ORGANIZATIONS_SUCCESS,
+    organizations,
+  };
+}
+
+export function getOrganizationsError(error) {
+  return {
+    type: GET_ORGANIZATIONS_ERROR,
+    error,
+  };
+}
+
 /* PUT -  Upload a logo */
 export function uploadLogo(client_id, file) {
   return {
@@ -395,5 +420,13 @@ export function dismiss(dismiss_type) {
   return {
     type: DISMISS,
     dismiss_type,
+  };
+}
+
+// Dismiss success and error messages
+export function changeOrganizationFilter(organization_id) {
+  return {
+    type: CHANGE_ORGANIZATION_FILTER,
+    organization_id,
   };
 }

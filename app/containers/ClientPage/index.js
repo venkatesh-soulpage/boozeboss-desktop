@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectLocations, makeSelectIsLoading } from './selectors';
+import { makeSelectClients, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectLocations, makeSelectIsLoading, makeSelectOrganizations, makeSelectOrganizationFilter } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -22,17 +22,22 @@ import messages from './messages';
 import { ClientsContainer } from './components';
 import { 
   addClientDraft, getClients, inviteClient, getRoles, getLocations, 
-  inviteCollaborator, dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation, updateSla, uploadLogo, revokeCollaboratorInvitation, resendInviteCollaborator
+  inviteCollaborator, getOrganizations,
+  dismiss, createVenue, deleteVenue, createBrand, createWarehouse, addClientLocation, updateSla, uploadLogo, revokeCollaboratorInvitation, resendInviteCollaborator, changeOrganizationFilter
 } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
   componentDidMount = () => {
-    const { getClients, getRoles, getLocations, scope } = this.props;
+    const { getClients, getRoles, getLocations, scope, getOrganizations } = this.props;
     getClients();
     getRoles();
     getLocations();
+
+    if (scope === 'ADMIN') {
+      getOrganizations();
+    }
   };
 
   render() {
@@ -74,11 +79,13 @@ const mapStateToProps = createStructuredSelector({
   clients: makeSelectClients(),
   roles: makeSelectRoles(),
   locations: makeSelectLocations(),
+  organizations: makeSelectOrganizations(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
   error: makeSelectError(),
   success: makeSelectSuccess(),
   isLoading: makeSelectIsLoading(),
+  organizationFilter: makeSelectOrganizationFilter(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -98,6 +105,8 @@ function mapDispatchToProps(dispatch) {
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),
     updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)), // PATCH method it really works with other client values, need to change.
     uploadLogo: (client_id, file) => dispatch(uploadLogo(client_id, file )), 
+    getOrganizations: () => dispatch(getOrganizations()),
+    changeOrganizationFilter: (organization_id) => dispatch(changeOrganizationFilter(organization_id)),
     dismiss: type => dispatch(dismiss(type))
   };
 }

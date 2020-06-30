@@ -23,8 +23,25 @@ export default class ClientsContainer extends Component {
         this.setState({currentClient})
     }
 
+    getFilteredClients = () => {
+        const {clients, organizationFilter} = this.props;
+        if (!clients) return [];
+
+        if (!organizationFilter) return clients;
+
+        if (organizationFilter === 'NO_ORG') {
+            return clients.filter(client => !client.regional_organization_id);
+        } 
+        if (organizationFilter > 0) {
+            return clients.filter(client => client.regional_organization_id === organizationFilter);
+        }
+
+        return clients;
+    } 
+
   render() {
     const { isLoading, clients } = this.props;
+    const filtered_clients = this.getFilteredClients();
     return (
         <React.Fragment>
             {isLoading && !clients && <StyledContainer justify="center"><Loader size="md" vertical /></StyledContainer>}
@@ -33,11 +50,13 @@ export default class ClientsContainer extends Component {
                     <ClientList
                         {...this.props} 
                         {...this.state}
+                        clients={filtered_clients}
                         handleSelectCurrentClient={this.handleSelectCurrentClient}
                     />
                     <ClientInfo 
                         {...this.props} 
                         {...this.state}
+                        clients={filtered_clients}
                     />
                 </StyledContainer>
             )}

@@ -19,6 +19,13 @@ export const INVITE_CLIENT_SUCCESS =
 export const INVITE_CLIENT_ERROR =
   'boozeboss/ClientContainer/INVITE_CLIENT_ERROR';
 
+  export const GET_ORGANIZATIONS_REQUEST =
+  'boozeboss/ClientContainer/GET_ORGANIZATIONS_REQUEST';
+export const GET_ORGANIZATIONS_SUCCESS =
+  'boozeboss/ClientContainer/GET_ORGANIZATIONS_SUCCESS';
+export const GET_ORGANIZATIONS_ERROR =
+  'boozeboss/ClientContainer/GET_ORGANIZATIONS_ERROR';
+
 export const INVITE_COLLABORATOR_REQUEST = 'boozeboss/ClientContainer/INVITE_COLLABORATOR_REQUEST';
 export const INVITE_COLLABORATOR_SUCCESS = 'boozeboss/ClientContainer/INVITE_COLLABORATOR_SUCCESS';
 export const INVITE_COLLABORATOR_ERROR = 'boozeboss/ClientContainer/INVITE_COLLABORATOR_ERROR';
@@ -80,3 +87,4 @@ export const UPLOAD_LOGO_ERROR = 'boozeboss/ClientContainer/UPLOAD_LOGO_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';
+export const CHANGE_ORGANIZATION_FILTER =  'boozeboss/ClientContainer/CHANGE_ORGANIZATION_FILTER';

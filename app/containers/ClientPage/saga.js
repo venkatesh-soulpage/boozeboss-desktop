@@ -16,7 +16,7 @@ import {
   ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, 
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, 
   INVITE_COLLABORATOR_SUCCESS, 
-  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS,
+  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, GET_ORGANIZATIONS_REQUEST,
 } from './constants';
 
 import {
@@ -48,6 +48,8 @@ import {
   revokeCollaboratorInvitationError,
   resendInviteCollaboratorSuccess,
   resendInviteCollaboratorError,
+  getOrganizationsSuccess,
+  getOrganizationsError
 } from './actions';
 
 function* getClientsSaga() {
@@ -254,6 +256,21 @@ function* updateSlaSaga(params) {
   }
 }
 
+function* getOrganizationsSaga(params) {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getOrganizationsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getOrganizationsError(jsonError));
+  }
+}
+
 function* uploadLogoSaga(params) {
   const {client_id, file} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients/${client_id}/upload-logo`;
@@ -349,6 +366,10 @@ function* resendInviteRequest() {
   yield takeLatest(RESEND_INVITE_REQUEST, resendInviteSaga);
 }
 
+function* getOrganizationsRequest() {
+  yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
+}
+
 // Reactive saga
 function* inviteClientSuccessRequest() {
   yield takeLatest(INVITE_CLIENT_SUCCESS, getClientsSaga);
@@ -410,6 +431,7 @@ export default function* rootSaga() {
     fork(updateSlaRequest),
     fork(uploadLogoRequest),
     fork(resendInviteRequest),
+    fork(getOrganizationsRequest),
     // Reactive
     fork(inviteClientSuccessRequest),
     fork(createVenueSuccessRequest),

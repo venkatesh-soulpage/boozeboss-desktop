@@ -16,6 +16,11 @@ const makeSelectLocations = () =>
   createSelector(selectClients, clientsState =>
     clientsState.get('locations'),
   );
+
+const makeSelectOrganizations = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('organizations'),
+  );
   
 const makeSelectError = () =>
   createSelector(selectClients, clientsState =>
@@ -32,11 +37,18 @@ const makeSelectIsLoading = () =>
     clientsState.get('isLoading'),
   );
 
+const makeSelectOrganizationFilter = () =>
+  createSelector(selectClients, clientsState =>
+    clientsState.get('organization_filter'),
+  );
+
 export { 
   makeSelectClients,
   makeSelectRoles,
   makeSelectLocations,
   makeSelectError,
   makeSelectSuccess,
-  makeSelectIsLoading
+  makeSelectIsLoading, 
+  makeSelectOrganizations,
+  makeSelectOrganizationFilter,
 };

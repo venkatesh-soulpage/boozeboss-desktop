@@ -40,7 +40,11 @@ import {
   ADD_LOCATION_ERROR,
   UPLOAD_LOGO_REQUEST,
   UPLOAD_LOGO_SUCCESS,
-  UPLOAD_LOGO_ERROR
+  UPLOAD_LOGO_ERROR,
+  GET_ORGANIZATIONS_REQUEST,
+  GET_ORGANIZATIONS_SUCCESS,
+  GET_ORGANIZATIONS_ERROR,
+  CHANGE_ORGANIZATION_FILTER
 } from './constants';
 
 export const initialState = fromJS({
@@ -50,6 +54,7 @@ export const initialState = fromJS({
   isLoading: false,
   error: null,
   success: null,
+  organization_filter: null,
 });
 
 function clientContainerReducer(state = initialState, action) {
@@ -156,8 +161,19 @@ function clientContainerReducer(state = initialState, action) {
       return state
         .set('isLoading', false)
         .set('error', action.error);
+    case GET_ORGANIZATIONS_REQUEST:
+      return state.set('isLoading', true);
+    case GET_ORGANIZATIONS_SUCCESS:
+      return state
+        .set('organizations', action.organizations)
+    case GET_ORGANIZATIONS_ERROR:
+      return state
+        .set('isLoading', false)
+        .set('error', action.error);
     case DISMISS: 
       return state.set(action.dismiss_type, null);
+    case CHANGE_ORGANIZATION_FILTER: 
+      return state.set('organization_filter', action.organization_id);
     default:
       return state;
   }

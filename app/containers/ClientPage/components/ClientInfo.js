@@ -186,7 +186,7 @@ class ClientForm extends Component {
                             />
                         </FieldContainer>
                     </FieldsRow>
-                    <Divider>Limits</Divider>
+                    {/* <Divider>Limits</Divider>
                     <FieldsRow>
                         <FieldContainer>
                             <FieldLabel>Collaborators Limit</FieldLabel>
@@ -251,7 +251,7 @@ class ClientForm extends Component {
                                 />
                             </FieldContainer>
                         </RoleValidator> 
-                    </FieldsRow>
+                    </FieldsRow> */}
                     <Divider>Invite</Divider>
                     <FieldsRow>
                        <FieldContainer>

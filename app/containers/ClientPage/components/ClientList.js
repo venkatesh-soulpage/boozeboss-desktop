@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Panel } from 'rsuite';
 import moment from 'moment';
 import RoleValidator from 'components/RoleValidator';
+import ClientFilter from './ClientFilter';
 
 import { Button } from 'rsuite';
 
@@ -14,7 +15,6 @@ const Column = styled.div`
   align-self: flex-start; 
   position: sticky;
   top: 1em;
-  z-index: 99;
   max-height: 90vh;
 `;
 
@@ -126,9 +126,19 @@ export default class ClientList extends Component {
             color="green"
             onClick={this.handleAddClientDraft}
             disabled={isActiveDraft}
+            style={{minHeight: '40px'}}
           >
             + Add Team
           </Button>
+        </RoleValidator>
+        <RoleValidator
+          {...this.props}
+          scopes={['ADMIN']}
+          roles={['ADMIN']}
+        >
+          <ClientFilter 
+            {...this.props}
+          />
         </RoleValidator>
         <List>
           {clients &&

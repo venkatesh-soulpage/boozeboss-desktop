@@ -168,7 +168,7 @@ export default class EventInfo extends Component {
             {success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} />} */}
             {events &&
             events.length > 0 && (
-                <EventCard 
+                <EventCard
                     {...this.props}
                     event={events[currentEvent]}
                 />

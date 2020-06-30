@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon, Dropdown } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Dropdown, Alert } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PhoneInput from 'react-phone-input-2'
@@ -72,7 +72,7 @@ export default class SignupForm extends Component {
         const {clientSignup} = this.props;
         const {email, first_name, last_name, phone_number, password, confirm, token} = this.state;
 
-        if (password !== confirm) return;
+        if (password !== confirm) return Alert.error("Passwords don't match");
 
         clientSignup({email, first_name, phone_number, last_name, password, token});
       }

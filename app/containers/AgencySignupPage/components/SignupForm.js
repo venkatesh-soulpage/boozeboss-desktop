@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon, Checkbox } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Checkbox, Alert } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -93,8 +93,8 @@ export default class SignupForm extends Component {
         const {agencySignup} = this.props;
         const {email, first_name, last_name, phone_number, password, confirm, token, sla_accepted} = this.state;
 
-        if (password !== confirm) return;
-        if (!sla_accepted) return alert('Please accept the SLA');
+        if (password !== confirm) return Alert.error("Passwords don't match", 2500);
+        if (!sla_accepted) return Alert.error('Please accept the SLA');
         agencySignup({email, first_name, last_name, phone_number,  password, token});
       }
 
