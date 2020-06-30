@@ -4,8 +4,40 @@ export default `
 <br/>
 
 All notable changes to this project will be documented in this file.  
+
+<br/> 
+
+## [0.14.1] - 2020-06-29
+
 <br/>
+
+### Added
+
+- Password verification alert on Agency, Team and Organization signup
+- Create 'Live reports' tab for Organizations and Brands
+- Set limits for organization
+- Editable expiration date on organization
+- Teams now inherit the limits of organization
+- Organization filter for admin under teams
+- When logout all the cache containers reset to their original value (flash issue)
+- Add error message when creating brands
+- Fix error where the limits couldn't be updated
+
+### Changed
+
+- Logo Header go to the current organization
+- Change all page titles to match 'Enterprise LiquidIntel'
+- All success and error messages now display as alerts instead of fixed messages
+
+### Removed
+
+- Location Limit on teams
+- Remove the ability to set limits for organization
+
+<br/> 
+
 ## [0.13.1] - 2020-06-25
+
 <br/>
 
 ### Added

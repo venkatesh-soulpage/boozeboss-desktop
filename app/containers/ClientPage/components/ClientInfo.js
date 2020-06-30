@@ -186,72 +186,84 @@ class ClientForm extends Component {
                             />
                         </FieldContainer>
                     </FieldsRow>
-                    {/* <Divider>Limits</Divider>
-                    <FieldsRow>
-                        <FieldContainer>
-                            <FieldLabel>Collaborators Limit</FieldLabel>
-                            <InputNumber 
-                                value={collaborator_limit}
-                                onChange={(value) => this.handleChange(value, 'collaborator_limit')}
-                        />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Briefs / Year Limit</FieldLabel>
-                            <InputNumber 
-                                value={briefs_limit}
-                                onChange={(value) => this.handleChange(value, 'briefs_limit')}
-                            />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Brands Limit</FieldLabel>
-                            <InputNumber 
-                                value={brands_limit}
-                                onChange={(value) => this.handleChange(value, 'brands_limit')}
-                            />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Warehouses Limit</FieldLabel>
-                            <InputNumber 
-                                value={warehouses_limit}
-                                onChange={(value) => this.handleChange(value, 'warehouses_limit')}
-                            />
-                        </FieldContainer>    
-                        <FieldContainer>
-                            <FieldLabel>ID Verifications Limit</FieldLabel>
-                            <InputNumber 
-                                value={identity_verifications_limit}
-                                onChange={(value) => this.handleChange(value, 'identity_verifications_limit')}
-                            />
-                        </FieldContainer>  
-                        <FieldContainer>
-                            <FieldLabel>Agencies Limit</FieldLabel>
-                            <InputNumber 
-                                value={agencies_limit}
-                                onChange={(value) => this.handleChange(value, 'agencies_limit')}
-                            />
-                        </FieldContainer>  
-                        <FieldContainer>
-                            <FieldLabel>Agencies Collaborators Limit</FieldLabel>
-                            <InputNumber 
-                                value={agency_collaborators_limit}
-                                onChange={(value) => this.handleChange(value, 'agency_collaborators_limit')}
-                            />
-                        </FieldContainer> 
-                        <RoleValidator
-                            {...this.props}
-                            scopes={['ADMIN']}
-                            roles={['ADMIN']}
-                        >
+                    <RoleValidator
+                        {...this.props}
+                        scopes={['ADMIN']}
+                        roles={['ADMIN']}
+                    >
+                      <Divider>Limits</Divider>  
+                    </RoleValidator>
+                    <RoleValidator
+                        {...this.props}
+                        scopes={['ADMIN']}
+                        roles={['ADMIN']}
+                    >
+                        <FieldsRow>
                             <FieldContainer>
-                                <FieldLabel>Expiration Date</FieldLabel>
-                                <DatePicker 
-                                    style={{width: '100%'}}
-                                    value={expiration_date}
-                                    onChangeCalendarDate={(value) => this.handleExpiration(value, 'expiration_date')}
+                                <FieldLabel>Collaborators Limit</FieldLabel>
+                                <InputNumber 
+                                    value={collaborator_limit}
+                                    onChange={(value) => this.handleChange(value, 'collaborator_limit')}
+                            />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldLabel>Briefs / Year Limit</FieldLabel>
+                                <InputNumber 
+                                    value={briefs_limit}
+                                    onChange={(value) => this.handleChange(value, 'briefs_limit')}
                                 />
                             </FieldContainer>
-                        </RoleValidator> 
-                    </FieldsRow> */}
+                            <FieldContainer>
+                                <FieldLabel>Brands Limit</FieldLabel>
+                                <InputNumber 
+                                    value={brands_limit}
+                                    onChange={(value) => this.handleChange(value, 'brands_limit')}
+                                />
+                            </FieldContainer>
+                            <FieldContainer>
+                                <FieldLabel>Warehouses Limit</FieldLabel>
+                                <InputNumber 
+                                    value={warehouses_limit}
+                                    onChange={(value) => this.handleChange(value, 'warehouses_limit')}
+                                />
+                            </FieldContainer>    
+                            <FieldContainer>
+                                <FieldLabel>ID Verifications Limit</FieldLabel>
+                                <InputNumber 
+                                    value={identity_verifications_limit}
+                                    onChange={(value) => this.handleChange(value, 'identity_verifications_limit')}
+                                />
+                            </FieldContainer>  
+                            <FieldContainer>
+                                <FieldLabel>Agencies Limit</FieldLabel>
+                                <InputNumber 
+                                    value={agencies_limit}
+                                    onChange={(value) => this.handleChange(value, 'agencies_limit')}
+                                />
+                            </FieldContainer>  
+                            <FieldContainer>
+                                <FieldLabel>Agencies Collaborators Limit</FieldLabel>
+                                <InputNumber 
+                                    value={agency_collaborators_limit}
+                                    onChange={(value) => this.handleChange(value, 'agency_collaborators_limit')}
+                                />
+                            </FieldContainer> 
+                            <RoleValidator
+                                {...this.props}
+                                scopes={['ADMIN']}
+                                roles={['ADMIN']}
+                            >
+                                <FieldContainer>
+                                    <FieldLabel>Expiration Date</FieldLabel>
+                                    <DatePicker 
+                                        style={{width: '100%'}}
+                                        value={expiration_date}
+                                        onChangeCalendarDate={(value) => this.handleExpiration(value, 'expiration_date')}
+                                    />
+                                </FieldContainer>
+                            </RoleValidator> 
+                        </FieldsRow>
+                    </RoleValidator>
                     <Divider>Invite</Divider>
                     <FieldsRow>
                        <FieldContainer>
