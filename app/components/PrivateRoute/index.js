@@ -26,9 +26,18 @@ const PrivateRoute = ({ component: Component, isAuthenticated, scopesRequired, r
                   />
                 )}
                 {scope === 'BRAND' && (
-                  <Redirect
-                    to={{ pathname: '/teams', state: { from: props.location } }}
-                  />
+                  <React.Fragment>
+                    {role === 'WAREHOUSE_MANAGER' ? (
+                      <Redirect
+                        to={{ pathname: '/stock', state: { from: props.location } }}
+                      />
+                    ) : (
+                      <Redirect
+                        to={{ pathname: '/teams', state: { from: props.location } }}
+                      />
+                    )}
+                  </React.Fragment>
+                  
                 )}
                 {scope === 'AGENCY' && (
                   <Redirect
