@@ -26,8 +26,8 @@ export default class CreateRequisitionConfirm extends React.Component {
     }
 
     submit = async () => {
-        const {briefs, currentBrief, createRequisition} = this.props;
-        await createRequisition(briefs[currentBrief].id);
+        const {briefs, currentBrief, createRequisition, history} = this.props;
+        await createRequisition(briefs[currentBrief].id, history);
         this.close();
     }
 

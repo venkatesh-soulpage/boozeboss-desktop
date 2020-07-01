@@ -306,10 +306,10 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Cocktails</FieldLabel>
-                                    <Checkbox defaultChecked={cocktails_enabled} onChange={(value) => this.handleChange(!cocktails_enabled, 'cocktails_enabled')}>Enable Cocktails</Checkbox>
+                                    <Checkbox defaultChecked={cocktails_enabled} onChange={(value) => this.handleChange(!cocktails_enabled, 'cocktails_enabled')}>Enable Cocktails Limit</Checkbox>
                                 </FieldContainer>
                                 <FieldContainer>
-                                    <FieldLabel>Cocktails per guest</FieldLabel>
+                                    <FieldLabel>Max cocktails per guest</FieldLabel>
                                     <InputNumber 
                                         min={1}
                                         disabled={!cocktails_enabled}
@@ -323,10 +323,10 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Free Drinks</FieldLabel>
-                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Free Drinks</Checkbox>
+                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Redeemable Cocktails</Checkbox>
                                 </FieldContainer>
                                 <FieldContainer>
-                                    <FieldLabel>Credits per guest</FieldLabel>
+                                    <FieldLabel>Cocktails per Guest</FieldLabel>
                                     <InputNumber 
                                         disabled={!free_drinks_enabled}
                                         onChange={(value) => this.handleChange(value, 'free_drinks_per_guest')}

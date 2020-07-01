@@ -235,7 +235,7 @@ function* updateBriefStatusSaga(params) {
 }
 
 function* createRequisitionSaga(params) {
-  const {brief_id} = params;
+  const {brief_id, history} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions`;
   const options = {
     method: 'POST',
@@ -245,6 +245,9 @@ function* createRequisitionSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(createRequisitionSuccess(response));
+    history.push({
+      pathname: '/requisitions',
+    })
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(createRequisitionError(jsonError));

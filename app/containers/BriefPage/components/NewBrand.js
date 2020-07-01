@@ -5,6 +5,7 @@ import styled from 'styled-components';
 const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 `
 
 const FieldContainer = styled.div`
@@ -109,7 +110,11 @@ export default class NewProduct extends React.Component {
                             />
                         </FieldContainer>
                         <FieldContainer>
-                            <FieldLabel>Limit (aprox. {Math.round(limit / 750)} units)</FieldLabel> 
+                            <FieldRow>
+                                <FieldLabel>Limit</FieldLabel> 
+                                <FieldLabel>Approx: ~{Math.round(limit / 750 * 100) / 100} units (750ml)</FieldLabel> 
+                            </FieldRow>
+                            
                             <InputNumber 
                                 postfix="ml"
                                 step={100}

@@ -128,7 +128,7 @@ class BriefForm extends Component {
                         />
                     </FieldContainer>
                     <FieldContainer>
-                        <Button onClick={this.submitBrief}>Create Brief</Button>
+                        <Button onClick={this.submitBrief} color="green">Create Brief</Button>
                     </FieldContainer>
                 </DataContainer>
             </Panel>
@@ -204,7 +204,7 @@ export default class BriefsInfo extends Component {
                                         >
                                             {briefs[currentBrief].status === 'DRAFT' && (
                                                 <FieldContainer>
-                                                    <IconButton icon={<Icon icon="trash"/>} style={{textAlign: 'center'}} onClick={this.handleDelete}/> 
+                                                    <IconButton icon={<Icon icon="trash"/>} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}} onClick={this.handleDelete}/> 
                                                     <SubmitBriefConfirm {...this.props} />
                                                 </FieldContainer>
                                             )}
@@ -277,7 +277,7 @@ export default class BriefsInfo extends Component {
                                                     </Column>
                                                     <Column resizable width={120}>
                                                         <HeaderCell>
-                                                            Limit
+                                                            Limit (ml)
                                                         </HeaderCell>
                                                         <Cell dataKey="setup_time">
                                                             {rowData => rowData.limit}

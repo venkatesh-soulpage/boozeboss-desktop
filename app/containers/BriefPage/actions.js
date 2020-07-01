@@ -333,10 +333,11 @@ export function updateBriefStatusError(error) {
 }
 
 // Create a new requisition
-export function createRequisition(brief_id) {
+export function createRequisition(brief_id, history) {
   return {
     type: CREATE_REQUISITION_REQUEST,
     brief_id,
+    history
   };
 }
 

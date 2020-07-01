@@ -93,7 +93,7 @@ function mapDispatchToProps(dispatch) {
     createBriefBrand: (brief_id, briefBrand) => dispatch(createBriefBrand(brief_id, briefBrand)),
     deleteBriefBrand: (brief_id, brief_brand_id) => dispatch(deleteBriefBrand(brief_id, brief_brand_id)),
     updateBriefStatus: (brief_id, status) => dispatch(updateBriefStatus(brief_id, status)),
-    createRequisition: (brief_id) => dispatch(createRequisition(brief_id)),
+    createRequisition: (brief_id, history) => dispatch(createRequisition(brief_id, history)),
     uploadBriefAttachment: (brief_id, file) => dispatch(uploadBriefAttachment(brief_id, file)),
     deleteBriefAttachment: (brief_id, brief_attachment_id) => dispatch(deleteBriefAttachment(brief_id, brief_attachment_id)),
     helloSignGetTemplate: () => dispatch(hellosignGetTemplate()),
