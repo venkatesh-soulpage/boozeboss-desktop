@@ -122,7 +122,20 @@ class BriefContainer extends Component {
             <PanelColumn>
               <FieldRow>
                 <b>{brief.name}</b>
-                <a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a>
+                <RoleValidator
+                  {...this.props}
+                  scopes={['BRAND']}
+                  roles={['OWNER', 'MANAGER']}
+                >
+                  <a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a>
+                </RoleValidator>
+                <RoleValidator
+                  {...this.props}
+                  scopes={['AGENCY']}
+                  roles={['OWNER', 'MANAGER']}
+                >
+                  <a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED', 'ON PROGRESS', 'DRAFT'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a>
+                </RoleValidator>
               </FieldRow>
               
               <p>{brief.created_at && moment(brief.created_at).format('DD/MM/YYYY')}</p>
