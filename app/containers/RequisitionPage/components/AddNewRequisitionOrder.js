@@ -106,10 +106,10 @@ export default class AddNewRequisitionOrder extends React.Component {
             .filter((prod) => {
         
                 // filters
-                const has_brief_brand = !prod.is_cocktail && prod.brand && brief_brands.indexOf(prod.brand.id) > -1;
-                const is_ingredient = !prod.is_cocktail &&  prod.brand && prod.brand.product_type !== 'Liquour';
+                const is_product = prod.product_type === 'PRODUCT';
+                const has_brief_brand = !prod.is_cocktail && prod.brand && brief_brands.indexOf(prod.brand_id) > -1;
 
-                return has_brief_brand || is_ingredient;
+                return is_product && has_brief_brand;
             })
             .map(prod => {
                 return {
@@ -124,13 +124,15 @@ export default class AddNewRequisitionOrder extends React.Component {
                 return prod.is_cocktail;
             }))
            .filter((prod) => {
-                const ingredient_brands = prod.ingredients.map((ing) => ing.product.brand_id);               
+                const ingredient_brands = prod.ingredients.map((ing) => ing.product.brand_id);        
                 const available_ingredients = ingredient_brands.filter(ib => {
                     return available_product_ids.indexOf(ib) > -1;
                 })
-                return available_ingredients.length >= 0;
+
+                return available_ingredients.length > 0;
             }) 
             .map(prod => {
+                console.log(prod);
                 return {
                     label: prod.is_cocktail ? `${prod.name} - ${prod.metric_amount}${prod.metric} (Cocktail)` : `${prod.name} - ${prod.metric_amount}${prod.metric}`,
                     value: prod
@@ -151,7 +153,7 @@ export default class AddNewRequisitionOrder extends React.Component {
                 });
     
 
-        return [...available_products, ...available_cocktails, ...no_brand_products];
+        return [...available_products , ...available_cocktails, ...no_brand_products];
     } 
 
     reset = () => {
