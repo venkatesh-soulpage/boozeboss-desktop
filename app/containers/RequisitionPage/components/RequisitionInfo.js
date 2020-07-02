@@ -143,7 +143,7 @@ export default class RequisitionInfo extends Component {
                                             )}
                                         </FieldContainer>
                                     </FieldRow>
-                                    {requisitions[currentRequisition].comments && !requisitions[currentRequisition].status !== 'APPROVED' &&(
+                                    {requisitions[currentRequisition].comments && requisitions[currentRequisition].status !== 'APPROVED' && (
                                         <Message
                                             style={{width: '100%'}}
                                             type="warning"
