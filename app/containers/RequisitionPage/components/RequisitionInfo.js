@@ -110,7 +110,8 @@ export default class RequisitionInfo extends Component {
                                                 <p>{requisitions[currentRequisition].comments}</p>
                                             </FieldContainer>
                                         )}
-                                 <FieldContainer align="flex-end">
+                                        
+                                        <FieldContainer align="flex-end">
                                             <p>{requisitions[currentRequisition].status}</p>
                                             {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
                                                 <ConfirmSubmit {...this.props}/>
@@ -143,13 +144,7 @@ export default class RequisitionInfo extends Component {
                                                 </RoleValidator>
                                             )}
                                             {requisitions[currentRequisition].status === 'APPROVED' && (
-                                                <RoleValidator 
-                                                    {...this.props}
-                                                    scopes={['BRAND']}
-                                                    roles={['OWNER','MANAGER','WAREHOUSE_MANAGER']}
-                                                >
-                                                    <Button block onClick={this.handleRequestDocument}>Show Document</Button>
-                                                </RoleValidator>
+                                                <Button block onClick={this.handleRequestDocument}>Show Document</Button>
                                             )}
                                         </FieldContainer>
                                     </FieldRow>
