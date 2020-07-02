@@ -3,6 +3,7 @@ import {Modal, Button, Icon} from 'rsuite';
 import styled from 'styled-components';
 
 const StyledAction = styled(Button)`
+    width: 150px;
     margin: 1em 0 0 0;
     text-align: center;
     &:hover {
@@ -23,7 +24,7 @@ export default class ApproveRequisitionConfirm extends React.Component {
         hellosign.on('sign', (data) => {
             console.log(data);
             console.log('Signed', data.signatureId)
-            updateRequisitionStatus(requisitions[currentRequisition].id, 'APPROVED', data.signatureId)
+            updateRequisitionStatus(requisitions[currentRequisition].id, {status: 'CHANGES REQUIRED'}, data.signatureId)
         })
     }
 
@@ -45,7 +46,7 @@ export default class ApproveRequisitionConfirm extends React.Component {
         const {show} = this.state;
         return (
             <React.Fragment>
-                <StyledAction color="green" onClick={this.open}>Approve</StyledAction>
+                <StyledAction color="green" onClick={this.open} >Approve</StyledAction>
         
                 <Modal backdrop="static" show={show} onHide={this.close} size="xs">
                     <Modal.Body>

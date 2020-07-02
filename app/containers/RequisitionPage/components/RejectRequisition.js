@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledAction = styled(Button)`
     margin: 1em 0 0 0;
+    width: 150px;
     text-align: center;
     &:hover {
         cursor: pointer;

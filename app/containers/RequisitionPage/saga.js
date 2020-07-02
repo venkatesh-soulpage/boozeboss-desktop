@@ -114,7 +114,7 @@ function* updateRequisitionStatusSaga(params) {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/requisitions/${requisition_id}/update-status`;
   const options = {
     method: 'PUT',
-    body: JSON.stringify({status, hellosign_signature_id})
+    body: JSON.stringify({...status, hellosign_signature_id})
   };
 
   try {

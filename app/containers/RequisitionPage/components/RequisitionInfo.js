@@ -104,9 +104,15 @@ export default class RequisitionInfo extends Component {
                                             <FieldLabel>Serial</FieldLabel>
                                             <p>#{requisitions[currentRequisition].serial_number}</p>
                                         </FieldContainer>
-                                        <FieldContainer align="flex-end">
+                                        {requisitions[currentRequisition].comments && (
+                                            <FieldContainer>
+                                                <FieldLabel>Change Request Comments</FieldLabel>
+                                                <p>{requisitions[currentRequisition].comments}</p>
+                                            </FieldContainer>
+                                        )}
+                                 <FieldContainer align="flex-end">
                                             <p>{requisitions[currentRequisition].status}</p>
-                                            {requisitions[currentRequisition].status === 'DRAFT' && (
+                                            {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
                                                 <ConfirmSubmit {...this.props}/>
                                             )}
                                             {requisitions[currentRequisition].status === 'SUBMITTED' && (

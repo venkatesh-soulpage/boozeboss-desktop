@@ -133,7 +133,7 @@ class ProductOrder extends Component {
                 <FieldLabel>
                     {order.units * order.product.metric_amount}{order.product.metric}
                 </FieldLabel>
-                {requisitions[currentRequisition].status === 'DRAFT' && (
+                {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
                     <FieldLabel>
                         <DeleteVenueModal {...this.props}/>
                     </FieldLabel>

@@ -27,7 +27,7 @@ export default class ConfirmSubmit extends React.Component {
 
     submit = () => {
         const {requisitions, currentRequisition, updateRequisitionStatus} = this.props;
-        updateRequisitionStatus(requisitions[currentRequisition].id, 'SUBMITTED');
+        updateRequisitionStatus(requisitions[currentRequisition].id, {status: 'CHANGES REQUIRED'});
         this.close();
     }
 

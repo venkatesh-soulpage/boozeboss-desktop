@@ -15,15 +15,15 @@ const Column = styled.div`
   position: sticky;
   top: 0;
   bottom: 0;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 15px);
   margin: 0 0 1em 0;
   overflow-y: auto;
 `;
 
 const AddSection = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
+  align-items: flex-start;
   position: sticky;
   top: 0;
   margin: 0 0 1em 0;

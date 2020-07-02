@@ -43,7 +43,7 @@ export default class RequisitionEvent extends Component {
                         {event.expected_guests}
                     </FieldLabel>
                     <FieldLabelAction>
-                        {requisitions[currentRequisition].status === 'DRAFT' && (
+                        {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
                             <AddNewRequisitionOrder {...this.props}/>
                         )}
                         <ProductOrders {...this.props}/>
