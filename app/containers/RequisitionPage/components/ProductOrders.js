@@ -9,6 +9,10 @@ const FieldRow = styled.div`
     display: flex; 
     flex-direction: row; 
     margin: 0.5em 0 0.5em 0;
+    padding: 10px 0 10px 0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #fafafa;
 `
 
 const FieldContainer = styled.div`
@@ -21,14 +25,15 @@ const FieldLabel = styled.p`
     display: flex;
     text-align: center;
     justify-content: center;
-    flex: 1;
+    flex: ${props => props.flex || 1};
 `;
 
 const FieldHeaderLabel = styled.b`
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1;
+    tex-align: center;
+    flex: ${props => props.flex || 1};
 `;
 
 const StyledAction = styled.p`
@@ -40,7 +45,7 @@ const StyledAction = styled.p`
 `
 
 const ProductHeader = (props) => (<FieldRow>
-    <FieldHeaderLabel>
+    <FieldHeaderLabel flex={2}>
         Product Name
     </FieldHeaderLabel>
     <FieldHeaderLabel>
@@ -49,7 +54,7 @@ const ProductHeader = (props) => (<FieldRow>
     <FieldHeaderLabel>
         Units
     </FieldHeaderLabel>
-    <FieldHeaderLabel>
+    <FieldHeaderLabel flex={1.5}>
         Suggested Price
     </FieldHeaderLabel>
     <FieldHeaderLabel>
@@ -113,7 +118,7 @@ class ProductOrder extends Component {
         const {order, requisitions, currentRequisition} = this.props;
         return (
             <FieldRow>
-                <FieldLabel>
+                <FieldLabel flex={2}>
                     {order.product.name}
                 </FieldLabel>
                 <FieldLabel>
@@ -122,7 +127,7 @@ class ProductOrder extends Component {
                 <FieldLabel>
                     {order.units}
                 </FieldLabel>
-                <FieldLabel>
+                <FieldLabel flex={1.5}>
                     {order.price}
                 </FieldLabel>
                 <FieldLabel>

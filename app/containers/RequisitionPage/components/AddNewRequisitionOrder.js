@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox} from 'rsuite'
 import styled from 'styled-components';
 
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px 0 5px 0;
+`
+
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -10,8 +17,6 @@ const FieldContainer = styled.div`
 `;
 
 const FieldLabel = styled.b`
-    display: flex;
-    flex: 1;
     margin: 0 0.5em 0.5em 0;
 `;
 
@@ -46,7 +51,7 @@ export default class AddNewRequisitionOrder extends React.Component {
       this.state = {
         show: false,
         brand: null,
-        units: 0,
+        units: 1,
         is_display: false,
         base_price: 0,
       };
@@ -58,7 +63,12 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     close = () => {
-      this.setState({ show: false });
+        this.setState({ 
+          show: false,
+            product: null,
+            units: 0,
+            base_price: 0, 
+        });
     }
 
     open = () => {
@@ -132,7 +142,6 @@ export default class AddNewRequisitionOrder extends React.Component {
                 return available_ingredients.length > 0;
             }) 
             .map(prod => {
-                console.log(prod);
                 return {
                     label: prod.is_cocktail ? `${prod.name} - ${prod.metric_amount}${prod.metric} (Cocktail)` : `${prod.name} - ${prod.metric_amount}${prod.metric}`,
                     value: prod
@@ -155,6 +164,51 @@ export default class AddNewRequisitionOrder extends React.Component {
 
         return [...available_products , ...available_cocktails, ...no_brand_products];
     } 
+
+    getCurrentUnits = (brand_id) => {
+        const {requisitions, currentRequisition} = this.props;
+        const requisition = requisitions[currentRequisition];
+        const {orders} = requisition;
+        
+
+        const currentUnits = orders.reduce((acc, curr) => {
+
+            const ingredient_ids = curr.product.ingredients.map(ing => ing.brand.id);
+
+            if ( curr.product.brand && curr.product.brand.id === brand_id ) {
+                return Number(acc) + Number(curr.units * curr.product.metric_amount);
+            } else if ( ingredient_ids.indexOf(brand_id) > -1 ) {
+                // Calculate bottles from units
+                const ingredient = curr.product.ingredients.find(ing => ing.brand.id === brand_id );
+                const totalml = ingredient.quantity * curr.units;
+                return acc + totalml;
+            } else {
+                return acc;
+            }
+        }, 0);
+        return currentUnits;
+    }
+
+    getMaxOrder = () => {
+        const {requisitions, currentRequisition} = this.props;
+        const {units, product} = this.state;
+        const requisition = requisitions[currentRequisition];
+
+        if (!product) return 0;
+
+        const {brands} = requisition.brief;
+    
+        let brief_brand;
+        if (product.is_cocktail) {
+            const ingredient = product.ingredients.find(ingredient => ingredient.product_parent_id === product.id);
+            brief_brand = brands.find(curr_brand => curr_brand.brand.id === ingredient.product.brand_id);
+            return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * ingredient.quantity); 
+            
+        } else {
+            brief_brand = brands.find(curr_brand => curr_brand.brand.id === product.brand_id);
+            return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * product.metric_amount);  
+        }
+    }
 
     reset = () => {
         this.setState({
@@ -196,10 +250,16 @@ export default class AddNewRequisitionOrder extends React.Component {
                         )}
                         {product && (
                             <FieldContainer>
-                                <FieldLabel>Units</FieldLabel>
+                                <FieldRow>
+                                    <FieldLabel>Units</FieldLabel>
+                                    {['COCKTAIL', 'PRODUCT'].indexOf(product.product_type) > -1 && (
+                                        <FieldLabel>({this.getMaxOrder()} ml) left</FieldLabel>
+                                    )}
+                                </FieldRow>
                                 <InputGroup>
                                     <InputNumber 
-                                        defaultValue={0} 
+                                        defaultValue={1} 
+                                        min={1}
                                         value={units}
                                         onChange={(value) => this.handleChange(value, 'units')}
                                     />
@@ -221,7 +281,11 @@ export default class AddNewRequisitionOrder extends React.Component {
                         )}
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button onClick={this.submitOrder} color="green">
+                    <Button
+                        disabled={ product && ['COCKTAIL', 'PRODUCT'].indexOf(product.product_type) > -1 && this.getMaxOrder() < 0} 
+                        onClick={this.submitOrder} 
+                        color="green"
+                    >
                         New Order
                     </Button>
                     <Button onClick={this.close} appearance="subtle">

@@ -50,12 +50,13 @@ class ProductRow extends Component {
                 // Calculate bottles from units
                 const ingredient = curr.product.ingredients.find(ing => ing.product_id === product_id );
                 const totalml = ingredient.quantity * curr.units;
-                const totalUnits = Math.round(totalml / curr.product.metric_amount); 
+                const totalUnits = Math.ceil(totalml / ingredient.product.metric_amount); 
                 return acc + totalUnits;
             } else {
                 return acc;
             }
         }, 0);
+
 
         return currentUnits;
     }
