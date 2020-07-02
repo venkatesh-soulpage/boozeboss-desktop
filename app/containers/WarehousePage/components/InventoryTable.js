@@ -71,7 +71,7 @@ export default class InventoryTable extends Component {
                                 Transactions
                             </HeaderCell>
                             <Cell dataKey="quantity">
-                                {rowData => <ProductTransactions warehouses={warehouses} currentWarehouse={currentWarehouse} transactions={rowData.transactions} quantity={rowData.quantity} product={rowData.product}/>}
+                                {rowData => <ProductTransactions {...this.props} warehouses={warehouses} currentWarehouse={currentWarehouse} transactions={rowData.transactions} quantity={rowData.quantity} product={rowData.product}/>}
                             </Cell>
                         </Column>
                         <Column resizable width={150}>

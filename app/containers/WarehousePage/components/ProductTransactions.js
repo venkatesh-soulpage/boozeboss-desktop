@@ -45,6 +45,14 @@ export default class ProductTransactions extends React.Component {
         return data;
     }
 
+    goToRequisition = (requisition) => {
+        const {history} = this.props;
+        history.push({
+          pathname: '/requisitions',
+          requisition_id: requisition.id,
+        });
+      }
+
     render() {
         const {show} = this.state;
         const {transactions, product, quantity} = this.props;
@@ -83,7 +91,7 @@ export default class ProductTransactions extends React.Component {
                                         Requisition
                                     </HeaderCell>
                                     <Cell dataKey="action">
-                                        {rowData => rowData.requisition_id || '-'}
+                                        {rowData => rowData.requisition ? <a onClick={() => this.goToRequisition(rowData.requisition)}>{`#${rowData.requisition.serial_number}`}</a> : '-'}
                                     </Cell>
                                 </Column>
                                 <Column flexGrow>
