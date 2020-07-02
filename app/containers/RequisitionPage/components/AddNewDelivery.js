@@ -42,7 +42,13 @@ const FieldLabel = styled.b`
 
 const FieldDeliveryLabel = styled.p`
     display: flex;
-    flex: 1;
+    flex: ${props => props.flex || 1};
+    margin: 0 0.5em 0.5em 0;
+`;
+
+const FieldDeliveryAction= styled.a`
+    display: flex;
+    flex: ${props => props.flex || 1};
     margin: 0 0.5em 0.5em 0;
 `;
 
@@ -126,7 +132,7 @@ class AddNewDeliveryProduct extends React.Component {
     }
     
     render() {
-        const {show, order, units } = this.state;
+        const {show, product, units, order } = this.state;
         return (
             <React.Fragment>
                 <StyledButton style={{marginTop: '10px'}} onClick={this.open} color="green">+ Add Products</StyledButton>
@@ -138,7 +144,7 @@ class AddNewDeliveryProduct extends React.Component {
                                 Product
                             </FieldLabel>
                             <SelectPicker 
-                                value={order}
+                                value={product}
                                 searchable={false}
                                 cleanable={false}
                                 data={this.getPickerData()}
@@ -157,9 +163,9 @@ class AddNewDeliveryProduct extends React.Component {
                         </FieldContainer>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button disabled={order && order.units < units} onClick={this.handleAddDeliveryProduct} color="green">
-                        Add Product
-                    </Button>
+                        <Button disabled={order && order.units < units} onClick={this.handleAddDeliveryProduct} color="green">
+                            Add Product
+                        </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel
                     </Button>
@@ -173,9 +179,9 @@ class AddNewDeliveryProduct extends React.Component {
 
 const DeliveryProduct = (props) => (
     <FieldDeliveryRow isFirst={props.isFirst}>
-        <FieldDeliveryLabel>{props.deliveryProduct.product.name}</FieldDeliveryLabel>
+        <FieldDeliveryLabel flex={2.5}>{props.deliveryProduct.product.name}</FieldDeliveryLabel>
         <FieldDeliveryLabel>{props.deliveryProduct.units} units</FieldDeliveryLabel>
-        <FieldDeliveryLabel>Remove</FieldDeliveryLabel>
+        <FieldDeliveryAction onClick={() => props.handleRemoveDeliveryProduct(props.deliveryProduct.product.id)}>Remove</FieldDeliveryAction>
     </FieldDeliveryRow>
 )
 
@@ -208,6 +214,15 @@ export default class AddNewDelivery extends React.Component {
 
     handleAddDeliveryProduct = (value) => {
         this.setState({deliveryProducts: [...this.state.deliveryProducts, value]});
+    }
+
+    handleRemoveDeliveryProduct = (product_id) => {
+        console.log(product_id);
+        let delivery_array = this.state.deliveryProducts.slice();
+        const delivery_product_ids = delivery_array.map(dp => dp.product.id);
+        const remove_index = delivery_product_ids.indexOf(product_id);
+        delivery_array.splice(remove_index, 1);
+        this.setState({deliveryProducts: delivery_array});
     }
 
     handleChange = (value, name) => {
@@ -256,7 +271,72 @@ export default class AddNewDelivery extends React.Component {
             deliveryProducts: []
         })
     }
+
+    getCurrentUnits = (product_id) => {
+        const {requisitions, currentRequisition} = this.props;
+        const requisition = requisitions[currentRequisition];
+        const {orders} = requisition;
+        
+
+        const currentUnits = orders.reduce((acc, curr) => {
+
+            const ingredient_ids = curr.product.ingredients.map(ing => ing.product_id);
+
+            if ( product_id === curr.product_id ) {
+                return Number(acc) + Number(curr.units);
+            } else if ( ingredient_ids.indexOf(product_id) > -1 ){
+                // Calculate bottles from units
+                const ingredient = curr.product.ingredients.find(ing => ing.product_id === product_id );
+                const totalml = ingredient.quantity * curr.units;
+                const totalUnits = Math.ceil(totalml / ingredient.product.metric_amount); 
+                return acc + totalUnits;
+            } else {
+                return acc;
+            }
+        }, 0);
+
+        return currentUnits;
+    }
     
+    autofill = async () => {
+        const {requisitions, currentRequisition, products} = this.props;
+        const requisition = requisitions[currentRequisition];
+        const {orders} = requisition;
+
+        if (!requisitions) return [];
+        await this.setState({deliveryProducts: []})
+
+        // Filter the products for the brand
+        // Products for brands
+        const category_products = 
+                orders
+                    .filter(order => !order.product.is_cocktail)
+                    .map(order => order.product_id);
+            
+        const cocktail_products_id = [];
+        orders
+            .filter(order => order.product.is_cocktail)
+            .map(order => {
+                order.product.ingredients.map(ing => {
+                    cocktail_products_id.push(ing.product_id);
+                })
+            })   
+
+        const all_ids = [...category_products, ...cocktail_products_id];
+        const unique_products = [...new Set(all_ids)];
+
+        for (const unique_product of unique_products) {
+            const product = await products.find(prod => prod.id === unique_product);
+            if (product) {
+                await this.handleAddDeliveryProduct({
+                    product,
+                    units: this.getCurrentUnits(product.id)
+                })
+            }
+        }
+               
+    }
+
     render() {
         const {show, waybill, status, warehouse_id, deliveryProducts } = this.state;
         return (
@@ -265,25 +345,6 @@ export default class AddNewDelivery extends React.Component {
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
-                        {/* <FieldContainer>
-                            <FieldLabel>Waybill</FieldLabel>
-                            <Input
-                                value={waybill}
-                                onChange={(val) => this.handleChange(val, 'waybill')}
-                            />
-                        </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>
-                                Status
-                            </FieldLabel>
-                            <SelectPicker 
-                                value={status}
-                                searchable={false}
-                                cleanable={false}
-                                data={StatusesData}
-                                onSelect={(value) => this.handleChange(value, 'status')}
-                            />
-                        </FieldContainer> */}
                         <FieldContainer>
                             <FieldLabel>Warehouse</FieldLabel>
                             <SelectPicker 
@@ -294,16 +355,18 @@ export default class AddNewDelivery extends React.Component {
                                 onSelect={(value) => this.handleChangeWarehouse(value, 'warehouse_id')}
                             /> 
                         </FieldContainer>
+                        <Divider />
                         <FieldContainer> 
                             <FieldLabel>Products on this delivery</FieldLabel>
                             {deliveryProducts 
                             && deliveryProducts.length > 0 ? (
                                 <ProductsSection>
-                                    {deliveryProducts.map((deliveryProduct, index) => <DeliveryProduct deliveryProduct={deliveryProduct} isFirst={index < 1} />)}
+                                    {deliveryProducts.map((deliveryProduct, index) => <DeliveryProduct deliveryProduct={deliveryProduct} isFirst={index < 1} handleRemoveDeliveryProduct={this.handleRemoveDeliveryProduct} />)}
                                 </ProductsSection>
                             ) : (
                                 <p>No products selected</p> 
                             )}
+                            <Divider />
                             {warehouse_id && (
                                 <AddNewDeliveryProduct 
                                     {...this.props}
@@ -312,6 +375,9 @@ export default class AddNewDelivery extends React.Component {
                                     handleAddDeliveryProduct={this.handleAddDeliveryProduct}
                                     reset={this.reset}
                                 />
+                            )}
+                            {warehouse_id && (
+                                <Button onClick={this.autofill}>Autofill</Button>
                             )}
                         </FieldContainer>
                     </Modal.Body>
