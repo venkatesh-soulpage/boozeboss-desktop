@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Divider } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Divider, Message } from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import RequisitionEvent from './RequisitionEvent';
 import RequisitionBrand from './RequisitionBrand';
@@ -100,17 +100,12 @@ export default class RequisitionInfo extends Component {
                             <Panel bordered>
                                 <DataContainer>
                                     <FieldRow>
-                                        <FieldContainer>
-                                            <FieldLabel>Serial</FieldLabel>
-                                            <p>#{requisitions[currentRequisition].serial_number}</p>
-                                        </FieldContainer>
-                                        {requisitions[currentRequisition].comments && (
+                                        <DataContainer>
                                             <FieldContainer>
-                                                <FieldLabel>Change Request Comments</FieldLabel>
-                                                <p>{requisitions[currentRequisition].comments}</p>
+                                                <FieldLabel>Serial</FieldLabel>
+                                                <p>#{requisitions[currentRequisition].serial_number}</p>
                                             </FieldContainer>
-                                        )}
-                                        
+                                        </DataContainer>
                                         <FieldContainer align="flex-end">
                                             <p>{requisitions[currentRequisition].status}</p>
                                             {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
@@ -148,6 +143,20 @@ export default class RequisitionInfo extends Component {
                                             )}
                                         </FieldContainer>
                                     </FieldRow>
+                                    {requisitions[currentRequisition].comments && !requisitions[currentRequisition].status !== 'APPROVED' &&(
+                                        <Message
+                                            style={{width: '100%'}}
+                                            type="warning"
+                                            description={
+                                                <div>
+                                                    <b>Changes Required</b>
+                                                    <p>
+                                                    {requisitions[currentRequisition].comments}
+                                                    </p>
+                                                </div>
+                                            }
+                                        />
+                                    )}
                                     <FieldContainer>
                                         <FieldLabel>Events</FieldLabel>
                                         <FieldRow>
