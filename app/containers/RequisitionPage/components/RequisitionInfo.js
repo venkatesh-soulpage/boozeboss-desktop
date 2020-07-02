@@ -138,7 +138,7 @@ export default class RequisitionInfo extends Component {
                                                     <RequestModifications {...this.props}/>
                                                 </RoleValidator>
                                             )}
-                                            {requisitions[currentRequisition].status === 'APPROVED' && (
+                                            {requisitions[currentRequisition].status === 'APPROVED' && requisitions[currentRequisition].hellosign_signature_id && (
                                                 <Button block onClick={this.handleRequestDocument}>Show Document</Button>
                                             )}
                                         </FieldContainer>
