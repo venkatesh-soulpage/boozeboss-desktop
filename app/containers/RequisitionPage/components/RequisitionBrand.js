@@ -173,7 +173,7 @@ export default class RequisitionProduct extends Component {
     render() {
         const {type} = this.props;
         return (
-            <Panel header={type} collapsible bordered>
+            <Panel header={type} collapsible shaded style={{margin: '10px 0 0 0'}}>
                 {this.getOrderProducts()}
             </Panel>
         )

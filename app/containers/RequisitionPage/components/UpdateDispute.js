@@ -262,7 +262,7 @@ export default class UpdateDispute extends React.Component {
         const {show, waybill, status, warehouse_id, deliveryProducts } = this.state;
         return (
             <React.Fragment>
-                <StyledButton onClick={this.open} color="green" block>Update Delivery</StyledButton>
+                <StyledButton onClick={this.open} color="green" block style={{margin: '10px 0 0 0 0'}}>Update Delivery</StyledButton>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

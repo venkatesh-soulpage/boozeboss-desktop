@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox, Divider} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox, Divider, Alert} from 'rsuite'
 import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
@@ -127,6 +127,16 @@ class AddNewDeliveryProduct extends React.Component {
         })
     }
 
+    getCurrentUnits = (product_id) => {
+        const {requisitions, currentRequisition, warehouse_id, warehouses} = this.props;
+        const requisition = requisitions[currentRequisition];
+
+        const warehouse = warehouses.find(wh => wh.id === warehouse_id);
+        const stock = warehouse.stocks.find(stock => stock.product_id === product_id);
+
+        return stock.quantity;
+    }
+
     reset = () => {
         this.setState({order: null, units: null})
     }
@@ -157,7 +167,8 @@ class AddNewDeliveryProduct extends React.Component {
                             </FieldLabel>
                             <InputNumber 
                                 value={units}
-                                max={order && order.units}
+                                min={1}
+                                max={product && this.getCurrentUnits(product.id)}
                                 onChange={(val) => this.handleChange(val, 'units')}
                             />
                         </FieldContainer>
@@ -217,7 +228,6 @@ export default class AddNewDelivery extends React.Component {
     }
 
     handleRemoveDeliveryProduct = (product_id) => {
-        console.log(product_id);
         let delivery_array = this.state.deliveryProducts.slice();
         const delivery_product_ids = delivery_array.map(dp => dp.product.id);
         const remove_index = delivery_product_ids.indexOf(product_id);
@@ -299,7 +309,8 @@ export default class AddNewDelivery extends React.Component {
     }
     
     autofill = async () => {
-        const {requisitions, currentRequisition, products} = this.props;
+        const { warehouse_id } = this.state;
+        const {requisitions, currentRequisition, products, warehouses} = this.props;
         const requisition = requisitions[currentRequisition];
         const {orders} = requisition;
 
@@ -327,12 +338,22 @@ export default class AddNewDelivery extends React.Component {
 
         for (const unique_product of unique_products) {
             const product = await products.find(prod => prod.id === unique_product);
-            if (product) {
+
+            const currentWarehouse = warehouses.find(wh => wh.id === warehouse_id);
+            const stock = currentWarehouse.stocks.find(stock => stock.product_id === unique_product);
+
+            const currentUnits = this.getCurrentUnits(product.id);
+
+            if (product && currentUnits <= stock.quantity) {
                 await this.handleAddDeliveryProduct({
                     product,
-                    units: this.getCurrentUnits(product.id)
+                    units: currentUnits,
                 })
             }
+        }
+
+        if (this.state.deliveryProducts.length < unique_products.length) {
+            Alert.error('Stock missing in this warehouse some products');
         }
                
     }

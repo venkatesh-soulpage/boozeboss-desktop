@@ -20,6 +20,11 @@ const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: ${props => props.spaced ? 'space-between' : 'flex-start'};
+    ${props => props.isProduct && `
+        border-top-color: #DCDCDC;
+        border-top-style: solid;
+        border-top-width: 1px;
+    `}
 `;
 
 const FieldContainer = styled.div`
@@ -38,7 +43,7 @@ const ProductLabel = styled.p`
 `;
 
 const DeliveryProduct = (props) => (
-    <FieldRow>
+    <FieldRow isProduct={true}>
         <FieldContainer>
            <ProductLabel>{props.deliveryProduct.product.name}</ProductLabel> 
         </FieldContainer>
@@ -52,13 +57,13 @@ const DeliveryProduct = (props) => (
 )
 
 const Delivery = (props) => (
-    <StyledPanel bordered shaded>
+    <StyledPanel bordered>
         <FieldRow spaced>
             <FieldContainer>
                 <FieldLabel>Created at</FieldLabel>
                 <p>{moment(props.delivery.created_at).format('DD/MM/YYYY LT')}</p>
             </FieldContainer>
-            {props.delivery.status === 'PROCESSING DELIVERY' && (
+            {props.delivery.status === 'PROCESSING DELIVERY' && props.delivery.enabled && (
                 <RoleValidator
                     {...props}
                     scopes={['BRAND']}
@@ -77,7 +82,7 @@ const Delivery = (props) => (
                     </FieldContainer>
                 </RoleValidator>
             )}
-            {props.delivery.status === 'DISPUTED' && (
+            {props.delivery.status === 'DISPUTED' && props.delivery.enabled &&(
                 <RoleValidator
                     {...props}
                     scopes={['BRAND']}
@@ -98,7 +103,7 @@ const Delivery = (props) => (
                 roles={['OWNER', 'MANAGER']}
             >
                 <FieldContainer>
-                {props.delivery.status === 'DELIVERED' && (
+                {props.delivery.status === 'DELIVERED' && props.delivery.enabled &&(
                     <RoleValidator
                         {...props}
                         scopes={['AGENCY']}
@@ -117,7 +122,7 @@ const Delivery = (props) => (
                         </FieldContainer>
                     </RoleValidator>
                 )}
-                {props.delivery.status === 'DELIVERED' && (
+                {props.delivery.status === 'DELIVERED' && props.delivery.enabled && (
                     <RoleValidator
                         {...props}
                         scopes={['AGENCY']}
@@ -175,18 +180,55 @@ const Delivery = (props) => (
     </StyledPanel>
 )
 
+class WaybillGroup extends Component {
+    render() {
+        const {requisition, waybill} = this.props;
+        const deliveries = 
+            requisition.deliveries
+                .sort((a,b) => {
+                    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                })
+                .filter(delivery => {
+                    return delivery.waybill.includes(waybill)
+                })
+
+        return (
+             <StyledPanel 
+                shaded
+                header={`Waybill: ${waybill} ${deliveries && deliveries[0] && `(${deliveries[0].status})`}`}
+                collapsible
+            >
+                 {deliveries.map(delivery => {
+                     return <Delivery {...this.props} delivery={delivery}/> 
+                 })}
+            </StyledPanel>
+        )
+    }
+}
+
 export default class Deliveries extends Component {
+    
+    groupWaybills = () => {
+        const {requisition} = this.props;
+        if (!requisition) return [];
+        const waybills = requisition.deliveries.map((del) => {
+            const splitted = del.waybill.split('_');
+            return `${splitted[0]}_${splitted[1]}`;
+        });
+
+        return [...new Set(waybills)]
+    }
+
     render() {
         const {requisition} = this.props;
+        const waybills = this.groupWaybills();
         return (
             <EventSection>
-                {requisition &&
-                    requisition.deliveries && 
-                    requisition.deliveries.length > 0 ? (
+                {waybills &&
+                    waybills.length > 0 ? (
                         <React.Fragment>
-                            {requisition.deliveries
-                                .filter(delivery => delivery.enabled)
-                                .map(delivery => <Delivery {...this.props} delivery={delivery}/>)}
+                            {waybills
+                                .map(waybill => <WaybillGroup {...this.props} waybill={waybill}/>)}
                         </React.Fragment>
                     ) : (
                         <p>No current deliveries</p>
