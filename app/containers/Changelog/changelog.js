@@ -13,21 +13,20 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- When creating a requisition on briefs tab the requisition sends to the current requisition
-- On requisition calculator the product picker filters only shows products and cocktails with the correct brand
-- On requisition calculator it validates for the brand ml limit defined on the brief. So the agency can't request more than it is allowed.
-- Add city to venues
+- Autofill function on requisition, the warehouse manager can autofill the delivery if the selected warehouse has enough inventory
+- Add requisition delivery limits for negative numbers and maximum for stock.
+- Group deliveries by waybill with versioning
+- Add REGION MANAGER role to the database
+- Invite Collaborator on regional organizations
+- Add transfer coins capability for wallet (BackEnd)
+- Add Verification limit validation to Organization/Team logic (BackEnd)
 
 ### Changed
 
-- Requisitions links from briefs tab send you to the correct requisition only if it is available.
-- Brief brand limits are now measure on ml instead of units.
-- Inventory stocks now show the correct requisition serial number with link.
-- When requesting changes to a requisition the user now has the ability to send a message inside the change request.
-- Added the 'CHANGES REQUIRED' status to requisition.
-- Enable 'Show Document' button for all roles insinde BRAND and AGENCY scopes.
-- Validate negative and over the limit values on brief event and requisition calculator.
-- Fix seeder addition of product ingredients.
+- If it doesn't exist a hellosign document under a requisition disable 'Show document' action
+- Added UI Role Validation for organizations, teams and agencies,
+- root directory (/) redirects to the current organization, team or agency. Except for admin
+- Improve live dashboard UI
 - Minor UI Fixes
 
 <br/> 
