@@ -184,7 +184,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                     {rowData => rowData.role.name}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            {/* <Column flexGrow>
                                 <HeaderCell>
                                     Actions
                                 </HeaderCell>
@@ -210,7 +210,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                     </Cell>
                                 </RoleValidator>
                                 
-                            </Column>
+                            </Column> */}
                         </Table>
                     ) : (
                         <p>No Collaborators</p>

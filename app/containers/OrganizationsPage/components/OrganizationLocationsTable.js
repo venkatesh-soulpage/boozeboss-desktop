@@ -60,7 +60,7 @@ class PrimaryLocation extends React.Component {
         const {show} = this.state;
         return (
             <React.Fragment>
-                {regional_location.is_primary_location ? (
+                {regional_location && regional_location.is_primary_location ? (
                   <b>Primary</b>
                 ) : (
                   <a onClick={this.open}>Select as Primary</a>
@@ -142,16 +142,17 @@ export default class OrganizationLocationsTable extends Component {
                                     <HeaderCell>
                                         Primary Location
                                     </HeaderCell>
-                                        <RoleValidator
-                                        {...this.props}
-                                        scopes={['REGION']}
-                                        roles={['OWNER']}
-                                    >
-                                        <Cell dataKey="id_card_available">
-                                            {rowData => <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>}
-                                        </Cell>
-                                    </RoleValidator>
-                                    
+                                    <Cell dataKey="id_card_available">
+                                        {rowData => (
+                                            <RoleValidator
+                                                {...this.props}
+                                                scopes={['REGION']}
+                                                roles={['OWNER', 'MANAGER']}
+                                            >
+                                                <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>
+                                            </ RoleValidator>
+                                        )}
+                                    </Cell>
                                 </Column>
                             </Table>
                         </Countries>
