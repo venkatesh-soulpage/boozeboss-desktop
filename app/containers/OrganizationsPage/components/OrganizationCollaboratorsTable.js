@@ -184,33 +184,34 @@ export default class OrganizationCollaboratorsTable extends Component {
                                     {rowData => rowData.role.name}
                                 </Cell>
                             </Column>
-                            {/* <Column flexGrow>
+                            <Column flexGrow>
                                 <HeaderCell>
                                     Actions
                                 </HeaderCell>
-                                <RoleValidator
-                                    {...this.props}
-                                    scopes={['REGION']}
-                                    roles={['OWNER']}
-                                >
-                                    <Cell dataKey="actions">
+                                <Cell dataKey="actions">
                                         {rowData => {
-                                            if (rowData.status === 'PENDING') {
+                                            if (rowData && rowData.status === 'PENDING') {
                                                 return (
-                                                    <React.Fragment>
-                                                        {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
-                                                        {rowData.is_expired && <StyledAction>|</StyledAction>}
-                                                        <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
-                                                    </React.Fragment>
+                                                    <RoleValidator
+                                                        {...this.props}
+                                                        scopes={['REGION']}
+                                                        roles={['OWNER']}
+                                                    >
+                                                        <React.Fragment>
+                                                            {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
+                                                            {rowData.is_expired && <StyledAction>|</StyledAction>}
+                                                            <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
+                                                        </React.Fragment>
+                                                    </RoleValidator>
+                                                    
                                                 )
                                             } else {
                                                 return 'Edit | Delete'
                                             }
                                         }}
                                     </Cell>
-                                </RoleValidator>
                                 
-                            </Column> */}
+                            </Column> 
                         </Table>
                     ) : (
                         <p>No Collaborators</p>

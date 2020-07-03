@@ -13,7 +13,8 @@ import {
   SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR,
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, UPDATE_SLA_ERROR,
   GET_ROLES_ERROR, GET_ROLES_REQUEST, GET_ROLES_SUCCESS,
-  INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR
+  INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR,
+  REVOKE_COLLABORATOR_INVITE_REQUEST, REVOKE_COLLABORATOR_INVITE_SUCCESS, REVOKE_COLLABORATOR_INVITE_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -208,3 +209,26 @@ export function inviteCollaboratorError(error) {
   };
 }
 
+/* REVOKE COLLABORATOR INVITATION */
+export function revokeCollaboratorInvitation(collaborator_invitation_id) {
+  return {
+    type: REVOKE_COLLABORATOR_INVITE_REQUEST,
+    collaborator_invitation_id,
+  };
+}
+
+export function revokeCollaboratorInvitationSuccess(success) {
+  status(success, 'success');
+  return {
+    type: REVOKE_COLLABORATOR_INVITE_SUCCESS,
+    success
+  };
+}
+
+export function revokeCollaboratorInvitationError(error) {
+  status(error, 'error');
+  return {
+    type: REVOKE_COLLABORATOR_INVITE_ERROR,
+    error,
+  };
+}

@@ -9,7 +9,10 @@ import {
   SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS,
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS,
   GET_ROLES_REQUEST,
-  INVITE_COLLABORATOR_REQUEST
+  INVITE_COLLABORATOR_REQUEST,
+  REVOKE_COLLABORATOR_INVITE_REQUEST,
+  REVOKE_COLLABORATOR_INVITE_SUCCESS,
+  INVITE_COLLABORATOR_SUCCESS
 } from './constants';
 
 import {
@@ -19,7 +22,8 @@ import {
   selectPrimaryLocationSuccess, selectPrimaryLocationError, 
   updateSlaSuccess, updateSlaError,
   getRolesSuccess, getRolesError,
-  inviteCollaboratorSuccess, inviteCollaboratorError
+  inviteCollaboratorSuccess, inviteCollaboratorError, 
+  revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -155,6 +159,24 @@ function* inviteCollaboratorSaga(params) {
   }
 }
 
+function* revokeCollaboratorInvitationSaga(params) {
+  const { collaborator_invitation_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/organizations/revoke-collaborator/${collaborator_invitation_id}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(revokeCollaboratorInvitationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(revokeCollaboratorInvitationError(jsonError));
+  }
+}
+
 
 function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
@@ -188,6 +210,10 @@ function* inviteCollaboratorRequest() {
   yield takeLatest(INVITE_COLLABORATOR_REQUEST, inviteCollaboratorSaga);
 }
 
+function* revokeCollaboratorInviteRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITE_REQUEST, revokeCollaboratorInvitationSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -206,7 +232,11 @@ function* updateSLASuccessRequest() {
 }
 
 function* inviteCollaboratorSuccessRequest() {
-  yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
+  yield takeLatest(INVITE_COLLABORATOR_SUCCESS, getOrganizationsSaga);
+}
+
+function* revokeCollaboratorInviteSuccessRequest() {
+  yield takeLatest(REVOKE_COLLABORATOR_INVITE_SUCCESS, getOrganizationsSaga);
 }
 
 export default function* rootSaga() {
@@ -219,11 +249,13 @@ export default function* rootSaga() {
     fork(updateSLARequest),
     fork(getRolesRequest),
     fork(inviteCollaboratorRequest),
+    fork(revokeCollaboratorInviteRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),
     fork(selectPrimaryLocationSuccessRequest),
     fork(updateSLASuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
+    fork(revokeCollaboratorInviteSuccessRequest),
   ]);
 }
