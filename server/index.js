@@ -23,6 +23,17 @@ setup(app, {
   publicPath: '/',
 });
 
+// Redirect to https
+if (!isDev) {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`)
+    else
+      next();
+  })
+}
+
+
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
