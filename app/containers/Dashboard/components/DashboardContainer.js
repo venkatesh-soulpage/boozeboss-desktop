@@ -15,7 +15,8 @@ const StyledContainer = styled.div`
 
 const SyledPanel = styled(Panel)`
     min-width: 80%;
-    height: 80vh;
+    height: 100%;
+    overflow-y: auto;
 `
 
 const StyledPanelHeader = styled.div`
@@ -36,7 +37,8 @@ const StyledDataContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 70vh;
+    overflow-y: scroll;
 `
 
 const StyledNoData = styled.div`
@@ -116,7 +118,7 @@ export default class DashboardContainer extends Component {
                             <RoleValidator
                                 {...this.props}
                                 scopes={['REGION']}
-                                roles={['OWNER']}
+                                roles={['OWNER', 'MANAGER']}
                             >
                                 <SelectPicker
                                     defaultValue={0}
@@ -129,8 +131,8 @@ export default class DashboardContainer extends Component {
                             </RoleValidator>
                         </PanelHeaderColumn>
                     </StyledPanelHeader>
+                    <DashboardHeaderRow />
                     <StyledDataContainer>
-                        <DashboardHeaderRow />
                         {filtered_events &&
                             filtered_events.length > 0 && 
                                 filtered_events

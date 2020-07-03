@@ -7,7 +7,7 @@ const StyledRow = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 50px;
+    min-height: 60px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: gray;
