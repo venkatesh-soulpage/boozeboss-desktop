@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {Table} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
-// import InviteCollaborator from './InviteCollaborator';
+import InviteCollaborator from './InviteCollaborator';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -188,32 +188,46 @@ export default class OrganizationCollaboratorsTable extends Component {
                                 <HeaderCell>
                                     Actions
                                 </HeaderCell>
-                                <Cell dataKey="actions">
-                                    {rowData => {
-                                        if (rowData.status === 'PENDING') {
-                                            return (
-                                                <React.Fragment>
-                                                    {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
-                                                    {rowData.is_expired && <StyledAction>|</StyledAction>}
-                                                    <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
-                                                </React.Fragment>
-                                            )
-                                        } else {
-                                            return 'Edit | Delete'
-                                        }
-                                    }}
-                                </Cell>
+                                <RoleValidator
+                                    {...this.props}
+                                    scopes={['REGION']}
+                                    roles={['OWNER']}
+                                >
+                                    <Cell dataKey="actions">
+                                        {rowData => {
+                                            if (rowData.status === 'PENDING') {
+                                                return (
+                                                    <React.Fragment>
+                                                        {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
+                                                        {rowData.is_expired && <StyledAction>|</StyledAction>}
+                                                        <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
+                                                    </React.Fragment>
+                                                )
+                                            } else {
+                                                return 'Edit | Delete'
+                                            }
+                                        }}
+                                    </Cell>
+                                </RoleValidator>
+                                
                             </Column>
                         </Table>
                     ) : (
                         <p>No Collaborators</p>
                     )}
                 </FieldContainer>
-                <FieldContainer>
-                    {/* <InviteCollaborator 
-                        {...this.props}
-                    /> */}
-                </FieldContainer>
+                <RoleValidator
+                    {...this.props}
+                    scopes={['REGION']}
+                    roles={['OWNER']}
+                >
+                    <FieldContainer>
+                        <InviteCollaborator 
+                            {...this.props}
+                        />
+                    </FieldContainer>
+                </RoleValidator>
+                
             </React.Fragment>
         )
     }

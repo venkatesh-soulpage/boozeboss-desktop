@@ -19,14 +19,15 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { OrganizationsContainer } from './components'
-import { getOrganizations, addOrganizationDraft, getLocations, inviteOrganization, resendInviteCollaborator, selectPrimaryLocation, updateSla} from './actions';
+import { getOrganizations, addOrganizationDraft, getLocations, inviteOrganization, resendInviteCollaborator, selectPrimaryLocation, updateSla, getRoles, inviteCollaborator} from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class OrganizationsPage extends React.Component {
 
   componentDidMount = () => {
-    const {getOrganizations, getLocations} = this.props;
+    const {getOrganizations, getLocations, getRoles} = this.props;
+    getRoles();
     getOrganizations();
     getLocations();
   }
@@ -55,6 +56,7 @@ const mapStateToProps = createStructuredSelector({
   scope: makeSelectScope(),
   role: makeSelectRole(),
   locations: makeSelectLocations(),
+  roles: makeSelectRoles()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -66,6 +68,8 @@ function mapDispatchToProps(dispatch) {
     resendInviteCollaborator: (collaborator_invitation_id) => dispatch(resendInviteCollaborator(collaborator_invitation_id)),
     selectPrimaryLocation: (regional_organization_id, regional_organization_location_id) => dispatch(selectPrimaryLocation(regional_organization_id, regional_organization_location_id)),
     updateSla: (regional_organization_id, sla) => dispatch(updateSla(regional_organization_id, sla)),
+    getRoles: () => dispatch(getRoles()),
+    inviteCollaborator: (collaborator) => dispatch(inviteCollaborator(collaborator))
   };
 }
 

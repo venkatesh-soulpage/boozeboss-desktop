@@ -12,6 +12,8 @@ import {
   RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, RESEND_INVITE_ERROR, 
   SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS, SELECT_PRIMARY_LOCATION_ERROR,
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, UPDATE_SLA_ERROR,
+  GET_ROLES_ERROR, GET_ROLES_REQUEST, GET_ROLES_SUCCESS,
+  INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -159,3 +161,50 @@ export function getLocationsError(error) {
     error
   };
 }
+
+export function getRoles() {
+  return {
+    type: GET_ROLES_REQUEST,
+  };
+}
+
+export function getRolesSuccess(roles) {
+  return {
+    type: GET_ROLES_SUCCESS,
+    roles
+  };
+}
+
+export function getRolesError(error) {
+  return {
+    type: GET_ROLES_ERROR,
+    error
+  };
+}
+
+
+
+/* INVITE COLLABORATOR */
+export function inviteCollaborator(collaborator) {
+  return {
+    type: INVITE_COLLABORATOR_REQUEST,
+    collaborator,
+  };
+}
+
+export function inviteCollaboratorSuccess(success) {
+  status(success, 'success');
+  return {
+    type: INVITE_COLLABORATOR_SUCCESS,
+    success
+  };
+}
+
+export function inviteCollaboratorError(error) {
+  status(error, 'error');
+  return {
+    type: INVITE_COLLABORATOR_ERROR,
+    error,
+  };
+}
+

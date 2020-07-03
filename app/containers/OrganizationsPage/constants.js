@@ -13,6 +13,10 @@ export const INVITE_ORGANIZATIONS_REQUEST = 'app/OrganizationsPage/INVITE_ORGANI
 export const INVITE_ORGANIZATIONS_SUCCESS = 'app/OrganizationsPage/INVITE_ORGANIZATIONS_SUCCESS';
 export const INVITE_ORGANIZATIONS_ERROR = 'app/OrganizationsPage/INVITE_ORGANIZATIONS_ERROR';
 
+export const INVITE_COLLABORATOR_REQUEST = 'app/OrganizationsPage/INVITE_COLLABORATOR_REQUEST';
+export const INVITE_COLLABORATOR_SUCCESS = 'app/OrganizationsPage/INVITE_COLLABORATOR_SUCCESS';
+export const INVITE_COLLABORATOR_ERROR = 'app/OrganizationsPage/INVITE_COLLABORATOR_ERROR';
+
 export const SELECT_PRIMARY_LOCATION_REQUEST = 'app/OrganizationsPage/SELECT_PRIMARY_LOCATION_REQUEST';
 export const SELECT_PRIMARY_LOCATION_SUCCESS = 'app/OrganizationsPage/SELECT_PRIMARY_LOCATION_SUCCESS';
 export const SELECT_PRIMARY_LOCATION_ERROR = 'app/OrganizationsPage/SELECT_PRIMARY_LOCATION_ERROR';
@@ -30,3 +34,9 @@ export const GET_LOCATIONS_REQUEST =
 export const GET_LOCATIONS_SUCCESS =
   'boozeboss/OrganizationsPage/GET_LOCATIONS_SUCCESS';
 export const GET_LOCATIONS_ERROR = 'boozeboss/OrganizationsPage/GET_LOCATIONS_ERROR';
+
+export const GET_ROLES_REQUEST =
+  'boozeboss/OrganizationsPage/GET_ROLES_REQUEST';
+export const GET_ROLES_SUCCESS =
+  'boozeboss/OrganizationsPage/GET_ROLES_SUCCESS';
+export const GET_ROLES_ERROR = 'boozeboss/OrganizationsPage/GET_ROLES_ERROR';

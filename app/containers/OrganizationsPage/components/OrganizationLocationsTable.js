@@ -142,9 +142,16 @@ export default class OrganizationLocationsTable extends Component {
                                     <HeaderCell>
                                         Primary Location
                                     </HeaderCell>
-                                    <Cell dataKey="id_card_available">
-                                        {rowData => <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>}
-                                    </Cell>
+                                        <RoleValidator
+                                        {...this.props}
+                                        scopes={['REGION']}
+                                        roles={['OWNER']}
+                                    >
+                                        <Cell dataKey="id_card_available">
+                                            {rowData => <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>}
+                                        </Cell>
+                                    </RoleValidator>
+                                    
                                 </Column>
                             </Table>
                         </Countries>

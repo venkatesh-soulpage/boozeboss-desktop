@@ -7,7 +7,9 @@ import {
   INVITE_ORGANIZATIONS_REQUEST, INVITE_ORGANIZATIONS_SUCCESS, 
   RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, 
   SELECT_PRIMARY_LOCATION_REQUEST, SELECT_PRIMARY_LOCATION_SUCCESS,
-  UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS
+  UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS,
+  GET_ROLES_REQUEST,
+  INVITE_COLLABORATOR_REQUEST
 } from './constants';
 
 import {
@@ -15,7 +17,9 @@ import {
   getLocationsSuccess, getLocationsError, inviteOrganizationSuccess, inviteOrganizationError, 
   resendInviteCollaboratorSuccess, resendInviteCollaboratorError, 
   selectPrimaryLocationSuccess, selectPrimaryLocationError, 
-  updateSlaSuccess, updateSlaError
+  updateSlaSuccess, updateSlaError,
+  getRolesSuccess, getRolesError,
+  inviteCollaboratorSuccess, inviteCollaboratorError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -117,6 +121,39 @@ function* updateSlaSaga(params) {
   }
 }
 
+function* getRolesSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/roles?scope=REGION`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getRolesSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getRolesError(jsonError));
+  }
+}
+
+function* inviteCollaboratorSaga(params) {
+  const { collaborator } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/organizations/invite-collaborator`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(collaborator),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(inviteCollaboratorSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(inviteCollaboratorError(jsonError));
+  }
+}
 
 
 function* getOrganizationsRequest() {
@@ -143,6 +180,14 @@ function* updateSLARequest() {
   yield takeLatest(UPDATE_SLA_REQUEST, updateSlaSaga);
 }
 
+function* getRolesRequest() {
+  yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
+}
+
+function* inviteCollaboratorRequest() {
+  yield takeLatest(INVITE_COLLABORATOR_REQUEST, inviteCollaboratorSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -160,6 +205,10 @@ function* updateSLASuccessRequest() {
   yield takeLatest(UPDATE_SLA_SUCCESS, getOrganizationsSaga);
 }
 
+function* inviteCollaboratorSuccessRequest() {
+  yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getOrganizationsRequest),
@@ -168,10 +217,13 @@ export default function* rootSaga() {
     fork(resendInviteCollaboratorRequest),
     fork(selectPrimaryLocationRequest),
     fork(updateSLARequest),
+    fork(getRolesRequest),
+    fork(inviteCollaboratorRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),
     fork(selectPrimaryLocationSuccessRequest),
     fork(updateSLASuccessRequest),
+    fork(inviteCollaboratorSuccessRequest),
   ]);
 }

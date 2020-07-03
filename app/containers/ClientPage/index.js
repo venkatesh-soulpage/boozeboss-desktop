@@ -107,7 +107,7 @@ function mapDispatchToProps(dispatch) {
     uploadLogo: (client_id, file) => dispatch(uploadLogo(client_id, file )), 
     getOrganizations: () => dispatch(getOrganizations()),
     changeOrganizationFilter: (organization_id) => dispatch(changeOrganizationFilter(organization_id)),
-    dismiss: type => dispatch(dismiss(type))
+    dismiss: type => dispatch(dismiss(type)),
   };
 }
 

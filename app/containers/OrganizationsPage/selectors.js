@@ -16,7 +16,7 @@ const makeSelectLocations = () =>
   createSelector(selectOrganizations, organizationsState =>
     organizationsState.get('locations'),
   );
-  
+ 
 const makeSelectError = () =>
   createSelector(selectOrganizations, organizationsState =>
     organizationsState.get('error'),
