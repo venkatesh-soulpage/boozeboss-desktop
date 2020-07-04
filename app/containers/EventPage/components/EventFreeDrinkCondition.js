@@ -167,6 +167,7 @@ class ConditionModal extends Component {
                             </FieldLabel>
                             <InputNumber 
                                 value={limit}
+                                min={1}
                                 onChange={(value) => this.handleChange('limit', Number(value))}
                             />
                         </FieldContainer>
@@ -220,7 +221,7 @@ export default class EventFreeDrinkCondition extends Component {
                 <FieldsRow isHeader>
                    <FieldLabelContainer>
                         <FieldLabel>
-                            Free Drinks
+                            Free Drinks ({event.event.free_redemeed_drinks} redeemed)
                         </FieldLabel>
                     </FieldLabelContainer> 
                    <FieldLabelContainer>

@@ -42,6 +42,11 @@ export default class MenuList extends Component {
         removeEventProduct(event.event.id, event_product_id);
     }
 
+    handleSelectAsFree = (event_product_id) => {
+        const {selectAsFree, event} = this.props;
+        selectAsFree(event.event.id, event_product_id);
+    }
+
     render() {
         const {event} = this.props;
         return (
@@ -72,7 +77,7 @@ export default class MenuList extends Component {
                 {event && event.event && event.event.products && 
                         event.event.products.length > 0 ? (
                             <Table
-                                data={event.event.products}
+                                data={event.event.products.sort((a,b) => a.id - b.id)}
                                 style={{margin: '1em 0 0 0'}}
                                 autoHeight
                             >
@@ -106,6 +111,14 @@ export default class MenuList extends Component {
                                     </HeaderCell>
                                     <Cell dataKey="active">
                                         {rowData => rowData.active ? 'YES' : 'NO'}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Free Drink
+                                    </HeaderCell>
+                                    <Cell dataKey="actions">
+                                        {rowData => rowData.is_free_drink ? 'Redeemable Drink' : <a onClick={() => this.handleSelectAsFree(rowData.id)} >Select as Free</a>}
                                     </Cell>
                                 </Column>
                                 <Column flexGrow>

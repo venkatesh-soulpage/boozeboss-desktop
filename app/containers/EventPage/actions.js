@@ -14,7 +14,8 @@ import { DEFAULT_ACTION,
   ADD_EVENT_PRODUCTS_REQUEST, ADD_EVENT_PRODUCTS_SUCCESS, ADD_EVENT_PRODUCTS_ERROR, 
   REMOVE_EVENT_PRODUCTS_REQUEST, REMOVE_EVENT_PRODUCTS_SUCCESS, REMOVE_EVENT_PRODUCTS_ERROR, 
   ADD_EVENT_CONDITION_SUCCESS, ADD_EVENT_CONDITION_REQUEST, ADD_EVENT_CONDITION_ERROR, 
-  REMOVE_EVENT_CONDITION_REQUEST, REMOVE_EVENT_CONDITION_SUCCESS, REMOVE_EVENT_CONDITION_ERROR
+  REMOVE_EVENT_CONDITION_REQUEST, REMOVE_EVENT_CONDITION_SUCCESS, REMOVE_EVENT_CONDITION_ERROR,
+  SELECT_AS_FREE_REQUEST, SELECT_AS_FREE_SUCCESS, SELECT_AS_FREE_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -254,6 +255,31 @@ export function removeEventProductError(error) {
   status(error, 'error');
   return {
     type: REMOVE_EVENT_PRODUCTS_ERROR,
+    error
+  };
+}
+
+// Select as free product
+export function selectAsFree(event_id, event_product_id) {
+  return {
+    type: SELECT_AS_FREE_REQUEST,
+    event_id,
+    event_product_id
+  };
+}
+
+export function selectAsFreeSuccess(success) {
+  status(success, 'success');
+  return {
+    type: SELECT_AS_FREE_SUCCESS,
+    success
+  };
+}
+
+export function selectAsFreeError(error) {
+  status(error, 'error');
+  return {
+    type: SELECT_AS_FREE_ERROR,
     error
   };
 }
