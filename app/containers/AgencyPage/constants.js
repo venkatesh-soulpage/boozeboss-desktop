@@ -12,6 +12,12 @@ export const GET_AGENCIES_SUCCESS =
   'boozeboss/AgencyContainer/GET_AGENCIES_SUCCESS';
 export const GET_AGENCIES_ERROR = 'boozeboss/AgencyContainer/GET_AGENCIES_ERROR';
 
+export const GET_CLIENTS_REQUEST =
+  'boozeboss/AgencyContainer/GET_CLIENTS_REQUEST';
+export const GET_CLIENTS_SUCCESS =
+  'boozeboss/AgencyContainer/GET_CLIENTS_SUCCESS';
+export const GET_CLIENTS_ERROR = 'boozeboss/AgencyContainer/GET_CLIENTS_ERROR';
+
 export const INVITE_AGENCY_REQUEST =
   'boozeboss/AgencyContainer/INVITE_AGENCY_REQUEST';
 export const INVITE_AGENCY_SUCCESS =

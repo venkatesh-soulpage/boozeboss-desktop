@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Button } from 'rsuite';
+import { Panel, Button, SelectPicker } from 'rsuite';
 import RoleValidator from 'components/RoleValidator';
 
 const Column = styled.div`
@@ -11,7 +11,6 @@ const Column = styled.div`
   align-self: flex-start; 
   position: sticky;
   top: 1em;
-  z-index: 99;
 `;
 
 const AddSection = styled.div`
@@ -22,7 +21,6 @@ const AddSection = styled.div`
   position: sticky;
   top: 0;
   margin: 0 0.5em 0.5em;
-  z-index: 99;
 `;
 
 const List = styled.div`
@@ -51,6 +49,8 @@ const StyledPanel = styled(Panel)`
 `;
 
 class AgencyContainer extends Component {
+
+
   handleSelectCurrentAgency = () => {
     const { handleSelectCurrentAgency, index } = this.props;
     handleSelectCurrentAgency(index);
@@ -85,13 +85,35 @@ class AgencyContainer extends Component {
 }
 
 export default class AgencyList extends Component {
+
+  state = {
+    client_id: null,
+  }
+
+  getClientFilter = () => {
+    const {clients} = this.props;
+    if (!clients) return [];
+    
+    return clients.map(client => {
+      return {
+        label: client.name,
+        value: client.id
+      }
+    })
+  }
+ 
   handleAddAgencyDraft = () => {
     const { addAgencyDraft } = this.props;
     addAgencyDraft();
   };
 
+  handleClientFilter = (value) => {
+    this.setState({ client_id: value })
+  }
+
   render() {
     const { agencies, currentAgency } = this.props;
+    const { client_id } = this.state;
     const isActiveDraft =
       agencies &&
       agencies.length > 0 &&
@@ -99,6 +121,17 @@ export default class AgencyList extends Component {
     return (
       <Column>
         <AddSection>
+          <RoleValidator
+            {...this.props}
+            scopes={['REGION']}
+            roles={['OWNER', 'MANAGER']}
+          >
+            <SelectPicker 
+              value={client_id}
+              data={this.getClientFilter()}
+              onChange={(e) => this.handleClientFilter(e)}
+            />
+          </RoleValidator>
           <RoleValidator
             {...this.props}
             scopes={['ADMIN', 'BRAND']}
@@ -119,7 +152,9 @@ export default class AgencyList extends Component {
           )}
           {agencies &&
             agencies.length > 0 &&
-            agencies.map((agency, index) => (
+            agencies
+              .filter(agency => client_id ? agency.invited_by === client_id : true)
+              .map((agency, index) => (
               <AgencyContainer
                 {...this.props}
                 index={index}

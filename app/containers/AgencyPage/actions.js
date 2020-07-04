@@ -13,7 +13,8 @@ import {
   DISMISS,
   REVOKE_COLLABORATOR_INVITATION_REQUEST,
   REVOKE_COLLABORATOR_INVITATION_SUCCESS,
-  REVOKE_COLLABORATOR_INVITATION_ERROR
+  REVOKE_COLLABORATOR_INVITATION_ERROR,
+  GET_CLIENTS_REQUEST, GET_CLIENTS_SUCCESS, GET_CLIENTS_ERROR
  } from './constants';
  import status from 'utils/status';
 
@@ -40,6 +41,27 @@ export function getAgenciesSuccess(agencies) {
 export function getAgenciesError(error) {
   return {
     type: GET_AGENCIES_ERROR,
+    error,
+  };
+}
+
+/* GET CLIENTS  */
+export function getClients() {
+  return {
+    type: GET_CLIENTS_REQUEST,
+  };
+}
+
+export function getClientsSuccess(clients) {
+  return {
+    type: GET_CLIENTS_SUCCESS,
+    clients,
+  };
+}
+
+export function getClientsError(error) {
+  return {
+    type: GET_CLIENTS_ERROR,
     error,
   };
 }

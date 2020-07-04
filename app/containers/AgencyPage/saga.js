@@ -7,7 +7,8 @@ import {
   INVITE_AGENCY_REQUEST, 
   GET_ROLES_REQUEST, 
   INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, 
-  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, INVITE_AGENCY_SUCCESS 
+  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, INVITE_AGENCY_SUCCESS,
+  GET_CLIENTS_REQUEST
 } from './constants';
 
 import {
@@ -15,6 +16,7 @@ import {
   inviteAgencySuccess, inviteAgencyError,
   inviteCollaboratorSuccess, inviteCollaboratorError,
   getRolesSuccess, getRolesError, revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError,
+  getClientsSuccess, getClientsError
 } from './actions';
 
 function* getAgenciesSaga() {
@@ -29,6 +31,21 @@ function* getAgenciesSaga() {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(getAgenciesError(jsonError));
+  }
+}
+
+function* getClientsSaga() {
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/clients`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(getClientsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getClientsError(jsonError));
   }
 }
 
@@ -117,6 +134,10 @@ function* getRolesRequest() {
   yield takeLatest(GET_ROLES_REQUEST, getRolesSaga);
 }
 
+function* getClientsRequest() {
+  yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
+}
+
 // Reactive
 function* inviteAgencySuccessRequest() {
   yield takeLatest(INVITE_AGENCY_SUCCESS, getAgenciesSaga);
@@ -138,6 +159,7 @@ export default function* rootSaga() {
     fork(inviteCollaboratorRequest),
     fork(revokeCollaboratorInvitationRequest),
     fork(getRolesRequest),
+    fork(getClientsRequest),
     // Reactive
     fork(inviteAgencySuccessRequest),
     fork(inviteCollaboratorSuccessRequest),

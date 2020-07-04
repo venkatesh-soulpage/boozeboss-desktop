@@ -7,6 +7,11 @@ const makeSelectAgencies = () =>
     agenciesState.get('agencies'),
   );
 
+const makeSelectClients = () =>
+  createSelector(selectAgencies, agenciesState =>
+    agenciesState.get('clients'),
+  );
+
 const makeSelectRoles = () =>
   createSelector(selectAgencies, agenciesState =>
     agenciesState.get('roles'),
@@ -29,6 +34,7 @@ const makeSelectIsLoading = () =>
 
 export { 
   makeSelectAgencies,
+  makeSelectClients,
   makeSelectRoles,
   makeSelectSuccess,
   makeSelectError,

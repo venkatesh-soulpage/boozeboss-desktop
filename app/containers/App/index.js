@@ -106,7 +106,7 @@ class App extends React.Component {
             exact
             path="/agencies"
             component={AgencyPage}
-            scopesRequired={['ADMIN', 'BRAND', 'AGENCY']}
+            scopesRequired={['ADMIN', 'REGION', 'BRAND', 'AGENCY']}
             rolesRequired={['ADMIN', 'OWNER', 'MANAGER']}
           />
           <PrivateRoute

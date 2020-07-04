@@ -19,11 +19,15 @@ import {
   GET_ROLES_REQUEST,
   GET_ROLES_SUCCESS,
   GET_ROLES_ERROR,
+  GET_CLIENTS_REQUEST, 
+  GET_CLIENTS_ERROR,
+  GET_CLIENTS_SUCCESS,
   DISMISS
 } from './constants';
 
 export const initialState = fromJS({
   agencies: null,
+  clients: null,
   roles: null,
   isLoading: false,
   success: null,
@@ -60,6 +64,14 @@ function agencyPageReducer(state = initialState, action) {
       return state
         .set('roles', action.roles);
     case GET_ROLES_ERROR:
+      return state
+        .set('error', action.error);
+    case GET_CLIENTS_REQUEST:
+      return state;
+    case GET_CLIENTS_SUCCESS:
+      return state
+        .set('clients', action.clients);
+    case GET_CLIENTS_ERROR:
       return state
         .set('error', action.error);
     case DISMISS: 

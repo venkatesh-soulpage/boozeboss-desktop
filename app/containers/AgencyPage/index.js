@@ -14,21 +14,26 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectAgencies, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectIsLoading } from './selectors';
+import { makeSelectAgencies, makeSelectRoles, makeSelectError, makeSelectSuccess, makeSelectIsLoading, makeSelectClients } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 import { AgenciesContainer } from './components';
-import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss, getRoles, revokeCollaboratorInvitation } from './actions';
+import { addAgencyDraft, getAgencies, inviteAgency, inviteCollaborator, dismiss, getRoles, revokeCollaboratorInvitation, getClients } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class AgencyContainer extends React.Component {
   componentDidMount = () => {
-    const { getAgencies, getRoles } = this.props;
+    const { getAgencies, getRoles, getClients, scope } = this.props;
     getAgencies();
     getRoles();
+
+    // Only ask for clients if is an admin or organization
+    if (scope === 'REGION' || scope === 'ADMIN') {
+      getClients();
+    } 
   };
 
   render() {
@@ -46,6 +51,7 @@ export class AgencyContainer extends React.Component {
 
 AgencyContainer.propTypes = {
   agencies: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   scope: PropTypes.string,
   role: PropTypes.role,
   roles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -60,6 +66,7 @@ AgencyContainer.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   agencies: makeSelectAgencies(),
+  clients: makeSelectClients(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
   roles: makeSelectRoles(),
@@ -71,6 +78,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getAgencies: () => dispatch(getAgencies()),
+    getClients: () => dispatch(getClients()),
     addAgencyDraft: () => dispatch(addAgencyDraft()),
     inviteAgency: agency => dispatch(inviteAgency(agency)),
     inviteCollaborator: collaborator => dispatch(inviteCollaborator(collaborator)),
