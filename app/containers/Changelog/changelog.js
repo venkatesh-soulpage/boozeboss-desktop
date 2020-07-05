@@ -7,6 +7,36 @@ All notable changes to this project will be documented in this file.
 
 <br/> 
 
+## [0.14.4] - 2020-07-04
+
+<br/>
+
+### Added
+
+- Free drink definiton on event tab
+- Free drinks redeemed on condition section under event tab
+- Force SSL on desktop app
+- Add Demographic assistance percentage to PDF report
+- Add Demographic assistance amount to PDF report
+- Add Free Drink Stats for PDF Report
+- Add Event Collaborator Sales to PDF Report
+- (Wallet) Add Coupon only to demographic applicable
+- (Wallet) Generate QR code for drinks
+- (Wallet) Add scanner routing and confirmation page for free drink
+- (Wallet) Shortcuts for Check-In, Check-Out, Take Order, Free Drink, Approve Credits
+- (Wallet) Transfer coin functionality between emails 
+- (Wallet) My Profile with name under the header
+- (Back-End) Transfer Logs
+
+### Changed
+
+- Reestructure PDF structure for new sections and metrics
+- Minor UI Fixes
+- (Wallet) Fix an error under guest assistance analytics tab
+- (Wallet) Minor UI Fixes
+ 
+<br/> 
+
 ## [0.14.3] - 2020-07-03
 
 <br/>
