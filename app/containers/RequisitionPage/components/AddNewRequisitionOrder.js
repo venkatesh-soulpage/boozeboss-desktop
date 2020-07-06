@@ -173,7 +173,7 @@ export default class AddNewRequisitionOrder extends React.Component {
 
         const currentUnits = orders.reduce((acc, curr) => {
 
-            const ingredient_ids = curr.product.ingredients.map(ing => ing.brand.id);
+            const ingredient_ids = curr.product.ingredients.map(ing => ing.brand && ing.brand.id);
 
             if ( curr.product.brand && curr.product.brand.id === brand_id ) {
                 return Number(acc) + Number(curr.units * curr.product.metric_amount);

@@ -24,7 +24,7 @@ export default class ApproveRequisitionConfirm extends React.Component {
         hellosign.on('sign', (data) => {
             console.log(data);
             console.log('Signed', data.signatureId)
-            updateRequisitionStatus(requisitions[currentRequisition].id, {status: 'CHANGES REQUIRED'}, data.signatureId)
+            updateRequisitionStatus(requisitions[currentRequisition].id, {status: 'APPROVED'}, data.signatureId)
         })
     }
 
