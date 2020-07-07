@@ -138,7 +138,7 @@ class Header extends React.Component {
                 title={
                   <TitleSection>
                     <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
-                    <p>{scope} {role}</p>
+                    <p>{scope} {role} {user && user.wallet && <span>{`(${user.wallet.balance})` }<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}</p>
                   </TitleSection>
                   
                 }

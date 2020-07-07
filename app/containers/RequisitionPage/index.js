@@ -19,7 +19,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders, createRequisitionDelivery, updateRequisitionDelivery, rejectRequisition, requestSign, requestSignDocument } from './actions';
-import { makeSelectScope, makeSelectRole } from '../App/selectors';
+import { makeSelectScope, makeSelectRole, makeSelectUser } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -62,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
+  user: makeSelectUser(),
   hellosign: makeSelectHellosign(),
   isLoading: makeSelectIsLoading()
 });

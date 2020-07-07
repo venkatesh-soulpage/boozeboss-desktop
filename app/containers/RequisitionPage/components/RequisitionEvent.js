@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Button, Divider } from 'rsuite';
+import { Button, Divider, Icon } from 'rsuite';
 import moment from 'moment';
 import AddNewRequisitionOrder from './AddNewRequisitionOrder';
 import ProductOrders from './ProductOrders';
@@ -22,6 +22,22 @@ const FieldLabelAction = styled.div`
 `
 
 export default class RequisitionEvent extends Component {
+
+    calculateEventFunding = () => {
+        const {event, requisitions, currentRequisition, user} = this.props;
+        
+        if (!event || !requisitions || !user) return;
+
+        const accumulated_price =
+                requisitions[currentRequisition].orders
+                    .filter(order => order.brief_event_id === event.id)
+                    .reduce((acc, curr) => {
+                       return acc + (curr.price * curr.units); 
+                    }, 0)
+
+        return Math.round(accumulated_price * user.location.currency_conversion * 100) / 100;
+    }
+
     render() {
         const {event, requisitions, currentRequisition} = this.props;
         return (
@@ -41,6 +57,9 @@ export default class RequisitionEvent extends Component {
                     </FieldLabel>
                     <FieldLabel>
                         {event.expected_guests}
+                    </FieldLabel>
+                    <FieldLabel>
+                        <span>{event && event.event && requisitions[currentRequisition].status === 'APPROVED' && `${event.event.credits_left} / `}{this.calculateEventFunding()} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>
                     </FieldLabel>
                     <FieldLabelAction>
                         {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
