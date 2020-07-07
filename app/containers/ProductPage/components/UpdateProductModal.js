@@ -108,6 +108,7 @@ export default class UpdateProductModal extends React.Component {
     }
 
     render() {
+        const { user } = this.props;
         const {show, name, description, is_cocktail, metric, metric_amount, sku, base_price, } = this.state;
         return (
             <React.Fragment>
@@ -166,6 +167,7 @@ export default class UpdateProductModal extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Base Price</FieldLabel>
                             <InputNumber
+                                prefix={user && user.location && user.location.currency}
                                 defaultValue={base_price} 
                                 value={base_price}
                                 step={0.01} 

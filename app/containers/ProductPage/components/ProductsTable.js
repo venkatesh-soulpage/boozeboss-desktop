@@ -107,7 +107,7 @@ export default class ProductsTable extends Component {
   };
 
   render() {
-    const { productsEnabled, isLoading } = this.props;
+    const { productsEnabled, isLoading, user } = this.props;
     const {displayLength, page} = this.state;
     const products = this.getFilteredProducts(productsEnabled);
     return (
@@ -166,7 +166,7 @@ export default class ProductsTable extends Component {
               </Column>
               <Column resizable sortable>
                 <HeaderCell>Base Price</HeaderCell>
-                <Cell dataKey="base_price">{rowData => rowData.base_price}</Cell>
+                <Cell dataKey="base_price">{rowData => `${rowData.base_price} ${user && user.location && user.location.currency}`}</Cell>
               </Column>
               <Column resizable>
                 <HeaderCell>Actions</HeaderCell>
