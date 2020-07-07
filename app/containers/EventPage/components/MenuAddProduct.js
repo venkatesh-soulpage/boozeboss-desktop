@@ -51,9 +51,12 @@ export default class MenuAddProduct extends React.Component {
 
         if (!products || !event) return [];
 
+        const event_products = event.event.products.map(ep => ep.product_id)
+
         const brief_brands = event.brief.brands.map(brand => brand.brand_id);
 
         const available_products = products
+            .filter(product => event_products.indexOf(product.id) < 0)
             .filter((prod) => {
         
                 // filters
@@ -71,6 +74,7 @@ export default class MenuAddProduct extends React.Component {
 
         const available_product_ids = [...new Set(available_products.map(prod => prod.value.brand_id))]; 
         const available_cocktails = products
+            .filter(product => event_products.indexOf(product.id) < 0)
             .filter((prod => {
                 return prod.is_cocktail;
             }))
@@ -90,6 +94,7 @@ export default class MenuAddProduct extends React.Component {
 
         const no_brand_products = 
             products
+                .filter(product => event_products.indexOf(product.id) < 0)
                 .filter(prod => {
                     const is_no_brand = ['BRAND_ASSET', 'MIXER', 'INGREDIENT'].indexOf(prod.product_type) > -1;
                     return is_no_brand;
@@ -129,7 +134,7 @@ export default class MenuAddProduct extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Product (Required)</FieldLabel>
                             <SelectPicker 
-                                searchable={false}
+                                searchable={true}
                                 data={product_options}
                                 onChange={(value) => this.handleChange(value, 'product')}
                             />
