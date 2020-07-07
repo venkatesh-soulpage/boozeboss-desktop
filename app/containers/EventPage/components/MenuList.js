@@ -81,7 +81,7 @@ export default class MenuList extends Component {
                                 style={{margin: '1em 0 0 0'}}
                                 autoHeight
                             >
-                                <Column flexGrow>
+                                <Column resizable width={300}>
                                     <HeaderCell>
                                         Product
                                     </HeaderCell>
@@ -89,7 +89,7 @@ export default class MenuList extends Component {
                                         {rowData => rowData.product.name}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={60}>
                                     <HeaderCell>
                                         Size
                                     </HeaderCell>
@@ -97,7 +97,7 @@ export default class MenuList extends Component {
                                         {rowData => `${rowData.product.metric_amount}${rowData.product.metric}`}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={80}>
                                     <HeaderCell>
                                         Price
                                     </HeaderCell>
@@ -105,7 +105,7 @@ export default class MenuList extends Component {
                                         {rowData => rowData.price}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={60}>
                                     <HeaderCell>
                                         Active
                                     </HeaderCell>
@@ -113,7 +113,7 @@ export default class MenuList extends Component {
                                         {rowData => rowData.active ? 'YES' : 'NO'}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={150}>
                                     <HeaderCell>
                                         Free Drink
                                     </HeaderCell>

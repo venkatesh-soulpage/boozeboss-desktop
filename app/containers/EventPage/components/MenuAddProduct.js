@@ -69,17 +69,17 @@ export default class MenuAddProduct extends React.Component {
                 }
             });
 
-        const available_product_ids = available_products.map(prod => prod.value.brand_id); 
+        const available_product_ids = [...new Set(available_products.map(prod => prod.value.brand_id))]; 
         const available_cocktails = products
             .filter((prod => {
                 return prod.is_cocktail;
             }))
            .filter((prod) => {
-                const ingredient_brands = prod.ingredients.map((ing) => ing.product.brand_id);               
+                const ingredient_brands = prod.ingredients.filter((ing) => ing.product.brand_id).map((ing) => ing.product.brand_id);   
                 const available_ingredients = ingredient_brands.filter(ib => {
                     return available_product_ids.indexOf(ib) > -1;
                 })
-                return available_ingredients.length >= prod.ingredients.length;
+                return available_ingredients.length >= 0;
             }) 
             .map(prod => {
                 return {
@@ -103,7 +103,7 @@ export default class MenuAddProduct extends React.Component {
     
 
         this.setState({
-            product_options: [...available_products, ...available_cocktails, ...no_brand_products],
+            product_options: [...available_cocktails, ...available_products, ...no_brand_products],
         })
     }
 
