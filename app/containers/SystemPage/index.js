@@ -18,7 +18,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { SystemMenuContainer } from './components'
-import { getLocations, addLocation, dismiss } from './actions';
+import { getLocations, addLocation, dismiss, updateLocationRate } from './actions';
 
 /* eslint-disable react/prefer-stateless-function */
 export class System extends React.Component {
@@ -55,6 +55,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getLocations: () => dispatch(getLocations()),
     addLocation: (location) => dispatch(addLocation(location)),
+    updateLocationRate: (location_id, currency_conversion ) => dispatch(updateLocationRate(location_id, currency_conversion )),
     dismiss: (dismiss_type) => dispatch(dismiss(dismiss_type)),
   };
 }

@@ -19,6 +19,13 @@ const Column = styled.div`
   overflow-y: auto;
 `;
 
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: rowm;
+  justify-content: space-between;
+`
+
 const AddSection = styled.div`
   display: flex;
   flex: 1;
@@ -67,6 +74,14 @@ class RequisitionCard extends Component {
     handleSelectCurrentRequisition(index);
   };
 
+  goToBrief = () => {
+    const {history, requisition} = this.props;
+    history.push({
+      pathname: '/briefs',
+      brief_id: requisition.brief_id,
+    })
+  }
+
   render() {
     const { requisition, currentRequisition, index } = this.props;
     return (
@@ -76,7 +91,7 @@ class RequisitionCard extends Component {
             onClick={this.handleSelectCurrentRequisition}
         >
             <PanelColumn>
-                <b>#{requisition.serial_number} - {requisition.brief.name}</b>
+                <b><a onClick={this.goToBrief}>#{requisition.serial_number}</a> - {requisition.brief.name}</b>
                 <p>{requisition.status}</p>
             </PanelColumn>
         </StyledPanel>

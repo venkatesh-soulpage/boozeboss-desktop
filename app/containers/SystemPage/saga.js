@@ -5,12 +5,15 @@ import request from 'utils/request';
 import { 
   GET_LOCATIONS_REQUEST, 
   ADD_LOCATION_REQUEST,
-  ADD_LOCATION_SUCCESS
+  ADD_LOCATION_SUCCESS,
+  UPDATE_LOCATION_RATE_REQUEST,
+  UPDATE_LOCATION_RATE_SUCCESS
 } from './constants';
 
 import {
   getLocationsSuccess, getLocationsError, 
-  addLocationSuccess, addLocationError
+  addLocationSuccess, addLocationError,
+  updateLocationRateSuccess, updateLocationRateError
 } from './actions';
 
 function* getLocationsSaga() {
@@ -46,6 +49,24 @@ function* addLocationSaga(params) {
   }
 }
 
+function* updateLocationRateSaga(params) {
+  const {location_id, currency_conversion} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/locations/${location_id}/rate`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({currency_conversion})
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateLocationRateSuccess(response));
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateLocationRateError(jsonError));
+  }
+}
+
 
 function* getLocationsRequest() {
   yield takeLatest(GET_LOCATIONS_REQUEST, getLocationsSaga);
@@ -55,16 +76,26 @@ function* addLocationRequest() {
   yield takeLatest(ADD_LOCATION_REQUEST, addLocationSaga);
 }
 
+function* updateLocationRateRequest() {
+  yield takeLatest(UPDATE_LOCATION_RATE_REQUEST, updateLocationRateSaga);
+}
+
 // Reactive
 function* addLocationSuccessRequest() {
   yield takeLatest(ADD_LOCATION_SUCCESS, getLocationsSaga);
+}
+
+function* updateLocationRateSuccessRequest() {
+  yield takeLatest(UPDATE_LOCATION_RATE_SUCCESS, getLocationsSaga);
 }
 
 export default function* rootSaga() {
   yield all([
     fork(getLocationsRequest),
     fork(addLocationRequest),
+    fork(updateLocationRateRequest),
     // Reactive
     fork(addLocationSuccessRequest),
+    fork(updateLocationRateSuccessRequest),
   ]);
 }

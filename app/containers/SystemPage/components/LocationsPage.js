@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Panel, Message, Table} from 'rsuite';
 import styled from 'styled-components';
 import LocationsAddNew from './LocationsAddNew';
+import EditConversionRate from './EditConversionRate';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -31,7 +32,7 @@ export default class LocationsPage extends Component {
                                 data={locations}
                                 autoHeight
                             >
-                                <Column>
+                                <Column width={200}>
                                     <HeaderCell>
                                         Name
                                     </HeaderCell>
@@ -55,14 +56,6 @@ export default class LocationsPage extends Component {
                                         {rowData => rowData.is_country ? 'Yes' : 'No'}
                                     </Cell>
                                 </Column>
-{/*                                 <Column>
-                                    <HeaderCell>
-                                        Parent
-                                    </HeaderCell>
-                                    <Cell dataKey="parent_location">
-                                        {rowData => rowData.parent_location ? <a>{rowData.parent.name}</a> : 'N/A'}
-                                    </Cell>
-                                </Column> */}
                                 <Column>
                                     <HeaderCell>
                                         ID CARD
@@ -79,12 +72,20 @@ export default class LocationsPage extends Component {
                                         {rowData => rowData.passport_available ? 'Yes' : 'No'}
                                     </Cell>
                                 </Column>
-                                <Column>
+                                <Column width={150}>
+                                    <HeaderCell>
+                                        Conversion Rate
+                                    </HeaderCell>
+                                    <Cell dataKey="currency_conversion">
+                                        {rowData => rowData.currency_conversion > 0 ? `1 ${rowData.currency} = ${rowData.currency_conversion} Coins` : 'N/A'}
+                                    </Cell>
+                                </Column>
+                                <Column width={150}>
                                     <HeaderCell>
                                         Actions
                                     </HeaderCell>
                                     <Cell dataKey="actions">
-                                        Edit | Delete
+                                        {rowData => <EditConversionRate rowData={rowData} {...this.props}/>}
                                     </Cell>
                                 </Column>
                             </Table>

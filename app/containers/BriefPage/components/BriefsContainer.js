@@ -19,6 +19,31 @@ export default class BriefsContainer extends Component {
         agenciesData: null,
     }
 
+    getCurrentBrief = (brief_id) => {
+        const {briefs} = this.props;
+        const briefs_index = briefs.map(brief => brief.id);
+        const currentBrief = briefs_index.indexOf(brief_id);
+
+        if (currentBrief > -1) {
+            this.setState({currentBrief});
+        }
+    }
+
+    componentDidMount = () => {
+        const {history, briefs} = this.props;
+        const {location} = history;
+
+        if (location.brief_id) {
+            if (briefs) {
+                this.getCurrentBrief(location.brief_id);
+            } else {
+                setTimeout(() => {
+                    this.getCurrentBrief(location.brief_i);
+                }, 500)
+            }
+        }
+    } 
+
     handleSelectCurrentBrief = currentBrief => {
         this.setState({currentBrief})
     }

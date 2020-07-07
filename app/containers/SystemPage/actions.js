@@ -7,8 +7,11 @@
 import { 
   GET_LOCATIONS_REQUEST, GET_LOCATIONS_SUCCESS, GET_LOCATIONS_ERROR,
   ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, ADD_LOCATION_ERROR,
+  UPDATE_LOCATION_RATE_SUCCESS, UPDATE_LOCATION_RATE_REQUEST, UPDATE_LOCATION_RATE_ERROR,
   DISMISS
 } from './constants';
+
+import status from 'utils/status'
 
 export function getLocations() {
   return {
@@ -47,6 +50,30 @@ export function addLocationSuccess(success) {
 export function addLocationError(error) {
   return {
     type: ADD_LOCATION_ERROR,
+    error
+  };
+}
+
+export function updateLocationRate(location_id, currency_conversion) {
+  return {
+    type: UPDATE_LOCATION_RATE_REQUEST,
+    location_id,
+    currency_conversion,
+  };
+}
+
+export function updateLocationRateSuccess(success) {
+  status(success, 'success');
+  return {
+    type: UPDATE_LOCATION_RATE_SUCCESS,
+    success
+  };
+}
+
+export function updateLocationRateError(error) {
+  status(error, 'error');
+  return {
+    type: UPDATE_LOCATION_RATE_ERROR,
     error
   };
 }
