@@ -16,7 +16,9 @@ import {
   UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_ERROR, 
   REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REJECT_REQUISITION_STATUS_ERROR, 
   REQUEST_REQUISITION_SIGN_REQUEST, REQUEST_REQUISITION_SIGN_SUCCESS, REQUEST_REQUISITION_SIGN_ERROR,
-  GET_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_SUCCESS, GET_REQUISITION_SIGN_ERROR } from './constants';
+  GET_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_SUCCESS, GET_REQUISITION_SIGN_ERROR,
+  ADD_FUNDING_CREDITS_REQUEST, ADD_FUNDING_CREDITS_SUCCESS, ADD_FUNDING_CREDITS_ERROR
+} from './constants';
   
 import status  from 'utils/status';
 
@@ -300,6 +302,31 @@ export function requestSignSuccess(signUrl) {
 export function requestSignError(error) {
   return {
     type: REQUEST_REQUISITION_SIGN_ERROR,
+    error
+  };
+}
+
+// Add funding credit request
+export function addFundingCredits(event_id, funding_amount) {
+  return {
+    type: ADD_FUNDING_CREDITS_REQUEST,
+    event_id,
+    funding_amount
+  };
+}
+
+export function addFundingCreditsSuccess() {
+  status(success, 'success');
+  return {
+    type: ADD_FUNDING_CREDITS_SUCCESS,
+    success
+  };
+}
+
+export function addFundingCreditsError(error) {
+  status(error, 'error');
+  return {
+    type: ADD_FUNDING_CREDITS_ERROR,
     error
   };
 }

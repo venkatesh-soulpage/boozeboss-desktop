@@ -4,6 +4,8 @@ import { Button, Divider, Icon } from 'rsuite';
 import moment from 'moment';
 import AddNewRequisitionOrder from './AddNewRequisitionOrder';
 import ProductOrders from './ProductOrders';
+import AddEventCredits from './AddEventCredits';
+import RoleValidator from 'components/RoleValidator';
 
 const FieldRow = styled.div`
     display: flex;
@@ -66,6 +68,15 @@ export default class RequisitionEvent extends Component {
                             <AddNewRequisitionOrder {...this.props}/>
                         )}
                         <ProductOrders {...this.props}/>
+                        <RoleValidator
+                            {...this.props}
+                            scopes={['BRAND']}
+                            roles={['OWNER', 'MANAGER']}
+                        >
+                            <AddEventCredits 
+                                {...this.props}
+                            />
+                        </RoleValidator>
                     </FieldLabelAction>
                 </FieldRow>
                 <Divider />

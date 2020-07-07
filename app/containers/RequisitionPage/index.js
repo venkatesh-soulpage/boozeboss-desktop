@@ -18,7 +18,22 @@ import { makeSelectRequisitions, makeSelectSuccess, makeSelectError, makeSelectP
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getRequisitions, getClientProducts, createRequisitionOrder, deleteRequisitionOrder, updateRequisitionStatus, getWarehouses, updateRequisitionOrders, createRequisitionDelivery, updateRequisitionDelivery, rejectRequisition, requestSign, requestSignDocument } from './actions';
+import { 
+    getRequisitions, 
+    getClientProducts, 
+    createRequisitionOrder, 
+    deleteRequisitionOrder, 
+    updateRequisitionStatus, 
+    getWarehouses, 
+    updateRequisitionOrders,
+    createRequisitionDelivery, 
+    updateRequisitionDelivery, 
+    rejectRequisition, 
+    requestSign, 
+    requestSignDocument,
+    addFundingCredits
+  }
+from './actions';
 import { makeSelectScope, makeSelectRole, makeSelectUser } from '../App/selectors';
 import { RequisitionsContainer } from './components'
 
@@ -81,6 +96,7 @@ function mapDispatchToProps(dispatch) {
     updateRequisitionDelivery: (requisition_id, requisition_delivery_id, delivery) => dispatch(updateRequisitionDelivery(requisition_id,requisition_delivery_id, delivery)),
     requestSign: (requisition_id) => dispatch(requestSign(requisition_id)),
     requestSignDocument: (requisition_id) => dispatch(requestSignDocument(requisition_id)),
+    addFundingCredits: (event_id, funding_amount) => dispatch(addFundingCredits(event_id, funding_amount)),
   };
 }
 

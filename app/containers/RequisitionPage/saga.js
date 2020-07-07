@@ -11,7 +11,14 @@ import {
   GET_CLIENT_PRODUCTS_REQUEST, 
   CREATE_REQUISITION_ORDER_REQUEST, CREATE_REQUISITION_ORDER_SUCCESS, 
   DELETE_REQUISITION_ORDER_REQUEST, DELETE_REQUISITION_ORDER_SUCCESS, 
-  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, GET_WAREHOUSES_REQUEST, UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, REQUEST_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_REQUEST 
+  UPDATE_REQUISITION_STATUS_REQUEST, UPDATE_REQUISITION_STATUS_SUCCESS, 
+  GET_WAREHOUSES_REQUEST, 
+  UPDATE_REQUISITION_ORDERS_REQUEST, UPDATE_REQUISITION_ORDERS_SUCCESS, 
+  CREATE_REQUISITION_DELIVERY_REQUEST, CREATE_REQUISITION_DELIVERY_SUCCESS, 
+  UPDATE_REQUISITION_DELIVERY_REQUEST, UPDATE_REQUISITION_DELIVERY_SUCCESS, 
+  REJECT_REQUISITION_STATUS_REQUEST, REJECT_REQUISITION_STATUS_SUCCESS, 
+  REQUEST_REQUISITION_SIGN_REQUEST, GET_REQUISITION_SIGN_REQUEST,
+  ADD_FUNDING_CREDITS_REQUEST, ADD_FUNDING_CREDITS_SUCCESS
 } from './constants'
 
 import { 
@@ -26,7 +33,8 @@ import {
   updateRequisitionDeliverySuccess, updateRequisitionDeliveryError, 
   rejectRequisitionSuccess, rejectRequisitionError, 
   requestSignSuccess, requestSignError, 
-  requestSignDocumentSuccess, requestSignDocumentError
+  requestSignDocumentSuccess, requestSignDocumentError,
+  addFundingCreditsSuccess, addFundingCreditsError,
 } from './actions'
 import { makeSelectHellosign } from './selectors';
 
@@ -240,6 +248,26 @@ function* requestSignDocumentSaga(params) {
   }
 }
 
+function* addFundingCreditsSaga(params) {
+  const {event_id, funding_amount} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/events/${event_id}/fund`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({ funding_amount })
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addFundingCreditsSuccess(response));
+  } catch (error) {
+    console.log(error);
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addFundingCreditsError(jsonError));
+  }
+}
+
+
+
 function* getRequisitionsRequest() {
   yield takeLatest(GET_REQUISITIONS_REQUEST, getRequisitionsSaga);
 }
@@ -288,6 +316,10 @@ function* requestSignDocumentRequest() {
   yield takeLatest(GET_REQUISITION_SIGN_REQUEST, requestSignDocumentSaga);
 }
 
+function* addFundingCreditsRequest() {
+  yield takeLatest(ADD_FUNDING_CREDITS_REQUEST, addFundingCreditsSaga);
+}
+
 // Reactive Saga
 function* createRequisitionOrderSuccessRequest() {
   yield takeLatest(CREATE_REQUISITION_ORDER_SUCCESS, getRequisitionsSaga);
@@ -317,6 +349,10 @@ function* updateRequisitionDeliverySuccessRequest() {
   yield takeLatest(UPDATE_REQUISITION_DELIVERY_SUCCESS, getRequisitionsSaga);
 }
 
+function* addFundingCreditsSuccessRequest() {
+  yield takeLatest(ADD_FUNDING_CREDITS_SUCCESS, getRequisitionsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getRequisitionsRequest),
@@ -331,6 +367,7 @@ export default function* rootSaga() {
     fork(updateRequisitionDeliveryRequest),
     fork(requestSignRequest),
     fork(requestSignDocumentRequest),
+    fork(addFundingCreditsRequest),
     // Reactive
     fork(createRequisitionOrderSuccessRequest),
     fork(deleteRequisitionOrderSuccessRequest),
@@ -339,5 +376,6 @@ export default function* rootSaga() {
     fork(updateRequisitionOrdersSuccessRequest),
     fork(createRequisitionDeliverySuccessRequest),
     fork(updateRequisitionDeliverySuccessRequest),
+    fork(addFundingCreditsSuccessRequest),
   ]);
 }

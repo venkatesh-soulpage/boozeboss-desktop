@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import RoleValidator from 'components/RoleValidator';
 import styled from 'styled-components';
-import {Table} from 'rsuite';
+import {Table, Icon} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 import InviteCollaborator from './InviteCollaborator';
@@ -176,12 +176,20 @@ export default class OrganizationCollaboratorsTable extends Component {
                                     {rowData => rowData.role.scope}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column width={100}>
                                 <HeaderCell>
                                     Role
                                 </HeaderCell>
                                 <Cell dataKey="role">
                                     {rowData => rowData.role.name}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Balance
+                                </HeaderCell>
+                                <Cell dataKey="role">
+                                    {rowData => <span>{rowData.account.wallet.balance} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}
                                 </Cell>
                             </Column>
                             <Column flexGrow>
@@ -206,7 +214,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                                     
                                                 )
                                             } else {
-                                                return 'Edit | Delete'
+                                                return '-'
                                             }
                                         }}
                                     </Cell>
