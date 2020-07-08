@@ -124,6 +124,7 @@ export default class MenuAddProduct extends React.Component {
     }
 
     render() {
+        const { user } = this.props;
         const {show, product_options, product, price} = this.state;
         return (
             <React.Fragment>
@@ -142,6 +143,7 @@ export default class MenuAddProduct extends React.Component {
                         <FieldContainer>
                             <FieldLabel>Price (Required)</FieldLabel>
                             <InputNumber
+                                prefix={user && user.location.currency}
                                 min={0}
                                 value={price}
                                 onChange={(value) => this.handleChange(value, 'price')}

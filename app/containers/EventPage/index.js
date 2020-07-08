@@ -14,6 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { makeSelectUser } from '../App/selectors';
 import {makeSelectEvents, makeSelectSuccess, makeSelectError, makeSelectRoles, makeSelectProducts } from './selectors';
 import { getEvents, inviteGuest, resendEmail, deleteGuest, getRoles, getProducts, addEventProduct, removeEventProduct, addEventCondition, removeEventCondition, selectAsFree } from './actions';
 import reducer from './reducer';
@@ -56,6 +57,7 @@ const mapStateToProps = createStructuredSelector({
   products: makeSelectProducts(),
   success: makeSelectSuccess(),
   error: makeSelectError(),
+  user: makeSelectUser(),
 });
 
 function mapDispatchToProps(dispatch) {

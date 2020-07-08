@@ -68,15 +68,17 @@ export default class RequisitionEvent extends Component {
                             <AddNewRequisitionOrder {...this.props}/>
                         )}
                         <ProductOrders {...this.props}/>
-                        <RoleValidator
-                            {...this.props}
-                            scopes={['BRAND']}
-                            roles={['OWNER', 'MANAGER']}
-                        >
-                            <AddEventCredits 
+                        {event && event.event && requisitions[currentRequisition].status === 'APPROVED' && (
+                            <RoleValidator
                                 {...this.props}
-                            />
-                        </RoleValidator>
+                                scopes={['BRAND']}
+                                roles={['OWNER', 'MANAGER']}
+                            >
+                                <AddEventCredits 
+                                    {...this.props}
+                                />
+                            </RoleValidator>
+                        )}
                     </FieldLabelAction>
                 </FieldRow>
                 <Divider />

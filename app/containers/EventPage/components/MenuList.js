@@ -59,19 +59,21 @@ export default class MenuList extends Component {
                             </FieldLabel>
                         </FieldContainer>
                     )}
-                    <FieldsRow>
-                        <FieldContainer />
-                        <FieldContainer>
-                            <FieldsRow>
-                                <FieldContainer />
-                                <FieldContainer>
-                                    <MenuAddProduct 
-                                        {...this.props}
-                                    />
-                                </FieldContainer>
-                            </FieldsRow>
-                        </FieldContainer>
-                    </FieldsRow>
+                    {event && event.event.started_at && event.event.started_at && new Date(event.event.started_at).getTime() >= new Date().getTime() && (
+                        <FieldsRow>
+                            <FieldContainer />
+                            <FieldContainer>
+                                <FieldsRow>
+                                    <FieldContainer />
+                                    <FieldContainer>
+                                        <MenuAddProduct 
+                                            {...this.props}
+                                        />
+                                    </FieldContainer>
+                                </FieldsRow>
+                            </FieldContainer>
+                        </FieldsRow>
+                    )}
                 </FieldsRow> 
                 <TableContainer>
                 {event && event.event && event.event.products && 
@@ -119,18 +121,31 @@ export default class MenuList extends Component {
                                             Free Drink
                                         </HeaderCell>
                                         <Cell dataKey="actions">
-                                            {rowData => rowData.is_free_drink ? 'Redeemable Drink' : <a onClick={() => this.handleSelectAsFree(rowData.id)} >Select as Free</a>}
+                                            {rowData => {
+                                                if (new Date(event.event.started_at).getTime() >= new Date().getTime()) {
+                                                    if (rowData.is_free_drink) {
+                                                        return 'Redeemable Drink';
+                                                    } else {
+                                                        return <a onClick={() => this.handleSelectAsFree(rowData.id)} >Select as Free</a>
+                                                    }
+                                                } else {
+                                                    return 'Only Menu';
+                                                }
+                                            }}
                                         </Cell>
                                     </Column>
                                 )}
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        Actions
-                                    </HeaderCell>
-                                    <Cell dataKey="actions">
-                                        {rowData => <a onClick={() => this.handleRemove(rowData.id)} >Remove</a>}
-                                    </Cell>
-                                </Column>
+                                {event && event.event.started_at && event.event.started_at && new Date(event.event.started_at).getTime() >= new Date().getTime() && (
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            Actions
+                                        </HeaderCell>
+                                        <Cell dataKey="actions">
+                                            {rowData => <a onClick={() => this.handleRemove(rowData.id)} >Remove</a>}
+                                        </Cell>
+                                    </Column>
+                                )}
+                                
                             </Table>
                         ): (
                             <FieldContainer>

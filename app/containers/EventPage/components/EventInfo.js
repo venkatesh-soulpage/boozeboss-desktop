@@ -141,15 +141,15 @@ class EventCard extends Component {
                     </FieldContainer>
                 </FieldsRow>
                 <Divider />
+                <MenuList 
+                    {...this.props}
+                />
                 {event.free_drinks_enabled && (
                     <FieldsRow>
                         <EventFreeDrinkCondition {...this.props}/>
                         <Divider />
                     </FieldsRow>
                 )}
-                <MenuList 
-                    {...this.props}
-                />
                 <Divider />
                 <GuestList 
                     {...this.props}

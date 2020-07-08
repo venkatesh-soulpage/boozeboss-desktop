@@ -225,9 +225,11 @@ export default class EventFreeDrinkCondition extends Component {
                         </FieldLabel>
                     </FieldLabelContainer> 
                    <FieldLabelContainer>
-                        <ConditionModal 
-                            {...this.props}
-                        />
+                        {new Date(event.event.condition.start_time).getTime() >= new Date().getTime() && (
+                            <ConditionModal 
+                                {...this.props}
+                            />
+                        )}
                     </FieldLabelContainer> 
                 </FieldsRow>
                 <FieldsRow>
@@ -302,12 +304,15 @@ export default class EventFreeDrinkCondition extends Component {
                                         </FieldConditionLabel>
                                     </FieldConditionContainer>
                                 )}
-                                <FieldConditionContainer>
-                                    <FieldLabel>
-                                        Action
-                                    </FieldLabel>
-                                    <a onClick={this.handleRemove}>Remove</a>
-                                </FieldConditionContainer>
+                                {new Date(event.event.condition.start_time).getTime() >= new Date().getTime() && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Action
+                                        </FieldLabel>
+                                        <a onClick={this.handleRemove}>Remove</a>
+                                    </FieldConditionContainer>
+                                )}
+                                
                             </FieldsRow>
                         ) : (
                             <FieldLabel>
