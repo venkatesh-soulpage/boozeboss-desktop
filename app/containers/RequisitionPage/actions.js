@@ -315,7 +315,7 @@ export function addFundingCredits(event_id, funding_amount) {
   };
 }
 
-export function addFundingCreditsSuccess() {
+export function addFundingCreditsSuccess(success) {
   status(success, 'success');
   return {
     type: ADD_FUNDING_CREDITS_SUCCESS,

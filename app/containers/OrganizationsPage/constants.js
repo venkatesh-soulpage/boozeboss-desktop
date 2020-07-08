@@ -44,3 +44,11 @@ export const GET_ROLES_REQUEST =
 export const GET_ROLES_SUCCESS =
   'boozeboss/OrganizationsPage/GET_ROLES_SUCCESS';
 export const GET_ROLES_ERROR = 'boozeboss/OrganizationsPage/GET_ROLES_ERROR';
+
+
+export const ADD_COLLABORATOR_CREDITS_REQUEST =
+  'boozeboss/OrganizationsPage/ADD_COLLABORATOR_CREDITS_REQUEST';
+export const ADD_COLLABORATOR_CREDITS_SUCCESS =
+  'boozeboss/OrganizationsPage/ADD_COLLABORATOR_CREDITS_SUCCESS';
+export const ADD_COLLABORATOR_CREDITS_ERROR = 'boozeboss/OrganizationsPage/ADD_COLLABORATOR_CREDITS_ERROR';
+  

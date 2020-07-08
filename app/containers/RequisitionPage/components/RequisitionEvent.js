@@ -28,7 +28,7 @@ export default class RequisitionEvent extends Component {
     calculateEventFunding = () => {
         const {event, requisitions, currentRequisition, user} = this.props;
         
-        if (!event || !requisitions || !user) return;
+        if (!event || !requisitions || !user || !user.location) return '-';
 
         const accumulated_price =
                 requisitions[currentRequisition].orders

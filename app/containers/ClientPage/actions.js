@@ -52,6 +52,9 @@ import {
   GET_ORGANIZATIONS_REQUEST,
   GET_ORGANIZATIONS_SUCCESS,
   GET_ORGANIZATIONS_ERROR,
+  ADD_COLLABORATOR_CREDITS_REQUEST,
+  ADD_COLLABORATOR_CREDITS_SUCCESS,
+  ADD_COLLABORATOR_CREDITS_ERROR,
   CHANGE_ORGANIZATION_FILTER
 } from './constants';
 
@@ -410,6 +413,31 @@ export function uploadLogoError(error) {
   status(error, 'error');
   return {
     type: UPLOAD_LOGO_ERROR,
+    error,
+  };
+}
+
+/* PUT -  Add credits to a client */
+export function addCollaboratorCredits(collaborator_account_id, credits_amount) {
+  return {
+    type: ADD_COLLABORATOR_CREDITS_REQUEST,
+    collaborator_account_id,
+    credits_amount
+  };
+}
+
+export function addCollaboratorCreditsSuccess(success) {
+  status(success, 'success');
+  return {
+    type: ADD_COLLABORATOR_CREDITS_SUCCESS,
+    success,
+  };
+}
+
+export function addCollaboratorCreditsError(error) {
+  status(error, 'error');
+  return {
+    type: ADD_COLLABORATOR_CREDITS_ERROR,
     error,
   };
 }

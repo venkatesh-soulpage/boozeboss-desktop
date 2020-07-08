@@ -14,7 +14,8 @@ import {
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, UPDATE_SLA_ERROR,
   GET_ROLES_ERROR, GET_ROLES_REQUEST, GET_ROLES_SUCCESS,
   INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR,
-  REVOKE_COLLABORATOR_INVITE_REQUEST, REVOKE_COLLABORATOR_INVITE_SUCCESS, REVOKE_COLLABORATOR_INVITE_ERROR
+  REVOKE_COLLABORATOR_INVITE_REQUEST, REVOKE_COLLABORATOR_INVITE_SUCCESS, REVOKE_COLLABORATOR_INVITE_ERROR,
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS, ADD_COLLABORATOR_CREDITS_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -229,6 +230,31 @@ export function revokeCollaboratorInvitationError(error) {
   status(error, 'error');
   return {
     type: REVOKE_COLLABORATOR_INVITE_ERROR,
+    error,
+  };
+}
+
+/* PUT -  Add credits to an organization */
+export function addCollaboratorCredits(collaborator_account_id, credits_amount) {
+  return {
+    type: ADD_COLLABORATOR_CREDITS_REQUEST,
+    collaborator_account_id,
+    credits_amount
+  };
+}
+
+export function addCollaboratorCreditsSuccess(success) {
+  status(success, 'success');
+  return {
+    type: ADD_COLLABORATOR_CREDITS_SUCCESS,
+    success,
+  };
+}
+
+export function addCollaboratorCreditsError(error) {
+  status(error, 'error');
+  return {
+    type: ADD_COLLABORATOR_CREDITS_ERROR,
     error,
   };
 }

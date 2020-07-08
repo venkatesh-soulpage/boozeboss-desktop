@@ -69,18 +69,18 @@ const StatusesData = [
 
 ]
 
-export default class AddEventCredits extends React.Component {
+export default class ClientAddCollaboratorCredits extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
         show: false,
-        funding_amount: 0,
+        credits_amount: 0,
       };
     }
 
 
     close = () => {
-      this.setState({ show: false, funding_amount: 0 });
+      this.setState({ show: false, credits_amount: 0 });
     }
 
     open = () => {
@@ -92,33 +92,32 @@ export default class AddEventCredits extends React.Component {
     }
 
     addCredits = () => {
-        const { funding_amount } = this.state;
-        const { event, addFundingCredits } = this.props;
-        addFundingCredits(event.event.id, funding_amount);
+        const { collaborator, addCollaboratorCredits } = this.props;
+        const {credits_amount} = this.state;
+        addCollaboratorCredits(collaborator.account.id, credits_amount);
         this.close();
     }
 
     render() {
-        const {show, funding_amount } = this.state;
+        const {show, credits_amount } = this.state;
         return (
             <React.Fragment>
-                <a onClick={this.open} color="green">Fund Event</a>
+                <a onClick={this.open}>(+/-)</a>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
-                            <FieldLabel>Add Credits</FieldLabel>
+                            <FieldLabel>Add/Remove Credits</FieldLabel>
                             <InputNumber 
                                 prefix={<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/>}
-                                min={0}
-                                value={funding_amount}
-                                onChange={(val) => this.handleChange(val, 'funding_amount')} 
+                                value={credits_amount}
+                                onChange={(val) => this.handleChange(val, 'credits_amount')} 
                             />
                         </FieldContainer>
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.addCredits} color="green">
-                        Add Credits
+                        Add/Remove Credits
                     </Button>
                     <Button onClick={this.close} appearance="subtle">
                         Cancel

@@ -84,6 +84,12 @@ export const UPLOAD_LOGO_REQUEST =
 export const UPLOAD_LOGO_SUCCESS =
   'boozeboss/ClientContainer/UPLOAD_LOGO_SUCCESS';
 export const UPLOAD_LOGO_ERROR = 'boozeboss/ClientContainer/UPLOAD_LOGO_ERROR';
+
+export const ADD_COLLABORATOR_CREDITS_REQUEST =
+  'boozeboss/ClientContainer/ADD_COLLABORATOR_CREDITS_REQUEST';
+export const ADD_COLLABORATOR_CREDITS_SUCCESS =
+  'boozeboss/ClientContainer/ADD_COLLABORATOR_CREDITS_SUCCESS';
+export const ADD_COLLABORATOR_CREDITS_ERROR = 'boozeboss/ClientContainer/ADD_COLLABORATOR_CREDITS_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';

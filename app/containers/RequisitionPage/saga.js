@@ -36,6 +36,9 @@ import {
   requestSignDocumentSuccess, requestSignDocumentError,
   addFundingCreditsSuccess, addFundingCreditsError,
 } from './actions'
+
+import {getUser} from '../App/actions';
+
 import { makeSelectHellosign } from './selectors';
 
 function* getRequisitionsSaga() {
@@ -259,6 +262,7 @@ function* addFundingCreditsSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(addFundingCreditsSuccess(response));
+    yield put(getUser())
   } catch (error) {
     console.log(error);
     const jsonError = yield error.response ? error.response.json() : error;

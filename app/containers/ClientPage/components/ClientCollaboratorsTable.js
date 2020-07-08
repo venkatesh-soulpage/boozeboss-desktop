@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {Table, Icon} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import InviteCollaborator from './InviteCollaborator';
+import ClientAddCollaboratorCredits from './ClientAddCollaboratorCredits';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -179,12 +180,26 @@ export default class ClientCollaboratorsTable extends Component {
                                     {rowData => rowData.role.name}
                                 </Cell>
                             </Column>
-                            <Column flexGrow>
+                            <Column width={200}>
                                 <HeaderCell>
                                     Balance
                                 </HeaderCell>
-                                <Cell dataKey="role">
-                                    {rowData => <span>{rowData.account.wallet.balance} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}
+                                <Cell dataKey="balance">
+                                    {rowData => (
+                                        <span>
+                                            {rowData.account.wallet ? rowData.account.wallet.balance : '-'}
+                                            <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0.5em 0 0.5em'}}/>
+                                            {rowData.account.wallet && (
+                                                <RoleValidator
+                                                        {...this.props}
+                                                        scopes={['ADMIN']}
+                                                        roles={['ADMIN']}
+                                                    >
+                                                        <ClientAddCollaboratorCredits collaborator={rowData} {...this.props} />
+                                                </RoleValidator>
+                                            )}
+                                        </span>
+                                    )}
                                 </Cell>
                             </Column>
                             <Column flexGrow>

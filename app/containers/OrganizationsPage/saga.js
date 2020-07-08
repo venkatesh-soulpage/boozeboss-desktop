@@ -12,7 +12,8 @@ import {
   INVITE_COLLABORATOR_REQUEST,
   REVOKE_COLLABORATOR_INVITE_REQUEST,
   REVOKE_COLLABORATOR_INVITE_SUCCESS,
-  INVITE_COLLABORATOR_SUCCESS
+  INVITE_COLLABORATOR_SUCCESS,
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS
 } from './constants';
 
 import {
@@ -23,7 +24,8 @@ import {
   updateSlaSuccess, updateSlaError,
   getRolesSuccess, getRolesError,
   inviteCollaboratorSuccess, inviteCollaboratorError, 
-  revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError
+  revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError,
+  addCollaboratorCreditsSuccess, addCollaboratorCreditsError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -177,6 +179,22 @@ function* revokeCollaboratorInvitationSaga(params) {
   }
 }
 
+function* addCollaboratorCreditsSaga(params) {
+  const { collaborator_account_id, credits_amount } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/wallets/admin-transfer`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({collaborator_account_id, credits_amount}),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addCollaboratorCreditsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addCollaboratorCreditsError(jsonError));
+  }
+}
 
 function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
@@ -214,6 +232,10 @@ function* revokeCollaboratorInviteRequest() {
   yield takeLatest(REVOKE_COLLABORATOR_INVITE_REQUEST, revokeCollaboratorInvitationSaga);
 }
 
+function* addCollaboratorCreditsRequest() {
+  yield takeLatest(ADD_COLLABORATOR_CREDITS_REQUEST, addCollaboratorCreditsSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -239,6 +261,10 @@ function* revokeCollaboratorInviteSuccessRequest() {
   yield takeLatest(REVOKE_COLLABORATOR_INVITE_SUCCESS, getOrganizationsSaga);
 }
 
+function* addCollaboratorCreditsSuccessRequest() {
+  yield takeLatest(ADD_COLLABORATOR_CREDITS_SUCCESS, getOrganizationsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getOrganizationsRequest),
@@ -250,6 +276,7 @@ export default function* rootSaga() {
     fork(getRolesRequest),
     fork(inviteCollaboratorRequest),
     fork(revokeCollaboratorInviteRequest),
+    fork(addCollaboratorCreditsRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),
@@ -257,5 +284,6 @@ export default function* rootSaga() {
     fork(updateSLASuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
     fork(revokeCollaboratorInviteSuccessRequest),
+    fork(addCollaboratorCreditsSuccessRequest)
   ]);
 }

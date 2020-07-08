@@ -16,7 +16,11 @@ import {
   ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, 
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, 
   INVITE_COLLABORATOR_SUCCESS, 
-  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS, GET_ORGANIZATIONS_REQUEST,
+  UPLOAD_LOGO_REQUEST, UPLOAD_LOGO_SUCCESS, 
+  REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, 
+  RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS,
+  GET_ORGANIZATIONS_REQUEST,
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS
 } from './constants';
 
 import {
@@ -49,7 +53,9 @@ import {
   resendInviteCollaboratorSuccess,
   resendInviteCollaboratorError,
   getOrganizationsSuccess,
-  getOrganizationsError
+  getOrganizationsError,
+  addCollaboratorCreditsSuccess,
+  addCollaboratorCreditsError
 } from './actions';
 
 function* getClientsSaga() {
@@ -310,6 +316,23 @@ function* resendInviteSaga(params) {
 }
 
 
+function* addCollaboratorCreditsSaga(params) {
+  const { collaborator_account_id, credits_amount } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/wallets/admin-transfer`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({collaborator_account_id, credits_amount}),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(addCollaboratorCreditsSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(addCollaboratorCreditsError(jsonError));
+  }
+}
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -370,6 +393,10 @@ function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
 }
 
+function* addCollaboratorCreditsRequest() {
+  yield takeLatest(ADD_COLLABORATOR_CREDITS_REQUEST, addCollaboratorCreditsSaga);
+}
+
 // Reactive saga
 function* inviteClientSuccessRequest() {
   yield takeLatest(INVITE_CLIENT_SUCCESS, getClientsSaga);
@@ -415,6 +442,10 @@ function* resendInviteSuccessRequest() {
   yield takeLatest(RESEND_INVITE_SUCCESS, getClientsSaga);
 }
 
+function* addCollaboratorCreditsSuccessRequest() {
+  yield takeLatest(ADD_COLLABORATOR_CREDITS_SUCCESS, getClientsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getClientsRequest),
@@ -432,6 +463,7 @@ export default function* rootSaga() {
     fork(uploadLogoRequest),
     fork(resendInviteRequest),
     fork(getOrganizationsRequest),
+    fork(addCollaboratorCreditsRequest),
     // Reactive
     fork(inviteClientSuccessRequest),
     fork(createVenueSuccessRequest),
@@ -443,6 +475,7 @@ export default function* rootSaga() {
     fork(addClientLocationSuccessRequest),
     fork(updateSlaSuccessRequest),
     fork(uploadLogoSuccessRequest),
-    fork(resendInviteSuccessRequest)
+    fork(resendInviteSuccessRequest),
+    fork(addCollaboratorCreditsSuccessRequest),
   ]);
 }
