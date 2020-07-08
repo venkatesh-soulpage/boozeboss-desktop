@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import RoleValidator from 'components/RoleValidator';
 import styled from 'styled-components';
-import {Table} from 'rsuite';
+import {Table, Icon} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import InviteCollaborator from './InviteCollaborator';
 
@@ -181,6 +181,14 @@ export default class ClientCollaboratorsTable extends Component {
                             </Column>
                             <Column flexGrow>
                                 <HeaderCell>
+                                    Balance
+                                </HeaderCell>
+                                <Cell dataKey="role">
+                                    {rowData => <span>{rowData.account.wallet.balance} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
                                     Actions
                                 </HeaderCell>
                                 <Cell dataKey="actions">
@@ -194,7 +202,7 @@ export default class ClientCollaboratorsTable extends Component {
                                                 </React.Fragment>
                                             )
                                         } else {
-                                            return 'Edit | Delete'
+                                            return '-'
                                         }
                                     }}
                                 </Cell>
