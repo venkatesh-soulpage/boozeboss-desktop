@@ -130,8 +130,8 @@ class EventCard extends Component {
                         <p>{event.drinks_enabled ? `Yes (${event.cocktails_per_guest} per guest)` : 'No'}</p>
                     </FieldContainer>
                     <FieldContainer>
-                        <FieldLabel>Free Drinks Limit</FieldLabel>
-                        <p>{event.free_drinks_enabled ? `Yes (${event.free_drinks_per_guest} per guest)` : 'No'}</p>
+                        <FieldLabel>Free Drinks Enabled</FieldLabel>
+                        <p>{event.free_drinks_enabled ? `Yes` : 'No'}</p>
                     </FieldContainer>
                 </FieldsRow>
                 <FieldsRow>
@@ -141,10 +141,12 @@ class EventCard extends Component {
                     </FieldContainer>
                 </FieldsRow>
                 <Divider />
-                <FieldsRow>
-                    <EventFreeDrinkCondition {...this.props}/>
-                </FieldsRow>
-                <Divider />
+                {event.free_drinks_enabled && (
+                    <FieldsRow>
+                        <EventFreeDrinkCondition {...this.props}/>
+                        <Divider />
+                    </FieldsRow>
+                )}
                 <MenuList 
                     {...this.props}
                 />

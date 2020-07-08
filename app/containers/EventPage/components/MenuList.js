@@ -113,14 +113,16 @@ export default class MenuList extends Component {
                                         {rowData => rowData.active ? 'YES' : 'NO'}
                                     </Cell>
                                 </Column>
-                                <Column width={150}>
-                                    <HeaderCell>
-                                        Free Drink
-                                    </HeaderCell>
-                                    <Cell dataKey="actions">
-                                        {rowData => rowData.is_free_drink ? 'Redeemable Drink' : <a onClick={() => this.handleSelectAsFree(rowData.id)} >Select as Free</a>}
-                                    </Cell>
-                                </Column>
+                                {event.free_drinks_enabled && (
+                                    <Column width={150}>
+                                        <HeaderCell>
+                                            Free Drink
+                                        </HeaderCell>
+                                        <Cell dataKey="actions">
+                                            {rowData => rowData.is_free_drink ? 'Redeemable Drink' : <a onClick={() => this.handleSelectAsFree(rowData.id)} >Select as Free</a>}
+                                        </Cell>
+                                    </Column>
+                                )}
                                 <Column flexGrow>
                                     <HeaderCell>
                                         Actions
