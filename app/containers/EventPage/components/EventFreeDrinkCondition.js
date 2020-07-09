@@ -6,7 +6,7 @@ import moment from 'moment';
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 10px 0 10px 0;
+    margin: 5px 0 5px 0;
     flex: 1;
     ${props => props.centered && 'align-items: center;'}
 `;
@@ -113,7 +113,7 @@ class ConditionModal extends Component {
         const {show, condition_type, min_age, max_age, gender, limit, start_time, end_time} = this.state; 
         return (
             <React.Fragment>
-                <Button onClick={this.open} color="green">+ Add Condition</Button>
+                <Button onClick={this.open} color="green" style={{width: '200px'}}>+ Add Condition</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
@@ -221,11 +221,11 @@ export default class EventFreeDrinkCondition extends Component {
                 <FieldsRow isHeader>
                    <FieldLabelContainer>
                         <FieldLabel>
-                            Free Drinks ({event.event.free_redemeed_drinks} redeemed)
+                            Free Drinks ({event && event.event.free_redemeed_drinks} redeemed)
                         </FieldLabel>
                     </FieldLabelContainer> 
                    <FieldLabelContainer>
-                        {new Date(event.event.condition.start_time).getTime() >= new Date().getTime() && (
+                        {event && new Date(event.event.started_at).getTime() >= new Date().getTime() && (
                             <ConditionModal 
                                 {...this.props}
                             />
@@ -315,9 +315,9 @@ export default class EventFreeDrinkCondition extends Component {
                                 
                             </FieldsRow>
                         ) : (
-                            <FieldLabel>
-                                No condition
-                            </FieldLabel>
+                            <FieldContainer>
+                                <p>No condition</p>
+                            </FieldContainer>
                         )}
                 </FieldsRow>
             </FieldContainer>

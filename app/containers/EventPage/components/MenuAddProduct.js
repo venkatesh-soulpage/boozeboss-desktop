@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker, InputNumber} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, InputNumber, Icon} from 'rsuite'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import styled from 'styled-components';
+
+const FieldRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
 
 const FieldContainer = styled.div`
     display: flex;
@@ -14,10 +20,37 @@ const FieldLabel = styled.b`
     margin: 0 0.5em 0.5em 0;
 `;
 
-const styles = {
-    width: '300px',
-    margin: '0.75em 0 0 0'
-  }
+
+const typeOptions = [
+    { label: 'Product', value: 'PRODUCT' },
+    { label: 'Cocktail', value: 'COCKTAIL' },
+    { label: 'Brand Asset', value: 'BRAND_ASSET' },
+    { label: 'Mixer', value: 'MIXER' },
+    { label: 'Ingredient', value: 'INGREDIENT' },
+    { label: 'Consumable', value: 'CONSUMABLE' },
+];
+  
+const subtypesOptions = {
+    MIXER: [
+      { label: 'Soda', value: 'SODA' },
+      { label: 'Packed Juice', value: 'PACKED_JUICE' },
+      { label: 'Fresh Juice', value: 'FRESH_JUICE' },
+      { label: 'Syrup', value: 'SYRUP' },
+      { label: 'Other', value: 'OTHER' },
+    ],
+    CONSUMABLE: [{ label: 'Consumable', value: 'CONSUMABLE' }],
+    INGREDIENT: [
+      { label: 'Whole Fruit', value: 'WHOLE_FRUIT' },
+      { label: 'Flavoring Bitter', value: 'FLAVORING_BITTER' },
+      { label: 'Other', value: 'OTHER' },
+    ],
+    BRAND_ASSET: [
+      { label: 'Mobile Bar', value: 'MOBILE_BAR' },
+      { label: 'POS', value: 'POS' },
+      { label: 'Cocktail Equipment', value: 'COCKTAIL_EQUIPMENT' },
+      { label: 'Other', value: 'OTHER' },
+    ],
+};
 
 export default class MenuAddProduct extends React.Component {
     constructor(props) {
@@ -26,6 +59,8 @@ export default class MenuAddProduct extends React.Component {
         show: false,
         product_options: null,
         product: null,
+        product_type: null,
+        product_subtype: null,
         price: null,
       };
     }
@@ -46,70 +81,55 @@ export default class MenuAddProduct extends React.Component {
       this.getPickerData();
     }
 
+    getAvailable = (id) => {
+        const { event } = this.props;
+        const {orders} = event;
+
+        const products_ids = [];
+
+        orders.map(order => {
+            products_ids.push(order.product_id);
+            order.product.ingredients.map((ing) => {
+                products_ids.push(ing.product_id);
+            });
+        })
+
+        return products_ids.indexOf(id) > -1;
+    }
+
     getPickerData = () => {
         const {products, event} = this.props;
+        const {product_type, product_subtype} = this.state;
 
-        if (!products || !event) return [];
+        if (!products || !event || !product_type) return [];
 
-        const event_products = event.event.products.map(ep => ep.product_id)
-
-        const brief_brands = event.brief.brands.map(brand => brand.brand_id);
+        const menu_ids = event.event.products.map(product => product.product_id);
 
         const available_products = products
-            .filter(product => event_products.indexOf(product.id) < 0)
+            .filter(prod => menu_ids.indexOf(prod.id) < 0)
             .filter((prod) => {
-        
-                // filters
-                const has_brief_brand = !prod.is_cocktail && prod.brand && brief_brands.indexOf(prod.brand.id) > -1;
-                const is_ingredient = !prod.is_cocktail &&  prod.brand && prod.brand.product_type !== 'Liquour';
+                if (prod.product_type === 'PRODUCT') {
+                    return this.getAvailable(prod.id) && prod.product_type === product_type;
+                } else if (prod.product_type === 'COCKTAIL') {
+                    return this.getAvailable(prod.id) && prod.product_type === product_type;
+                } else {
+                    if (!product_subtype) {
+                        return prod.product_type === product_type;
+                    } else {
+                        return prod.product_type === product_type && prod.product_subtype === product_subtype;
+                    }
 
-                return has_brief_brand || is_ingredient;
+                }
             })
             .map(prod => {
                 return {
-                    label: prod.is_cocktail ? `${prod.name} - ${prod.metric_amount}${prod.metric} (Cocktail)` : `${prod.name} - ${prod.metric_amount}${prod.metric}`,
+                    label: `${prod.name} - ${prod.metric_amount}${prod.metric}`,
                     value: prod
                 }
             });
 
-        const available_product_ids = [...new Set(available_products.map(prod => prod.value.brand_id))]; 
-        const available_cocktails = products
-            .filter(product => event_products.indexOf(product.id) < 0)
-            .filter((prod => {
-                return prod.is_cocktail;
-            }))
-           .filter((prod) => {
-                const ingredient_brands = prod.ingredients.filter((ing) => ing.product.brand_id).map((ing) => ing.product.brand_id);   
-                const available_ingredients = ingredient_brands.filter(ib => {
-                    return available_product_ids.indexOf(ib) > -1;
-                })
-                return available_ingredients.length >= 0;
-            }) 
-            .map(prod => {
-                return {
-                    label: prod.is_cocktail ? `${prod.name} - ${prod.metric_amount}${prod.metric} (Cocktail)` : `${prod.name} - ${prod.metric_amount}${prod.metric}`,
-                    value: prod
-                }
-            });
+        return available_products;
 
-        const no_brand_products = 
-            products
-                .filter(product => event_products.indexOf(product.id) < 0)
-                .filter(prod => {
-                    const is_no_brand = ['BRAND_ASSET', 'MIXER', 'INGREDIENT'].indexOf(prod.product_type) > -1;
-                    return is_no_brand;
-                })
-                .map(prod => {
-                    return {
-                        label: `${prod.name} - ${prod.metric_amount}${prod.metric}`,
-                        value: prod
-                    }
-                });
-    
-
-        this.setState({
-            product_options: [...available_cocktails, ...available_products, ...no_brand_products],
-        })
     }
 
     handleChange = (value, name) => {
@@ -125,30 +145,61 @@ export default class MenuAddProduct extends React.Component {
 
     render() {
         const { user } = this.props;
-        const {show, product_options, product, price} = this.state;
+        const {show, product, price, product_type, product_subtype} = this.state;
+        const product_options = this.getPickerData();
         return (
             <React.Fragment>
-                <Button onClick={this.open} color="green">+ Add Product</Button>
+                <Button onClick={this.open} color="green" style={{width: '200px'}}>+ Add Product</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
                             <FieldLabel>Product (Required)</FieldLabel>
                             <SelectPicker 
-                                searchable={true}
-                                data={product_options}
-                                onChange={(value) => this.handleChange(value, 'product')}
+                                searchable={false}
+                                data={typeOptions}
+                                onChange={(value) => this.handleChange(value, 'product_type')}
                             />
                         </FieldContainer>
-                        <FieldContainer>
-                            <FieldLabel>Price (Required)</FieldLabel>
-                            <InputNumber
-                                prefix={user && user.location.currency}
-                                min={0}
-                                value={price}
-                                onChange={(value) => this.handleChange(value, 'price')}
-                            />
-                        </FieldContainer>
+                        {product_type && !(['PRODUCT', 'COCKTAIL'].indexOf(product_type) > -1) && (
+                            <FieldContainer>
+                                <FieldLabel>Product (Required)</FieldLabel>
+                                <SelectPicker 
+                                    searchable={false}
+                                    data={subtypesOptions[product_type]}
+                                    onChange={(value) => this.handleChange(value, 'product_subtype')}
+                                />
+                            </FieldContainer>
+                        )}
+                        {product_type && (
+                            <FieldContainer>
+                                <FieldLabel>Product (Required)</FieldLabel>
+                                <SelectPicker 
+                                    searchable={true}
+                                    data={product_options}
+                                    onChange={(value) => this.handleChange(value, 'product')}
+                                />
+                            </FieldContainer>
+                        )}
+                        {product_type && product && (
+                            <FieldContainer>
+                                <FieldRow>
+                                    <FieldLabel>Price (Required)</FieldLabel>
+                                    {price && (
+                                        <FieldLabel>
+                                            <span>~{Math.round(user.location.currency_conversion * price * 100) / 100}<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>
+                                        </FieldLabel>
+                                    )}
+                                    
+                                </FieldRow>
+                                <InputNumber
+                                    prefix={user && user.location.currency}
+                                    min={0}
+                                    value={price}
+                                    onChange={(value) => this.handleChange(value, 'price')}
+                                />
+                            </FieldContainer>
+                        )}
                     </Modal.Body>
                     <Modal.Footer>
                     <Button onClick={this.addProduct} color="green">

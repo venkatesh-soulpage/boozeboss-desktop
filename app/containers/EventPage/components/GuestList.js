@@ -19,6 +19,7 @@ const FieldContainer = styled.div`
     flex-direction: column;
     flex: 1;
     margin ${props => props.margin ? props.margin : '0 0em 0 1em'};
+    align-items: ${props => props.align || 'flex-start'};
 `
 
 const FieldLabel = styled.b`
@@ -56,7 +57,7 @@ export default class GuestList extends Component {
                                 <p>Master Code: <b>{event.event.master_code}</b></p>
                             )}
                         </FieldContainer>
-                        <FieldContainer>
+                        <FieldContainer align="flex-end">
                             <FieldsRow>
                                 <FieldContainer>
                                     <ImportGuestList 

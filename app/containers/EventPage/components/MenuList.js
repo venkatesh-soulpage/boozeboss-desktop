@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Button, Table } from 'rsuite';
+import { Button, Table, Icon } from 'rsuite';
 import MenuAddProduct from './MenuAddProduct';
 
 const {Column, HeaderCell, Cell } = Table;
@@ -17,7 +17,7 @@ const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin ${props => props.margin ? props.margin : '0 0em 0 1em'};
+    margin ${props => props.margin ? props.margin : '0 0em 0 0em'};
 `
 
 const FieldLabel = styled.b`
@@ -48,7 +48,7 @@ export default class MenuList extends Component {
     }
 
     render() {
-        const {event} = this.props;
+        const {event, user} = this.props;
         return (
             <React.Fragment>
                 <FieldsRow>
@@ -99,22 +99,30 @@ export default class MenuList extends Component {
                                         {rowData => `${rowData.product.metric_amount}${rowData.product.metric}`}
                                     </Cell>
                                 </Column>
-                                <Column width={80}>
+                                <Column width={100}>
                                     <HeaderCell>
-                                        Price
+                                        Price {user.location.currency}
                                     </HeaderCell>
                                     <Cell dataKey="price">
-                                        {rowData => rowData.price}
+                                        {rowData => `${rowData.price} ${user.location.currency}`}
                                     </Cell>
                                 </Column>
-                                <Column width={60}>
+                                <Column width={100}>
+                                    <HeaderCell>
+                                        Coin Price
+                                    </HeaderCell>
+                                    <Cell dataKey="base">
+                                        {rowData => <span>{Math.round(user.location.currency_conversion * rowData.price * 100) / 100}<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}
+                                    </Cell>
+                                </Column>
+                                {/* <Column width={60}>
                                     <HeaderCell>
                                         Active
                                     </HeaderCell>
                                     <Cell dataKey="active">
                                         {rowData => rowData.active ? 'YES' : 'NO'}
                                     </Cell>
-                                </Column>
+                                </Column> */}
                                 {event.free_drinks_enabled && (
                                     <Column width={150}>
                                         <HeaderCell>
@@ -149,7 +157,7 @@ export default class MenuList extends Component {
                             </Table>
                         ): (
                             <FieldContainer>
-                                No Menu
+                                <p>No Menu</p>
                             </FieldContainer>
                         )}
                     </TableContainer>

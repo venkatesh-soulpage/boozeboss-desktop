@@ -112,7 +112,7 @@ export default class ImportGuestList extends React.Component {
         const {show, guests, uploadIndex} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open}>Import</Button>
+                <Button onClick={this.open} style={{width: '200px'}}>Import</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>    

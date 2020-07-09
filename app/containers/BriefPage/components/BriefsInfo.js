@@ -204,7 +204,7 @@ export default class BriefsInfo extends Component {
                                         >
                                             {briefs[currentBrief].status === 'DRAFT' && (
                                                 <FieldContainer>
-                                                    <IconButton icon={<Icon icon="trash"/>} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}} onClick={this.handleDelete}/> 
+                                                    <IconButton color="red" icon={<Icon icon="trash" style={{width: '100%'}}/>} style={{display: 'flex', flexDirection: 'row', justifyItems: 'center'}} onClick={this.handleDelete}/> 
                                                     <SubmitBriefConfirm {...this.props} />
                                                 </FieldContainer>
                                             )}

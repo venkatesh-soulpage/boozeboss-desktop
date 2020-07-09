@@ -90,7 +90,7 @@ export default class EventInviteGuest extends React.Component {
         const {role_id, show, role_options, email, phone_number} = this.state;
         return (
             <React.Fragment>
-                <Button onClick={this.open} color="green">+ Add Guest</Button>
+                <Button onClick={this.open} color="green" style={{width: '200px'}}>+ Add Guest</Button>
         
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>

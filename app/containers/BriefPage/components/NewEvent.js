@@ -40,7 +40,7 @@ export default class NewEvent extends React.Component {
         cocktails_enabled: false,
         cocktails_per_guest: 1,
         free_drinks_enabled: false,
-        free_drinks_per_guest: 1,
+        free_drinks_per_guest: 0,
         comments: null,
         cash_collected_by: null,
         venue_id: null,
@@ -323,16 +323,16 @@ export default class NewEvent extends React.Component {
                             <FieldRow>
                                 <FieldContainer>
                                     <FieldLabel>Free Drinks</FieldLabel>
-                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Redeemable Cocktails</Checkbox>
+                                    <Checkbox defaultChecked={free_drinks_enabled} onChange={(value) => this.handleChange(!free_drinks_enabled, 'free_drinks_enabled')}>Enable Redeemable Cocktail</Checkbox>
                                 </FieldContainer>
-                                <FieldContainer>
+                                {/* <FieldContainer>
                                     <FieldLabel>Cocktails per Guest</FieldLabel>
                                     <InputNumber 
                                         disabled={!free_drinks_enabled}
                                         onChange={(value) => this.handleChange(value, 'free_drinks_per_guest')}
                                         value={free_drinks_per_guest}
                                     /> 
-                                </FieldContainer>
+                                </FieldContainer> */}
                             </FieldRow>
                         )}   
                         <FieldRow>

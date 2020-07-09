@@ -165,7 +165,10 @@ export default class RequisitionInfo extends Component {
                                             <FieldHeader><b>End Time</b></FieldHeader>
                                             <FieldHeader><b>Venue</b></FieldHeader>
                                             <FieldHeader><b>Expected Guests</b></FieldHeader>
-                                            <FieldHeader><b>Credits Required</b></FieldHeader>
+                                            <FieldHeader><b>{requisitions[currentRequisition].status === 'APPROVED' ? 'Credits Left' : 'Credits Required'}</b></FieldHeader>
+                                            {requisitions[currentRequisition].status === 'APPROVED' && (
+                                                <FieldHeader><b>Total Funded</b></FieldHeader>
+                                            )}
                                             <FieldHeader><b>Requisition</b></FieldHeader>
                                         </FieldRow>
                                         <Divider />

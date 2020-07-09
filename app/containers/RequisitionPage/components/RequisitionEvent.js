@@ -63,6 +63,11 @@ export default class RequisitionEvent extends Component {
                     <FieldLabel>
                         <span>{event && event.event && requisitions[currentRequisition].status === 'APPROVED' && `${event.event.credits_left} / `}{this.calculateEventFunding()} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>
                     </FieldLabel>
+                    {event.event && (
+                        <FieldLabel>
+                            <span>{event.event.total_credits_funded} <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>
+                        </FieldLabel>
+                    )}
                     <FieldLabelAction>
                         {(requisitions[currentRequisition].status === 'DRAFT' || requisitions[currentRequisition].status === 'CHANGES REQUIRED' ) && (
                             <AddNewRequisitionOrder {...this.props}/>
