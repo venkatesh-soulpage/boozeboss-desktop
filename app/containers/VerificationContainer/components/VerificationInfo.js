@@ -51,13 +51,17 @@ const StyledButton = styled(Button)`
     width: 150px;
 `
 
+const StyledImage = styled.img`
+    max-height: 500px;
+`
+
 const VerificationPicture = (props) => (
     <div>
         {props.verification_attachment.verification_type === 'id_front' && <h4>ID Front side</h4>}
         {props.verification_attachment.verification_type === 'id_back' && <h4>ID Back side</h4>}
         {props.verification_attachment.verification_type === 'selfie' && <h4>Selfie</h4>}
         <Divider />
-        <img src={props.verification_attachment.url} />
+        <StyledImage src={props.verification_attachment.url} />
         <Divider />
     </div>
 )

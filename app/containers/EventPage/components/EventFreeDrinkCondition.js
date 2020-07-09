@@ -6,7 +6,7 @@ import moment from 'moment';
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 5px 0 5px 0;
+    margin: 1em 0 5px 0;
     flex: 1;
     ${props => props.centered && 'align-items: center;'}
 `;
@@ -85,6 +85,7 @@ class ConditionModal extends Component {
         min_age: null,
         max_age: null,
         gender: null,
+        role_id: null,
         limit: null,
         start_time: null,
         end_time: null,
@@ -102,15 +103,29 @@ class ConditionModal extends Component {
         this.setState({[name]: value});
     }
 
+    getPickerData = () => {
+        const {roles} = this.props;
+        if (!roles) return [];
+
+        const role_options = roles.map(role => {
+            return {
+                label: role.name,
+                value: role.id,
+            }
+        })
+
+        return role_options;
+    }
+
     addCondition = () => {
         const {event, addEventCondition} = this.props;
-        const {condition_type, min_age, max_age, gender, limit, start_time, end_time} = this.state;
-        addEventCondition(event.event.id, {condition_type, min_age, max_age, gender, limit, start_time, end_time});
+        const {condition_type, min_age, max_age, gender, limit, start_time, end_time, role_id} = this.state;
+        addEventCondition(event.event.id, {condition_type, min_age, max_age, gender, limit, start_time, end_time, role_id});
         this.close()
     }
     
     render() {
-        const {show, condition_type, min_age, max_age, gender, limit, start_time, end_time} = this.state; 
+        const {show, condition_type, min_age, max_age, gender, limit, start_time, end_time, role_id} = this.state; 
         return (
             <React.Fragment>
                 <Button onClick={this.open} color="green" style={{width: '200px'}}>+ Add Condition</Button>
@@ -159,6 +174,17 @@ class ConditionModal extends Component {
                                 ]}
                                 value={gender}
                                 onChange={(value) => this.handleChange('gender', value)}
+                            />
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>
+                                Role
+                            </FieldLabel>
+                            <SelectPicker 
+                                searchable={false}
+                                data={this.getPickerData()}
+                                value={role_id}
+                                onChange={(value) => this.handleChange('role_id', value)}
                             />
                         </FieldContainer>
                         <FieldContainer>
@@ -284,6 +310,16 @@ export default class EventFreeDrinkCondition extends Component {
                                         </FieldConditionLabel>
                                     </FieldConditionContainer>
                                 )}
+                                {event.event.condition.role && (
+                                    <FieldConditionContainer>
+                                        <FieldLabel>
+                                            Role
+                                        </FieldLabel>
+                                        <FieldConditionLabel>
+                                            {event.event.condition.role.name}
+                                        </FieldConditionLabel>
+                                    </FieldConditionContainer>
+                                )}
                                 {event.event.condition.start_time && (
                                     <FieldConditionContainer>
                                         <FieldLabel>
@@ -304,7 +340,7 @@ export default class EventFreeDrinkCondition extends Component {
                                         </FieldConditionLabel>
                                     </FieldConditionContainer>
                                 )}
-                                {new Date(event.event.condition.start_time).getTime() >= new Date().getTime() && (
+                                {new Date(event.start_time).getTime() >= new Date().getTime() && (
                                     <FieldConditionContainer>
                                         <FieldLabel>
                                             Action
