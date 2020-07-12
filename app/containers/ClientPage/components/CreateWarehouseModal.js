@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Modal, Button, Input, SelectPicker, TreePicker} from 'rsuite'
 import styled from 'styled-components';
+import request from 'utils/request';
 
 const FieldContainer = styled.div`
     display: flex;
@@ -71,7 +72,6 @@ export default class CreateWarehouseModal extends React.Component {
     }
 
     handleChange = (value, name) => {
-        console.log(value, name)
         this.setState({[name]: value});
     }
 
@@ -82,6 +82,7 @@ export default class CreateWarehouseModal extends React.Component {
             await request(`${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/locations/${clients[currentClient].location_id}/children`, {method: 'GET'});
 
         if (available_locations) {
+            console.log(available_locations)
             this.setState({available_locations});
         }
     }
