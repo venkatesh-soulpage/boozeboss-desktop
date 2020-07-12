@@ -31,7 +31,8 @@ export default class ClientFilter extends Component {
     }
 
     handleChange = (organization_id) => {
-        const { changeOrganizationFilter } = this.props;
+        const { changeOrganizationFilter, handleSelectCurrentClient } = this.props;
+        handleSelectCurrentClient(0);
         changeOrganizationFilter(organization_id);
      }
 

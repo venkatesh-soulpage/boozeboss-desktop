@@ -57,15 +57,17 @@ export default class CreateWarehouseModal extends React.Component {
         location_id: null,
         product_type: null,
         description: null,
+        available_locations: null,
       };
     }
 
     close = () => {
-      this.setState({ show: false });
+      this.setState({ show: false, available_locations: null });
     }
 
     open = () => {
       this.setState({ show: true });
+      this.fetchLocationChildren();
     }
 
     handleChange = (value, name) => {
@@ -73,15 +75,25 @@ export default class CreateWarehouseModal extends React.Component {
         this.setState({[name]: value});
     }
 
-    getLocationOptions = () => {
+    fetchLocationChildren = async () => {
         const {clients, currentClient} = this.props;
+        
+        const available_locations = 
+            await request(`${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/locations/${clients[currentClient].location_id}/children`, {method: 'GET'});
 
-        const {location} = clients[currentClient];
+        if (available_locations) {
+            this.setState({available_locations});
+        }
+    }
+    
+
+    getLocationOptions = () => {
+        const {available_locations} = this.state;
          
-        if (!location) return [];
+        if (!available_locations) return [];
         
         const locationOptions = 
-                    location.childrens.map(state => {
+                available_locations.map(state => {
                         const children = state.childrens.map(city => {
                             return {
                                 label: city.name,
@@ -97,6 +109,7 @@ export default class CreateWarehouseModal extends React.Component {
 
         return locationOptions;
     }
+
 
     create = async () => {
         const {createWarehouse, clients, currentClient} = this.props;
