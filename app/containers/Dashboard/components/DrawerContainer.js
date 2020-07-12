@@ -13,6 +13,7 @@ export default class DrawerContainer extends React.Component {
         return (
             <Drawer
                 placement="left"
+                size="md"
                 show={show}
                 onHide={toggleDrawer}
             >

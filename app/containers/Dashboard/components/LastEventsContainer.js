@@ -34,13 +34,13 @@ class EventsHeader extends Component {
                 <StyledEventColumn fontWeight="bold" flex={2}>
                     Event Name
                 </StyledEventColumn>
-                <StyledEventColumn bold>
+                <StyledEventColumn fontWeight="bold">
                     Started At
                 </StyledEventColumn>
-                <StyledEventColumn bold>
+                <StyledEventColumn fontWeight="bold">
                     Ended At
                 </StyledEventColumn>
-                <StyledEventColumn bold>
+                <StyledEventColumn fontWeight="bold">
                     Summary
                 </StyledEventColumn>
             </StyledEventRow>
@@ -58,16 +58,17 @@ class EventRow extends Component {
 
     render() {
         const {last_event} = this.props;
+        console.log(last_event)
         return (
             <StyledEventRow>
                 <StyledEventColumn flex={2}>
                    {last_event.name} 
                 </StyledEventColumn>
                 <StyledEventColumn align="center">
-                    {moment(last_event.started_at).format('DD/MM/YYYY')}
+                    {moment(last_event.event.started_at).format('DD/MM/YYYY LT')}
                 </StyledEventColumn>
                 <StyledEventColumn align="center">
-                    {moment(last_event.ended_at).format('DD/MM/YYYY')}
+                    {moment(last_event.event.ended_at).format('DD/MM/YYYY LT')}
                 </StyledEventColumn>
                 <StyledEventColumn align="center">
                     <a onClick={() => this.handleEventReport(last_event.event.id)}>Summary</a>
@@ -87,11 +88,13 @@ export default class LastEventsContainer extends Component {
                     last_events.length > 0 ? (
                         <StyledEventsSection>
                             <EventsHeader />
-                            {last_events.map(last_event => {
-                                return (
-                                    <EventRow last_event={last_event} {...this.props}/>
-                                )
-                            })}
+                            {last_events
+                                .sort((a,b) => new Date(b.event.ended_at).getTime() - new Date(a.event.ended_at).getTime())
+                                .map(last_event => {
+                                    return (
+                                        <EventRow last_event={last_event} {...this.props}/>
+                                    )
+                                })}
                         </StyledEventsSection>
                     ) :(
                         <StyledEventsSection>

@@ -84,7 +84,9 @@ export default class DashboardContainer extends Component {
     getEvents = (events) => {
         const {location_id} = this.state;
         if (!events) return [];
-        return events.filter(event => location_id > 0 ? event.brief_event.brief.client.location_id === location_id : true)
+        return events
+            .filter(event => new Date(event.ended_at).getTime() > new Date().getTime)
+            .filter(event => location_id > 0 ? event.brief_event.brief.client.location_id === location_id : true)
     }
 
     refreshAnalytics = () => {
