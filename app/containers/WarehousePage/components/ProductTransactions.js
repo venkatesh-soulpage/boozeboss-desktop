@@ -70,15 +70,22 @@ export default class ProductTransactions extends React.Component {
                                 data={this.getWarehouseTransactions()}
                                 height={800}
                             >
-                                <Column flexGrow width={150}>
+                                <Column width={100}>
                                     <HeaderCell>
                                         Quantity
                                     </HeaderCell>
                                     <Cell dataKey="quantity">
-                                        {rowData => rowData.quantity}
+                                        {rowData => {
+                                            if (rowData.action === 'ADD') {
+                                                return `+ ${rowData.quantity}`
+                                            } else {
+                                                return `- ${rowData.quantity}`
+                                            }
+                                            
+                                        }}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={200}>
                                     <HeaderCell>
                                         Action
                                     </HeaderCell>
@@ -86,7 +93,7 @@ export default class ProductTransactions extends React.Component {
                                         {rowData => rowData.action}
                                     </Cell>
                                 </Column>
-                                <Column flexGrow>
+                                <Column width={100}>
                                     <HeaderCell>
                                         Requisition
                                     </HeaderCell>
