@@ -190,23 +190,28 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     getMaxOrder = () => {
-        const {requisitions, currentRequisition} = this.props;
-        const {units, product} = this.state;
-        const requisition = requisitions[currentRequisition];
+        try {
+            const {requisitions, currentRequisition} = this.props;
+            const {units, product} = this.state;
+            const requisition = requisitions[currentRequisition];
 
-        if (!product) return 0;
+            if (!product) return 0;
 
-        const {brands} = requisition.brief;
-    
-        let brief_brand;
-        if (product.is_cocktail) {
-            const ingredient = product.ingredients.find(ingredient => ingredient.product_parent_id === product.id);
-            brief_brand = brands.find(curr_brand => curr_brand.brand.id === ingredient.product.brand_id);
-            return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * ingredient.quantity); 
-            
-        } else {
-            brief_brand = brands.find(curr_brand => curr_brand.brand.id === product.brand_id);
-            return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * product.metric_amount);  
+            const {brands} = requisition.brief;
+        
+            let brief_brand;
+            if (product.is_cocktail) {
+                const ingredient = product.ingredients.find(ingredient => ingredient.product_parent_id === product.id);
+                brief_brand = brands.find(curr_brand => curr_brand.brand.id === ingredient.product.brand_id);
+                return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * ingredient.quantity); 
+                
+            } else {
+                brief_brand = brands.find(curr_brand => curr_brand.brand.id === product.brand_id);
+                return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * product.metric_amount);  
+            }
+        } catch (e) {
+            console.log(e);
+            return 0;
         }
     }
 
