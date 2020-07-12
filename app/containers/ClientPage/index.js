@@ -109,7 +109,7 @@ function mapDispatchToProps(dispatch) {
     updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)), // PATCH method it really works with other client values, need to change.
     uploadLogo: (client_id, file) => dispatch(uploadLogo(client_id, file )), 
     getOrganizations: () => dispatch(getOrganizations()),
-    addCollaboratorCredits: (collaborator_account_id, credits_amount) => dispatch(addCollaboratorCredits( collaborator_account_id, credits_amount )),
+    addCollaboratorCredits: (collaborator_account_id, credits_amount) => dispatch(addCollaboratorCredits(collaborator_account_id, credits_amount )),
     changeOrganizationFilter: (organization_id) => dispatch(changeOrganizationFilter(organization_id)),
     dismiss: type => dispatch(dismiss(type)),
   };

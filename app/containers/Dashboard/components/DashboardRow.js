@@ -25,7 +25,7 @@ export default class DashboardRow extends Component {
     getGuestsCheckedIn = (event) => {
         const { guests } = event;
         const checked_in_guests = guests.filter(guest => guest.checked_in)
-        const percentage = Math.round((checked_in_guests.length / guests.length) * 10000) / 100;
+        const percentage = Math.round((checked_in_guests.length / (guests.length > 0 ? guests.length : 1)) * 10000) / 100;
         return `${checked_in_guests.length} / ${guests.length} (${percentage}%)`;
     }
 
@@ -33,7 +33,7 @@ export default class DashboardRow extends Component {
         const {guests} = event;
         const checked_in_guests = guests.filter(guest => guest.checked_in);
         const checked_out_guests = guests.filter(guest => guest.check_out_time);
-        const percentage = Math.round(((checked_in_guests.length - checked_out_guests.length) / checked_in_guests.length) * 10000) / 100;
+        const percentage = Math.round(((checked_in_guests.length - checked_out_guests.length) / (checked_in_guests.length > 0 ? checked_in_guests.length : 1)) * 10000) / 100;
         return `${checked_in_guests.length - checked_out_guests.length} / ${checked_in_guests.length} (${percentage}%)`
     }
 
