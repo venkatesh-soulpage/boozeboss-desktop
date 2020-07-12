@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - Support location currency on admin across desktop and wallet
 - Calculate credits to fund requisition
 - Convert coin from integer to float
+- Add role option to free drink condition
 - Fund event from collaborator panel
 - Admin can assign credits to organization collaborators and team collaborators
 - Integrate wallet balance into desktop app for organization collaborators and team collaborators
@@ -29,7 +30,20 @@ All notable changes to this project will be documented in this file.
 - Reduce maximum size of verification pictures on admin
 - Fix incorrect metrics on live dashboard where it was showing Nan
 - Send admin to /organizations when login instead of root
-
+- Add escrow column and total funded to requisition page.
+- (Wallet) Force SSL to https
+- (Wallet) Add Balances to organizations and teams collaborator wallets
+- (Wallet) Add Gender and Date of Birth to signup
+- (Wallet) Disable buy credits if the user doesn't have a wallet
+- (Wallet) Disable transfer credits if the user doesn't have a wallet
+- (Wallet) Remove shortcuts if the event haven't started
+- (Wallet) Redeem free drink checks for role condition
+- (Wallet) Coins are converted to the guest local currency on all views. 
+- (Wallet) Coins are converted to the guest local currency
+- (Wallet) Add wallet actions supporting Transfers, Purchases, Orders.
+- (Wallet) If the user had closed his order QR code on Order page he can find it on the wallet history
+- (Wallet) Cancel order at correct rate according to guest location
+- (Wallet) Remove cache from event menu
 
 ### Changed
 
