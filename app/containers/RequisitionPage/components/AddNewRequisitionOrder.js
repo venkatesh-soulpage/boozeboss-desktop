@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox} from 'rsuite'
+import {Modal, Button, Input, SelectPicker, Radio, RadioGroup, InputNumber, InputGroup, Checkbox, Icon} from 'rsuite'
 import styled from 'styled-components';
 
 const FieldRow = styled.div`
@@ -225,7 +225,7 @@ export default class AddNewRequisitionOrder extends React.Component {
     }
 
     render() {
-        const {products} = this.props;
+        const {products, user} = this.props;
         const {show, product, units, base_price, is_display } = this.state;
         const available_products = this.getPickerData(products);
         return (
@@ -273,9 +273,17 @@ export default class AddNewRequisitionOrder extends React.Component {
                         )}
                         {product && (
                             <FieldContainer>
-                                <FieldLabel>Recommended Price</FieldLabel>
+                                <FieldRow>
+                                    <FieldLabel>Recommended Price</FieldLabel>
+                                    { user && (
+                                        <FieldLabel><span>{Math.round((base_price || product.base_price) * (user.location.currency_conversion) * 100) /100}<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span></FieldLabel>
+                                    )}
+ 
+                                </FieldRow>
+                                
                                 <InputGroup>
                                     <InputNumber 
+                                        prefix={user && user.location && user.location.currency}
                                         disabled={is_display}
                                         defaultValue={product.base_price} 
                                         value={base_price || product.base_price}
