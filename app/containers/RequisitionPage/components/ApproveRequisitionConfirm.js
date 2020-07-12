@@ -22,8 +22,6 @@ export default class ApproveRequisitionConfirm extends React.Component {
         const {hellosign, requisitions, currentRequisition, updateRequisitionStatus} = this.props;
         // We are saving the data.signature ID = 
         hellosign.on('sign', (data) => {
-            console.log(data);
-            console.log('Signed', data.signatureId)
             updateRequisitionStatus(requisitions[currentRequisition].id, {status: 'APPROVED'}, data.signatureId)
         })
     }

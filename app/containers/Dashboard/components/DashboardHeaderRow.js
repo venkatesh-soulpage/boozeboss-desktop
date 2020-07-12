@@ -26,7 +26,7 @@ export default class DashboardHeaderRow extends Component {
         return (
             <StyledRow>
                 <StyledColumn>
-                    Time Left
+                    Time to End
                 </StyledColumn>
                 <StyledColumn>
                     Brief

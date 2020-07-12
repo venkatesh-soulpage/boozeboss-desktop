@@ -16,7 +16,7 @@ const Column = styled.div`
 const AddSection = styled.div`
   display: flex;
   flex: 1;
-  max-height: 45px;
+  max-height: 100px;
   flex-direction: column;
   position: sticky;
   top: 0;
@@ -123,27 +123,29 @@ export default class AgencyList extends Component {
         <AddSection>
           <RoleValidator
             {...this.props}
-            scopes={['REGION']}
-            roles={['OWNER', 'MANAGER']}
-          >
-            <SelectPicker 
-              value={client_id}
-              data={this.getClientFilter()}
-              onChange={(e) => this.handleClientFilter(e)}
-            />
-          </RoleValidator>
-          <RoleValidator
-            {...this.props}
             scopes={['ADMIN', 'BRAND']}
             roles={['ADMIN', 'OWNER']}
           >
             <Button
+              style={{margin: '0 0 1em 0'}}
               color="green"
               onClick={this.handleAddAgencyDraft}
               disabled={isActiveDraft}
             >
               + Add Agency
             </Button>
+          </RoleValidator>
+          <RoleValidator
+            {...this.props}
+            scopes={['ADMIN', 'REGION']}
+            roles={['ADMIN', 'OWNER', 'MANAGER']}
+          >
+            <SelectPicker 
+              placeholder="Filter by Team"
+              value={client_id}
+              data={this.getClientFilter()}
+              onChange={(e) => this.handleClientFilter(e)}
+            />
           </RoleValidator>
         </AddSection>
         <List>

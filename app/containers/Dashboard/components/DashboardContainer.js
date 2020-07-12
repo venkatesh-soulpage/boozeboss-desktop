@@ -4,6 +4,7 @@ import { Panel, SelectPicker, IconButton, Icon, Alert, Button } from 'rsuite';
 import DashboardHeaderRow from './DashboardHeaderRow';
 import DashboardRow from './DashboardRow';
 import RoleValidator from 'components/RoleValidator';
+import request from 'utils/request';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -55,8 +56,44 @@ export default class DashboardContainer extends Component {
 
     state = {
         location_id: 0,
+        city_id: null,
+        city_filter: [{ label: 'All Cities', value: 0}],
     }
 
+
+    fetchLocationChildren = async (location_id) => {
+
+        const {events} = this.props;
+        
+        const available_cities = events.filter(event => event.brief_event.venue.location_id).map(event => event.brief_event.venue.location_id);
+        
+        const available_locations = 
+            await request(`${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/locations/${location_id}/children`, {method: 'GET'});
+
+        if (available_locations) {
+            const city_picker = [];
+            available_locations
+                .map(available_location => {
+                    available_location.childrens.map(city => {
+                        if (available_cities.indexOf(city.id) > -1) {
+                            city_picker.push(city);
+                        }
+                    })
+                })
+
+            const city_filter =
+                    city_picker.map(cp => {
+                        return {
+                            value: cp.id,
+                            label: cp.name,
+                        }
+                    })
+
+            this.setState({
+                city_filter: [{ label: 'All Cities', value: 0}, ...city_filter]
+            });
+        }
+    }
     
 
     getPickerData = () => {
@@ -81,12 +118,32 @@ export default class DashboardContainer extends Component {
         this.setState({[name]: value})
     }
 
+    handleChangeLocation = (name, value) => {
+        if (value > 0) {
+            this.fetchLocationChildren(value);
+            this.setState({[name]: value})
+        } else {
+            this.setState({
+                [name]: value,
+                city_filter: [{ label: 'All Cities', value: 0}],
+                city_id: 0
+            })
+        }
+        
+    }
+
     getEvents = (events) => {
-        const {location_id} = this.state;
+        const {location_id, city_id} = this.state;
         if (!events) return [];
         return events
-            .filter(event => new Date(event.ended_at).getTime() > new Date().getTime)
+            .filter(event => {
+                return new Date(event.started_at).getTime() <= new Date().getTime()
+            })
+            .filter(event => {
+                return new Date(event.ended_at).getTime() > new Date().getTime()
+            })
             .filter(event => location_id > 0 ? event.brief_event.brief.client.location_id === location_id : true)
+            .filter(event => city_id > 0 ? event.brief_event.venue.location_id === city_id : true)
     }
 
     refreshAnalytics = () => {
@@ -103,8 +160,23 @@ export default class DashboardContainer extends Component {
         }, 500)
     }
 
-    render() {
+    getCityData = () => {
+        const {events, scope} = this.props;
+        if (!events || scope !== 'BRAND') return [];
 
+        const city_picker = [];
+        events.map(event => {
+            city_picker.push({
+                label: event.brief_event.venue.location.name,
+                value: event.brief_event.venue.location_id,
+            })
+        })
+
+        return [{label: 'All Cities', value: 0}, ...city_picker];
+    }
+
+    render() {
+        const {city_filter} = this.state;
         const {events, toggleDrawer} = this.props;
         const filtered_events = this.getEvents(events);
         return (
@@ -128,8 +200,38 @@ export default class DashboardContainer extends Component {
                                     searchable={false}
                                     style={{width: '200px'}}
                                     data={this.getPickerData()}
-                                    onChange={value => this.handleChange('location_id', value)}
+                                    onChange={value => this.handleChangeLocation('location_id', value)}
                                 />
+                            </RoleValidator>
+                            <RoleValidator
+                                {...this.props}
+                                scopes={['REGION']}
+                                roles={['OWNER', 'MANAGER']}
+                            >
+                                <SelectPicker
+                                    defaultValue={0}
+                                    cleanable={false}
+                                    searchable={false}
+                                    style={{width: '200px', margin: '0 0 0 1em'}}
+                                    data={city_filter}
+                                    onChange={value => this.handleChange('city_id', value)}
+                                />
+                            </RoleValidator>
+                            <RoleValidator
+                                {...this.props}
+                                scopes={['BRAND']}
+                                roles={['OWNER', 'MANAGER']}
+                            >
+                                {events && (
+                                    <SelectPicker
+                                        defaultValue={0}
+                                        cleanable={false}
+                                        searchable={false}
+                                        style={{width: '200px', margin: '0 0 0 1em'}}
+                                        data={this.getCityData()}
+                                        onChange={value => this.handleChange('city_id', value)}
+                                    />
+                                )}
                             </RoleValidator>
                         </PanelHeaderColumn>
                     </StyledPanelHeader>
