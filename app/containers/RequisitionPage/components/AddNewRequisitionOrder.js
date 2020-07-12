@@ -201,7 +201,7 @@ export default class AddNewRequisitionOrder extends React.Component {
         
             let brief_brand;
             if (product.is_cocktail) {
-                const ingredient = product.ingredients.find(ingredient => ingredient.product_parent_id === product.id);
+                const ingredient = product.ingredients.find(ingredient => ingredient.product_parent_id === product.id && ingredient.product.brand_id);
                 brief_brand = brands.find(curr_brand => curr_brand.brand.id === ingredient.product.brand_id);
                 return (brief_brand.limit - this.getCurrentUnits(brief_brand.brand_id)) - (units * ingredient.quantity); 
                 

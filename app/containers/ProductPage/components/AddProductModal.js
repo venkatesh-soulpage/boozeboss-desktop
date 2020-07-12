@@ -30,7 +30,7 @@ const FieldLabel = styled.b`
   margin: 0 0.5em 0.5em 0;
 `;
 
-const metricOptions = [
+/* const metricOptions = [
   {
     label: 'Liters (L)',
     value: 'l',
@@ -46,6 +46,21 @@ const metricOptions = [
   {
     label: 'Killogram (Kg)',
     value: 'kg',
+  },
+  {
+    label: 'Gram (g)',
+    value: 'g',
+  },
+]; */
+
+const metricOptions = [
+  {
+    label: 'Milliliters (ml)',
+    value: 'ml',
+  },
+  {
+    label: 'Units (U)',
+    value: 'u',
   },
   {
     label: 'Gram (g)',
@@ -94,7 +109,7 @@ export default class AddProductModal extends React.Component {
       description: null,
       is_cocktail: false,
       brand_id: null,
-      metric: 'l',
+      metric: 'ml',
       metric_amount: 0,
       sku: null,
       base_price: 1,
