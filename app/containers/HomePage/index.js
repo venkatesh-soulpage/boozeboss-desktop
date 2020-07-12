@@ -17,7 +17,6 @@ import messages from './messages';
 export default class HomePage extends React.PureComponent {
 
   render() {
-    console.log(process.env)
     return (
       <h1>
         <FormattedMessage {...messages.header} />

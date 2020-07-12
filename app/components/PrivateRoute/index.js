@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, scopesRequired, r
             <Component {...props} />
           ) : (
             <React.Fragment>
-                {scope === 'REGION' && (
+                {(scope === 'REGION' || scope === 'ADMIN') && (
                   <Redirect
                     to={{ pathname: '/organizations', state: { from: props.location } }}
                   />

@@ -25,7 +25,6 @@ export default class AgenciesContainer extends Component {
 
   render() {
     const {isLoading, agencies} = this.props;
-    console.log(this.props)
     return (
         <React.Fragment>
             {isLoading && !agencies && <StyledContainer justify="center"><Loader size="md" /></StyledContainer>}
