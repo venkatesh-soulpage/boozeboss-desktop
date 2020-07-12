@@ -7,6 +7,40 @@ All notable changes to this project will be documented in this file.
 
 <br/> 
 
+
+## [0.15.1] - 2020-07-11
+
+<br/>
+
+### Added
+
+- Add requisition to brief shortcut
+- Cocktail selection on event
+- Filter selected products for event on menu picker
+- Support location currency on admin across desktop and wallet
+- Calculate credits to fund requisition
+- Convert coin from integer to float
+- Fund event from collaborator panel
+- Admin can assign credits to organization collaborators and team collaborators
+- Integrate wallet balance into desktop app for organization collaborators and team collaborators
+- Integrate collaborator balance in collaborator table
+- Free drink condition and select free drink is only shown if the option is active
+- Products on Events are converted between currency and coins
+- Reduce maximum size of verification pictures on admin
+- Fix incorrect metrics on live dashboard where it was showing Nan
+- Send admin to /organizations when login instead of root
+
+
+### Changed
+
+- (Back-end) Rename variables and change some datatypes
+- (Wallet) Minor UI Fixes
+ 
+<br/> 
+
+ 
+<br/> 
+
 ## [0.14.4] - 2020-07-04
 
 <br/>
