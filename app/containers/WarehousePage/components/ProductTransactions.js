@@ -76,7 +76,7 @@ export default class ProductTransactions extends React.Component {
                                     </HeaderCell>
                                     <Cell dataKey="quantity">
                                         {rowData => {
-                                            if (rowData.action === 'ADD') {
+                                            if (rowData.action === 'ADD' || rowData.action === 'REFUND (DISPUTE)' ) {
                                                 return `+ ${rowData.quantity}`
                                             } else {
                                                 return `- ${rowData.quantity}`
