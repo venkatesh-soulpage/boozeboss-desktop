@@ -491,7 +491,7 @@ export default class AddProductModal extends React.Component {
             <FieldContainer>
               <FieldLabel>Base Price</FieldLabel>
               <InputNumber
-                suffix={user && user.location && user.location.currency}
+                prefix={user && user.location && user.location.currency}
                 defaultValue={base_price}
                 value={base_price}
                 step={0.01}

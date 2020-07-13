@@ -127,7 +127,7 @@ class BriefContainer extends Component {
                   scopes={['BRAND']}
                   roles={['OWNER', 'MANAGER']}
                 >
-                  <a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a>
+                  <b><a onClick={this.goToRequisition}>{brief.requisition && ['APPROVED', 'SUBMITTED'].indexOf(brief.requisition.status) > -1 && `(#${brief.requisition.serial_number})`}</a></b>
                 </RoleValidator>
                 <RoleValidator
                   {...this.props}

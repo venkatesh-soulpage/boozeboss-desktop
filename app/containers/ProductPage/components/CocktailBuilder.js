@@ -21,6 +21,8 @@ const FieldLabel = styled.b`
 const IngredientRow = styled.div`
     display: flex;
     flex-direction: row;
+    justify-items: space-between;
+    align-items: center;
     padding: 5px 0 5px 0;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -28,6 +30,8 @@ const IngredientRow = styled.div`
 `;
 
 const IngredientLabel = styled.p`
+    display: flex;
+    flex: 1;
     margin: 0 1em 0 1em;
 `
 
