@@ -178,10 +178,10 @@ export default class ProductOrders extends React.Component {
 
     render() {
         const {show} = this.state;
-        const {event} = this.props;
+        const {event, requisitions, currentRequisition} = this.props;
         return (
             <React.Fragment>
-                <a onClick={this.open} color="green">Show Products</a>
+                <a onClick={this.open} color="green">{requisitions[currentRequisition].status === 'APPROVED' ? 'Show Products' : 'Edit Products'}</a>
         
                 <Modal show={show} onHide={this.close} size="md">
                     <Modal.Header>
