@@ -181,6 +181,14 @@ class OrganizationsForm extends Component {
                                         </Column>
                                         <Column flexGrow>
                                             <HeaderCell>
+                                                Primary
+                                            </HeaderCell>
+                                            <Cell dataKey="childrens">
+                                                {rowData => rowData.id === selected_locations[0].id ? <b>Primary Location</b> : 'No'}
+                                            </Cell>
+                                        </Column>
+                                        <Column flexGrow>
+                                            <HeaderCell>
                                                 States Available
                                             </HeaderCell>
                                             <Cell dataKey="childrens">

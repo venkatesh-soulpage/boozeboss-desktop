@@ -26,25 +26,25 @@ export default class DashboardHeaderRow extends Component {
         return (
             <StyledRow>
                 <StyledColumn>
-                    Time to End
+                    Ending In
                 </StyledColumn>
                 <StyledColumn>
                     Brief
                 </StyledColumn>
                 <StyledColumn>
-                    Event Name
+                    Event
                 </StyledColumn>
                 <StyledColumn>
-                    Total Guests Checked-in
+                    Checked-In / Invited
                 </StyledColumn>
                 <StyledColumn>
-                    Total Guest Inside
+                    In Venue / Checked-In
                 </StyledColumn>
                 <StyledColumn>
-                    Total Units Sold (Volume)
+                    Sales (Volume)
                 </StyledColumn>
                 <StyledColumn>
-                    Total Units Sold (Value)
+                    Sales (Value)
                 </StyledColumn>
             </StyledRow>
         )
