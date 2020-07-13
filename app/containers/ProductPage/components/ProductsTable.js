@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table, Loader } from 'rsuite';
+import { Table, Loader, Panel } from 'rsuite';
 import UpdateProductModal from './UpdateProductModal';
 import RoleValidator from 'components/RoleValidator';
 
@@ -114,109 +114,111 @@ export default class ProductsTable extends Component {
       <StyledTableSection>
         {products && products.length > 0 ? (
           <React.Fragment>
-            <Table
-              data={this.getData(products)}
-              autoHeight
-              sortColumn={this.state.sortColumn}
-              sortType={this.state.sortType}
-              onSortColumn={this.handleSortColumn}
-              loading={this.state.loading}
-            >
-              <Column width={150} flexGrow sortable>
-                <HeaderCell>Type</HeaderCell>
-                <Cell dataKey="product_type">
-                  {rowData => rowData.product_type}
-                </Cell>
-              </Column>
-              <Column width={150} flexGrow sortable>
-                <HeaderCell>Subtype</HeaderCell>
-                <Cell dataKey="product_subtype">
-                  {rowData => rowData.product_subtype}
-                </Cell>
-              </Column>
-              <Column width={150} resizable sortable>
-                <HeaderCell>Name</HeaderCell>
-                <Cell dataKey="name">{rowData => <b>{rowData.name}</b>}</Cell>
-              </Column>
-              <Column flexGrow sortable>
-                <HeaderCell>Brand</HeaderCell>
-                <Cell dataKey="name">
-                  {rowData => <a>{rowData.brand ? rowData.brand.name : 'N/A'}</a>}
-                </Cell>
-              </Column>
-              <Column resizable>
-                <HeaderCell>Description</HeaderCell>
-                <Cell dataKey="description">
-                  {rowData => rowData.description}
-                </Cell>
-              </Column>
-              <Column width={70}>
-                <HeaderCell>Amount</HeaderCell>
-                <Cell dataKey="metric_amount">
-                  {rowData => rowData.metric_amount}
-                </Cell>
-              </Column>
-              <Column width={70}>
-                <HeaderCell>Metric</HeaderCell>
-                <Cell dataKey="metric">{rowData => rowData.metric}</Cell>
-              </Column>
-              <Column flexGrow>
-                <HeaderCell>SKU</HeaderCell>
-                <Cell dataKey="sku">{rowData => rowData.sku}</Cell>
-              </Column>
-              <Column resizable sortable>
-                <HeaderCell>Base Price</HeaderCell>
-                <Cell dataKey="base_price">{rowData => `${rowData.base_price} ${user && user.location && user.location.currency}`}</Cell>
-              </Column>
-              <Column resizable>
-                <HeaderCell>Actions</HeaderCell>
-                <Cell dataKey="actions">
-                  {rowData => (
-                    <React.Fragment>
-                      <RoleValidator
-                        {...this.props}
-                        scopes={['BRAND']}
-                        roles={['OWNER', 'MANAGER']}
-                      >
-                        <UpdateProductModal {...this.props} product={rowData} />
-                      </RoleValidator>
-                      <RoleValidator
-                        {...this.props}
-                        scopes={['AGENCY']}
-                        roles={['OWNER', 'MANAGER']}
-                      >
-                        <p>No actions</p>
-                      </RoleValidator>
-                    </React.Fragment>
-                  )}
-                </Cell>
-              </Column>
-            </Table>
-            <Pagination
-              lengthMenu={[
-                {
-                  value: 5,
-                  label: 5
-                },
-                {
-                  value: 10,
-                  label: 10
-                },
-                {
-                  value: 15,
-                  label: 15
-                },
-                {
-                  value: 20,
-                  label: 20
-                },
-              ]}
-              activePage={page}
-              displayLength={displayLength}
-              total={this.props.products ? this.props.products.length : 0}
-              onChangePage={this.handleChangePage}
-              onChangeLength={this.handleChangeLength}
-            />
+            <Panel shaded style={{backgroundColor: 'white'}}>
+              <Table
+                data={this.getData(products)}
+                autoHeight
+                sortColumn={this.state.sortColumn}
+                sortType={this.state.sortType}
+                onSortColumn={this.handleSortColumn}
+                loading={this.state.loading}
+              >
+                <Column width={150} flexGrow sortable>
+                  <HeaderCell>Type</HeaderCell>
+                  <Cell dataKey="product_type">
+                    {rowData => rowData.product_type}
+                  </Cell>
+                </Column>
+                <Column width={150} flexGrow sortable>
+                  <HeaderCell>Subtype</HeaderCell>
+                  <Cell dataKey="product_subtype">
+                    {rowData => rowData.product_subtype}
+                  </Cell>
+                </Column>
+                <Column width={150} resizable sortable>
+                  <HeaderCell>Name</HeaderCell>
+                  <Cell dataKey="name">{rowData => <b>{rowData.name}</b>}</Cell>
+                </Column>
+                <Column flexGrow sortable>
+                  <HeaderCell>Brand</HeaderCell>
+                  <Cell dataKey="name">
+                    {rowData => <a>{rowData.brand ? rowData.brand.name : 'N/A'}</a>}
+                  </Cell>
+                </Column>
+                <Column resizable>
+                  <HeaderCell>Description</HeaderCell>
+                  <Cell dataKey="description">
+                    {rowData => rowData.description}
+                  </Cell>
+                </Column>
+                <Column width={70}>
+                  <HeaderCell>Amount</HeaderCell>
+                  <Cell dataKey="metric_amount">
+                    {rowData => rowData.metric_amount}
+                  </Cell>
+                </Column>
+                <Column width={70}>
+                  <HeaderCell>Metric</HeaderCell>
+                  <Cell dataKey="metric">{rowData => rowData.metric}</Cell>
+                </Column>
+                <Column flexGrow>
+                  <HeaderCell>SKU</HeaderCell>
+                  <Cell dataKey="sku">{rowData => rowData.sku}</Cell>
+                </Column>
+                <Column resizable sortable>
+                  <HeaderCell>Base Price</HeaderCell>
+                  <Cell dataKey="base_price">{rowData => `${rowData.base_price} ${user && user.location && user.location.currency}`}</Cell>
+                </Column>
+                <Column resizable>
+                  <HeaderCell>Actions</HeaderCell>
+                  <Cell dataKey="actions">
+                    {rowData => (
+                      <React.Fragment>
+                        <RoleValidator
+                          {...this.props}
+                          scopes={['BRAND']}
+                          roles={['OWNER', 'MANAGER']}
+                        >
+                          <UpdateProductModal {...this.props} product={rowData} />
+                        </RoleValidator>
+                        <RoleValidator
+                          {...this.props}
+                          scopes={['AGENCY']}
+                          roles={['OWNER', 'MANAGER']}
+                        >
+                          <p>No actions</p>
+                        </RoleValidator>
+                      </React.Fragment>
+                    )}
+                  </Cell>
+                </Column>
+              </Table>
+              <Pagination
+                lengthMenu={[
+                  {
+                    value: 5,
+                    label: 5
+                  },
+                  {
+                    value: 10,
+                    label: 10
+                  },
+                  {
+                    value: 15,
+                    label: 15
+                  },
+                  {
+                    value: 20,
+                    label: 20
+                  },
+                ]}
+                activePage={page}
+                displayLength={displayLength}
+                total={this.props.products ? this.props.products.length : 0}
+                onChangePage={this.handleChangePage}
+                onChangeLength={this.handleChangeLength}
+              />
+            </Panel>
           </React.Fragment>
         ) : (
           <React.Fragment>

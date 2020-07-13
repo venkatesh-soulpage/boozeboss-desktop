@@ -26,6 +26,12 @@ const StyledMessage = styled(Message)`
 
 
 export default class ProductsContainer extends Component {
+
+    state = {
+        product_type_filter: 'ALL',
+        product_subtype_filter: null,
+    }
+
     render() {
         const {success, error, dismiss} = this.props;
         return (
@@ -35,6 +41,7 @@ export default class ProductsContainer extends Component {
                 <StyledRow>
                     <ProductsHeader 
                         {...this.props}
+                        {...this.state}
                     />
                 </StyledRow>
                 <Divider />

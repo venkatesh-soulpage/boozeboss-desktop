@@ -167,7 +167,7 @@ export default class DashboardContainer extends Component {
         const city_picker = [];
         events.map(event => {
             city_picker.push({
-                label: event.brief_event.venue.location.name,
+                label: event.brief_event.venue.location && event.brief_event.venue.location.name,
                 value: event.brief_event.venue.location_id,
             })
         })
