@@ -29,7 +29,19 @@ export default class ProductsContainer extends Component {
 
     state = {
         product_type_filter: 'ALL',
-        product_subtype_filter: null,
+        product_subtype_filter: 'ALL',
+    }
+
+    handleChange = (value, name) => {
+        if (name === 'product_type_filter') {
+            this.setState({
+                [name]: value, 
+                product_subtype_filter: 'ALL'
+            })
+        } else {
+            this.setState({[name]: value});
+        }
+        
     }
 
     render() {
@@ -42,12 +54,14 @@ export default class ProductsContainer extends Component {
                     <ProductsHeader 
                         {...this.props}
                         {...this.state}
+                        handleChange={this.handleChange}
                     />
                 </StyledRow>
                 <Divider />
                 <StyledRow>
                     <ProductsTable 
                         {...this.props}
+                        {...this.state}
                     />
                 </StyledRow>
             </StyledContainer>

@@ -31,12 +31,18 @@ export default class ProductsTable extends Component {
   };
 
   handleChangePage = (dataKey) => {
+    const {products} = this.props;
+    const {page, displayLength} = this.state;
+    const products_left = this.getData(products).length - (displayLength * (dataKey - 1)) ;
+    if (products_left < 1) return;
+
     this.setState({
       page: dataKey
     });
   }
 
   handleChangeLength = (dataKey) => {
+    
     this.setState({
       page: 1,
       displayLength: dataKey
@@ -45,27 +51,29 @@ export default class ProductsTable extends Component {
 
   getFilteredProducts = productsEnabled => {
     const { displayLength, page } = this.state; 
-    const { products } = this.props;
+    const { products, product_type_filter, product_subtype_filter } = this.props;
     if (!products) return [];
 
     const pagination_start = (page * displayLength) - displayLength;
     const pagination_end = page * displayLength;
 
-    // IF both products are enabled return all
-    if (
-      productsEnabled.indexOf('Cocktail') > -1 &&
-      productsEnabled.indexOf('Product') > -1
-    ) {
-      return products.filter((prod, index) => index >= pagination_start && index < pagination_end);
-    }
+    // Filter by pagination and header filters
+    const available_products =
+            products
+              .filter(product => {
+                  if (product_type_filter === 'ALL') return true;
+                  return product_type_filter === product.product_type;
+              })
+              .filter(product => {
+                  if (product_type_filter === 'ALL') return true;
+                  if (product_subtype_filter === 'ALL') return true;
+                  return product_subtype_filter === product.product_subtype;
+              })
+              .filter((prod, index) => {
+                return index >= pagination_start && index < pagination_end;
+              });
 
-    if (productsEnabled.indexOf('Cocktail') > -1) {
-      return products.filter(product => product.is_cocktail).filter((prod, index) => index >= pagination_start && index < pagination_end);
-    }
-
-    if (productsEnabled.indexOf('Product') > -1) {
-      return products.filter(product => !product.is_cocktail).filter((prod, index) => index >= pagination_start && index < pagination_end);
-    }
+    return available_products;
   };
 
   getData = products => {
@@ -217,6 +225,7 @@ export default class ProductsTable extends Component {
                 total={this.props.products ? this.props.products.length : 0}
                 onChangePage={this.handleChangePage}
                 onChangeLength={this.handleChangeLength}
+                disabled={this.getData(products) <= displayLength}
               />
             </Panel>
           </React.Fragment>
