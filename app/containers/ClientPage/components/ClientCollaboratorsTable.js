@@ -227,11 +227,18 @@ export default class ClientCollaboratorsTable extends Component {
                         <p>No Collaborators</p>
                     )}
                 </FieldContainer>
-                <FieldContainer>
-                    <InviteCollaborator 
-                        {...this.props}
-                    />
-                </FieldContainer>
+                <RoleValidator
+                    {...this.props}
+                    scopes={['ADMIN', 'ORGANIZATION', 'BRAND']}
+                    scopes={['ADMIN', 'OWNER']}
+                >
+                    <FieldContainer>
+                        <InviteCollaborator 
+                            {...this.props}
+                        />
+                    </FieldContainer>
+                </RoleValidator>
+                
             </React.Fragment>
         )
     }
