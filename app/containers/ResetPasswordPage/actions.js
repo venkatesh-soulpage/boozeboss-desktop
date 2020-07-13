@@ -6,10 +6,11 @@
 
 import { RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR } from './constants';
 
-export function reset(auth) {
+export function reset(auth, history) {
   return {
     type: RESET_PASSWORD_REQUEST,
-    auth
+    auth,
+    history
   };
 }
 

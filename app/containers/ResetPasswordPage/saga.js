@@ -8,7 +8,7 @@ import { RESET_PASSWORD_REQUEST } from './constants'
 import { resetSuccess, resetError } from './actions'
 
 function* resetSaga(params) {
-  const {auth} = params;
+  const {auth, history} = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/auth/reset`;
   const options = {
     method: 'POST',
@@ -18,6 +18,7 @@ function* resetSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(resetSuccess(response));
+    history.push({pathname: '/login'});
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(resetError(jsonError));

@@ -50,7 +50,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  reset: (auth) => dispatch(reset(auth)),
+  reset: (auth, history) => dispatch(reset(auth, history)),
 })
 
 const withConnect = connect(

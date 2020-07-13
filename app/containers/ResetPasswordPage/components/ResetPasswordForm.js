@@ -57,10 +57,10 @@ export default class ResetPasswordForm extends Component {
     }
 
     handleSubmit = () => {
-        const { reset } = this.props;
+        const { reset, history } = this.props;
         const {email, password, confirm, token} = this.state;
         if (password !== confirm) return;
-        reset({email, password, token});
+        reset({email, password, token}, history);
     }
 
     render() {
