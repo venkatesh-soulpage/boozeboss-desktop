@@ -88,7 +88,7 @@ class BriefForm extends Component {
         const {agenciesData} = this.props;
         const {name, description} = this.state;
         return (
-            <Panel bordered>
+            <Panel shaded>
                 <ActionsContainer>
                     <FieldContainer>
                         <p>DRAFT</p>
@@ -190,7 +190,7 @@ export default class BriefsInfo extends Component {
                         {briefs[currentBrief].isDraft ? (
                             <BriefForm {...this.props} />
                         ) : (
-                            <Panel bordered>
+                            <Panel shaded>
                                 <DataContainer>
                                     <ActionsContainer>
                                         <FieldContainer>
@@ -247,6 +247,7 @@ export default class BriefsInfo extends Component {
                                         <FieldLabel>Select lead brands</FieldLabel>
                                         {briefs[currentBrief].brands && 
                                             briefs[currentBrief].brands.length > 0 ? (
+                                                <Panel shaded style={{backgroundColor: 'white'}}>
                                                 <Table
                                                     data={briefs[currentBrief].brands}
                                                     style={{zIndex: 0}}
@@ -293,6 +294,8 @@ export default class BriefsInfo extends Component {
                                                     </Column> 
                                                     
                                                 </Table>
+                                                                                                    
+                                                </Panel>
                                             ) : (
                                                 <p>No Brands</p>
                                             )}

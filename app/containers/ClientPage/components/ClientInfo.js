@@ -154,7 +154,7 @@ class ClientForm extends Component {
     render() {
         const {name, description, owner_email, collaborator_limit, briefs_limit, brands_limit, warehouses_limit, display_name, custom_message, identity_verifications_limit, agencies_limit, agency_collaborators_limit, expiration_date} = this.state;
         return (
-            <Panel bordered>
+            <Panel shaded>
                 <DataContainer>
                     <Divider>Team Information</Divider>
                     <FieldsRow>
@@ -332,7 +332,7 @@ export default class ClientInfo extends Component {
                     {clients[currentClient].isDraft ? (
                         <ClientForm {...this.props} />
                     ) : (
-                        <Panel bordered>
+                        <Panel shaded>
                             <DataContainer>
                                 <HeaderRow>
                                     <FieldContainer>
@@ -484,90 +484,93 @@ export default class ClientInfo extends Component {
                                     </FieldLabelContainer>
                                     {clients[currentClient].venues && 
                                         clients[currentClient].venues.length > 0 ? (
-                                        <Table
-                                            data={clients[currentClient].venues}
-                                            width='100%'
-                                        >
-                                            <Column flexGrow>
-                                                <HeaderCell>
-                                                    Name
-                                                </HeaderCell>
-                                                <Cell dataKey="name">
-                                                    {rowData => rowData.name}
-                                                </Cell>
-                                            </Column>
-                                            <Column flexGrow>
-                                                <HeaderCell>
-                                                    Address
-                                                </HeaderCell>
-                                                <Cell dataKey="last_name">
-                                                    {rowData => rowData.address}
-                                                </Cell>
-                                            </Column>
-                                            <Column flexGrow>
-                                                <HeaderCell>
-                                                    Contact Name
-                                                </HeaderCell>
-                                                <Cell dataKey="contact_name">
-                                                    {rowData => rowData.contact_name}
-                                                </Cell>
-                                            </Column>
-                                            <Column resizable width={200}>
-                                                <HeaderCell>
-                                                    Contact Email
-                                                </HeaderCell>
-                                                <Cell dataKey="contact_email">
-                                                    {rowData => rowData.contact_email}
-                                                </Cell>
-                                            </Column>
-                                            <Column flexGrow>
-                                                <HeaderCell>
-                                                    Telephone # 
-                                                </HeaderCell>
-                                                <Cell dataKey="contact_phone_number">
-                                                    {rowData => parsePhoneNumberFromString(`+${rowData.contact_phone_number}`) ? parsePhoneNumberFromString(`+${rowData.contact_phone_number}`).formatInternational() : ''}
-                                                </Cell>
-                                            </Column>
-                                            <Column flexGrow>
-                                                <HeaderCell>
-                                                    Location 
-                                                </HeaderCell>
-                                                <Cell dataKey="latitude">
-                                                    {rowData => rowData.location ? rowData.location.name : 'N/A'}
-                                                </Cell>
-                                            </Column> 
-                                            <Column width={80}>
-                                                <HeaderCell>
-                                                    Latitude 
-                                                </HeaderCell>
-                                                <Cell dataKey="latitude">
-                                                    {rowData => rowData.latitude}
-                                                </Cell>
-                                            </Column>
-                                            <Column width={80}>
-                                                <HeaderCell>
-                                                    Longitude
-                                                </HeaderCell>
-                                                <Cell dataKey="longitude">
-                                                    {rowData => rowData.longitude}
-                                                </Cell>
-                                            </Column>
-                                            <Column width={150}>
-                                                <HeaderCell>
-                                                    Actions
-                                                </HeaderCell>
-                                                <Cell dataKey="actions">
-                                                        {rowData => {
-                                                            return (
-                                                                <ActionContainer>
-                                                                    <DeleteVenueModal {...this.props} venue={rowData}/>
-                                                                </ActionContainer>
-                                                            )
-                                                        }} 
-                                                    
-                                                </Cell>
-                                            </Column>
-                                        </Table>
+                                        <Panel shaded style={{backgroundColor: 'white', width: '100%'}}>
+                                            <Table
+                                                data={clients[currentClient].venues}
+                                                width='100%'
+                                                height={400}
+                                            >
+                                                <Column flexGrow>
+                                                    <HeaderCell>
+                                                        Name
+                                                    </HeaderCell>
+                                                    <Cell dataKey="name">
+                                                        {rowData => rowData.name}
+                                                    </Cell>
+                                                </Column>
+                                                <Column flexGrow>
+                                                    <HeaderCell>
+                                                        Address
+                                                    </HeaderCell>
+                                                    <Cell dataKey="last_name">
+                                                        {rowData => rowData.address}
+                                                    </Cell>
+                                                </Column>
+                                                <Column flexGrow>
+                                                    <HeaderCell>
+                                                        Contact Name
+                                                    </HeaderCell>
+                                                    <Cell dataKey="contact_name">
+                                                        {rowData => rowData.contact_name}
+                                                    </Cell>
+                                                </Column>
+                                                <Column resizable width={200}>
+                                                    <HeaderCell>
+                                                        Contact Email
+                                                    </HeaderCell>
+                                                    <Cell dataKey="contact_email">
+                                                        {rowData => rowData.contact_email}
+                                                    </Cell>
+                                                </Column>
+                                                <Column flexGrow>
+                                                    <HeaderCell>
+                                                        Telephone # 
+                                                    </HeaderCell>
+                                                    <Cell dataKey="contact_phone_number">
+                                                        {rowData => parsePhoneNumberFromString(`+${rowData.contact_phone_number}`) ? parsePhoneNumberFromString(`+${rowData.contact_phone_number}`).formatInternational() : ''}
+                                                    </Cell>
+                                                </Column>
+                                                <Column flexGrow>
+                                                    <HeaderCell>
+                                                        Location 
+                                                    </HeaderCell>
+                                                    <Cell dataKey="latitude">
+                                                        {rowData => rowData.location ? rowData.location.name : 'N/A'}
+                                                    </Cell>
+                                                </Column> 
+                                                <Column width={80}>
+                                                    <HeaderCell>
+                                                        Latitude 
+                                                    </HeaderCell>
+                                                    <Cell dataKey="latitude">
+                                                        {rowData => rowData.latitude}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={80}>
+                                                    <HeaderCell>
+                                                        Longitude
+                                                    </HeaderCell>
+                                                    <Cell dataKey="longitude">
+                                                        {rowData => rowData.longitude}
+                                                    </Cell>
+                                                </Column>
+                                                <Column width={150}>
+                                                    <HeaderCell>
+                                                        Actions
+                                                    </HeaderCell>
+                                                    <Cell dataKey="actions">
+                                                            {rowData => {
+                                                                return (
+                                                                    <ActionContainer>
+                                                                        <DeleteVenueModal {...this.props} venue={rowData}/>
+                                                                    </ActionContainer>
+                                                                )
+                                                            }} 
+                                                        
+                                                    </Cell>
+                                                </Column>
+                                            </Table>
+                                        </Panel>
                                     ) : (
                                         <p>No Venues</p>
                                     )}

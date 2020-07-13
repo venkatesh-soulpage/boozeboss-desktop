@@ -97,7 +97,7 @@ export default class RequisitionInfo extends Component {
                     {(!requisitions || requisitions.length < 1) && <ClientsLabel>No Requisitions</ClientsLabel> }
                     {requisitions &&
                         requisitions.length > 0 && (
-                            <Panel bordered>
+                            <Panel shaded>
                                 <DataContainer>
                                     <FieldRow>
                                         <DataContainer>

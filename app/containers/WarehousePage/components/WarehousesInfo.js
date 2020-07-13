@@ -77,7 +77,7 @@ export default class WarehousesInfo extends Component {
                 {(!warehouses || warehouses.length < 1) && <ClientsLabel>No Warehouses</ClientsLabel> }
                 {warehouses &&
                     warehouses.length > 0 && (
-                        <Panel bordered>
+                        <Panel shaded>
                             <DataContainer>
                                 <FieldContainer>
                                     <FieldsRow>

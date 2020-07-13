@@ -133,7 +133,7 @@ class OrganizationsForm extends Component {
     render() {
         const {name, description, owner_email, display_name, custom_message, locations_limit, selected_locations, expiration_date} = this.state;
         return (
-            <Panel bordered>
+            <Panel shaded>
                 <DataContainer>
                     <FieldsRow>
                         <FieldContainer>
@@ -308,7 +308,7 @@ export default class OrganizationsInfo extends Component {
                     {organizations[currentOrganization].isDraft ? (
                         <OrganizationsForm {...this.props} />
                     ) : (
-                        <Panel bordered>
+                        <Panel shaded>
                             <DataContainer>
                                 <HeaderRow>
                                     <FieldContainer>

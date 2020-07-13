@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Button, Table } from 'rsuite';
+import { Button, Table, Panel } from 'rsuite';
 import EventInviteGuest from './EventInviteGuest';
 import ImportGuestList from './ImportGuestList';
 
@@ -76,6 +76,7 @@ export default class GuestList extends Component {
                 <TableContainer>
                 {event && event.event && event.event.guests && 
                         event.event.guests.length > 0 ? (
+                            <Panel shaded style={{backgroundColor: 'white', margin: '1em 0 0 0'}}>
                             <Table
                                 data={event.event.guests}
                                 style={{margin: '1em 0 0 0'}}
@@ -152,6 +153,7 @@ export default class GuestList extends Component {
                                     </Cell>
                                 </Column>
                             </Table>
+                            </Panel>
                         ): (
                             <FieldContainer>
                                 No guests

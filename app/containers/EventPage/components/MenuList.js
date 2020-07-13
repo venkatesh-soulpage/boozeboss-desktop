@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
-import { Button, Table, Icon } from 'rsuite';
+import { Button, Table, Icon, Panel } from 'rsuite';
 import MenuAddProduct from './MenuAddProduct';
 
 const {Column, HeaderCell, Cell } = Table;
@@ -78,6 +78,7 @@ export default class MenuList extends Component {
                 <TableContainer>
                 {event && event.event && event.event.products && 
                         event.event.products.length > 0 ? (
+                            <Panel shaded style={{backgroundColor: 'white', margin: '1em 0 0 0'}}>
                             <Table
                                 data={event.event.products.sort((a,b) => a.id - b.id)}
                                 style={{margin: '1em 0 0 0'}}
@@ -153,8 +154,8 @@ export default class MenuList extends Component {
                                         </Cell>
                                     </Column>
                                 )}
-                                
                             </Table>
+                            </Panel>
                         ): (
                             <FieldContainer>
                                 <p>No Menu</p>

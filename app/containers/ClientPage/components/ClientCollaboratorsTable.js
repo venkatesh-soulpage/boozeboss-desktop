@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import RoleValidator from 'components/RoleValidator';
 import styled from 'styled-components';
-import {Table, Icon} from 'rsuite';
+import {Table, Icon, Panel} from 'rsuite';
 import { parsePhoneNumberFromString } from 'libphonenumber-js'
 import InviteCollaborator from './InviteCollaborator';
 import ClientAddCollaboratorCredits from './ClientAddCollaboratorCredits';
@@ -129,100 +129,102 @@ export default class ClientCollaboratorsTable extends Component {
                     </FieldLabelContainer>
                     {collaborators && 
                         collaborators.length > 0 ? (
-                        <Table
-                            data={collaborators}
-                        >
-                            <Column >
-                                <HeaderCell resizable>
-                                    First Name
-                                </HeaderCell>
-                                <Cell dataKey="first_name">
-                                    {rowData => rowData.account.first_name}
-                                </Cell>
-                            </Column>
-                            <Column resizable >
-                                <HeaderCell>
-                                    Last Name
-                                </HeaderCell>
-                                <Cell dataKey="last_name">
-                                    {rowData => rowData.account.last_name}
-                                </Cell>
-                            </Column>
-                            <Column resizable>
-                                <HeaderCell>
-                                    Email
-                                </HeaderCell>
-                                <Cell dataKey="email">
-                                    {rowData => rowData.account.email}
-                                </Cell>
-                            </Column>
-                            <Column width={150}>
-                                <HeaderCell>
-                                    Phone #
-                                </HeaderCell>
-                                <Cell dataKey="phone_number">
-                                    {rowData => rowData.account.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
-                                </Cell>
-                            </Column>
-                            <Column width={100}>
-                                <HeaderCell>
-                                    Scope
-                                </HeaderCell>
-                                <Cell dataKey="scope">
-                                    {rowData => rowData.role.scope}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Role
-                                </HeaderCell>
-                                <Cell dataKey="role">
-                                    {rowData => rowData.role.name}
-                                </Cell>
-                            </Column>
-                            <Column width={200}>
-                                <HeaderCell>
-                                    Balance
-                                </HeaderCell>
-                                <Cell dataKey="balance">
-                                    {rowData => (
-                                        <span>
-                                            {rowData.account.wallet ? rowData.account.wallet.balance : '-'}
-                                            <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0.5em 0 0.5em'}}/>
-                                            {rowData.account.wallet && (
-                                                <RoleValidator
-                                                        {...this.props}
-                                                        scopes={['ADMIN']}
-                                                        roles={['ADMIN']}
-                                                    >
-                                                        <ClientAddCollaboratorCredits collaborator={rowData} {...this.props} />
-                                                </RoleValidator>
-                                            )}
-                                        </span>
-                                    )}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Actions
-                                </HeaderCell>
-                                <Cell dataKey="actions">
-                                    {rowData => {
-                                        if (rowData.status === 'PENDING') {
-                                            return (
-                                                <React.Fragment>
-                                                    {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
-                                                    {rowData.is_expired && <StyledAction>|</StyledAction>}
-                                                    <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
-                                                </React.Fragment>
-                                            )
-                                        } else {
-                                            return '-'
-                                        }
-                                    }}
-                                </Cell>
-                            </Column>
-                        </Table>
+                        <Panel shaded style={{backgroundColor: 'white'}}>
+                            <Table
+                                data={collaborators}
+                            >
+                                <Column >
+                                    <HeaderCell resizable>
+                                        First Name
+                                    </HeaderCell>
+                                    <Cell dataKey="first_name">
+                                        {rowData => rowData.account.first_name}
+                                    </Cell>
+                                </Column>
+                                <Column resizable >
+                                    <HeaderCell>
+                                        Last Name
+                                    </HeaderCell>
+                                    <Cell dataKey="last_name">
+                                        {rowData => rowData.account.last_name}
+                                    </Cell>
+                                </Column>
+                                <Column resizable>
+                                    <HeaderCell>
+                                        Email
+                                    </HeaderCell>
+                                    <Cell dataKey="email">
+                                        {rowData => rowData.account.email}
+                                    </Cell>
+                                </Column>
+                                <Column width={150}>
+                                    <HeaderCell>
+                                        Phone #
+                                    </HeaderCell>
+                                    <Cell dataKey="phone_number">
+                                        {rowData => rowData.account.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
+                                    </Cell>
+                                </Column>
+                                <Column width={100}>
+                                    <HeaderCell>
+                                        Scope
+                                    </HeaderCell>
+                                    <Cell dataKey="scope">
+                                        {rowData => rowData.role.scope}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Role
+                                    </HeaderCell>
+                                    <Cell dataKey="role">
+                                        {rowData => rowData.role.name}
+                                    </Cell>
+                                </Column>
+                                <Column width={200}>
+                                    <HeaderCell>
+                                        Balance
+                                    </HeaderCell>
+                                    <Cell dataKey="balance">
+                                        {rowData => (
+                                            <span>
+                                                {rowData.account.wallet ? rowData.account.wallet.balance : '-'}
+                                                <Icon icon="circle" style={{color: '#c2b90a', margin: '0 0.5em 0 0.5em'}}/>
+                                                {rowData.account.wallet && (
+                                                    <RoleValidator
+                                                            {...this.props}
+                                                            scopes={['ADMIN']}
+                                                            roles={['ADMIN']}
+                                                        >
+                                                            <ClientAddCollaboratorCredits collaborator={rowData} {...this.props} />
+                                                    </RoleValidator>
+                                                )}
+                                            </span>
+                                        )}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Actions
+                                    </HeaderCell>
+                                    <Cell dataKey="actions">
+                                        {rowData => {
+                                            if (rowData.status === 'PENDING') {
+                                                return (
+                                                    <React.Fragment>
+                                                        {rowData.is_expired && <StyledAction onClick={() => this.handleResendCollaboratorInvitation(rowData.collaborator_invitation_id)}>Resend</StyledAction>}
+                                                        {rowData.is_expired && <StyledAction>|</StyledAction>}
+                                                        <StyledAction onClick={() => this.handleRevokeCollaboratorInvitation(rowData.collaborator_invitation_id)}>Revoke</StyledAction>
+                                                    </React.Fragment>
+                                                )
+                                            } else {
+                                                return '-'
+                                            }
+                                        }}
+                                    </Cell>
+                                </Column>
+                            </Table>
+                        </Panel>
                     ) : (
                         <p>No Collaborators</p>
                     )}

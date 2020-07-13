@@ -84,66 +84,68 @@ export default class AgencyCollaboratorsTable extends Component {
                     <FieldLabel>Collaborators</FieldLabel>
                     {collaborators &&
                         collaborators.length > 0 ? (
-                        <Table
-                            data={collaborators}
-                        >
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    First Name
-                                </HeaderCell>
-                                <Cell dataKey="first_name">
-                                    {rowData => rowData.account.first_name}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Last Name
-                                </HeaderCell>
-                                <Cell dataKey="last_name">
-                                    {rowData => rowData.account.last_name}
-                                </Cell>
-                            </Column>
-                            <Column resizable>
-                                <HeaderCell>
-                                    Email
-                                </HeaderCell>
-                                <Cell dataKey="email">
-                                    {rowData => rowData.account.email}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Phone #
-                                </HeaderCell>
-                                <Cell dataKey="email">
-                                    {rowData => rowData.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Scope
-                                </HeaderCell>
-                                <Cell dataKey="scope">
-                                    {rowData => rowData.role.scope}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Role
-                                </HeaderCell>
-                                <Cell dataKey="role">
-                                    {rowData => rowData.role.name}
-                                </Cell>
-                            </Column>
-                            <Column flexGrow>
-                                <HeaderCell>
-                                    Actions
-                                </HeaderCell>
-                                <Cell dataKey="actions">
-                                    {rowData => rowData.status === 'PENDING' ? <a onClick={() => this.handleRevoke(rowData.collaborator_invitation_id)} >Revoke</a> : 'Edit | Remove'}
-                                </Cell>
-                            </Column>
-                        </Table>
+                        <Panel shaded style={{backgroundColor: 'white'}}>
+                            <Table
+                                data={collaborators}
+                            >
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        First Name
+                                    </HeaderCell>
+                                    <Cell dataKey="first_name">
+                                        {rowData => rowData.account.first_name}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Last Name
+                                    </HeaderCell>
+                                    <Cell dataKey="last_name">
+                                        {rowData => rowData.account.last_name}
+                                    </Cell>
+                                </Column>
+                                <Column resizable>
+                                    <HeaderCell>
+                                        Email
+                                    </HeaderCell>
+                                    <Cell dataKey="email">
+                                        {rowData => rowData.account.email}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Phone #
+                                    </HeaderCell>
+                                    <Cell dataKey="email">
+                                        {rowData => rowData.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Scope
+                                    </HeaderCell>
+                                    <Cell dataKey="scope">
+                                        {rowData => rowData.role.scope}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Role
+                                    </HeaderCell>
+                                    <Cell dataKey="role">
+                                        {rowData => rowData.role.name}
+                                    </Cell>
+                                </Column>
+                                <Column flexGrow>
+                                    <HeaderCell>
+                                        Actions
+                                    </HeaderCell>
+                                    <Cell dataKey="actions">
+                                        {rowData => rowData.status === 'PENDING' ? <a onClick={() => this.handleRevoke(rowData.collaborator_invitation_id)} >Revoke</a> : 'Edit | Remove'}
+                                    </Cell>
+                                </Column>
+                            </Table>
+                        </Panel>
                     ) : (
                         <p>No Collaborators</p>
                     )}

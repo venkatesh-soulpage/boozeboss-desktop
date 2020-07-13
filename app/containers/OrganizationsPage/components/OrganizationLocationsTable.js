@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Table, Modal, Button} from 'rsuite'; 
+import {Table, Modal, Button, Panel} from 'rsuite'; 
 import styled from 'styled-components';
 import RoleValidator from 'components/RoleValidator';
 
@@ -94,67 +94,69 @@ export default class OrganizationLocationsTable extends Component {
                 {organizations[currentOrganization].locations 
                     && organizations[currentOrganization].locations.length > 0 ? (
                         <Countries >
-                            <Table
-                                data={organizations[currentOrganization].locations.sort((a,b) => a.id - b.id)}
-                                width='100%'
-                            >
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        Name
-                                    </HeaderCell>
-                                    <Cell dataKey="name">
-                                        {rowData => rowData.location.name}
-                                    </Cell>
-                                </Column>
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        States Available
-                                    </HeaderCell>
-                                    <Cell dataKey="childrens">
-                                        {rowData => rowData.location.childrens.length}
-                                    </Cell>
-                                </Column>
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        Currency
-                                    </HeaderCell>
-                                    <Cell dataKey="currency">
-                                        {rowData => rowData.location.currency}
-                                    </Cell>
-                                </Column>
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        Passport Available
-                                    </HeaderCell>
-                                    <Cell dataKey="passport_available">
-                                        {rowData => rowData.location.passport_available ? 'Yes' : 'No' }
-                                    </Cell>
-                                </Column>
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        ID Available
-                                    </HeaderCell>
-                                    <Cell dataKey="id_card_available">
-                                        {rowData => rowData.location.id_card_available ? 'Yes' : 'No'}
-                                    </Cell>
-                                </Column>
-                                <Column flexGrow>
-                                    <HeaderCell>
-                                        Primary Location
-                                    </HeaderCell>
-                                    <Cell dataKey="id_card_available">
-                                        {rowData => (
-                                            <RoleValidator
-                                                {...this.props}
-                                                scopes={['REGION']}
-                                                roles={['OWNER', 'MANAGER']}
-                                            >
-                                                <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>
-                                            </ RoleValidator>
-                                        )}
-                                    </Cell>
-                                </Column>
-                            </Table>
+                            <Panel shaded style={{backgroundColor: 'white'}}>
+                                <Table
+                                    data={organizations[currentOrganization].locations.sort((a,b) => a.id - b.id)}
+                                    width='100%'
+                                >
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            Name
+                                        </HeaderCell>
+                                        <Cell dataKey="name">
+                                            {rowData => rowData.location.name}
+                                        </Cell>
+                                    </Column>
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            States Available
+                                        </HeaderCell>
+                                        <Cell dataKey="childrens">
+                                            {rowData => rowData.location.childrens.length}
+                                        </Cell>
+                                    </Column>
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            Currency
+                                        </HeaderCell>
+                                        <Cell dataKey="currency">
+                                            {rowData => rowData.location.currency}
+                                        </Cell>
+                                    </Column>
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            Passport Available
+                                        </HeaderCell>
+                                        <Cell dataKey="passport_available">
+                                            {rowData => rowData.location.passport_available ? 'Yes' : 'No' }
+                                        </Cell>
+                                    </Column>
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            ID Available
+                                        </HeaderCell>
+                                        <Cell dataKey="id_card_available">
+                                            {rowData => rowData.location.id_card_available ? 'Yes' : 'No'}
+                                        </Cell>
+                                    </Column>
+                                    <Column flexGrow>
+                                        <HeaderCell>
+                                            Primary Location
+                                        </HeaderCell>
+                                        <Cell dataKey="id_card_available">
+                                            {rowData => (
+                                                <RoleValidator
+                                                    {...this.props}
+                                                    scopes={['REGION']}
+                                                    roles={['OWNER', 'MANAGER']}
+                                                >
+                                                    <PrimaryLocation organization={organizations[currentOrganization]} regional_location={rowData} {...this.props}/>
+                                                </ RoleValidator>
+                                            )}
+                                        </Cell>
+                                    </Column>
+                                </Table>
+                            </Panel>
                         </Countries>
                     ) : (
                         <p>No locations defined</p>

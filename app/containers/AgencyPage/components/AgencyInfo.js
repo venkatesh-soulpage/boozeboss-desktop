@@ -73,7 +73,7 @@ class AgencyForm extends Component {
     render() {
         const {name, description, owner_email, sla_terms, sla_hours_before_event_creation, sla_hours_before_event_update, display_name, custom_message} = this.state;
         return (
-            <Panel bordered>
+            <Panel shaded>
                 <DataContainer>
                     <FieldContainer>
                         <FieldLabel>Name</FieldLabel>
@@ -167,7 +167,7 @@ export default class AgencyInfo extends Component {
                                 {agencies[currentAgency].isDraft ? (
                         <AgencyForm {...this.props} />
                     ) : (
-                        <Panel bordered>
+                        <Panel shaded>
                             <DataContainer>
                                 <FieldContainer>
                                     <FieldLabel>Name</FieldLabel>

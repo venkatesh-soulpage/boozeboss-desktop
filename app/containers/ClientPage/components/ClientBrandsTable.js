@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
-import { Table } from 'rsuite';
+import { Table, Panel } from 'rsuite';
 
 const {Column, HeaderCell, Cell } = Table;
 
@@ -40,42 +40,44 @@ export default class ClientBrandsTable extends Component {
                 </FieldLabelContainer>
                 {brands && 
                     brands.length > 0 ? (
-                    <Table
-                        data={brands}
-                    >
-                        <Column flexGrow>
-                            <HeaderCell>
-                                Name
-                            </HeaderCell>
-                            <Cell dataKey="name">
-                                {rowData => rowData.name}
-                            </Cell>
-                        </Column>
-                        <Column flexGrow>
-                            <HeaderCell>
-                                Category
-                            </HeaderCell>
-                            <Cell dataKey="product_type">
-                                {rowData => rowData.product_type}
-                            </Cell>
-                        </Column>
-                        <Column flexGrow>
-                            <HeaderCell>
-                                Sub-Category
-                            </HeaderCell>
-                            <Cell dataKey="product_type">
-                                {rowData => rowData.product_subtype}
-                            </Cell>
-                        </Column>
-                        <Column flexGrow>
-                            <HeaderCell>
-                                Description
-                            </HeaderCell>
-                            <Cell dataKey="description">
-                                {rowData => rowData.description}
-                            </Cell>
-                        </Column>
-                    </Table>
+                    <Panel shaded style={{backgroundColor: 'white'}}>
+                        <Table
+                            data={brands}
+                        >
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Name
+                                </HeaderCell>
+                                <Cell dataKey="name">
+                                    {rowData => rowData.name}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Category
+                                </HeaderCell>
+                                <Cell dataKey="product_type">
+                                    {rowData => rowData.product_type}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Sub-Category
+                                </HeaderCell>
+                                <Cell dataKey="product_type">
+                                    {rowData => rowData.product_subtype}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Description
+                                </HeaderCell>
+                                <Cell dataKey="description">
+                                    {rowData => rowData.description}
+                                </Cell>
+                            </Column>
+                        </Table>
+                    </Panel>
                 ) : (
                     <p>No Brands</p>
                 )}

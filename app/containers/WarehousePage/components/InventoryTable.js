@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
-import { Table } from 'rsuite';
+import { Table, Panel } from 'rsuite';
 import ProductTransactions from './ProductTransactions';
 import WarehouseRemoveStock from './WarehouseRemoveStock';
 
@@ -38,6 +38,7 @@ export default class InventoryTable extends Component {
             <FieldContainer>
                 { warehouses && warehouses[currentWarehouse].stocks && 
                     warehouses[currentWarehouse].stocks.length > 0 ? (
+                    <Panel shaded style={{backgroundColor: 'white'}}>
                     <Table
                         data={warehouses[currentWarehouse].stocks}
                         autoHeight
@@ -83,6 +84,7 @@ export default class InventoryTable extends Component {
                             </Cell>
                         </Column>
                     </Table>
+                    </Panel>
                 ) : (
                     <p>No Stock</p>
                 )}

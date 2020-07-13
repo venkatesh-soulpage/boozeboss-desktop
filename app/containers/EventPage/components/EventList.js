@@ -32,6 +32,12 @@ const AddSection = styled.div`
   background-color: #fafafa;
 `;
 
+const FieldRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+`
+
 const List = styled.div`
   display: flex;
   flex: 1;
@@ -69,6 +75,14 @@ class EventContainer extends Component {
     handleSelectCurrentEvent(index);
   };
 
+  goToBrief = () => {
+    const {history, event} = this.props;
+    history.push({
+      pathname: '/briefs',
+      brief_id: event.brief_id,
+    })
+  }
+
   render() {
     const { event, currentEvent, index } = this.props;
     return (
@@ -79,7 +93,9 @@ class EventContainer extends Component {
             onClick={this.handleSelectCurrentEvent}
           >
             <PanelColumn>
-              <b>{event.name}</b>
+              <span>
+                <b><a onClick={this.goToBrief}>(Go to Brief)</a> - {event.name}</b>
+              </span>
               <p>{event.created_at && moment(event.start_time).format('DD/MM/YYYY LT')}</p>
             </PanelColumn>
           </StyledPanel>
