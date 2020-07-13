@@ -40,7 +40,7 @@ export default class ClientWarehouseTable extends Component {
                 </FieldLabelContainer>
                 {warehouses && 
                     warehouses.length > 0 ? (
-                    <Panel shaded stlye={{backgroundColor: 'white'}}>
+                    <Panel shaded style={{backgroundColor: 'white'}}>
                         <Table
                             data={warehouses}
                         >
