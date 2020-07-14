@@ -100,24 +100,24 @@ class Header extends React.Component {
                 <Nav.Item>Verify Users</Nav.Item>
               </Link>
             )} 
-            {this.validateRoles(['BRAND', 'AGENCY'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
+            {this.validateRoles(['BRAND', 'AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/products">
-                <Nav.Item>Products</Nav.Item>
+                <Nav.Item>Products {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
               </Link>
             )} 
-            {this.validateRoles(['BRAND'], ['OWNER', 'WAREHOUSE_MANAGER']) && (
+            {this.validateRoles(['BRAND', 'REGION'], ['OWNER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/stock">
-                <Nav.Item>Inventory</Nav.Item>
+                <Nav.Item>Inventory {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER']) && (
               <Link to="/briefs">
-                <Nav.Item>Briefs</Nav.Item>
+                <Nav.Item>Briefs {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
               </Link>
             )} 
-            {this.validateRoles(['BRAND','AGENCY'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
+            {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/requisitions">
-                <Nav.Item>Requisitions</Nav.Item>
+                <Nav.Item>Requisitions {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (

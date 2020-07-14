@@ -127,7 +127,7 @@ class App extends React.Component {
             exact
             path="/requisitions"
             component={RequisitionPage}
-            scopesRequired={['BRAND', 'AGENCY']}
+            scopesRequired={['BRAND', 'AGENCY', 'REGION']}
             rolesRequired={['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']}
           />
           <PrivateRoute
@@ -141,14 +141,14 @@ class App extends React.Component {
             exact
             path="/products"
             component={ProductPage}
-            scopesRequired={['BRAND', 'AGENCY']}
+            scopesRequired={['BRAND', 'AGENCY', 'REGION']}
             rolesRequired={['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']}
           />
           <PrivateRoute
             exact
             path="/stock"
             component={WarehousePage}
-            scopesRequired={['BRAND']}
+            scopesRequired={['BRAND', 'REGION']}
             rolesRequired={['OWNER', 'WAREHOUSE_MANAGER']}
           />
           <GuardedRoute path="/login" component={LoginPage} />

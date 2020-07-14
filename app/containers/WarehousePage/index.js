@@ -20,6 +20,7 @@ import saga from './saga';
 import messages from './messages';
 import { getWarehouses, getProducts, addProductStock, removeProductStock, dismiss } from './actions';
 import { WarehousesContainer } from './components';
+import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class Warehouse extends React.Component {
@@ -55,6 +56,8 @@ Warehouse.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  scope: makeSelectScope(),
+  role: makeSelectRole(),
   warehouses: makeSelectWarehouses(),
   products: makeSelectProducts(),
   error: makeSelectError(),

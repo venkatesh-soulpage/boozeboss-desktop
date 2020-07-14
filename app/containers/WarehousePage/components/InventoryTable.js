@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Table, Panel } from 'rsuite';
 import ProductTransactions from './ProductTransactions';
 import WarehouseRemoveStock from './WarehouseRemoveStock';
+import RoleValidator from 'components/RoleValidator';
 
 const {Column, HeaderCell, Cell } = Table;
 
@@ -80,7 +81,17 @@ export default class InventoryTable extends Component {
                                 Actions
                             </HeaderCell>
                             <Cell dataKey="quantity">
-                                {rowData => <WarehouseRemoveStock {...this.props} product={rowData.product}/>}
+                                {rowData => (
+                                    <React.Fragment>
+                                        <RoleValidator
+                                            {...this.props}
+                                            scopes={['BRAND']}
+                                            roles={['OWNER', 'WAREHOUSE_MANAGER']}
+                                        >
+                                            <WarehouseRemoveStock {...this.props} product={rowData.product}/>
+                                        </RoleValidator>
+                                    </React.Fragment>
+                                )}
                             </Cell>
                         </Column>
                     </Table>
