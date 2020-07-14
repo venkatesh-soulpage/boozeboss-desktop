@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon, Dropdown, Alert } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Dropdown, Alert, SelectPicker, DatePicker } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PhoneInput from 'react-phone-input-2'
@@ -53,6 +53,8 @@ export default class SignupForm extends Component {
         last_name: null,
         phone_number: null,
         password: null,
+        gender: null,
+        date_of_birth: null,
         confirm: null,
         token: null
       }
@@ -70,16 +72,17 @@ export default class SignupForm extends Component {
   
       handleSubmit = () => {
         const {clientSignup} = this.props;
-        const {email, first_name, last_name, phone_number, password, confirm, token} = this.state;
+        const {email, first_name, last_name, phone_number, password, gender, date_of_birth, confirm, token} = this.state;
 
+        if (!email || !first_name || !last_name || !gender || !date_of_birth) return alert('Missing fields');
         if (password !== confirm) return Alert.error("Passwords don't match");
 
-        clientSignup({email, first_name, phone_number, last_name, password, token});
+        clientSignup({email, first_name, phone_number, last_name, password, token, gender, date_of_birth});
       }
   
       render() {
           const {error} = this.props;
-          const {email, first_name, last_name, phone_number, password, confirm} = this.state;
+          const {email, first_name, last_name, phone_number, password, confirm, gender, date_of_birth} = this.state;
           return (
           <StyledContainer>
               <h4>You have been invited to join Booze Boss</h4>
@@ -126,6 +129,35 @@ export default class SignupForm extends Component {
                   }}
                   onChange={(value) => this.handleChange(value, 'phone_number')}
                 />
+              <InputGroup style={styles}>
+                <InputGroup.Addon>
+                  <Icon icon="genderless" />
+                </InputGroup.Addon>
+                <SelectPicker 
+                  style={{width: '100%'}}
+                  searchable={false}
+                  placeholder="I identify as..."
+                  data={[
+                    {label: 'Male', value: 'MALE'},
+                    {label: 'Female', value: 'FEMALE'},
+                    {label: 'Other', value: 'OTHER'},
+                  ]}
+                  value={gender}
+                  onChange={(value) => this.handleChange(value, 'gender')}
+                />
+              </InputGroup>
+                <InputGroup style={styles}>
+                <InputGroup.Addon>
+                  <Icon icon="calendar" />
+                </InputGroup.Addon>
+                <DatePicker 
+                  style={{width: '100%'}}
+                  oneTap
+                  placeholder="Date of Birth"
+                  value={date_of_birth}
+                  onChange={(value) => this.handleChange(value, 'date_of_birth')}
+                />
+              </InputGroup>
               <InputGroup style={styles}>
                 <InputGroup.Addon>
                   <Icon icon="lock" />

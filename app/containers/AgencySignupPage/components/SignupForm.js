@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon, Checkbox, Alert } from 'rsuite';
+import { Button, Input, Message,  InputGroup, Icon, Checkbox, Alert, SelectPicker, DatePicker } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -61,6 +61,8 @@ export default class SignupForm extends Component {
         password: null,
         confirm: null,
         token: null,
+        gender: null,
+        date_of_birth: null,
         sla_open: false,
         sla_accepted: false,
       }
@@ -91,18 +93,19 @@ export default class SignupForm extends Component {
   
       handleSubmit = () => {
         const {agencySignup} = this.props;
-        const {email, first_name, last_name, phone_number, password, confirm, token, sla_accepted} = this.state;
+        const {email, first_name, last_name, phone_number, password, gender, date_of_birth, confirm, token, sla_accepted} = this.state;
 
+        if (!email || !first_name || !last_name || !phone_number ||  !password || !gender || !date_of_birth) return alert('Missing fields');
         if (password !== confirm) return Alert.error("Passwords don't match", 2500);
         if (!sla_accepted) return Alert.error('Please accept the SLA');
-        agencySignup({email, first_name, last_name, phone_number,  password, token});
+        agencySignup({email, first_name, last_name, phone_number, gender, date_of_birth,  password, token});
       }
 
 
   
       render() {
           const {error, sla} = this.props;
-          const {email, first_name, last_name, phone_number, password, confirm, sla_open, sla_accepted} = this.state;
+          const {email, first_name, last_name, phone_number, gender, date_of_birth, password, confirm, sla_open, sla_accepted} = this.state;
           return (
           <StyledContainer>
               <h4>You have been invited to join Booze Boss</h4>
@@ -148,6 +151,35 @@ export default class SignupForm extends Component {
                   }}
                   onChange={(value) => this.handleChange(value, 'phone_number')}
                 />
+              <InputGroup style={styles}>
+                <InputGroup.Addon>
+                  <Icon icon="genderless" />
+                </InputGroup.Addon>
+                <SelectPicker 
+                  style={{width: '100%'}}
+                  searchable={false}
+                  placeholder="I identify as..."
+                  data={[
+                    {label: 'Male', value: 'MALE'},
+                    {label: 'Female', value: 'FEMALE'},
+                    {label: 'Other', value: 'OTHER'},
+                  ]}
+                  value={gender}
+                  onChange={(value) => this.handleChange(value, 'gender')}
+                />
+              </InputGroup>
+                <InputGroup style={styles}>
+                <InputGroup.Addon>
+                  <Icon icon="calendar" />
+                </InputGroup.Addon>
+                <DatePicker 
+                  style={{width: '100%'}}
+                  oneTap
+                  placeholder="Date of Birth"
+                  value={date_of_birth}
+                  onChange={(value) => this.handleChange(value, 'date_of_birth')}
+                />
+              </InputGroup>
               <InputGroup style={styles}>
                 <InputGroup.Addon>
                   <Icon icon="lock" />
