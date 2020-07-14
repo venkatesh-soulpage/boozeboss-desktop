@@ -53,6 +53,10 @@ export const CREATE_BRAND_REQUEST = 'boozeboss/ClientContainer/CREATE_BRAND_REQU
 export const CREATE_BRAND_SUCCESS = 'boozeboss/ClientContainer/CREATE_BRAND_SUCCESS';
 export const CREATE_BRAND_ERROR = 'boozeboss/ClientContainer/CREATE_BRAND_ERROR';
 
+export const UPDATE_BRAND_REQUEST = 'boozeboss/ClientContainer/UPDATE_BRAND_REQUEST';
+export const UPDATE_BRAND_SUCCESS = 'boozeboss/ClientContainer/UPDATE_BRAND_SUCCESS';
+export const UPDATE_BRAND_ERROR = 'boozeboss/ClientContainer/UPDATE_BRAND_ERROR';
+
 export const CREATE_WAREHOUSE_REQUEST = 'boozeboss/ClientContainer/CREATE_WAREHOUSE_REQUEST';
 export const CREATE_WAREHOUSE_SUCCESS = 'boozeboss/ClientContainer/CREATE_WAREHOUSE_SUCCESS';
 export const CREATE_WAREHOUSE_ERROR = 'boozeboss/ClientContainer/CREATE_WAREHOUSE_ERROR';

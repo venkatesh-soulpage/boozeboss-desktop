@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components';
 import { Table, Panel } from 'rsuite';
+import ClientUpdateBrand from './ClientUpdateBrand';
 
 const {Column, HeaderCell, Cell } = Table;
 
@@ -74,6 +75,14 @@ export default class ClientBrandsTable extends Component {
                                 </HeaderCell>
                                 <Cell dataKey="description">
                                     {rowData => rowData.description}
+                                </Cell>
+                            </Column>
+                            <Column flexGrow>
+                                <HeaderCell>
+                                    Actions
+                                </HeaderCell>
+                                <Cell dataKey="description">
+                                    {rowData => <ClientUpdateBrand {...this.props} brand={rowData}/>}
                                 </Cell>
                             </Column>
                         </Table>

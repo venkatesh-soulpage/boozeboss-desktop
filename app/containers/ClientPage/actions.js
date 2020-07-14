@@ -31,6 +31,9 @@ import {
   CREATE_BRAND_REQUEST,
   CREATE_BRAND_SUCCESS,
   CREATE_BRAND_ERROR,
+  UPDATE_BRAND_REQUEST,
+  UPDATE_BRAND_SUCCESS,
+  UPDATE_BRAND_ERROR,
   CREATE_WAREHOUSE_REQUEST,
   CREATE_WAREHOUSE_SUCCESS,
   CREATE_WAREHOUSE_ERROR,
@@ -248,6 +251,31 @@ export function createBrandError(error) {
   status(error, 'error');
   return {
     type: CREATE_BRAND_ERROR,
+    error,
+  };
+}
+
+/* UPDATE BRAND */
+export function updateBrand(brand_id, brand) {
+  return {
+    type: UPDATE_BRAND_REQUEST,
+    brand_id,
+    brand
+  };
+}
+
+export function updateBrandSuccess(success) {
+  status(success, 'success');
+  return {
+    type: UPDATE_BRAND_SUCCESS,
+    success
+  };
+}
+
+export function updateBrandError(error) {
+  status(error, 'error');
+  return {
+    type: UPDATE_BRAND_ERROR,
     error,
   };
 }

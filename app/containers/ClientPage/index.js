@@ -23,7 +23,8 @@ import { ClientsContainer } from './components';
 import { 
   addClientDraft, getClients, inviteClient, getRoles, getLocations, 
   inviteCollaborator, getOrganizations,
-  dismiss, createVenue, deleteVenue, createBrand, createWarehouse, 
+  dismiss, createVenue, deleteVenue, createBrand, updateBrand,
+  createWarehouse, 
   addClientLocation, updateSla, uploadLogo, 
   revokeCollaboratorInvitation, resendInviteCollaborator, changeOrganizationFilter,
   addCollaboratorCredits
@@ -104,6 +105,7 @@ function mapDispatchToProps(dispatch) {
     getLocations: () => dispatch(getLocations()),
     createVenue: (venue) => dispatch(createVenue(venue)),
     createBrand: (brand) => dispatch(createBrand(brand)),
+    updateBrand: (brand_id, brand) => dispatch(updateBrand(brand_id, brand)),
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     createWarehouse: (warehouse) => dispatch(createWarehouse(warehouse)), 
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),

@@ -11,7 +11,8 @@ import {
   CREATE_VENUE_REQUEST, CREATE_VENUE_SUCCESS, 
   DELETE_VENUE_REQUEST, DELETE_VENUE_SUCCESS, 
   GET_LOCATIONS_REQUEST, 
-  CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS, 
+  CREATE_BRAND_REQUEST, CREATE_BRAND_SUCCESS,
+  UPDATE_BRAND_REQUEST, UPDATE_BRAND_SUCCESS, 
   CREATE_WAREHOUSE_REQUEST, CREATE_WAREHOUSE_SUCCESS,
   ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, 
   UPDATE_SLA_REQUEST, UPDATE_SLA_SUCCESS, 
@@ -34,6 +35,8 @@ import {
   inviteCollaboratorError,
   createVenueSuccess,
   createVenueError,
+  updateBrandSuccess,
+  updateBrandError,
   deleteVenueSuccess,
   deleteVenueError,
   getLocationsSuccess,
@@ -212,6 +215,23 @@ function* createBrandSaga(params) {
   }
 }
 
+function* updateBrandSaga(params) {
+  const { brand_id, brand } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/brands/${brand_id}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({brand}),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateBrandSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateBrandError(jsonError));
+  }
+}
+
 function* createWarehouseSaga(params) {
   const { warehouse } = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/warehouses`;
@@ -365,6 +385,10 @@ function* createBrandRequest() {
   yield takeLatest(CREATE_BRAND_REQUEST, createBrandSaga);
 }
 
+function* updateBrandRequest() {
+  yield takeLatest(UPDATE_BRAND_REQUEST, updateBrandSaga);
+}
+
 function* addClientLocationRequest() {
   yield takeLatest(ADD_LOCATION_REQUEST, addClientLocationSaga);
 }
@@ -408,6 +432,10 @@ function* createVenueSuccessRequest() {
 
 function* createBrandSuccessRequest() {
   yield takeLatest(CREATE_BRAND_SUCCESS, getClientsSaga);
+}
+
+function* updateBrandSuccessRequest() {
+  yield takeLatest(UPDATE_BRAND_SUCCESS, getClientsSaga);
 }
 
 function* inviteCollaboratorSuccessRequest() {
@@ -455,6 +483,7 @@ export default function* rootSaga() {
     fork(getRolesRequest),
     fork(getLocationsRequest),
     fork(createVenueRequest),
+    fork(updateBrandRequest),
     fork(createBrandRequest),
     fork(createWarehouseRequest),
     fork(deleteVenueRequest),
@@ -470,6 +499,7 @@ export default function* rootSaga() {
     fork(inviteCollaboratorSuccessRequest),
     fork(revokeCollaboratorInvitationSuccessRequest),
     fork(deleteVenueSuccessRequest),
+    fork(updateBrandSuccessRequest),
     fork(createBrandSuccessRequest),
     fork(createWarehouseSuccesRequest),
     fork(addClientLocationSuccessRequest),
