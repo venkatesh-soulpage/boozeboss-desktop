@@ -154,7 +154,15 @@ export default class OrganizationCollaboratorsTable extends Component {
                                         {rowData => rowData.account.last_name}
                                     </Cell>
                                 </Column>
-                                <Column resizable>
+                                <Column width={120}>
+                                    <HeaderCell>
+                                        Primary Location
+                                    </HeaderCell>
+                                    <Cell dataKey="email">
+                                        {rowData => rowData.account.location ? rowData.account.location.name : '-'}
+                                    </Cell>
+                                </Column>
+                                <Column width={200}>
                                     <HeaderCell>
                                         Email
                                     </HeaderCell>
@@ -167,7 +175,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                         Phone #
                                     </HeaderCell>
                                     <Cell dataKey="phone_number">
-                                        {rowData => rowData.account.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
+                                        {rowData => rowData.account.phone_number && parsePhoneNumberFromString(`+${rowData.account.phone_number}`) && parsePhoneNumberFromString(`+${rowData.account.phone_number}`).formatInternational()}
                                     </Cell>
                                 </Column>
                                 <Column width={100}>
