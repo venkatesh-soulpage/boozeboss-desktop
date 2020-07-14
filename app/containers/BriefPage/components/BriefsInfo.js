@@ -299,22 +299,35 @@ export default class BriefsInfo extends Component {
                                             ) : (
                                                 <p>No Brands</p>
                                             )}
-                                        {briefs[currentBrief].status === 'DRAFT' && (
-                                            <NewBrand 
-                                                {...this.props}
-                                                brief={briefs[currentBrief]}
-                                            />
-                                        )}
+                                        <RoleValidator
+                                            {...this.props}
+                                            scopes={['BRAND']}
+                                            roles={['OWNER', 'MANAGER']}
+                                        >
+                                            {briefs[currentBrief].status === 'DRAFT' && (
+                                                <NewBrand 
+                                                    {...this.props}
+                                                    brief={briefs[currentBrief]}
+                                                />
+                                            )}
+                                        </RoleValidator>
                                     </FieldContainer>
                                     <FieldContainer>
                                         <FieldLabel>Add events to this brief</FieldLabel>
                                         <BriefEventsList {...this.props} brief={briefs[currentBrief]}/>
-                                        {briefs[currentBrief].status === 'DRAFT' && (
-                                            <NewEvent 
-                                                {...this.props}
-                                                agency={briefs[currentBrief].agency}
-                                            />
-                                        )}
+                                        <RoleValidator
+                                            {...this.props}
+                                            scopes={['BRAND']}
+                                            roles={['OWNER', 'MANAGER']}
+                                        >
+                                            {briefs[currentBrief].status === 'DRAFT' && (
+                                                <NewEvent 
+                                                    {...this.props}
+                                                    agency={briefs[currentBrief].agency}
+                                                />
+                                            )}
+                                        </RoleValidator>
+                                        
                                     </FieldContainer>
                                 </ DataContainer>
                             </Panel>

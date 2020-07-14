@@ -70,6 +70,14 @@ const StyledColumn = styled.div`
   align-content: ${props => props.align || 'flex-start'};
 `
 
+const BrandingStripe = styled.div`
+    display: flex;
+    width: 125%; 
+    height: 10px;
+    background-color: #4caf50;
+    margin: -2.5em -2.5em 1em -2.5em;
+`
+
 class ClientContainer extends Component {
   handleSelectCurrentClient = () => {
     const { handleSelectCurrentClient, index } = this.props;
@@ -77,7 +85,7 @@ class ClientContainer extends Component {
   };
 
   render() {
-    const { client, currentClient, index } = this.props;
+    const { client, currentClient, index, user } = this.props;
     return (
       <React.Fragment>
         {client.isDraft ? (
@@ -94,7 +102,9 @@ class ClientContainer extends Component {
             shaded
             isSelected={currentClient === index}
             onClick={this.handleSelectCurrentClient}
+            style={{padding: user.location_id === client.location_id ? '15px 10px 15px 10px' : 0}}
           >
+            {user.location_id === client.location_id && <BrandingStripe />}
             <StyledRow>
               <StyledColumn>
                 <b>{client.name}</b>

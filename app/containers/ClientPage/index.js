@@ -28,7 +28,7 @@ import {
   revokeCollaboratorInvitation, resendInviteCollaborator, changeOrganizationFilter,
   addCollaboratorCredits
 } from './actions';
-import { makeSelectScope, makeSelectRole } from '../App/selectors';
+import { makeSelectScope, makeSelectRole, makeSelectUser } from '../App/selectors';
 
 /* eslint-disable react/prefer-stateless-function */
 export class ClientContainer extends React.Component {
@@ -89,6 +89,7 @@ const mapStateToProps = createStructuredSelector({
   success: makeSelectSuccess(),
   isLoading: makeSelectIsLoading(),
   organizationFilter: makeSelectOrganizationFilter(),
+  user: makeSelectUser()
 });
 
 function mapDispatchToProps(dispatch) {

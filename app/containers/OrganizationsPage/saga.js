@@ -30,6 +30,8 @@ import {
   updateCollaboratorLocationSuccess, updateCollaboratorLocationError
 } from './actions';
 
+import {getUser} from '../App/actions'
+
 function* getOrganizationsSaga() {
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations`;
   const options = {
@@ -209,6 +211,7 @@ function* updateCollaboratorLocationSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(updateCollaboratorLocationSuccess(response));
+    yield put(getUser());
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(updateCollaboratorLocationError(jsonError));
