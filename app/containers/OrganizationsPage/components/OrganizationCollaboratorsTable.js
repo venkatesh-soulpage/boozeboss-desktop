@@ -6,6 +6,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js'
 
 import InviteCollaborator from './InviteCollaborator';
 import OrganizationAddCollaboratorsTable from './OrganizationAddCollaboratorCredits';
+import OrganizationUpdateCollaboratorLocation from './OrganizationUpdateCollaboratorLocation';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -137,6 +138,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                         <Panel shaded style={{backgroundColor: 'white'}}>
                             <Table
                                 data={collaborators}
+                                height={350}
                             >
                                 <Column >
                                     <HeaderCell resizable>
@@ -154,7 +156,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                         {rowData => rowData.account.last_name}
                                     </Cell>
                                 </Column>
-                                <Column width={120}>
+                                <Column width={160} resizable>
                                     <HeaderCell>
                                         Primary Location
                                     </HeaderCell>
@@ -162,7 +164,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                         {rowData => rowData.account.location ? rowData.account.location.name : '-'}
                                     </Cell>
                                 </Column>
-                                <Column width={200}>
+                                <Column width={200} resizable>
                                     <HeaderCell>
                                         Email
                                     </HeaderCell>
@@ -238,7 +240,7 @@ export default class OrganizationCollaboratorsTable extends Component {
                                                         
                                                     )
                                                 } else {
-                                                    return '-'
+                                                    return <OrganizationUpdateCollaboratorLocation {...this.props} collaborator={rowData}/>
                                                 }
                                             }}
                                         </Cell>

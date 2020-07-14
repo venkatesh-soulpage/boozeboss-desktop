@@ -30,7 +30,8 @@ import {
   getRoles, 
   inviteCollaborator, 
   revokeCollaboratorInvitation,
-  addCollaboratorCredits
+  addCollaboratorCredits,
+  updateCollaboratorLocation
 } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
@@ -84,6 +85,7 @@ function mapDispatchToProps(dispatch) {
     inviteCollaborator: (collaborator) => dispatch(inviteCollaborator(collaborator)),
     revokeCollaboratorInvitation: (collaborator_invitation_id) => dispatch(revokeCollaboratorInvitation(collaborator_invitation_id)),
     addCollaboratorCredits: (collaborator_account_id, credits_amount) => dispatch(addCollaboratorCredits(collaborator_account_id, credits_amount)),
+    updateCollaboratorLocation: (regional_organization_id, collaborator_id, location_id) => dispatch(updateCollaboratorLocation(regional_organization_id, collaborator_id, location_id)),
   };
 }
 

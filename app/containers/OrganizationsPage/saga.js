@@ -13,7 +13,8 @@ import {
   REVOKE_COLLABORATOR_INVITE_REQUEST,
   REVOKE_COLLABORATOR_INVITE_SUCCESS,
   INVITE_COLLABORATOR_SUCCESS,
-  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS,
+  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS
 } from './constants';
 
 import {
@@ -25,7 +26,8 @@ import {
   getRolesSuccess, getRolesError,
   inviteCollaboratorSuccess, inviteCollaboratorError, 
   revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError,
-  addCollaboratorCreditsSuccess, addCollaboratorCreditsError
+  addCollaboratorCreditsSuccess, addCollaboratorCreditsError,
+  updateCollaboratorLocationSuccess, updateCollaboratorLocationError
 } from './actions';
 
 function* getOrganizationsSaga() {
@@ -196,6 +198,23 @@ function* addCollaboratorCreditsSaga(params) {
   }
 }
 
+function* updateCollaboratorLocationSaga(params) {
+  const { regional_organization_id, collaborator_id, location_id } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/organizations/${regional_organization_id}/collaborators/${collaborator_id}/update-location`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({location_id}),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateCollaboratorLocationSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateCollaboratorLocationError(jsonError));
+  }
+}
+
 function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
 }
@@ -236,6 +255,10 @@ function* addCollaboratorCreditsRequest() {
   yield takeLatest(ADD_COLLABORATOR_CREDITS_REQUEST, addCollaboratorCreditsSaga);
 }
 
+function* updateCollaboratorLocationRequest() {
+  yield takeLatest(UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, updateCollaboratorLocationSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -265,6 +288,10 @@ function* addCollaboratorCreditsSuccessRequest() {
   yield takeLatest(ADD_COLLABORATOR_CREDITS_SUCCESS, getOrganizationsSaga);
 }
 
+function* updateCollaboratorLocationSuccessRequest() {
+  yield takeLatest(UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS, getOrganizationsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getOrganizationsRequest),
@@ -277,6 +304,7 @@ export default function* rootSaga() {
     fork(inviteCollaboratorRequest),
     fork(revokeCollaboratorInviteRequest),
     fork(addCollaboratorCreditsRequest),
+    fork(updateCollaboratorLocationRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),
@@ -284,6 +312,7 @@ export default function* rootSaga() {
     fork(updateSLASuccessRequest),
     fork(inviteCollaboratorSuccessRequest),
     fork(revokeCollaboratorInviteSuccessRequest),
-    fork(addCollaboratorCreditsSuccessRequest)
+    fork(addCollaboratorCreditsSuccessRequest),
+    fork(updateCollaboratorLocationSuccessRequest),
   ]);
 }

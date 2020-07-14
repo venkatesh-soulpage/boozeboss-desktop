@@ -15,7 +15,8 @@ import {
   GET_ROLES_ERROR, GET_ROLES_REQUEST, GET_ROLES_SUCCESS,
   INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR,
   REVOKE_COLLABORATOR_INVITE_REQUEST, REVOKE_COLLABORATOR_INVITE_SUCCESS, REVOKE_COLLABORATOR_INVITE_ERROR,
-  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS, ADD_COLLABORATOR_CREDITS_ERROR
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS, ADD_COLLABORATOR_CREDITS_ERROR,
+  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS, UPDATE_COLLABORATOR_PRIMARY_LOCATION_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -255,6 +256,32 @@ export function addCollaboratorCreditsError(error) {
   status(error, 'error');
   return {
     type: ADD_COLLABORATOR_CREDITS_ERROR,
+    error,
+  };
+}
+
+/* PUT -  Add credits to an organization */
+export function updateCollaboratorLocation(regional_organization_id, collaborator_id, location_id) {
+  return {
+    type: UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST,
+    regional_organization_id,
+    collaborator_id,
+    location_id
+  };
+}
+
+export function updateCollaboratorLocationSuccess(success) {
+  status(success, 'success');
+  return {
+    type: UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS,
+    success,
+  };
+}
+
+export function updateCollaboratorLocationError(error) {
+  status(error, 'error');
+  return {
+    type: UPDATE_COLLABORATOR_PRIMARY_LOCATION_ERROR,
     error,
   };
 }
