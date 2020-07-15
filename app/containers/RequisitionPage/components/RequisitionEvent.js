@@ -5,11 +5,13 @@ import moment from 'moment';
 import AddNewRequisitionOrder from './AddNewRequisitionOrder';
 import ProductOrders from './ProductOrders';
 import AddEventCredits from './AddEventCredits';
+import EventFundingLogs from './EventFundingLogs';
 import RoleValidator from 'components/RoleValidator';
 
 const FieldRow = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
 `
 
 const FieldLabel = styled.div`
@@ -73,15 +75,18 @@ export default class RequisitionEvent extends Component {
                             <AddNewRequisitionOrder {...this.props}/>
                         )}
                         <ProductOrders {...this.props}/>
+                        <EventFundingLogs {...this.props} />
                         {event && event.event && requisitions[currentRequisition].status === 'APPROVED' && (
                             <RoleValidator
                                 {...this.props}
                                 scopes={['BRAND']}
                                 roles={['OWNER', 'MANAGER']}
-                            >
-                                <AddEventCredits 
-                                    {...this.props}
-                                />
+                            >   
+                                {event && event.event && !event.event.already_refunded && (
+                                    <AddEventCredits 
+                                        {...this.props}
+                                    />
+                                )}
                             </RoleValidator>
                         )}
                     </FieldLabelAction>
