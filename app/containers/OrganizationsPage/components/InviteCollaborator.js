@@ -76,7 +76,7 @@ export default class InviteCollaborator extends React.Component {
 
     render() {
         const {show, data, locations} = this.state;
-        return (
+        return ( 
             <React.Fragment>
                 <Button onClick={this.open} color="green">+ Invite Collaborator</Button>
         

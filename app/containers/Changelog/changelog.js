@@ -8,6 +8,51 @@ All notable changes to this project will be documented in this file.
 <br/> 
 
 
+## [0.16.1] - 2020-07-14
+
+<br/>
+
+### Added
+
+- Error handling on requisition max order
+- Added plus & minus sign on stock inventory transactions
+- Currency conversion on event add product
+- City filter for live dashboard
+- Redirect usert to login after password change
+- Add subtype and type filters to product page
+- Show primary location when editing an organization
+- Define primary location when inviting a new organization
+- Add Gender and Date of Birth to new signups on Organization, Team and Agency
+- Update collaborator location
+- Add Brief, Requisition, Products and Stock to regional view
+- The view mentioned above now display the location a regional collaborator has selected as a primary location
+- Edit brand modal
+- Show funding logs transaction history
+- (Wallet) Message on agency view when no events are available
+- (Wallet) Master code support for signup client
+- (Wallet) Users can check-in to one event at the time
+- (Walet) Scanner view now shows an alert if the browser doesn't suppport in-app qr.
+- (Wallet) Agency can see in their dashboard the credits left, credits on escrow, and credits bought
+- (Wallet) When 'End of the day command' is activated the credits on escrow return to their owners on a FIFO logic
+
+### Changed
+
+- Remove liters and kilograms for products, standarize everything to ml and g.
+- Optimize team page, locations are now load independently instead of being part of the team
+- Events are order by date on the live dashboard and they are correctly filtered once the event starts and ends
+- Fix alignment on cocktail builder
+- Fix dispute ui issue
+- Rename 'Show products' to edit products on requisition event
+- Fix demographic percentage on the pdf report
+- Minor UI Fixes
+- (Wallet) Minor UI Fixes
+
+### Removed 
+
+- Remove permission to invite collaborator to brand manager 
+ 
+<br/> 
+
 ## [0.15.1] - 2020-07-11
 
 <br/>
