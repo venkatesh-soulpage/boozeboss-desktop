@@ -66,7 +66,7 @@ export default class EditableField extends Component {
     }
 
     render() {
-        const { field_label, field_name, value, show_label, tag_type, field_type, margin } = this.props;
+        const { field_label, field_name, value, show_label, tag_type, field_type, margin, limit } = this.props;
         const {isEditing} = this.state;
         return (
             <React.Fragment>
@@ -125,7 +125,7 @@ export default class EditableField extends Component {
                                         <p>{this.formatSizeUnits(value)}</p>
                                     ) : (
                                         <React.Fragment>
-                                            {(!tag_type || tag_type === 'p') && <p>{value}</p>}
+                                            {(!tag_type || tag_type === 'p') && <p>{limit && `${limit} / `}{value}</p>}
                                             {tag_type === 'header' && <h3>{value}</h3>}
                                         </React.Fragment>
                                         

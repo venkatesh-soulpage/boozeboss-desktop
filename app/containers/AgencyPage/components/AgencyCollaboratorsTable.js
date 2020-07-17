@@ -86,14 +86,19 @@ export default class AgencyCollaboratorsTable extends Component {
                         collaborators.length > 0 ? (
                         <Panel shaded style={{backgroundColor: 'white'}}>
                             <Table
+                                wordWrap
                                 data={collaborators}
                             >
                                 <Column flexGrow>
                                     <HeaderCell>
-                                        First Name
+                                        Name
                                     </HeaderCell>
                                     <Cell dataKey="first_name">
-                                        {rowData => rowData.account.first_name}
+                                        {rowData => (
+                                            <div>
+                                                <b>{rowData.account.first_name}</b>
+                                                <p>{rowData.account.last_name}</p>
+                                            </div>)}
                                     </Cell>
                                 </Column>
                                 <Column flexGrow>
@@ -104,7 +109,7 @@ export default class AgencyCollaboratorsTable extends Component {
                                         {rowData => rowData.account.last_name}
                                     </Cell>
                                 </Column>
-                                <Column resizable>
+                                <Column flexGrow>
                                     <HeaderCell>
                                         Email
                                     </HeaderCell>

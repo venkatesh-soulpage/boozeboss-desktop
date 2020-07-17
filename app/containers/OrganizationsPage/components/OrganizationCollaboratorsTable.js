@@ -137,23 +137,21 @@ export default class OrganizationCollaboratorsTable extends Component {
                         collaborators.length > 0 ? (
                         <Panel shaded style={{backgroundColor: 'white'}}>
                             <Table
+                                wordWrap
                                 data={collaborators}
                                 height={350}
                             >
-                                <Column >
-                                    <HeaderCell resizable>
-                                        First Name
+                                <Column width={130} resizable>
+                                    <HeaderCell>
+                                        Name
                                     </HeaderCell>
                                     <Cell dataKey="first_name">
-                                        {rowData => rowData.account.first_name}
-                                    </Cell>
-                                </Column>
-                                <Column resizable >
-                                    <HeaderCell>
-                                        Last Name
-                                    </HeaderCell>
-                                    <Cell dataKey="last_name">
-                                        {rowData => rowData.account.last_name}
+                                        {rowData => (
+                                            <div>
+                                                <b>{rowData.account.first_name}</b>
+                                                <p>{rowData.account.last_name}</p>
+                                            </div>
+                                        )}
                                     </Cell>
                                 </Column>
                                 <Column width={160} resizable>

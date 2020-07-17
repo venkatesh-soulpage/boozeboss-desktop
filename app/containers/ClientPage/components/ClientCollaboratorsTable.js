@@ -131,25 +131,24 @@ export default class ClientCollaboratorsTable extends Component {
                         collaborators.length > 0 ? (
                         <Panel shaded style={{backgroundColor: 'white'}}>
                             <Table
+                                wordWrap
                                 data={collaborators}
+                                height={400}
                             >
-                                <Column >
-                                    <HeaderCell resizable>
-                                        First Name
+                                <Column width={150}>
+                                    <HeaderCell >
+                                        Name
                                     </HeaderCell>
                                     <Cell dataKey="first_name">
-                                        {rowData => rowData.account.first_name}
+                                        {rowData => (
+                                            <div>
+                                                <b>{rowData.account.first_name}</b>
+                                                <p>{rowData.account.last_name}</p>
+                                            </div>
+                                        )}
                                     </Cell>
                                 </Column>
-                                <Column resizable >
-                                    <HeaderCell>
-                                        Last Name
-                                    </HeaderCell>
-                                    <Cell dataKey="last_name">
-                                        {rowData => rowData.account.last_name}
-                                    </Cell>
-                                </Column>
-                                <Column resizable>
+                                <Column resizable width={200}>
                                     <HeaderCell>
                                         Email
                                     </HeaderCell>

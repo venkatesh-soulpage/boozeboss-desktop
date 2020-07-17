@@ -395,6 +395,7 @@ export default class ClientInfo extends Component {
                                         
                                     </FieldContainer>
                                 </HeaderRow>
+                                <Divider>Limits</Divider>
                                 <FieldsRow>
                                     <EditableField 
                                         {...this.props}
@@ -475,7 +476,7 @@ export default class ClientInfo extends Component {
                                         />   
                                     </RoleValidator>
                                 </FieldsRow>
-                                <Divider />
+                                <Divider>Team</Divider>
                                 <ClientCollaboratorsTable {...this.props}/>
                                 <Divider />
                                 <FieldContainer>

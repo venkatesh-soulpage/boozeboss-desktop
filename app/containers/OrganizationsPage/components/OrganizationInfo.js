@@ -376,6 +376,42 @@ export default class OrganizationsInfo extends Component {
                                         
                                     </FieldContainer> */}
                                 </HeaderRow>
+                                <Divider>Organization Limits</Divider>
+                                <FieldsRow>
+                                    <EditableField 
+                                        {...this.props}
+                                        limit={organizations[currentOrganization].locations.length}
+                                        client={organizations[currentOrganization]}
+                                        field_label='Locations Limit'
+                                        field_name='locations_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].locations_limit}
+                                    />  
+                                    <EditableField 
+                                        {...this.props}
+                                        client={organizations[currentOrganization]}
+                                        limit={organizations[currentOrganization].total_verifications}
+                                        field_label='Identity Verification Limit'
+                                        field_name='identity_verifications_limit'
+                                        field_type='number'
+                                        value={organizations[currentOrganization].identity_verifications_limit}
+                                    /> 
+                                    <RoleValidator
+                                        {...this.props}
+                                        scopes={['ADMIN']}
+                                        roles={['ADMIN']}
+                                    >
+                                        <EditableField 
+                                            {...this.props}
+                                            client={organizations[currentOrganization]}
+                                            field_label='Expiration Date'
+                                            field_name='expiration_date'
+                                            field_type='date'
+                                            value={organizations[currentOrganization].expiration_date}
+                                        />   
+                                    </RoleValidator>
+                                </FieldsRow>
+                                <Divider>Teams limits</Divider>
                                 <FieldsRow>
                                     <EditableField 
                                         {...this.props}
@@ -408,23 +444,7 @@ export default class OrganizationsInfo extends Component {
                                         field_name='warehouses_limit'
                                         field_type='number'
                                         value={organizations[currentOrganization].warehouses_limit}
-                                    />  
-                                    <EditableField 
-                                        {...this.props}
-                                        client={organizations[currentOrganization]}
-                                        field_label='Locations Limit'
-                                        field_name='locations_limit'
-                                        field_type='number'
-                                        value={organizations[currentOrganization].locations_limit}
-                                    />  
-                                    <EditableField 
-                                        {...this.props}
-                                        client={organizations[currentOrganization]}
-                                        field_label='Identity Verification Limit'
-                                        field_name='identity_verifications_limit'
-                                        field_type='number'
-                                        value={organizations[currentOrganization].identity_verifications_limit}
-                                    />  
+                                    />   
                                     <EditableField 
                                         {...this.props}
                                         client={organizations[currentOrganization]}
@@ -449,20 +469,6 @@ export default class OrganizationsInfo extends Component {
                                         field_type='number'
                                         value={organizations[currentOrganization].brief_attachment_limits}
                                     />    
-                                    <RoleValidator
-                                        {...this.props}
-                                        scopes={['ADMIN']}
-                                        roles={['ADMIN']}
-                                    >
-                                        <EditableField 
-                                            {...this.props}
-                                            client={organizations[currentOrganization]}
-                                            field_label='Expiration Date'
-                                            field_name='expiration_date'
-                                            field_type='date'
-                                            value={organizations[currentOrganization].expiration_date}
-                                        />   
-                                    </RoleValidator>
                                 </FieldsRow>
                                 <Divider />
                                 <OrganizationCollaboratorsTable {...this.props}/>
