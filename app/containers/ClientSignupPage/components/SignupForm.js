@@ -3,7 +3,8 @@ import { Button, Input, Message,  InputGroup, Icon, Dropdown, Alert, SelectPicke
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import 'react-phone-input-2/lib/style.css';
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 import PropTypes from 'prop-types';
 
@@ -52,7 +53,7 @@ export default class SignupForm extends Component {
         first_name: null,
         last_name: null,
         phone_number: null,
-        password: null,
+        password: '',
         gender: null,
         date_of_birth: null,
         confirm: null,
@@ -180,6 +181,7 @@ export default class SignupForm extends Component {
                   onChange={(value) => this.handleChange(value, 'confirm')}
                 />
               </InputGroup>
+              <PasswordStrengthBar password={password} style={{width: '300px', margin: '0 0 1em 0'}}/>
               <StyledButton 
                 color="green"
                 onClick={this.handleSubmit}

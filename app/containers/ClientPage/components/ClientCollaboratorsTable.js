@@ -231,8 +231,8 @@ export default class ClientCollaboratorsTable extends Component {
                 </FieldContainer>
                 <RoleValidator
                     {...this.props}
-                    scopes={['ADMIN', 'ORGANIZATION', 'BRAND']}
-                    scopes={['ADMIN', 'OWNER']}
+                    scopes={['ADMIN', 'REGION', 'BRAND']}
+                    roles={['ADMIN', 'OWNER']}
                 >
                     <FieldContainer>
                         <InviteCollaborator 

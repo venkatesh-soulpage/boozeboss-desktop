@@ -3,6 +3,7 @@ import { Button, Input, Message } from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ export default class ResetPasswordForm extends Component {
     state = {
       email: null,   
       token: null,
-      password: null,
+      password: '',
       confirm: null,
     }
 
@@ -64,6 +65,7 @@ export default class ResetPasswordForm extends Component {
     }
 
     render() {
+        const { password } = this.state;  
         const {error, success} = this.props;
         return (
         <StyledContainer>
@@ -79,6 +81,7 @@ export default class ResetPasswordForm extends Component {
               type="password"
               onChange={(value) => this.handleChange(value, 'confirm')}
             />
+            <PasswordStrengthBar password={password} style={{width: '300px', margin: '0 0 1em 0'}}/>
             <StyledButton 
               color="green"
               onClick={this.handleSubmit}

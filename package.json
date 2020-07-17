@@ -88,6 +88,7 @@
     "react-intl": "2.7.2",
     "react-loader-spinner": "^3.1.14",
     "react-markdown": "^4.3.1",
+    "react-password-strength-bar": "^0.3.2",
     "react-phone-input-2": "^2.13.3",
     "react-redux": "5.0.7",
     "react-router-dom": "4.3.1",
