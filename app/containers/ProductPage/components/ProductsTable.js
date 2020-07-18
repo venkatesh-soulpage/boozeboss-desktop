@@ -124,6 +124,7 @@ export default class ProductsTable extends Component {
           <React.Fragment>
             <Panel shaded style={{backgroundColor: 'white'}}>
               <Table
+                wordWrap
                 data={this.getData(products)}
                 autoHeight
                 sortColumn={this.state.sortColumn}
@@ -131,29 +132,29 @@ export default class ProductsTable extends Component {
                 onSortColumn={this.handleSortColumn}
                 loading={this.state.loading}
               >
-                <Column width={150} flexGrow sortable>
+                <Column width={250} resizable sortable>
+                  <HeaderCell>Name</HeaderCell>
+                  <Cell dataKey="name">{rowData => <b>{rowData.name}</b>}</Cell>
+                </Column>
+                <Column width={100} sortable>
                   <HeaderCell>Type</HeaderCell>
                   <Cell dataKey="product_type">
                     {rowData => rowData.product_type}
                   </Cell>
                 </Column>
-                <Column width={150} flexGrow sortable>
+                <Column width={150} sortable>
                   <HeaderCell>Subtype</HeaderCell>
                   <Cell dataKey="product_subtype">
                     {rowData => rowData.product_subtype}
                   </Cell>
                 </Column>
-                <Column width={150} resizable sortable>
-                  <HeaderCell>Name</HeaderCell>
-                  <Cell dataKey="name">{rowData => <b>{rowData.name}</b>}</Cell>
-                </Column>
-                <Column flexGrow sortable>
+                <Column width={125} resizable sortable>
                   <HeaderCell>Brand</HeaderCell>
                   <Cell dataKey="name">
                     {rowData => <a>{rowData.brand ? rowData.brand.name : 'N/A'}</a>}
                   </Cell>
                 </Column>
-                <Column resizable>
+                <Column resizable width={300}>
                   <HeaderCell>Description</HeaderCell>
                   <Cell dataKey="description">
                     {rowData => rowData.description}

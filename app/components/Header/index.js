@@ -102,22 +102,22 @@ class Header extends React.Component {
             )} 
             {this.validateRoles(['BRAND', 'AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/products">
-                <Nav.Item>Products {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
+                <Nav.Item>Products</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['BRAND', 'REGION'], ['OWNER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/stock">
-                <Nav.Item>Inventory {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
+                <Nav.Item>Inventory</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER']) && (
               <Link to="/briefs">
-                <Nav.Item>Briefs {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
+                <Nav.Item>Briefs</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
               <Link to="/requisitions">
-                <Nav.Item>Requisitions {user && user.location && scope === 'REGION' && `(${user.location.name})`}</Nav.Item>
+                <Nav.Item>Requisitions</Nav.Item>
               </Link>
             )} 
             {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (
@@ -137,7 +137,10 @@ class Header extends React.Component {
               <Dropdown 
                 title={
                   <TitleSection>
-                    <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
+                    <span style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                      <img style={{height: 20, width: 30 }} src={require(`../../images/flags/${user.location.name}.svg`)}/>
+                      <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
+                    </span>
                     <p>{scope} {role} {user && user.wallet && <span>{`(${user.wallet.balance})` }<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}</p>
                   </TitleSection>
                   
