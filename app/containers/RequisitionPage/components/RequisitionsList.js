@@ -113,7 +113,7 @@ export default class RequisitionsList extends Component {
       <Column>
         <List>
           {(!requisitions || requisitions.length < 1) && (
-            <MessageLabel>No Requisitions</MessageLabel>
+            <MessageLabel>Your requisitions will appear here once they are created.</MessageLabel>
           )}
           {requisitions &&
             requisitions.length > 0 &&

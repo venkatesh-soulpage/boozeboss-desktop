@@ -73,7 +73,6 @@ export default class ProductsHeader extends Component {
 
     render() {
         const {productsEnabled, product_type_filter, product_subtype_filter} = this.props;
-        console.log(product_type_filter)
         return (
             <StyledHeader>
                 <HeaderSection>

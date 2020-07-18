@@ -183,7 +183,7 @@ export default class BriefsInfo extends Component {
                 <InfoContainer>
                     {/* error && <StyledMessage showIcon closable type="error" description={error} onClose={() => dismiss('error')}/> */}
                     {/* success && <StyledMessage showIcon closable type="success" description={success} onClose={() => dismiss('success')} /> */}
-                    {(!briefs || briefs.length < 1) && <ClientsLabel>No Briefs</ClientsLabel> }
+                    {/* (!briefs || briefs.length < 1) && <ClientsLabel>No Briefs</ClientsLabel>  */}
                     {briefs &&
                         briefs.length > 0 && (
                         <React.Fragment>

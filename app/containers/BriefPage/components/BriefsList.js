@@ -181,7 +181,7 @@ export default class BriefsList extends Component {
         </RoleValidator>
         <List>
           {(!briefs || briefs.length < 1) && (
-            <MessageLabel>No Briefs registered</MessageLabel>
+            <MessageLabel>Your briefs will appear here once they are added.</MessageLabel>
           )}
           {briefs &&
             briefs.length > 0 &&

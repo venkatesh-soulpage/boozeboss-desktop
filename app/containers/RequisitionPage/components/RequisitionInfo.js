@@ -94,7 +94,7 @@ export default class RequisitionInfo extends Component {
         const { requisitions, scope, role, currentRequisition } = this.props;
             return (
                 <InfoContainer>
-                    {(!requisitions || requisitions.length < 1) && <ClientsLabel>No Requisitions</ClientsLabel> }
+                    {/* (!requisitions || requisitions.length < 1) && <ClientsLabel>No Requisitions</ClientsLabel>  */}
                     {requisitions &&
                         requisitions.length > 0 && (
                             <Panel shaded>

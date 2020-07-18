@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Table, Loader, Panel } from 'rsuite';
+import { Table, Loader, Panel, Message, Icon } from 'rsuite';
 import UpdateProductModal from './UpdateProductModal';
 import RoleValidator from 'components/RoleValidator';
 
@@ -19,6 +19,14 @@ const StyledLoaderSection = styled.div`
   flex-direction: row;
   justify-content: center;
   flex: 1;
+`
+
+const NoDataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 `
 
 export default class ProductsTable extends Component {
@@ -237,7 +245,10 @@ export default class ProductsTable extends Component {
                 <Loader size="md" />
               </StyledLoaderSection>
             ) : (
-              <p>No products</p>
+              <NoDataContainer>
+                <Icon icon="glass" size="2x" />
+                <h4>No Products</h4>
+              </NoDataContainer>
             )}
           </React.Fragment>
         )}

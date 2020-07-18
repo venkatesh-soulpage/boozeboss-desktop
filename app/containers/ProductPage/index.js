@@ -25,8 +25,10 @@ import { makeSelectScope, makeSelectRole, makeSelectUser } from '../App/selector
 
 const Products = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 100vw;
 `
 
 /* eslint-disable react/prefer-stateless-function */
@@ -45,12 +47,9 @@ export class Product extends React.Component {
           <title>Products</title>
           <meta name="description" content="Description of Product" />
         </Helmet>
-        <Products>
-          <ProductsContainer 
+        <ProductsContainer 
             {...this.props}
-          />
-        </Products>
-        
+        />
       </div>
     );
   }

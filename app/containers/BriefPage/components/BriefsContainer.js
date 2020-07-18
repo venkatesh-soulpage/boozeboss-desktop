@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BriefsList from './BriefsList';
 import BriefsInfo from './BriefsInfo';
-import { Loader } from 'rsuite';
+import { Loader, Message } from 'rsuite';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -11,6 +11,11 @@ const StyledContainer = styled.div`
     margin: 2em 2em 0 2em;
     justify-content: ${props => props.justify || 'flex-start'};
 `;
+
+const NoDataContainer = styled.div`
+    display: flex; 
+    flex-direction: column;
+`
 
 export default class BriefsContainer extends Component {
 
@@ -69,6 +74,11 @@ export default class BriefsContainer extends Component {
                 <StyledContainer justify="center">
                     <Loader size="md" />
                 </StyledContainer>
+            )}
+            {briefs && briefs.length < 1 && (
+                <NoDataContainer>
+                    <Message type="info" description="You dont have any current briefs. If you are a team collaborator you can start adding it with the button below."/>
+                </NoDataContainer>
             )}
             {briefs && (
                 <StyledContainer>

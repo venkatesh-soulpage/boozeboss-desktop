@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import RequisitionsList from './RequisitionsList';
 import RequisitionInfo from './RequisitionInfo';
 import moment from 'moment';
-import { Loader } from 'rsuite';
+import { Loader, Message } from 'rsuite';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -70,6 +70,9 @@ export default class RequisitionsContainer extends Component {
                 <StyledContainer justify="center">
                     <Loader size="md" />
                 </StyledContainer>
+            )}
+            {requisitions && requisitions.length < 1 && (
+                <Message type="info" description="You dont have any current requisitions. If you are an agency collaborator you can start creating them by doing click on 'Create Requisition' on a SUBMITTED Brief. " />
             )}
             { requisitions && (
                 <StyledContainer>

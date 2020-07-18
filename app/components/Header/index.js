@@ -138,7 +138,7 @@ class Header extends React.Component {
                 title={
                   <TitleSection>
                     <span style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                      <img style={{height: 20, width: 30 }} src={require(`../../images/flags/${user.location.name}.svg`)}/>
+                      {user && user.location && <img style={{height: 20, width: 30 }} src={require(`../../images/flags/${user.location.name}.svg`)}/>}
                       <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
                     </span>
                     <p>{scope} {role} {user && user.wallet && <span>{`(${user.wallet.balance})` }<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}</p>
