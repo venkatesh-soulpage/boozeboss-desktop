@@ -31,7 +31,8 @@ import {
   inviteCollaborator, 
   revokeCollaboratorInvitation,
   addCollaboratorCredits,
-  updateCollaboratorLocation
+  updateCollaboratorLocation,
+  getVerificationLogs
 } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 
@@ -81,6 +82,7 @@ function mapDispatchToProps(dispatch) {
     resendInviteCollaborator: (collaborator_invitation_id) => dispatch(resendInviteCollaborator(collaborator_invitation_id)),
     selectPrimaryLocation: (regional_organization_id, regional_organization_location_id) => dispatch(selectPrimaryLocation(regional_organization_id, regional_organization_location_id)),
     updateSla: (regional_organization_id, sla) => dispatch(updateSla(regional_organization_id, sla)),
+    getVerificationLogs: (regional_organization_id) => dispatch(getVerificationLogs(regional_organization_id)),
     getRoles: () => dispatch(getRoles()),
     inviteCollaborator: (collaborator) => dispatch(inviteCollaborator(collaborator)),
     revokeCollaboratorInvitation: (collaborator_invitation_id) => dispatch(revokeCollaboratorInvitation(collaborator_invitation_id)),

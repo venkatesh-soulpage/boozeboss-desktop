@@ -16,7 +16,8 @@ import {
   INVITE_COLLABORATOR_REQUEST, INVITE_COLLABORATOR_SUCCESS, INVITE_COLLABORATOR_ERROR,
   REVOKE_COLLABORATOR_INVITE_REQUEST, REVOKE_COLLABORATOR_INVITE_SUCCESS, REVOKE_COLLABORATOR_INVITE_ERROR,
   ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS, ADD_COLLABORATOR_CREDITS_ERROR,
-  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS, UPDATE_COLLABORATOR_PRIMARY_LOCATION_ERROR
+  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS, UPDATE_COLLABORATOR_PRIMARY_LOCATION_ERROR,
+  GET_VERIFICATION_LOGS_REQUEST, GET_VERIFICATION_LOGS_SUCCESS, GET_VERIFICATION_LOGS_ERROR
 } from './constants';
 
 import status from 'utils/status';
@@ -282,6 +283,28 @@ export function updateCollaboratorLocationError(error) {
   status(error, 'error');
   return {
     type: UPDATE_COLLABORATOR_PRIMARY_LOCATION_ERROR,
+    error,
+  };
+}
+
+/* GET -  Get Verification logs */
+export function getVerificationLogs(regional_organization_id) {
+  return {
+    type: GET_VERIFICATION_LOGS_REQUEST,
+    regional_organization_id,
+  };
+}
+
+export function getVerificationLogsSuccess() {
+  return {
+    type: GET_VERIFICATION_LOGS_SUCCESS,
+  };
+}
+
+export function getVerificationLogsError(error) {
+  status(error, 'error');
+  return {
+    type: GET_VERIFICATION_LOGS_ERROR,
     error,
   };
 }

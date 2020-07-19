@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker, IconButton, Icon, Dropdown } from 'rsuite';
 /* import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal'; */
@@ -304,8 +304,13 @@ export default class OrganizationsInfo extends Component {
         return null;
       } */
 
+    handleVerificationLogs = () => {
+        const {organizations, currentOrganization, getVerificationLogs} = this.props;
+        
+        getVerificationLogs(organizations[currentOrganization].id);
+    }
 
-  render() {
+    render() {
         const { organizations, currentOrganization, error, success, dismiss } = this.props;
         return (
             <InfoContainer>
@@ -352,29 +357,11 @@ export default class OrganizationsInfo extends Component {
                                             margin='0'
                                         />
                                     </FieldContainer>
-                                    {/* <FieldContainer align='flex-end'>
-                                        {clients[currentClient] && clients[currentClient].logo_url && (
-                                            <StyledLogo src={clients[currentClient].logo_url}/>
-                                        )}
-                                        <RoleValidator
-                                            {...this.props}
-                                            scopes={['ADMIN']}
-                                            roles={['ADMIN']}
-                                        >
-                                            <ClientToggleActive     
-                                                {...this.props}
-                                                client={clients[currentClient]}
-                                            />
-                                        </RoleValidator>
-                                        <RoleValidator
-                                            {...this.props}
-                                            scopes={['BRAND']}
-                                            roles={['OWNER']}
-                                        >
-                                            <ClientUploadLogo {...this.props}/>
-                                        </RoleValidator>
-                                        
-                                    </FieldContainer> */}
+                                    <FieldContainer align="flex-end">
+                                    <Dropdown title="Options" icon={<Icon icon="setting" />} placement="leftStart">
+                                        <Dropdown.Item icon={<Icon icon="file" />} onClick={this.handleVerificationLogs}>Verification Logs (CSV)</Dropdown.Item>
+                                    </Dropdown>
+                                    </FieldContainer>
                                 </HeaderRow>
                                 <Divider>Organization Limits</Divider>
                                 <FieldsRow>

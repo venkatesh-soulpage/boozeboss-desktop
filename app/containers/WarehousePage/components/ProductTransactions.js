@@ -60,13 +60,14 @@ export default class ProductTransactions extends React.Component {
             <React.Fragment>
                 <a onClick={this.open} color="green">Show transactions</a>
         
-                <Modal show={show} onHide={this.close} size="md">
+                <Modal show={show} onHide={this.close} size="lg">
                     <Modal.Header>
                         <Modal.Title>{`${product.name} - ${product.metric_amount}${product.metric} (${quantity} left on stock)`}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
                             <Table
+                                wordWrap
                                 data={this.getWarehouseTransactions()}
                                 height={800}
                             >
@@ -85,7 +86,7 @@ export default class ProductTransactions extends React.Component {
                                         }}
                                     </Cell>
                                 </Column>
-                                <Column width={200}>
+                                <Column width={100}>
                                     <HeaderCell>
                                         Action
                                     </HeaderCell>
@@ -107,6 +108,14 @@ export default class ProductTransactions extends React.Component {
                                     </HeaderCell>
                                     <Cell dataKey="action">
                                         {rowData => `${rowData.account.first_name} ${rowData.account.last_name}` }
+                                    </Cell>
+                                </Column>
+                                <Column width={250}>
+                                    <HeaderCell>
+                                        Comments
+                                    </HeaderCell>
+                                    <Cell dataKey="comments">
+                                        {rowData => rowData.comments }
                                     </Cell>
                                 </Column>
                                 <Column flexGrow>

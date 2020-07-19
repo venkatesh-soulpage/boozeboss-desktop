@@ -1,6 +1,7 @@
 import { call, put, select, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
+const { Parser } = require('json2csv');
 
 import { 
   GET_ORGANIZATIONS_REQUEST, GET_LOCATIONS_REQUEST,
@@ -14,7 +15,8 @@ import {
   REVOKE_COLLABORATOR_INVITE_SUCCESS,
   INVITE_COLLABORATOR_SUCCESS,
   ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS,
-  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS
+  UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS,
+  GET_VERIFICATION_LOGS_REQUEST
 } from './constants';
 
 import {
@@ -27,7 +29,8 @@ import {
   inviteCollaboratorSuccess, inviteCollaboratorError, 
   revokeCollaboratorInvitationSuccess, revokeCollaboratorInvitationError,
   addCollaboratorCreditsSuccess, addCollaboratorCreditsError,
-  updateCollaboratorLocationSuccess, updateCollaboratorLocationError
+  updateCollaboratorLocationSuccess, updateCollaboratorLocationError,
+  getVerificationLogsSuccess, getVerificationLogsError
 } from './actions';
 
 import {getUser} from '../App/actions'
@@ -218,6 +221,50 @@ function* updateCollaboratorLocationSaga(params) {
   }
 }
 
+function* getVerificationLogsSaga(params) {
+  const { regional_organization_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/verifications/organization-logs/${regional_organization_id}`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+
+    const fields = ['index', 'account_name', 'account_email', 'team', 'event', 'verified_at'];
+    const opts = { fields };
+
+    const parser = new Parser(opts);
+    const csv = parser.parse(response);
+    
+    const fileTitle = `verification_logs_organization`
+    var exportedFilenmae = fileTitle + '.csv' || 'export.csv'
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, exportedFilenmae)
+    } else {
+      var link = document.createElement('a')
+      if (link.download !== undefined) { // feature detection
+        // Browsers that support HTML5 download attribute
+        var url = URL.createObjectURL(blob)
+        link.setAttribute('href', url)
+        link.setAttribute('download', exportedFilenmae)
+        link.style.visibility = 'hidden'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+    }
+
+    // yield put(getVerificationLogsSuccess(response));
+  } catch (error) {
+    console.log(error)
+    //const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getVerificationLogsError('Error'));
+  }
+}
+
 function* getOrganizationsRequest() {
   yield takeLatest(GET_ORGANIZATIONS_REQUEST, getOrganizationsSaga);
 }
@@ -262,6 +309,10 @@ function* updateCollaboratorLocationRequest() {
   yield takeLatest(UPDATE_COLLABORATOR_PRIMARY_LOCATION_REQUEST, updateCollaboratorLocationSaga);
 }
 
+function* getVerificationLogsRequest() {
+  yield takeLatest(GET_VERIFICATION_LOGS_REQUEST, getVerificationLogsSaga);
+}
+
 // Reactive 
 function* inviteOrganizationSuccessRequest() {
   yield takeLatest(INVITE_ORGANIZATIONS_SUCCESS, getOrganizationsSaga);
@@ -295,6 +346,7 @@ function* updateCollaboratorLocationSuccessRequest() {
   yield takeLatest(UPDATE_COLLABORATOR_PRIMARY_LOCATION_SUCCESS, getOrganizationsSaga);
 }
 
+
 export default function* rootSaga() {
   yield all([
     fork(getOrganizationsRequest),
@@ -308,6 +360,7 @@ export default function* rootSaga() {
     fork(revokeCollaboratorInviteRequest),
     fork(addCollaboratorCreditsRequest),
     fork(updateCollaboratorLocationRequest),
+    fork(getVerificationLogsRequest),
     // Reactive
     fork(inviteOrganizationSuccessRequest),
     fork(resendInviteCollaboratorSuccessRequest),

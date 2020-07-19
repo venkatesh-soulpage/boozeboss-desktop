@@ -20,6 +20,7 @@ export default class WarehouseAddStock extends React.Component {
         productOptions: null,
         product: null,
         quantity: 0,
+        comments: null,
       };
     }
 
@@ -50,20 +51,21 @@ export default class WarehouseAddStock extends React.Component {
 
     addStock = async () => {
         const {addProductStock, warehouses, currentWarehouse} = this.props;
-        const {product, quantity} = this.state;
+        const {product, quantity, comments} = this.state;
 
         if (!product || !quantity) return alert('Missing fields');
 
         addProductStock({
             product_id: product.id,
-            quantity
+            quantity, 
+            comments
         }, warehouses[currentWarehouse].id)
 
         this.close();
     }
 
     render() {
-        const {show, productOptions, product, quantity} = this.state;
+        const {show, productOptions, product, quantity, comments} = this.state;
         return (
             <React.Fragment>
                 <Button onClick={this.open} color="green">+ Add Stock</Button>
@@ -90,6 +92,17 @@ export default class WarehouseAddStock extends React.Component {
                                 <InputGroup.Addon>
                                     units
                                 </InputGroup.Addon>
+                            </InputGroup>
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Comments (Optional)</FieldLabel>
+                            <InputGroup>
+                                <Input
+                                    componentClass="textarea"
+                                    rows={3}
+                                    value={comments}
+                                    onChange={value => this.handleChange(value, 'comments')}
+                                />
                             </InputGroup>
                         </FieldContainer>
                     </Modal.Body>

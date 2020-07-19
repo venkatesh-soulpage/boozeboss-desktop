@@ -18,6 +18,7 @@ export default class WarehouseRemoveStock extends React.Component {
       this.state = {
         show: false,
         quantity: 0,
+        comments: null,
       };
     }
 
@@ -36,20 +37,21 @@ export default class WarehouseRemoveStock extends React.Component {
 
     addStock = async () => {
         const {removeProductStock, warehouses, currentWarehouse, product} = this.props;
-        const {quantity} = this.state;
+        const {quantity, comments} = this.state;
 
         if (!product || !quantity) return alert('Missing fields');
 
         removeProductStock({
             product_id: product.id,
-            quantity
+            quantity, 
+            comments
         }, warehouses[currentWarehouse].id)
 
         this.close();
     }
 
     render() {
-        const {show, quantity} = this.state;
+        const {show, quantity, comments} = this.state;
         return (
             <React.Fragment>
                 <a onClick={this.open} color="green">Remove</a>
@@ -57,7 +59,7 @@ export default class WarehouseRemoveStock extends React.Component {
                 <Modal show={show} onHide={this.close}>
                     <Modal.Body>
                         <FieldContainer>
-                            <FieldLabel>Quantity</FieldLabel>
+                            <FieldLabel>Quantity to Remove</FieldLabel>
                             <InputGroup>
                                 <InputNumber 
                                     defaultValue={quantity}
@@ -69,6 +71,17 @@ export default class WarehouseRemoveStock extends React.Component {
                                 <InputGroup.Addon>
                                     units
                                 </InputGroup.Addon>
+                            </InputGroup>
+                        </FieldContainer>
+                        <FieldContainer>
+                            <FieldLabel>Comments (Optional)</FieldLabel>
+                            <InputGroup>
+                                <Input
+                                    componentClass="textarea"
+                                    rows={3}
+                                    value={comments}
+                                    onChange={value => this.handleChange(value, 'comments')}
+                                />
                             </InputGroup>
                         </FieldContainer>
                     </Modal.Body>
