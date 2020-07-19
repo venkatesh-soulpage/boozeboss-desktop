@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Panel } from 'rsuite'; 
 import styled from 'styled-components';
 import moment from 'moment';
+import Countdown from 'react-countdown';
 
 const StyledRow = styled.div`
     display: flex;
@@ -9,8 +10,8 @@ const StyledRow = styled.div`
     align-items: center;
     min-height: 60px;
     border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: gray;
+    border-bottom-style: dashed;
+    border-bottom-color: #00D7EC;
 `
 
 const StyledColumn = styled.div`
@@ -20,7 +21,21 @@ const StyledColumn = styled.div`
     flex: ${props => props.flex || '1'};
 `
 
+const SmallFlag = styled.img`
+    max-width: 25px;
+    height: auto;
+`
+
 export default class DashboardRow extends Component {
+    renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+          // Render a completed state
+          return <p>Finished</p>;
+        } else {
+          // Render a countdown
+            return <span>{days}D : {hours}H : {minutes}M : {seconds}S</span>;
+        }
+      };
 
     getGuestsCheckedIn = (event) => {
         const { guests } = event;
@@ -71,8 +86,14 @@ export default class DashboardRow extends Component {
         const { event } = this.props;
          return (
             <StyledRow>
+                <StyledColumn flex="0.15">
+                    <SmallFlag src={require(`../../../images/flags/${event.brief_event.brief.client.location.name}.svg`)}/>
+                </StyledColumn>
                 <StyledColumn>
-                    {moment(event.ended_at).fromNow(true)}
+                    <Countdown 
+                        date={event.ended_at} 
+                        renderer={this.renderer}
+                    />
                 </StyledColumn>
                 <StyledColumn>
                     {event.brief_event.brief.name}

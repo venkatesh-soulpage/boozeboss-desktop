@@ -11,7 +11,9 @@ import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole, makeSelectU
 import { logout, getUser } from '../../containers/App/actions'
 
 const StyledLogo = styled.img`
+  margin: -5px 0 0 0;
   max-width: 100px;
+  height: auto;
 `
 
 const TitleSection = styled.div`
@@ -63,7 +65,7 @@ class Header extends React.Component {
         <Navbar.Body>
           <Nav activeKey={pathname}>
             <Link to="/">
-              <Nav.Item ><StyledLogo src={require('../../images/logo_transparent.png')} /></Nav.Item>
+              <Nav.Item ><StyledLogo src={require('../../images/liquidintel/liquidintel_logo.png')} /></Nav.Item>
             </Link>
             {this.validateRoles(['REGION', 'BRAND'], ['OWNER', 'MANAGER']) && (
               <Link to="/dashboard">

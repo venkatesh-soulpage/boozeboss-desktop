@@ -5,6 +5,7 @@ import DashboardHeaderRow from './DashboardHeaderRow';
 import DashboardRow from './DashboardRow';
 import RoleValidator from 'components/RoleValidator';
 import request from 'utils/request';
+import Countdown from 'react-countdown';
 
 const StyledContainer = styled.div`
     display: flex;
@@ -59,6 +60,16 @@ export default class DashboardContainer extends Component {
         city_id: null,
         city_filter: [{ label: 'All Cities', value: 0}],
     }
+
+    renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+          // Render a completed state
+          return <p>Finished</p>;
+        } else {
+          // Render a countdown
+            return <span>{days}D : {hours}H : {minutes}M : {seconds}S</span>;
+        }
+      };
 
 
     fetchLocationChildren = async (location_id) => {
@@ -184,7 +195,7 @@ export default class DashboardContainer extends Component {
                 <SyledPanel shaded>
                     <StyledPanelHeader> 
                         <PanelHeaderColumn >
-                            <Button onClick={toggleDrawer}>Last Events</Button>
+                            <Button onClick={toggleDrawer} style={{backgroundColor: '#32C5F4', color: 'white', margin: '0 1em 0 0'}}>Last Events</Button>
                             <IconButton icon={<Icon icon="refresh" />} onClick={this.refreshAnalytics}/>
                         </PanelHeaderColumn>
                         <PanelHeaderColumn />

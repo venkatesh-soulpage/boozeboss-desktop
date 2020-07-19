@@ -10,7 +10,7 @@ const StyledMenu = styled.div`
     bottom: 5px;
     right: 20px;
     border-radius: 5px;
-    background-color: green;
+    background-color: #32C5F4;
     padding: 5px;
     z-index: 99;
 `

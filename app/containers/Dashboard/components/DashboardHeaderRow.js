@@ -9,7 +9,7 @@ const StyledRow = styled.div`
     height: 40px;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: black;
+    border-bottom-color: #32C5F4;
 `
 
 const StyledColumn = styled.div`
@@ -25,6 +25,7 @@ export default class DashboardHeaderRow extends Component {
         const {event} = this.props;
         return (
             <StyledRow>
+                <StyledColumn flex="0.15"/>
                 <StyledColumn>
                     Ending In
                 </StyledColumn>
