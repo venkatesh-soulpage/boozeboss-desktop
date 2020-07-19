@@ -46,6 +46,7 @@ import Terms from 'containers/Terms';
 import Help from 'containers/Help';
 import Header from 'components/Header';
 import VersioningMenu from 'components/VersioningMenu';
+import IntercomChat from 'components/IntercomChat';
 import PrivateRoute from 'components/PrivateRoute';
 import GuardedRoute from 'components/GuardedRoute';
 
@@ -168,6 +169,7 @@ class App extends React.Component {
         </Switch>
         <GlobalStyle />
         <VersioningMenu />
+        <IntercomChat />
       </AppWrapper>
     );
   }

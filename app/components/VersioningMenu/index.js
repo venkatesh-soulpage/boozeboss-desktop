@@ -8,7 +8,7 @@ const StyledMenu = styled.div`
     align-center: center;
     position: fixed;
     bottom: 5px;
-    right: 20px;
+    left: 20px;
     border-radius: 5px;
     background-color: #32C5F4;
     padding: 5px;
