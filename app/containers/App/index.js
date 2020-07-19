@@ -41,6 +41,9 @@ import Dashboard from 'containers/Dashboard/Loadable'
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
 import Changelog from 'containers/Changelog';
+import Privacy from 'containers/Privacy';
+import Terms from 'containers/Terms';
+import Help from 'containers/Help';
 import Header from 'components/Header';
 import VersioningMenu from 'components/VersioningMenu';
 import PrivateRoute from 'components/PrivateRoute';
@@ -158,6 +161,9 @@ class App extends React.Component {
           <GuardedRoute path="/forgot" component={ForgotPasswordPage} />
           <GuardedRoute path="/reset" component={ResetPasswordPage} />
           <Route path="/changelog" component={Changelog} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/terms" component={Terms} />
+          <Route path="/help" component={Help} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

@@ -33,6 +33,15 @@ export default class VersioningMenu extends Component {
                 <StyledField>
                     <Link to="/changelog" style={{color: 'white'}}>Changelog</Link>
                 </StyledField>
+                <StyledField>
+                    <Link to="/terms" style={{color: 'white'}}>Terms</Link>
+                </StyledField>
+                <StyledField>
+                    <Link to="/privacy" style={{color: 'white'}}>Privacy</Link>
+                </StyledField>
+                <StyledField>
+                    <Link to="/help" style={{color: 'white'}}>Help</Link>
+                </StyledField>
             </StyledMenu>
         )
     }

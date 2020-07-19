@@ -358,9 +358,9 @@ export default class OrganizationsInfo extends Component {
                                         />
                                     </FieldContainer>
                                     <FieldContainer align="flex-end">
-                                    <Dropdown title="Options" icon={<Icon icon="setting" />} placement="leftStart">
-                                        <Dropdown.Item icon={<Icon icon="file" />} onClick={this.handleVerificationLogs}>Verification Logs (CSV)</Dropdown.Item>
-                                    </Dropdown>
+                                        <Dropdown title="Options" icon={<Icon icon="setting" />} placement="leftStart">
+                                            <Dropdown.Item icon={<Icon icon="file" />} onClick={this.handleVerificationLogs}>Verification Logs (CSV)</Dropdown.Item>
+                                        </Dropdown>
                                     </FieldContainer>
                                 </HeaderRow>
                                 <Divider>Organization Limits</Divider>
