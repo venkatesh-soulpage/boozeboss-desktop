@@ -21,8 +21,11 @@ import {
   REVOKE_COLLABORATOR_INVITATION_REQUEST, REVOKE_COLLABORATOR_INVITATION_SUCCESS, 
   RESEND_INVITE_REQUEST, RESEND_INVITE_SUCCESS,
   GET_ORGANIZATIONS_REQUEST,
-  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS
+  ADD_COLLABORATOR_CREDITS_REQUEST, ADD_COLLABORATOR_CREDITS_SUCCESS, 
+  GET_VERIFICATION_LOGS_REQUEST
 } from './constants';
+
+const { Parser } = require('json2csv');
 
 import {
   getClientsSuccess,
@@ -58,7 +61,9 @@ import {
   getOrganizationsSuccess,
   getOrganizationsError,
   addCollaboratorCreditsSuccess,
-  addCollaboratorCreditsError
+  addCollaboratorCreditsError,
+  getVerificationLogsSuccess,
+  getVerificationLogsError,
 } from './actions';
 
 function* getClientsSaga() {
@@ -353,6 +358,50 @@ function* addCollaboratorCreditsSaga(params) {
   }
 }
 
+function* getVerificationLogsSaga(params) {
+  const { client_id} = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${process.env.API_PORT}/api/verifications/client-logs/${client_id}`;
+  const options = {
+    method: 'GET',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+
+    const fields = ['index', 'account_name', 'account_email', 'event', 'verified_at'];
+    const opts = { fields };
+
+    const parser = new Parser(opts);
+    const csv = parser.parse(response);
+    
+    const fileTitle = `verification_logs_organization`
+    var exportedFilenmae = fileTitle + '.csv' || 'export.csv'
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    if (navigator.msSaveBlob) { // IE 10+
+      navigator.msSaveBlob(blob, exportedFilenmae)
+    } else {
+      var link = document.createElement('a')
+      if (link.download !== undefined) { // feature detection
+        // Browsers that support HTML5 download attribute
+        var url = URL.createObjectURL(blob)
+        link.setAttribute('href', url)
+        link.setAttribute('download', exportedFilenmae)
+        link.style.visibility = 'hidden'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+    }
+
+    // yield put(getVerificationLogsSuccess(response));
+  } catch (error) {
+    console.log(error)
+    //const jsonError = yield error.response ? error.response.json() : error;
+    yield put(getVerificationLogsError('Error'));
+  }
+}
+
 function* getClientsRequest() {
   yield takeLatest(GET_CLIENTS_REQUEST, getClientsSaga);
 }
@@ -419,6 +468,10 @@ function* getOrganizationsRequest() {
 
 function* addCollaboratorCreditsRequest() {
   yield takeLatest(ADD_COLLABORATOR_CREDITS_REQUEST, addCollaboratorCreditsSaga);
+}
+
+function* getVerificationLogsRequest() {
+  yield takeLatest(GET_VERIFICATION_LOGS_REQUEST, getVerificationLogsSaga);
 }
 
 // Reactive saga
@@ -493,6 +546,7 @@ export default function* rootSaga() {
     fork(resendInviteRequest),
     fork(getOrganizationsRequest),
     fork(addCollaboratorCreditsRequest),
+    fork(getVerificationLogsRequest),
     // Reactive
     fork(inviteClientSuccessRequest),
     fork(createVenueSuccessRequest),

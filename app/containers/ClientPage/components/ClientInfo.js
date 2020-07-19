@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker, SelectPicker } from 'rsuite';
+import { Panel, Input, Button, Table, InputNumber, Message, Divider, DatePicker, SelectPicker, Dropdown, Icon } from 'rsuite';
 import InviteCollaborator from './InviteCollaborator';
 import CreateVenueModal from './CreateVenueModal';
 import DeleteVenueModal from './DeleteVenueModal';
@@ -320,6 +320,10 @@ export default class ClientInfo extends Component {
         return null;
       }
 
+    handleVerificationLogs = () => {
+        const {getVerificationLogs, clients, currentClient} = this.props;
+        getVerificationLogs(clients[currentClient].id);
+    }
 
   render() {
         const { clients, currentClient, error, success, dismiss } = this.props;
@@ -393,6 +397,11 @@ export default class ClientInfo extends Component {
                                             <ClientUploadLogo {...this.props}/>
                                         </RoleValidator>
                                         
+                                    </FieldContainer>
+                                    <FieldContainer align="flex-end">
+                                        <Dropdown title="Options" icon={<Icon icon="setting" />} placement="leftStart">
+                                            <Dropdown.Item icon={<Icon icon="file" />} onClick={this.handleVerificationLogs}>Verification Logs (CSV)</Dropdown.Item>
+                                        </Dropdown>
                                     </FieldContainer>
                                 </HeaderRow>
                                 <Divider>Limits</Divider>

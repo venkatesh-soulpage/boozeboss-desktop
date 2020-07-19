@@ -27,7 +27,8 @@ import {
   createWarehouse, 
   addClientLocation, updateSla, uploadLogo, 
   revokeCollaboratorInvitation, resendInviteCollaborator, changeOrganizationFilter,
-  addCollaboratorCredits
+  addCollaboratorCredits,
+  getVerificationLogs
 } from './actions';
 import { makeSelectScope, makeSelectRole, makeSelectUser } from '../App/selectors';
 
@@ -109,6 +110,7 @@ function mapDispatchToProps(dispatch) {
     deleteVenue: (venue_id) => dispatch(deleteVenue(venue_id)),
     createWarehouse: (warehouse) => dispatch(createWarehouse(warehouse)), 
     addClientLocation: (client_id, location_id) => dispatch(addClientLocation(client_id, location_id)),
+    getVerificationLogs: (client_id) => dispatch(getVerificationLogs(client_id)),
     updateSla: (client_id, sla) => dispatch(updateSla(client_id, sla)), // PATCH method it really works with other client values, need to change.
     uploadLogo: (client_id, file) => dispatch(uploadLogo(client_id, file )), 
     getOrganizations: () => dispatch(getOrganizations()),

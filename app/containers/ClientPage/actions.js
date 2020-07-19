@@ -58,6 +58,9 @@ import {
   ADD_COLLABORATOR_CREDITS_REQUEST,
   ADD_COLLABORATOR_CREDITS_SUCCESS,
   ADD_COLLABORATOR_CREDITS_ERROR,
+  GET_VERIFICATION_LOGS_REQUEST,
+  GET_VERIFICATION_LOGS_SUCCESS,
+  GET_VERIFICATION_LOGS_ERROR,
   CHANGE_ORGANIZATION_FILTER
 } from './constants';
 
@@ -469,6 +472,29 @@ export function addCollaboratorCreditsError(error) {
     error,
   };
 }
+
+/* GET -  Get Verification logs */
+export function getVerificationLogs(client_id) {
+  return {
+    type: GET_VERIFICATION_LOGS_REQUEST,
+    client_id,
+  };
+}
+
+export function getVerificationLogsSuccess() {
+  return {
+    type: GET_VERIFICATION_LOGS_SUCCESS,
+  };
+}
+
+export function getVerificationLogsError(error) {
+  status(error, 'error');
+  return {
+    type: GET_VERIFICATION_LOGS_ERROR,
+    error,
+  };
+}
+
 
 
 // Dismiss success and error messages

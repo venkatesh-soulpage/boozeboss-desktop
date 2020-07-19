@@ -94,6 +94,12 @@ export const ADD_COLLABORATOR_CREDITS_REQUEST =
 export const ADD_COLLABORATOR_CREDITS_SUCCESS =
   'boozeboss/ClientContainer/ADD_COLLABORATOR_CREDITS_SUCCESS';
 export const ADD_COLLABORATOR_CREDITS_ERROR = 'boozeboss/ClientContainer/ADD_COLLABORATOR_CREDITS_ERROR';
+
+export const GET_VERIFICATION_LOGS_REQUEST =
+  'boozeboss/ClientContainer/GET_VERIFICATION_LOGS_REQUEST';
+export const GET_VERIFICATION_LOGS_SUCCESS =
+  'boozeboss/ClientContainer/GET_VERIFICATION_LOGS_SUCCESS';
+export const GET_VERIFICATION_LOGS_ERROR = 'boozeboss/ClientContainer/GET_VERIFICATION_LOGS_ERROR';
   
 
 export const DISMISS =  'boozeboss/ClientContainer/DISMISS';
