@@ -74,7 +74,7 @@ const BrandingStripe = styled.div`
     display: flex;
     width: 125%; 
     height: 10px;
-    background-color: #4caf50;
+    background-color: #32C5F4;
     margin: -2.5em -2.5em 1em -2.5em;
 `
 
