@@ -32,8 +32,6 @@ All notable changes to this project will be documented in this file.
 - (PDF Report) Add total amount of guests checked-in and checked-out by agency collaborator
 - (PDF Report) Add 'Ended by' field so the report shows if an event was ended automatically or by a collaborator.
 - (PDF Report) Add value in coins and location currency
-- (PDF Report) Add value in coins and location currency
-- (PDF Report) Add value in coins and location currency
 - (Wallet) Add collapsible shortcuts on event
 - (Wallet) Add password strength policy to signup
 - (Wallet) Add loyalty points logic and UI and set up a dynamic variable to change it.
