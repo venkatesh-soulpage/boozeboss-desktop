@@ -8,6 +8,53 @@ All notable changes to this project will be documented in this file.
 <br/> 
 
 
+## [0.16.2] - 2020-07-19
+
+<br/>
+
+### Added
+
+- Add Verification billing logic
+- Add 'Export Verification logs' function to Organization and Team level.
+- Organization and Team page now shows how many logs have been used. Individually and Cumulative.
+- Add comments to add/remove stock on warehouse
+- Add gender and date of birth on signup
+- Add password strength policy on signup (Organizations, Teams, Agencies) and Forgot my password
+- Prevent that an old password can be reused when resetting it. 
+- Bottom Menu bar now has links to Terms, Privacy and Help
+- Add 'No data' displays on stocks, briefs, requisitions and products.
+- Add style to dashboard page
+- Dashboard 'Ending in' is now a countdown.
+- Added flags to dashboard event rows.
+- Add flags to the user profile header to show in which location this user is currently.
+- Add dynamic style for branding
+- Clean and Rebrand mailling to LiquidIntel.
+- (PDF Report) Add total amount of guests checked-in and checked-out by agency collaborator
+- (PDF Report) Add 'Ended by' field so the report shows if an event was ended automatically or by a collaborator.
+- (PDF Report) Add value in coins and location currency
+- (PDF Report) Add value in coins and location currency
+- (PDF Report) Add value in coins and location currency
+- (Wallet) Add collapsible shortcuts on event
+- (Wallet) Add password strength policy to signup
+- (Wallet) Add loyalty points logic and UI and set up a dynamic variable to change it.
+- (Wallet) Add Version Menu at drawer menu with Version, Terms, Privacy and Help links.
+- (Wallet) Event code container is toggable, so a user can add a new event code even if it still has events on his wallet.
+
+### Changed
+
+- Change branding from BoozeBoss to LiquidIntel 
+- (Wallet) Change branding from BoozeBoss to LiquidIntel 
+- (Wallet) Fix issue where a user could add a mastercode multiple times.
+- (Wallet) Add 'No data' message on wallet actions.
+- (Wallet) Fix bug on 'Purchase' action where it wasn't showing the correct event.
+- (PDF Report) Fix broken metrics on demographics
+- (PDF Report) Change most profitable hour to value instead of units
+- (PDF Report) Move some sections
+- Minor UI Fixes
+
+### Removed 
+
+
 ## [0.16.1] - 2020-07-14
 
 <br/>
