@@ -23,9 +23,9 @@ import ClientManageLocation from './ClientManageLocations';
 const { Column, HeaderCell, Cell } = Table;
 
 const InfoContainer = styled.div`
-  display: flex;
-    flex-direction: column;
+    display: flex;
     flex: 3;
+    flex-direction: column;
     margin: 0 2em 2em 2em;
 `;
 
@@ -34,6 +34,7 @@ const ClientsLabel = styled.p`
 `;
 const DataContainer = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
 `;
 

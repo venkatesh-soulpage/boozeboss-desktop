@@ -11,6 +11,7 @@ import { Button } from 'rsuite';
 const Column = styled.div`
   display: flex;
   flex: 1;
+  min-width: 300px;
   flex-direction: column;
   align-self: flex-start; 
   position: sticky;
