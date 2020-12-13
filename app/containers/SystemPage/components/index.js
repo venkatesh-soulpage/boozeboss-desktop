@@ -1,3 +1,3 @@
 import SystemMenuContainer from './SystemMenuContainer';
 
-export {SystemMenuContainer};
+export { SystemMenuContainer };

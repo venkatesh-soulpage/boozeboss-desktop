@@ -7,21 +7,26 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole, makeSelectUser } from '../../containers/App/selectors';
-import { logout, getUser } from '../../containers/App/actions'
+import {
+  makeSelectIsAuthenticated,
+  makeSelectScope,
+  makeSelectRole,
+  makeSelectUser,
+} from '../../containers/App/selectors';
+import { logout, getUser } from '../../containers/App/actions';
 
 const StyledLogo = styled.img`
   margin: -5px 0 0 0;
   max-width: 100px;
   height: auto;
-`
+`;
 
 const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   margin: -0.5em 0 0 0;
-`
+`;
 
 class Header extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -30,16 +35,15 @@ class Header extends React.Component {
     pathname: '/',
   };
 
-
   componentDidMount = () => {
-    const {getUser} = this.props;
+    const { getUser } = this.props;
     getUser();
-  }
+  };
 
   handleLogout = () => {
-    const {logout} = this.props;
+    const { logout } = this.props;
     logout();
-  }
+  };
 
   validateRoles = (scopesRequired, rolesRequired) => {
     const { isAuthenticated, scope, role } = this.props;
@@ -48,14 +52,14 @@ class Header extends React.Component {
     if (!isAuthenticated) return false;
 
     // Validate scopes required
-    if (scopesRequired.indexOf(scope) < 0 ) return false;
+    if (scopesRequired.indexOf(scope) < 0) return false;
 
     // Validate roles required
     if (rolesRequired.indexOf(role) < 0) return false;
 
-    // Anything else 
-    return true
-  }
+    // Anything else
+    return true;
+  };
 
   render() {
     const { isAuthenticated, user, scope, role } = this.props;
@@ -65,87 +69,154 @@ class Header extends React.Component {
         <Navbar.Body>
           <Nav activeKey={pathname}>
             <Link to="/">
-              <Nav.Item ><StyledLogo src={require('../../images/liquidintel/liquidintel_logo.png')} /></Nav.Item>
+              <Nav.Item>
+                <StyledLogo
+                  src={require('../../images/liquidintel/liquidintel_logo.png')}
+                />
+              </Nav.Item>
             </Link>
             {this.validateRoles(['REGION', 'BRAND'], ['OWNER', 'MANAGER']) && (
               <Link to="/dashboard">
                 <Nav.Item>Live Events</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['ADMIN', 'REGION'], ['ADMIN', 'OWNER', 'MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['ADMIN', 'REGION'],
+              ['ADMIN', 'OWNER', 'MANAGER'],
+            ) && (
               <Link to="/organizations">
                 <Nav.Item>Organizations</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['ADMIN', 'REGION'], ['ADMIN', 'OWNER', 'MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['ADMIN', 'REGION'],
+              ['ADMIN', 'OWNER', 'MANAGER'],
+            ) && (
               <Link to="/teams">
                 <Nav.Item>Teams</Nav.Item>
               </Link>
-            )} 
+            )}
             {this.validateRoles(['BRAND'], ['OWNER', 'MANAGER']) && (
               <Link to="/teams">
                 <Nav.Item>My Team</Nav.Item>
               </Link>
-            )} 
+            )}
             {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (
               <Link to="/agencies">
                 <Nav.Item>My organization</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['ADMIN','REGION', 'BRAND'], ['ADMIN', 'OWNER', 'MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['ADMIN', 'REGION', 'BRAND'],
+              ['ADMIN', 'OWNER', 'MANAGER'],
+            ) && (
               <Link to="/agencies">
                 <Nav.Item>Agencies</Nav.Item>
               </Link>
-            )} 
+            )}
             {this.validateRoles(['ADMIN'], ['ADMIN']) && (
               <Link to="/verification">
                 <Nav.Item>Verify Users</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['BRAND', 'AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['BRAND', 'AGENCY', 'REGION'],
+              ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER'],
+            ) && (
               <Link to="/products">
                 <Nav.Item>Products</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['BRAND', 'REGION'], ['OWNER', 'WAREHOUSE_MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['BRAND', 'REGION'],
+              ['OWNER', 'WAREHOUSE_MANAGER'],
+            ) && (
               <Link to="/stock">
                 <Nav.Item>Inventory</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['BRAND', 'AGENCY', 'REGION'],
+              ['OWNER', 'MANAGER'],
+            ) && (
               <Link to="/briefs">
                 <Nav.Item>Briefs</Nav.Item>
               </Link>
-            )} 
-            {this.validateRoles(['BRAND','AGENCY', 'REGION'], ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER']) && (
+            )}
+            {this.validateRoles(
+              ['BRAND', 'AGENCY', 'REGION'],
+              ['OWNER', 'MANAGER', 'WAREHOUSE_MANAGER'],
+            ) && (
               <Link to="/requisitions">
                 <Nav.Item>Requisitions</Nav.Item>
               </Link>
-            )} 
+            )}
             {this.validateRoles(['AGENCY'], ['OWNER', 'MANAGER']) && (
               <Link to="/events">
                 <Nav.Item>Events</Nav.Item>
               </Link>
-            )} 
-            
+            )}
+
+            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER']) && (
+              <Link to="/outletevents">
+                <Nav.Item>Events</Nav.Item>
+              </Link>
+            )}
+            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER']) && (
+              <Link to="/outletvenues">
+                <Nav.Item>Venues</Nav.Item>
+              </Link>
+            )}
           </Nav>
           {isAuthenticated ? (
             <Nav pullRight>
               {this.validateRoles(['ADMIN'], ['ADMIN']) && (
-                <Link to="/system">
-                  <Nav.Item>System</Nav.Item>
-                </Link>
-              )} 
-              <Dropdown 
+                <>
+                  <Link to="/system">
+                    <Nav.Item>System</Nav.Item>
+                  </Link>
+                </>
+              )}
+              <Dropdown
                 title={
                   <TitleSection>
-                    <span style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                      {user && user.location && <img style={{height: 20, width: 30 }} src={require(`../../images/flags/${user.location.name}.svg`)}/>}
-                      <b>{user ? `${user.first_name} ${user.last_name}` : 'More'}</b>
+                    <span
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {user &&
+                        user.location && (
+                          <img
+                            style={{ height: 20, width: 30 }}
+                            src={require(`../../images/flags/${
+                              user.location.name
+                            }.svg`)}
+                          />
+                        )}
+                      <b>
+                        {user ? `${user.first_name} ${user.last_name}` : 'More'}
+                      </b>
                     </span>
-                    <p>{scope} {role} {user && user.wallet && <span>{`(${user.wallet.balance})` }<Icon icon="circle" style={{color: '#c2b90a', margin: '0 0 0 0.5em'}}/></span>}</p>
+                    <p>
+                      {scope} {role}{' '}
+                      {user &&
+                        user.wallet && (
+                          <span>
+                            {`(${user.wallet.balance})`}
+                            <Icon
+                              icon="circle"
+                              style={{
+                                color: '#c2b90a',
+                                margin: '0 0 0 0.5em',
+                              }}
+                            />
+                          </span>
+                        )}
+                    </p>
                   </TitleSection>
-                  
                 }
                 placement="bottomEnd"
               >
@@ -177,18 +248,17 @@ const mapStateToProps = createStructuredSelector({
   isAuthenticated: makeSelectIsAuthenticated(),
   scope: makeSelectScope(),
   role: makeSelectRole(),
-  user: makeSelectUser()
+  user: makeSelectUser(),
 });
 
 const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logout()),
-    getUser: () => dispatch(getUser())
-})
-
+  logout: () => dispatch(logout()),
+  getUser: () => dispatch(getUser()),
+});
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 export default compose(withConnect)(Header);

@@ -5,9 +5,17 @@
  */
 
 import { fromJS } from 'immutable';
-import { 
-  GET_LOCATIONS_REQUEST, GET_LOCATIONS_SUCCESS, GET_LOCATIONS_ERROR,
-  ADD_LOCATION_REQUEST, ADD_LOCATION_SUCCESS, ADD_LOCATION_ERROR, DISMISS
+import {
+  GET_LOCATIONS_REQUEST,
+  GET_LOCATIONS_SUCCESS,
+  GET_LOCATIONS_ERROR,
+  ADD_LOCATION_REQUEST,
+  ADD_LOCATION_SUCCESS,
+  ADD_LOCATION_ERROR,
+  DISMISS,
+  INVITE_OUTLET_MANAGER_REQUEST,
+  INVITE_OUTLET_MANAGER_SUCCESS,
+  INVITE_OUTLET_MANAGER_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -30,8 +38,14 @@ function systemReducer(state = initialState, action) {
       return state.set('success', action.success);
     case ADD_LOCATION_ERROR:
       return state.set('error', action.error);
-    case DISMISS: 
+    case DISMISS:
       return state.set(action.dismiss_type, null);
+    case INVITE_OUTLET_MANAGER_REQUEST:
+      return state;
+    case INVITE_OUTLET_MANAGER_SUCCESS:
+      return state.set('success', action.success);
+    case INVITE_OUTLET_MANAGER_ERROR:
+      return state.set('error', action.error);
     default:
       return state;
   }

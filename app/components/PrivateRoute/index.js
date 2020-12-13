@@ -8,44 +8,78 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { makeSelectIsAuthenticated, makeSelectScope, makeSelectRole } from '../../containers/App/selectors';
+import {
+  makeSelectIsAuthenticated,
+  makeSelectScope,
+  makeSelectRole,
+} from '../../containers/App/selectors';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, scopesRequired, rolesRequired, scope, role, ...rest }) => (
+const PrivateRoute = ({
+  component: Component,
+  isAuthenticated,
+  scopesRequired,
+  rolesRequired,
+  scope,
+  role,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={props =>
       isAuthenticated ? (
         <React.Fragment>
-          {(scopesRequired && rolesRequired) && scopesRequired.indexOf(scope) > -1 && rolesRequired.indexOf(role) > -1 ? (
+          {scopesRequired &&
+          rolesRequired &&
+          scopesRequired.indexOf(scope) > -1 &&
+          rolesRequired.indexOf(role) > -1 ? (
             <Component {...props} />
           ) : (
             <React.Fragment>
-                {(scope === 'REGION' || scope === 'ADMIN') && (
-                  <Redirect
-                    to={{ pathname: '/organizations', state: { from: props.location } }}
-                  />
-                )}
-                {scope === 'BRAND' && (
-                  <React.Fragment>
-                    {role === 'WAREHOUSE_MANAGER' ? (
-                      <Redirect
-                        to={{ pathname: '/stock', state: { from: props.location } }}
-                      />
-                    ) : (
-                      <Redirect
-                        to={{ pathname: '/teams', state: { from: props.location } }}
-                      />
-                    )}
-                  </React.Fragment>
-                  
-                )}
-                {scope === 'AGENCY' && (
-                  <Redirect
-                    to={{ pathname: '/agencies', state: { from: props.location } }}
-                  />
-                )}
+              {(scope === 'REGION' || scope === 'ADMIN') && (
+                <Redirect
+                  to={{
+                    pathname: '/organizations',
+                    state: { from: props.location },
+                  }}
+                />
+              )}
+              {scope === 'BRAND' && (
+                <React.Fragment>
+                  {role === 'WAREHOUSE_MANAGER' ? (
+                    <Redirect
+                      to={{
+                        pathname: '/stock',
+                        state: { from: props.location },
+                      }}
+                    />
+                  ) : (
+                    <Redirect
+                      to={{
+                        pathname: '/teams',
+                        state: { from: props.location },
+                      }}
+                    />
+                  )}
+                </React.Fragment>
+              )}
+              {scope === 'AGENCY' && (
+                <Redirect
+                  to={{
+                    pathname: '/agencies',
+                    state: { from: props.location },
+                  }}
+                />
+              )}
+
+              {scope === 'OUTLET' && (
+                <Redirect
+                  to={{
+                    pathname: '/outletevents',
+                    state: { from: props.location },
+                  }}
+                />
+              )}
             </React.Fragment>
-            
           )}
         </React.Fragment>
       ) : (
@@ -66,14 +100,11 @@ PrivateRoute.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-    isAuthenticated: makeSelectIsAuthenticated(),
-    scope: makeSelectScope(),
-    role: makeSelectRole()
+  isAuthenticated: makeSelectIsAuthenticated(),
+  scope: makeSelectScope(),
+  role: makeSelectRole(),
 });
 
-const withConnect = connect(
-    mapStateToProps,
-);
+const withConnect = connect(mapStateToProps);
 
 export default compose(withConnect)(PrivateRoute);
-  

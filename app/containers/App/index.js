@@ -10,15 +10,11 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import injectReducer from 'utils/injectReducer';
 
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+
 import injectSaga from 'utils/injectSaga';
-import saga from './saga';
+
 // import { makeSelectIsAuthenticated } from './selectors';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -36,10 +32,13 @@ import BriefPage from 'containers/BriefPage/Loadable';
 import RequisitionPage from 'containers/RequisitionPage/Loadable';
 import WarehousePage from 'containers/WarehousePage/Loadable';
 import ProductPage from 'containers/ProductPage/Loadable';
-import EventPage from 'containers/EventPage/Loadable'
-import Dashboard from 'containers/Dashboard/Loadable'
+import EventPage from 'containers/EventPage/Loadable';
+import Dashboard from 'containers/Dashboard/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import SystemPage from 'containers/SystemPage/Loadable';
+import OutletEventsPage from 'containers/OutletEventsPage/Loadable';
+import OutletVenuesPage from 'containers/OutletVenuesPage/Loadable';
+import OutletSignup from 'containers/OutletSignup/Loadable';
 import Changelog from 'containers/Changelog';
 import Privacy from 'containers/Privacy';
 import Terms from 'containers/Terms';
@@ -49,6 +48,7 @@ import VersioningMenu from 'components/VersioningMenu';
 import IntercomChat from 'components/IntercomChat';
 import PrivateRoute from 'components/PrivateRoute';
 import GuardedRoute from 'components/GuardedRoute';
+import saga from './saga';
 
 import GlobalStyle from '../../global-styles';
 // import default style
@@ -64,10 +64,15 @@ const AppWrapper = styled.div`
 `;
 
 class App extends React.Component {
+  state = {};
+
   render() {
     return (
       <AppWrapper>
-        <Helmet titleTemplate="%s - Enterprise LiquidIntel" defaultTitle="Enterprise LiquidIntel">
+        <Helmet
+          titleTemplate="%s - Enterprise LiquidIntel"
+          defaultTitle="Enterprise LiquidIntel"
+        >
           <meta name="description" content="Enterprise LiquidIntel" />
         </Helmet>
         <Header />
@@ -141,6 +146,7 @@ class App extends React.Component {
             scopesRequired={['AGENCY']}
             rolesRequired={['OWNER', 'MANAGER']}
           />
+
           <PrivateRoute
             exact
             path="/products"
@@ -155,10 +161,28 @@ class App extends React.Component {
             scopesRequired={['BRAND', 'REGION']}
             rolesRequired={['OWNER', 'WAREHOUSE_MANAGER']}
           />
+          <PrivateRoute
+            exact
+            path="/outletevents"
+            component={OutletEventsPage}
+            scopesRequired={['OUTLET']}
+            rolesRequired={['MANAGER']}
+          />
+          <PrivateRoute
+            exact
+            path="/outletvenues"
+            component={OutletVenuesPage}
+            scopesRequired={['OUTLET']}
+            rolesRequired={['MANAGER']}
+          />
           <GuardedRoute path="/login" component={LoginPage} />
-          <GuardedRoute path="/organization-signup" component={OrganizationSignupPage} />
+          <GuardedRoute
+            path="/organization-signup"
+            component={OrganizationSignupPage}
+          />
           <GuardedRoute path="/client-signup" component={ClientSignupPage} />
           <GuardedRoute path="/agency-signup" component={AgencySignupPage} />
+          <GuardedRoute path="/outlet-signup" component={OutletSignup} />
           <GuardedRoute path="/forgot" component={ForgotPasswordPage} />
           <GuardedRoute path="/reset" component={ResetPasswordPage} />
           <Route path="/changelog" component={Changelog} />
