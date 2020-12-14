@@ -60,7 +60,8 @@ export default class OutletEventsForm extends Component {
     comments: '',
     address: '',
     location_id: '',
-    cover_image: '',
+    cover_image: [],
+    description: '',
     showVenueModal: false,
     menu: [],
   };
@@ -97,7 +98,7 @@ export default class OutletEventsForm extends Component {
       if (!name || !start_time || !end_time || !location_id)
         return Alert.error('Missing Fields', 2000);
 
-      const url = await this.fileToBase64(cover_image);
+      const url = await this.fileToBase64(cover_image[0].blobFile);
       this.props.addEventRequest({
         name,
         start_time,
@@ -105,7 +106,7 @@ export default class OutletEventsForm extends Component {
         location_id,
         comments,
         address,
-        cover_image: { name: cover_image.name, data: url },
+        cover_image: { name: cover_image[0].blobFile.name, data: url },
         description,
         expected_guests,
         expected_hourly_guests,
@@ -128,7 +129,7 @@ export default class OutletEventsForm extends Component {
       address: '',
       location_id: '',
       description: '',
-      cover_image: '',
+      cover_image: [],
       menu: [],
     });
   };
@@ -283,14 +284,12 @@ export default class OutletEventsForm extends Component {
               autoUpload={false}
               multiple={false}
               onChange={value => {
-                this.handleChange(
-                  value.length ? value[0].blobFile : '',
-                  'cover_image',
-                );
+                this.handleChange(value, 'cover_image');
               }}
               ref={ref => {
                 this.uploader = ref;
               }}
+              fileList={this.state.cover_image}
               disabled={!outletevents[currentOutletEvent].isDraft}
             >
               <button type="button">
@@ -362,14 +361,34 @@ export default class OutletEventsForm extends Component {
                 <Button
                   onClick={() => {
                     const qrCode = document.querySelector('#menu-qr');
+                    const options = {
+                      orientation: 'p',
+                      unit: 'mm',
+                    };
+                    const doc = new jsPDF(options);
+                    const pdfWidth = doc.internal.pageSize.getWidth();
 
-                    const doc = new jsPDF('p', 'pt', 'letter');
+                    doc.addImage(
+                      qrCode.src,
+                      'PNG',
+                      pdfWidth / 2 - 50,
+                      0,
+                      100,
+                      100,
+                    );
 
-                    doc.addImage(qrCode.src, 'png', 50, 40, 250, 250);
-                    doc.addFont('ArialMS', 'Arial', 'normal');
-                    doc.setFont('Arial');
-                    doc.setFontSize(25);
-                    doc.text(name, 100, 300);
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(20);
+
+                    doc.text(
+                      name,
+                      pdfWidth / 2 - doc.getTextWidth(name) / 2,
+                      101,
+                      {
+                        align: 'justify',
+                      },
+                    );
+
                     doc.save(`${name}.pdf`);
                   }}
                 >

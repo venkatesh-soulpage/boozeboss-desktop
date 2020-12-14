@@ -57,7 +57,7 @@ export default class OutletVenuesForm extends Component {
       latitude: '',
       longitude: '',
       description: '',
-      cover_image: '',
+      cover_image: [],
       menu: [],
       showVenueModal: false,
     };
@@ -80,7 +80,7 @@ export default class OutletVenuesForm extends Component {
         cover_image,
       } = this.state;
 
-      const url = await this.fileToBase64(cover_image);
+      const url = await this.fileToBase64(cover_image[0].blobFile);
 
       addVenueRequest({
         name,
@@ -89,7 +89,7 @@ export default class OutletVenuesForm extends Component {
         longitude,
         description,
         address,
-        cover_image: { name: cover_image.name, data: url },
+        cover_image: { name: cover_image[0].blobFile.name, data: url },
       });
       this.reset();
     } else {
@@ -105,7 +105,7 @@ export default class OutletVenuesForm extends Component {
       latitude: '',
       longitude: '',
       description: '',
-      cover_image: '',
+      cover_image: [],
     });
   };
 
@@ -234,14 +234,12 @@ export default class OutletVenuesForm extends Component {
               autoUpload={false}
               multiple={false}
               onChange={value => {
-                this.handleChange(
-                  value.length ? value[0].blobFile : '',
-                  'cover_image',
-                );
+                this.handleChange(value, 'cover_image');
               }}
               ref={ref => {
                 this.uploader = ref;
               }}
+              fileList={this.state.cover_image}
             >
               <button type="button">
                 <Icon icon="camera-retro" size="lg" />
@@ -302,11 +300,34 @@ export default class OutletVenuesForm extends Component {
                 <Button
                   onClick={() => {
                     const qrCode = document.querySelector('#menu-qr');
-                    const doc = new jsPDF('p', 'pt', 'letter');
+                    const options = {
+                      orientation: 'p',
+                      unit: 'mm',
+                    };
+                    const doc = new jsPDF(options);
+                    const pdfWidth = doc.internal.pageSize.getWidth();
 
-                    doc.addImage(qrCode.src, 'png', 50, 40, 250, 250);
-                    doc.setFontSize(25);
-                    doc.text(name, 50, 300);
+                    doc.addImage(
+                      qrCode.src,
+                      'PNG',
+                      pdfWidth / 2 - 50,
+                      0,
+                      100,
+                      100,
+                    );
+
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(20);
+
+                    doc.text(
+                      name,
+                      pdfWidth / 2 - doc.getTextWidth(name) / 2,
+                      101,
+                      {
+                        align: 'justify',
+                      },
+                    );
+
                     doc.save(`${name}.pdf`);
                   }}
                 >
