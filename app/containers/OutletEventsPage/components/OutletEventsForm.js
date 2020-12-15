@@ -16,6 +16,8 @@ import {
   Uploader,
 } from 'rsuite';
 
+import _ from 'lodash';
+
 import Papa from 'papaparse';
 
 import { jsPDF } from 'jspdf';
@@ -151,12 +153,17 @@ export default class OutletEventsForm extends Component {
     const { addMenuRequest, currentOutletEvent, outletevents } = this.props;
     const { data: menu } = data;
     const { id } = outletevents[currentOutletEvent];
-    addMenuRequest(id, menu);
-    // this.setState({ menu: [] });
+    addMenuRequest(id, _.reject(menu, { name: '' }));
+    this.setState({ menu: [] });
   };
 
   render() {
-    const { outletevents, currentOutletEvent, outletlocations } = this.props;
+    const {
+      outletevents,
+      currentOutletEvent,
+      outletlocations,
+      updateEventRequest,
+    } = this.props;
 
     const {
       name,
@@ -415,6 +422,7 @@ export default class OutletEventsForm extends Component {
                 toggleModal={this.toggleModal}
                 data={outletevents[currentOutletEvent]}
                 outletlocations={outletlocations}
+                updateEventRequest={updateEventRequest}
               />
             )}
           </FieldContainer>
@@ -428,4 +436,5 @@ OutletEventsForm.propTypes = {
   addEventRequest: PropTypes.func,
   outletevents: PropTypes.array,
   currentOutletEvent: PropTypes.number,
+  updateEventRequest: PropTypes.func,
 };

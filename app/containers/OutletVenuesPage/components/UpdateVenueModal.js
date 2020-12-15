@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { Modal, Button, Input, TreePicker } from 'rsuite';
+import { Modal, Button, Input, TreePicker, Uploader, Icon } from 'rsuite';
 
 import 'react-phone-input-2/lib/style.css';
 import styled from 'styled-components';
@@ -28,11 +28,13 @@ export default class UpdateVenueModal extends React.Component {
     super(props);
     this.state = {
       show: false,
+      id: '',
       name: '',
       location_id: '',
       address: '',
       latitude: '',
       longitude: '',
+      cover_image: [],
     };
   }
 
@@ -57,9 +59,46 @@ export default class UpdateVenueModal extends React.Component {
     this.setState({ [name]: value });
   };
 
+  fileToBase64 = async file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = e => reject(e);
+    });
+
   update = async () => {
     const { updateVenueRequest } = this.props;
-    await updateVenueRequest(this.state);
+    const {
+      id,
+      name,
+      address,
+      latitude,
+      longitude,
+      location_id,
+      description,
+    } = this.state;
+    let cover_image;
+
+    if (Array.isArray(this.state.cover_image)) {
+      const url = await this.fileToBase64(this.state.cover_image[0].blobFile);
+      cover_image = {
+        name: this.state.cover_image[0].blobFile.name,
+        data: url,
+      };
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      cover_image = this.state.cover_image;
+    }
+    await updateVenueRequest(id, {
+      name,
+      address,
+      latitude,
+      longitude,
+      location_id,
+      description,
+      cover_image,
+    });
     return this.close();
   };
 
@@ -73,6 +112,7 @@ export default class UpdateVenueModal extends React.Component {
       latitude,
       longitude,
       location_id,
+      description,
     } = this.state;
 
     return (
@@ -114,6 +154,17 @@ export default class UpdateVenueModal extends React.Component {
               />
             </FieldContainer>
 
+            <FieldContainer>
+              <FieldLabel>Description </FieldLabel>
+              <Input
+                componentClass="textarea"
+                rows={2}
+                style={{ resize: 'auto' }}
+                onChange={value => this.handleChange(value, 'description')}
+                value={description}
+              />
+            </FieldContainer>
+
             <FieldRow>
               <FieldContainer>
                 <FieldLabel>Longitude</FieldLabel>
@@ -130,6 +181,25 @@ export default class UpdateVenueModal extends React.Component {
                 />
               </FieldContainer>
             </FieldRow>
+
+            <FieldContainer>
+              <FieldLabel>Cover Image</FieldLabel>
+              <Uploader
+                listType="picture-text"
+                autoUpload={false}
+                multiple={false}
+                onChange={value => {
+                  this.handleChange(value, 'cover_image');
+                }}
+                ref={ref => {
+                  this.uploader = ref;
+                }}
+              >
+                <button type="button">
+                  <Icon icon="camera-retro" size="lg" />
+                </button>
+              </Uploader>
+            </FieldContainer>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.update} color="green">

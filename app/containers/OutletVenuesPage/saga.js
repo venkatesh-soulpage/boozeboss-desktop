@@ -12,6 +12,10 @@ import {
   getLocationsError,
   addMenuError,
   addMenuSuccess,
+  updateVenueSuccess,
+  updateVenueError,
+  deleteVenueSuccess,
+  deleteVenueError,
 } from './actions';
 
 import {
@@ -21,6 +25,10 @@ import {
   GET_LOCATIONS_REQUEST,
   ADD_MENU_REQUEST,
   ADD_MENU_SUCCESS,
+  UPDATE_VENUE_REQUEST,
+  DELETE_VENUE_REQUEST,
+  UPDATE_VENUE_SUCCESS,
+  DELETE_VENUE_SUCCESS,
 } from './constants';
 
 function* getVenuesSaga() {
@@ -95,6 +103,43 @@ function* addMenuSaga(params) {
   }
 }
 
+function* updateEventSaga(params) {
+  const { venueId, venue } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/outletvenues/${venueId}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(venue),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateVenueSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateVenueError(jsonError));
+  }
+}
+
+function* deleteEventSaga(params) {
+  const { venueId } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/outletvenues/${venueId}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(deleteVenueSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(deleteVenueError(jsonError));
+  }
+}
+
 function* getVenuesRequest() {
   yield takeLatest(GET_VENUES_REQUEST, getVenuesSaga);
 }
@@ -118,6 +163,23 @@ function* addMenuSuccessRequest() {
 function* addMenuRequest() {
   yield takeLatest(ADD_MENU_REQUEST, addMenuSaga);
 }
+
+function* updateVenueRequest() {
+  yield takeLatest(UPDATE_VENUE_REQUEST, updateEventSaga);
+}
+
+function* updateVenueSuccessRequest() {
+  yield takeLatest(UPDATE_VENUE_SUCCESS, getVenuesSaga);
+}
+
+function* deleteVenueRequest() {
+  yield takeLatest(DELETE_VENUE_REQUEST, deleteEventSaga);
+}
+
+function* deleteVenueSuccessRequest() {
+  yield takeLatest(DELETE_VENUE_SUCCESS, getVenuesSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(addVenueRequest),
@@ -126,5 +188,9 @@ export default function* rootSaga() {
     fork(getLocationsRequest),
     fork(addMenuSuccessRequest),
     fork(addMenuRequest),
+    fork(updateVenueRequest),
+    fork(updateVenueSuccessRequest),
+    fork(deleteVenueRequest),
+    fork(deleteVenueSuccessRequest),
   ]);
 }

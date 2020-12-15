@@ -21,6 +21,8 @@ import {
   addEventRequest,
   getLocationsRequest,
   addMenuRequest,
+  updateEventRequest,
+  deleteEventRequest,
 } from './actions';
 
 export class OutletEventsPage extends React.Component {
@@ -61,6 +63,9 @@ function mapDispatchToProps(dispatch) {
     addEventRequest: event => dispatch(addEventRequest(event)),
     getLocationsRequest: () => dispatch(getLocationsRequest()),
     addMenuRequest: (eventId, menu) => dispatch(addMenuRequest(eventId, menu)),
+    updateEventRequest: (eventId, event) =>
+      dispatch(updateEventRequest(eventId, event)),
+    deleteEventRequest: eventId => dispatch(deleteEventRequest(eventId)),
   };
 }
 

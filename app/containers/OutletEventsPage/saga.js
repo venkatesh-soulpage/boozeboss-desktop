@@ -11,6 +11,10 @@ import {
   getLocationsError,
   addMenuError,
   addMenuSuccess,
+  updateEventSuccess,
+  updateEventError,
+  deleteEventSuccess,
+  deleteEventError,
 } from './actions';
 
 import {
@@ -20,6 +24,10 @@ import {
   GET_LOCATIONS_REQUEST,
   ADD_MENU_REQUEST,
   ADD_MENU_SUCCESS,
+  UPDATE_EVENT_REQUEST,
+  DELETE_EVENT_REQUEST,
+  UPDATE_EVENT_SUCCESS,
+  DELETE_EVENT_SUCCESS,
 } from './constants';
 
 function* getEventsSaga() {
@@ -75,7 +83,6 @@ function* getLocationsSaga() {
 }
 
 function* addMenuSaga(params) {
-  console.log(params);
   const { eventId, menu } = params;
   const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
     process.env.API_PORT
@@ -91,6 +98,43 @@ function* addMenuSaga(params) {
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(addMenuError(jsonError));
+  }
+}
+
+function* updateEventSaga(params) {
+  const { eventId, event } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/outletevents/${eventId}`;
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(event),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(updateEventSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(updateEventError(jsonError));
+  }
+}
+
+function* deleteEventSaga(params) {
+  const { eventId } = params;
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/outletevents/${eventId}`;
+  const options = {
+    method: 'DELETE',
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(deleteEventSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(deleteEventError(jsonError));
   }
 }
 
@@ -118,6 +162,22 @@ function* addMenuRequest() {
   yield takeLatest(ADD_MENU_REQUEST, addMenuSaga);
 }
 
+function* updateEventRequest() {
+  yield takeLatest(UPDATE_EVENT_REQUEST, updateEventSaga);
+}
+
+function* updateEventSuccessRequest() {
+  yield takeLatest(UPDATE_EVENT_SUCCESS, getEventsSaga);
+}
+
+function* deleteEventRequest() {
+  yield takeLatest(DELETE_EVENT_REQUEST, deleteEventSaga);
+}
+
+function* deleteEventSuccessRequest() {
+  yield takeLatest(DELETE_EVENT_SUCCESS, getEventsSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getEventsRequest),
@@ -126,5 +186,9 @@ export default function* rootSaga() {
     fork(getLocationsRequest),
     fork(addMenuSuccessRequest),
     fork(addMenuRequest),
+    fork(updateEventRequest),
+    fork(deleteEventRequest),
+    fork(updateEventSuccessRequest),
+    fork(deleteEventSuccessRequest),
   ]);
 }

@@ -19,6 +19,12 @@ import {
   ADD_MENU_REQUEST,
   ADD_MENU_SUCCESS,
   ADD_MENU_ERROR,
+  UPDATE_VENUE_REQUEST,
+  UPDATE_VENUE_SUCCESS,
+  UPDATE_VENUE_ERROR,
+  DELETE_VENUE_REQUEST,
+  DELETE_VENUE_SUCCESS,
+  DELETE_VENUE_ERROR,
 } from './constants';
 
 export function addOutletVenueDraft() {
@@ -110,6 +116,53 @@ export function addMenuError(error) {
   status(error, 'error');
   return {
     type: ADD_MENU_ERROR,
+    error,
+  };
+}
+
+export function updateVenueRequest(venueId, venue) {
+  return {
+    type: UPDATE_VENUE_REQUEST,
+    venueId,
+    venue,
+  };
+}
+
+export function updateVenueSuccess(success) {
+  status(success, 'success');
+  return {
+    type: UPDATE_VENUE_SUCCESS,
+    success,
+  };
+}
+
+export function updateVenueError(error) {
+  status(error, 'error');
+  return {
+    type: UPDATE_VENUE_ERROR,
+    error,
+  };
+}
+
+export function deleteVenueRequest(venueId) {
+  return {
+    type: DELETE_VENUE_REQUEST,
+    venueId,
+  };
+}
+
+export function deleteVenueSuccess(success) {
+  status(success, 'success');
+  return {
+    type: DELETE_VENUE_SUCCESS,
+    success,
+  };
+}
+
+export function deleteVenueError(error) {
+  status(error, 'error');
+  return {
+    type: DELETE_VENUE_ERROR,
     error,
   };
 }

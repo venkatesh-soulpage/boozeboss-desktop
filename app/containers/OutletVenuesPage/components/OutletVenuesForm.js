@@ -133,7 +133,12 @@ export default class OutletVenuesForm extends Component {
   };
 
   render() {
-    const { outletvenues, currentOutletVenue, outletlocations } = this.props;
+    const {
+      outletvenues,
+      currentOutletVenue,
+      outletlocations,
+      updateVenueRequest,
+    } = this.props;
     const {
       name,
       address,
@@ -241,6 +246,7 @@ export default class OutletVenuesForm extends Component {
                 this.uploader = ref;
               }}
               fileList={this.state.cover_image}
+              disabled={!outletvenues[currentOutletVenue].isDraft}
             >
               <button type="button">
                 <Icon icon="camera-retro" size="lg" />
@@ -354,6 +360,7 @@ export default class OutletVenuesForm extends Component {
                 toggleModal={this.toggleModal}
                 data={outletvenues[currentOutletVenue]}
                 outletlocations={outletlocations}
+                updateVenueRequest={updateVenueRequest}
               />
             )}
           </FieldContainer>

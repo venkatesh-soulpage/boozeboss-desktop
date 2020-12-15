@@ -38,6 +38,7 @@ export default class UpdateEventModal extends React.Component {
     super(props);
     this.state = {
       show: false,
+      id: '',
       name: '',
       start_time: '',
       end_time: '',
@@ -81,14 +82,59 @@ export default class UpdateEventModal extends React.Component {
     return this.setState({ [name]: value });
   };
 
+  fileToBase64 = async file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = e => reject(e);
+    });
+
   update = async () => {
     const { updateEventRequest } = this.props;
-    await updateEventRequest(this.state);
+    const {
+      id,
+      name,
+      start_time,
+      end_time,
+      expected_guests,
+      expected_hourly_guests,
+      comments,
+      address,
+      location_id,
+      description,
+    } = this.state;
+
+    let cover_image;
+
+    if (Array.isArray(this.state.cover_image)) {
+      const url = await this.fileToBase64(this.state.cover_image[0].blobFile);
+      cover_image = {
+        name: this.state.cover_image[0].blobFile.name,
+        data: url,
+      };
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      cover_image = this.state.cover_image;
+    }
+    await updateEventRequest(id, {
+      name,
+      start_time,
+      end_time,
+      expected_guests,
+      expected_hourly_guests,
+      comments,
+      address,
+      location_id,
+      description,
+      cover_image,
+    });
     return this.close();
   };
 
   render() {
     const { outletlocations } = this.props;
+
     const {
       show,
       name,

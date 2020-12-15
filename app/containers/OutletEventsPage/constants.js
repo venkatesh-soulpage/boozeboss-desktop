@@ -22,3 +22,11 @@ export const GET_LOCATIONS_ERROR = 'app/OutletEventsPage/GET_LOCATIONS_ERROR';
 export const ADD_MENU_REQUEST = 'app/OutletEventsPage/ADD_MENU_REQUEST';
 export const ADD_MENU_SUCCESS = 'app/OutletEventsPage/ADD_MENU_SUCCESS';
 export const ADD_MENU_ERROR = 'app/OutletEventsPage/ADD_MENU_ERROR';
+
+export const UPDATE_EVENT_REQUEST = 'app/OutletEventsPage/UPDATE_EVENT_REQUEST';
+export const UPDATE_EVENT_SUCCESS = 'app/OutletEventsPage/UPDATE_EVENT_SUCCESS';
+export const UPDATE_EVENT_ERROR = 'app/OutletEventsPage/UPDATE_EVENT_ERROR';
+
+export const DELETE_EVENT_REQUEST = 'app/OutletEventsPage/DELETE_EVENT_REQUEST';
+export const DELETE_EVENT_SUCCESS = 'app/OutletEventsPage/DELETE_EVENT_SUCCESS';
+export const DELETE_EVENT_ERROR = 'app/OutletEventsPage/DELETE_EVENT_ERROR';

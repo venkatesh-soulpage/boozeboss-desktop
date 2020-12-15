@@ -22,3 +22,11 @@ export const GET_LOCATIONS_ERROR = 'app/OutletVenuesPage/GET_LOCATIONS_ERROR';
 export const ADD_MENU_REQUEST = 'app/OutletVenuesPage/ADD_MENU_REQUEST';
 export const ADD_MENU_SUCCESS = 'app/OutletVenuesPage/ADD_MENU_SUCCESS';
 export const ADD_MENU_ERROR = 'app/OutletVenuesPage/ADD_MENU_ERROR';
+
+export const UPDATE_VENUE_REQUEST = 'app/OutletVenuesPage/UPDATE_VENUE_REQUEST';
+export const UPDATE_VENUE_SUCCESS = 'app/OutletVenuesPage/UPDATE_VENUE_SUCCESS';
+export const UPDATE_VENUE_ERROR = 'app/OutletVenuesPage/UPDATE_VENUE_ERROR';
+
+export const DELETE_VENUE_REQUEST = 'app/OutletVenuesPage/DELETE_VENUE_REQUEST';
+export const DELETE_VENUE_SUCCESS = 'app/OutletVenuesPage/DELETE_VENUE_SUCCESS';
+export const DELETE_VENUE_ERROR = 'app/OutletVenuesPage/DELETE_VENUE_ERROR';
