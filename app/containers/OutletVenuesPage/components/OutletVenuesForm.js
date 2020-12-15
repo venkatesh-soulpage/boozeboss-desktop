@@ -16,6 +16,7 @@ import {
 
 import Papa from 'papaparse';
 import { jsPDF } from 'jspdf';
+import _ from 'lodash';
 
 import UpdateVenueModal from './UpdateVenueModal';
 
@@ -127,7 +128,7 @@ export default class OutletVenuesForm extends Component {
     const { data: menu } = data;
     const { id } = outletvenues[currentOutletVenue];
 
-    addMenuRequest(id, menu);
+    addMenuRequest(id, _.reject(menu, { name: '' }));
     this.setState({ menu: [] });
   };
 
