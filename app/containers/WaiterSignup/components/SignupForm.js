@@ -115,7 +115,16 @@ export default class SignupForm extends Component {
       outlet_event,
       outlet_venue,
     });
-    return null;
+    return this.setState({
+      email: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      date_of_birth: '',
+      password: '',
+      gender: '',
+      confirm: '',
+    });
   };
 
   render() {
@@ -130,9 +139,6 @@ export default class SignupForm extends Component {
       confirm,
     } = this.state;
 
-    if (success) {
-      Alert.success('Succesfully Registered', 2500);
-    }
     return (
       <StyledContainer>
         <h4>You have been invited to join LiquidIntel</h4>

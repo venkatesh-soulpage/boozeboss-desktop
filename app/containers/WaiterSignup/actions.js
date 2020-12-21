@@ -14,9 +14,11 @@ export function signup(auth) {
   };
 }
 
+// eslint-disable-next-line no-unused-vars
 export function signupSuccess(credentials) {
-  localStorage.setItem('jwt', credentials.token);
-  localStorage.setItem('refresh_token', credentials.refresh_token);
+  // localStorage.setItem('jwt', credentials.token);
+  // localStorage.setItem('refresh_token', credentials.refresh_token);
+  status('Successfully Registered', 'success');
   return {
     type: SIGNUP_SUCCESS,
   };

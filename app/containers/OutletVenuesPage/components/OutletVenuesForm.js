@@ -384,7 +384,7 @@ export default class OutletVenuesForm extends Component {
                 color="green"
                 onClick={() => this.setState({ inviteModal: true })}
               >
-                + Invite Waiter
+                + Invite Collaborator
               </Button>
               <Modal
                 show={this.state.inviteModal}
