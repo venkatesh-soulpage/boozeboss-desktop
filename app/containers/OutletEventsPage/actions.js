@@ -25,6 +25,9 @@ import {
   DELETE_EVENT_REQUEST,
   DELETE_EVENT_SUCCESS,
   DELETE_EVENT_ERROR,
+  INVITE_OUTLET_WAITER_REQUEST,
+  INVITE_OUTLET_WAITER_SUCCESS,
+  INVITE_OUTLET_WAITER_ERROR,
 } from './constants';
 
 export function addOutletEventDraft() {
@@ -163,6 +166,29 @@ export function deleteEventError(error) {
   status(error, 'error');
   return {
     type: DELETE_EVENT_ERROR,
+    error,
+  };
+}
+
+export function inviteOutletWaiter(invite) {
+  return {
+    type: INVITE_OUTLET_WAITER_REQUEST,
+    invite,
+  };
+}
+
+export function inviteOutletWaiterSuccess(success) {
+  status(success, 'success');
+  return {
+    type: INVITE_OUTLET_WAITER_SUCCESS,
+    success,
+  };
+}
+
+export function inviteOutletWaiterError(error) {
+  status(error, 'error');
+  return {
+    type: INVITE_OUTLET_WAITER_ERROR,
     error,
   };
 }

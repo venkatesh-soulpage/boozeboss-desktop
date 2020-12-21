@@ -12,6 +12,8 @@ import {
   Icon,
   TreePicker,
   Uploader,
+  Modal,
+  Alert,
 } from 'rsuite';
 
 import Papa from 'papaparse';
@@ -61,6 +63,10 @@ export default class OutletVenuesForm extends Component {
       cover_image: [],
       menu: [],
       showVenueModal: false,
+      inviteModal: false,
+      owner_email: '',
+      display_name: '',
+      custom_message: '',
     };
   }
 
@@ -131,6 +137,33 @@ export default class OutletVenuesForm extends Component {
 
     addMenuRequest(id, _.reject(menu, { '': '' }));
     this.setState({ menu: [] });
+  };
+
+  inviteOutletWaiter = () => {
+    const { owner_email, display_name, custom_message } = this.state;
+    const { outletvenues, currentOutletVenue, inviteOutletWaiter } = this.props;
+
+    const { id: outlet_venue } = outletvenues[currentOutletVenue];
+
+    if (!owner_email) return Alert.error('Missing Fields', 2500);
+
+    inviteOutletWaiter({
+      owner_email,
+      display_name,
+      custom_message,
+      outlet_venue,
+    });
+
+    return this.closeInviteModal();
+  };
+
+  closeInviteModal = () => {
+    this.setState({
+      inviteModal: false,
+      owner_email: '',
+      display_name: '',
+      custom_message: '',
+    });
   };
 
   render() {
@@ -343,6 +376,67 @@ export default class OutletVenuesForm extends Component {
                 </Button>
               </FieldContainer>
             </FieldRow>
+          )}
+          {!outletvenues[currentOutletVenue].isDraft && (
+            <FieldContainer>
+              <Button
+                block
+                color="green"
+                onClick={() => this.setState({ inviteModal: true })}
+              >
+                + Invite Waiter
+              </Button>
+              <Modal
+                show={this.state.inviteModal}
+                onHide={() => {
+                  this.setState({ inviteModal: false });
+                }}
+              >
+                <Modal.Body>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Owner Email(Required)</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'owner_email')
+                        }
+                        value={this.state.owner_email}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Display Name</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'display_name')
+                        }
+                        value={this.state.display_name}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Custom Message</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'custom_message')
+                        }
+                        value={this.state.custom_message}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.inviteOutletWaiter} color="green">
+                    Invite
+                  </Button>
+                  <Button onClick={this.closeInviteModal} appearance="subtle">
+                    Cancel
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </FieldContainer>
           )}
           <FieldContainer>
             {outletvenues[currentOutletVenue].isDraft ? (

@@ -14,7 +14,7 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectError } from './selectors';
+import { makeSelectError, makeSelectSuccess } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { signup } from './actions';
@@ -41,6 +41,7 @@ WaiterSignup.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  success: makeSelectSuccess(),
   error: makeSelectError(),
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { call, put, takeLatest, fork, all } from 'redux-saga/effects';
 
 import request from 'utils/request';
@@ -15,6 +16,8 @@ import {
   updateEventError,
   deleteEventSuccess,
   deleteEventError,
+  inviteOutletWaiterSuccess,
+  inviteOutletWaiterError,
 } from './actions';
 
 import {
@@ -28,6 +31,7 @@ import {
   DELETE_EVENT_REQUEST,
   UPDATE_EVENT_SUCCESS,
   DELETE_EVENT_SUCCESS,
+  INVITE_OUTLET_WAITER_REQUEST,
 } from './constants';
 
 function* getEventsSaga() {
@@ -138,6 +142,36 @@ function* deleteEventSaga(params) {
   }
 }
 
+function* inviteOutletWaiterSaga(params) {
+  const {
+    owner_email,
+    display_name,
+    custom_message,
+    outlet_event,
+  } = params.invite;
+
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/auth/invite-outlet-waiter`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      owner_email,
+      display_name,
+      custom_message,
+      outlet_event,
+    }),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(inviteOutletWaiterSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(inviteOutletWaiterError(jsonError));
+  }
+}
+
 function* getEventsRequest() {
   yield takeLatest(GET_EVENTS_REQUEST, getEventsSaga);
 }
@@ -178,6 +212,10 @@ function* deleteEventSuccessRequest() {
   yield takeLatest(DELETE_EVENT_SUCCESS, getEventsSaga);
 }
 
+function* inviteOutletWaiterRequest() {
+  yield takeLatest(INVITE_OUTLET_WAITER_REQUEST, inviteOutletWaiterSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(getEventsRequest),
@@ -190,5 +228,6 @@ export default function* rootSaga() {
     fork(deleteEventRequest),
     fork(updateEventSuccessRequest),
     fork(deleteEventSuccessRequest),
+    fork(inviteOutletWaiterRequest),
   ]);
 }

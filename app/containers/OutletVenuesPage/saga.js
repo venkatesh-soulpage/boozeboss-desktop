@@ -16,6 +16,8 @@ import {
   updateVenueError,
   deleteVenueSuccess,
   deleteVenueError,
+  inviteOutletWaiterSuccess,
+  inviteOutletWaiterError,
 } from './actions';
 
 import {
@@ -29,6 +31,7 @@ import {
   DELETE_VENUE_REQUEST,
   UPDATE_VENUE_SUCCESS,
   DELETE_VENUE_SUCCESS,
+  INVITE_OUTLET_WAITER_REQUEST,
 } from './constants';
 
 function* getVenuesSaga() {
@@ -140,6 +143,36 @@ function* deleteEventSaga(params) {
   }
 }
 
+function* inviteOutletWaiterSaga(params) {
+  const {
+    owner_email,
+    display_name,
+    custom_message,
+    outlet_venue,
+  } = params.invite;
+
+  const requestURL = `${process.env.API_SCHEMA}://${process.env.API_HOST}:${
+    process.env.API_PORT
+  }/api/auth/invite-outlet-waiter`;
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      owner_email,
+      display_name,
+      custom_message,
+      outlet_venue,
+    }),
+  };
+
+  try {
+    const response = yield call(request, requestURL, options);
+    yield put(inviteOutletWaiterSuccess(response));
+  } catch (error) {
+    const jsonError = yield error.response ? error.response.json() : error;
+    yield put(inviteOutletWaiterError(jsonError));
+  }
+}
+
 function* getVenuesRequest() {
   yield takeLatest(GET_VENUES_REQUEST, getVenuesSaga);
 }
@@ -180,6 +213,10 @@ function* deleteVenueSuccessRequest() {
   yield takeLatest(DELETE_VENUE_SUCCESS, getVenuesSaga);
 }
 
+function* inviteOutletWaiterRequest() {
+  yield takeLatest(INVITE_OUTLET_WAITER_REQUEST, inviteOutletWaiterSaga);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(addVenueRequest),
@@ -192,5 +229,6 @@ export default function* rootSaga() {
     fork(updateVenueSuccessRequest),
     fork(deleteVenueRequest),
     fork(deleteVenueSuccessRequest),
+    fork(inviteOutletWaiterRequest),
   ]);
 }

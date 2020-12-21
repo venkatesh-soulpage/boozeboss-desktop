@@ -30,3 +30,10 @@ export const UPDATE_EVENT_ERROR = 'app/OutletEventsPage/UPDATE_EVENT_ERROR';
 export const DELETE_EVENT_REQUEST = 'app/OutletEventsPage/DELETE_EVENT_REQUEST';
 export const DELETE_EVENT_SUCCESS = 'app/OutletEventsPage/DELETE_EVENT_SUCCESS';
 export const DELETE_EVENT_ERROR = 'app/OutletEventsPage/DELETE_EVENT_ERROR';
+
+export const INVITE_OUTLET_WAITER_REQUEST =
+  'app/OutletEventsPage/INVITE_OUTLET_WAITER_REQUEST';
+export const INVITE_OUTLET_WAITER_SUCCESS =
+  'app/OutletEventsPage/INVITE_OUTLET_WAITER_SUCCESS';
+export const INVITE_OUTLET_WAITER_ERROR =
+  'app/OutletEventsPage/INVITE_OUTLET_WAITER_ERROR';

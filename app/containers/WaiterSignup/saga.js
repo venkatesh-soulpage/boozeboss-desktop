@@ -5,7 +5,7 @@ import request from 'utils/request';
 
 import { SIGNUP_REQUEST } from './constants';
 import { signupSuccess, signupError } from './actions';
-import { authenticate, getUser } from '../App/actions';
+// import { authenticate, getUser } from '../App/actions';
 
 function* waiterSignupSaga(params) {
   const { auth } = params;
@@ -31,8 +31,8 @@ function* waiterSignupSaga(params) {
   try {
     const response = yield call(request, requestURL, options);
     yield put(signupSuccess(response));
-    yield put(getUser());
-    yield put(authenticate(response.token));
+    // yield put(getUser());
+    // yield put(authenticate(response.token));
   } catch (error) {
     const jsonError = yield error.response ? error.response.json() : error;
     yield put(signupError(jsonError));

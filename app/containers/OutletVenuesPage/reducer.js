@@ -13,6 +13,9 @@ import {
   GET_LOCATIONS_REQUEST,
   GET_LOCATIONS_SUCCESS,
   GET_LOCATIONS_ERROR,
+  INVITE_OUTLET_WAITER_REQUEST,
+  INVITE_OUTLET_WAITER_SUCCESS,
+  INVITE_OUTLET_WAITER_ERROR,
 } from './constants';
 
 export const initialState = fromJS({
@@ -41,6 +44,12 @@ function outletVenuesReducer(state = initialState, action) {
         .set('outletlocations', action.locations)
         .set('isLoading', false);
     case GET_LOCATIONS_ERROR:
+      return state;
+    case INVITE_OUTLET_WAITER_REQUEST:
+      return state.set('isLoading', true);
+    case INVITE_OUTLET_WAITER_SUCCESS:
+      return state.set('isLoading', false);
+    case INVITE_OUTLET_WAITER_ERROR:
       return state;
     default:
       return state;

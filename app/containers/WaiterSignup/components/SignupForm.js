@@ -119,7 +119,7 @@ export default class SignupForm extends Component {
   };
 
   render() {
-    const { error } = this.props;
+    const { error, success } = this.props;
     const {
       email,
       first_name,
@@ -129,6 +129,10 @@ export default class SignupForm extends Component {
       date_of_birth,
       confirm,
     } = this.state;
+
+    if (success) {
+      Alert.success('Succesfully Registered', 2500);
+    }
     return (
       <StyledContainer>
         <h4>You have been invited to join LiquidIntel</h4>
@@ -234,6 +238,9 @@ export default class SignupForm extends Component {
           Signup
         </StyledButton>
         {error && <StyledMessage type="error" description={error} closable />}
+        {success && (
+          <StyledMessage type="success" description={success} closable />
+        )}
       </StyledContainer>
     );
   }
@@ -242,4 +249,5 @@ export default class SignupForm extends Component {
 SignupForm.propTypes = {
   signup: PropTypes.func,
   error: PropTypes.string,
+  success: PropTypes.string,
 };

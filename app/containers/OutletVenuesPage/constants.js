@@ -30,3 +30,10 @@ export const UPDATE_VENUE_ERROR = 'app/OutletVenuesPage/UPDATE_VENUE_ERROR';
 export const DELETE_VENUE_REQUEST = 'app/OutletVenuesPage/DELETE_VENUE_REQUEST';
 export const DELETE_VENUE_SUCCESS = 'app/OutletVenuesPage/DELETE_VENUE_SUCCESS';
 export const DELETE_VENUE_ERROR = 'app/OutletVenuesPage/DELETE_VENUE_ERROR';
+
+export const INVITE_OUTLET_WAITER_REQUEST =
+  'app/OutletVenuesPage/INVITE_OUTLET_WAITER_REQUEST';
+export const INVITE_OUTLET_WAITER_SUCCESS =
+  'app/OutletVenuesPage/INVITE_OUTLET_WAITER_SUCCESS';
+export const INVITE_OUTLET_WAITER_ERROR =
+  'app/OutletVenuesPage/INVITE_OUTLET_WAITER_ERROR';
