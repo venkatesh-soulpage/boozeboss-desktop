@@ -121,7 +121,7 @@ export default class SignupForm extends Component {
     } = this.state;
     return (
       <StyledContainer>
-        <h4>You have been invited to join Booze Boss</h4>
+        <h4>You have been invited to join LiquidIntel</h4>
         <InputGroup style={styles}>
           <InputGroup.Addon>
             <Icon icon="envelope" />

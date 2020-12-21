@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { Button, Input, Message,  InputGroup, Icon, Checkbox, Alert, SelectPicker, DatePicker } from 'rsuite';
+import {
+  Button,
+  Input,
+  Message,
+  InputGroup,
+  Icon,
+  Checkbox,
+  Alert,
+  SelectPicker,
+  DatePicker,
+} from 'rsuite';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import PhoneInput from 'react-phone-input-2'
+import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
@@ -41,195 +51,226 @@ const StyledLink = styled(Link)`
 const StyledMessage = styled(Message)`
   width: 300px;
   margin: 0.75em;
-`
+`;
 
 const SlaContainer = styled.div`
   margin: 1em 0 1em 0;
-`
+`;
 
 const styles = {
   width: '300px',
-  margin: '0.75em'
-}
+  margin: '0.75em',
+};
 
 export default class SignupForm extends Component {
+  state = {
+    email: null,
+    first_name: null,
+    last_name: null,
+    phone_number: null,
+    password: '',
+    confirm: null,
+    token: null,
+    gender: null,
+    date_of_birth: null,
+    sla_open: false,
+    sla_accepted: false,
+  };
 
-    state = {
-        email: null,   
-        first_name: null,
-        last_name: null,
-        phone_number: null,
-        password: '',
-        confirm: null,
-        token: null,
-        gender: null,
-        date_of_birth: null,
-        sla_open: false,
-        sla_accepted: false,
-      }
+  requestSla = token => {
+    const { getSla } = this.props;
+    const decoded = decode(token);
+    if (decoded.agency_id) {
+      getSla(decoded.agency_id);
+    }
+  };
 
-      requestSla = (token) => {
-        const { getSla } = this.props;
-        const decoded = decode(token);
-        if (decoded.agency_id) {
-          getSla(decoded.agency_id);
-        }
-      } 
+  componentDidMount = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    const token = urlParams.get('token');
 
-      componentDidMount = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const email  = urlParams.get('email');
-        const token  = urlParams.get('token');
-        
-        if (token) {
-          this.requestSla(token);
-        }
+    if (token) {
+      this.requestSla(token);
+    }
 
-        this.setState({email, token});
-      }
-  
-      handleChange = (value, name) => {
-        this.setState({[name]: value})
-      }
-  
-      handleSubmit = () => {
-        const {agencySignup} = this.props;
-        const {email, first_name, last_name, phone_number, password, gender, date_of_birth, confirm, token, sla_accepted} = this.state;
+    this.setState({ email, token });
+  };
 
-        if (!email || !first_name || !last_name || !phone_number ||  !password || !gender || !date_of_birth) return alert('Missing fields');
-        if (password !== confirm) return Alert.error("Passwords don't match", 2500);
-        if (!sla_accepted) return Alert.error('Please accept the SLA');
-        agencySignup({email, first_name, last_name, phone_number, gender, date_of_birth,  password, token});
-      }
+  handleChange = (value, name) => {
+    this.setState({ [name]: value });
+  };
 
+  handleSubmit = () => {
+    const { agencySignup } = this.props;
+    const {
+      email,
+      first_name,
+      last_name,
+      phone_number,
+      password,
+      gender,
+      date_of_birth,
+      confirm,
+      token,
+      sla_accepted,
+    } = this.state;
 
-  
-      render() {
-          const {error, sla} = this.props;
-          const {email, first_name, last_name, phone_number, gender, date_of_birth, password, confirm, sla_open, sla_accepted} = this.state;
-          return (
-          <StyledContainer>
-              <h4>You have been invited to join Booze Boss</h4>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="envelope" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Email"
-                  disabled={true}
-                  value={email}
-                  onChange={(value) => this.handleChange(value, 'email')}
-                />
-              </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="avatar" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="First Name"
-                  value={first_name}
-                  onChange={(value) => this.handleChange(value, 'first_name')}
-                />
-              </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="avatar" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Last Name"
-                  value={last_name}
-                  onChange={(value) => this.handleChange(value, 'last_name')}
-                />
-              </InputGroup>
-              <PhoneInput
-                  style={{...styles, zIndex: 99}}
-                  country={'us'}
-                  enableSearch
-                  disableSearchIcon
-                  inputProps={{
-                    name: 'phone',
-                    required: true,
-                  }}
-                  onChange={(value) => this.handleChange(value, 'phone_number')}
-                />
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="genderless" />
-                </InputGroup.Addon>
-                <SelectPicker 
-                  style={{width: '100%'}}
-                  searchable={false}
-                  placeholder="I identify as..."
-                  data={[
-                    {label: 'Male', value: 'MALE'},
-                    {label: 'Female', value: 'FEMALE'},
-                    {label: 'Other', value: 'OTHER'},
-                  ]}
-                  value={gender}
-                  onChange={(value) => this.handleChange(value, 'gender')}
-                />
-              </InputGroup>
-                <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="calendar" />
-                </InputGroup.Addon>
-                <DatePicker 
-                  style={{width: '100%'}}
-                  oneTap
-                  placeholder="Date of Birth"
-                  value={date_of_birth}
-                  onChange={(value) => this.handleChange(value, 'date_of_birth')}
-                />
-              </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="lock" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Password"
-                  type="password"
-                  value={password}
-                  onChange={(value) => this.handleChange(value, 'password')}
-                />
-              </InputGroup>
-              <InputGroup style={styles}>
-                <InputGroup.Addon>
-                  <Icon icon="lock" />
-                </InputGroup.Addon>
-                <Input 
-                  placeholder="Confirm Password"
-                  type="password"
-                  value={confirm}
-                  onChange={(value) => this.handleChange(value, 'confirm')}
-                />
-              </InputGroup>
-              <PasswordStrengthBar password={password} style={{width: '300px', margin: '0 0 1em 0'}}/>
-              <SlaContainer>
-                  <SLAModal 
-                    {...this.props}
-                    handleChange={this.handleChange}
-                  />
-                  <Checkbox 
-                    disabled={!sla_open} 
-                    value={sla_accepted}
-                    onChange={(value) => this.handleChange(!sla_accepted ,'sla_accepted')}
-                  >
-                    I have read and accept the SLA
-                  </Checkbox>
-              </SlaContainer>
-              <StyledButton 
-                color="green"
-                onClick={this.handleSubmit}
-              >
-                Signup
-              </StyledButton>
-              {error && <StyledMessage type="error" description={error} />}
-              
-          </StyledContainer>
-          );
-      }
+    if (
+      !email ||
+      !first_name ||
+      !last_name ||
+      !phone_number ||
+      !password ||
+      !gender ||
+      !date_of_birth
+    )
+      return alert('Missing fields');
+    if (password !== confirm) return Alert.error("Passwords don't match", 2500);
+    if (!sla_accepted) return Alert.error('Please accept the SLA');
+    agencySignup({
+      email,
+      first_name,
+      last_name,
+      phone_number,
+      gender,
+      date_of_birth,
+      password,
+      token,
+    });
+  };
+
+  render() {
+    const { error, sla } = this.props;
+    const {
+      email,
+      first_name,
+      last_name,
+      phone_number,
+      gender,
+      date_of_birth,
+      password,
+      confirm,
+      sla_open,
+      sla_accepted,
+    } = this.state;
+    return (
+      <StyledContainer>
+        <h4>You have been invited to join LiquidIntel</h4>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="envelope" />
+          </InputGroup.Addon>
+          <Input
+            placeholder="Email"
+            disabled={true}
+            value={email}
+            onChange={value => this.handleChange(value, 'email')}
+          />
+        </InputGroup>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="avatar" />
+          </InputGroup.Addon>
+          <Input
+            placeholder="First Name"
+            value={first_name}
+            onChange={value => this.handleChange(value, 'first_name')}
+          />
+        </InputGroup>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="avatar" />
+          </InputGroup.Addon>
+          <Input
+            placeholder="Last Name"
+            value={last_name}
+            onChange={value => this.handleChange(value, 'last_name')}
+          />
+        </InputGroup>
+        <PhoneInput
+          style={{ ...styles, zIndex: 99 }}
+          country={'us'}
+          enableSearch
+          disableSearchIcon
+          inputProps={{
+            name: 'phone',
+            required: true,
+          }}
+          onChange={value => this.handleChange(value, 'phone_number')}
+        />
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="genderless" />
+          </InputGroup.Addon>
+          <SelectPicker
+            style={{ width: '100%' }}
+            searchable={false}
+            placeholder="I identify as..."
+            data={[
+              { label: 'Male', value: 'MALE' },
+              { label: 'Female', value: 'FEMALE' },
+              { label: 'Other', value: 'OTHER' },
+            ]}
+            value={gender}
+            onChange={value => this.handleChange(value, 'gender')}
+          />
+        </InputGroup>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="calendar" />
+          </InputGroup.Addon>
+          <DatePicker
+            style={{ width: '100%' }}
+            oneTap
+            placeholder="Date of Birth"
+            value={date_of_birth}
+            onChange={value => this.handleChange(value, 'date_of_birth')}
+          />
+        </InputGroup>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="lock" />
+          </InputGroup.Addon>
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={value => this.handleChange(value, 'password')}
+          />
+        </InputGroup>
+        <InputGroup style={styles}>
+          <InputGroup.Addon>
+            <Icon icon="lock" />
+          </InputGroup.Addon>
+          <Input
+            placeholder="Confirm Password"
+            type="password"
+            value={confirm}
+            onChange={value => this.handleChange(value, 'confirm')}
+          />
+        </InputGroup>
+        <PasswordStrengthBar
+          password={password}
+          style={{ width: '300px', margin: '0 0 1em 0' }}
+        />
+        <SlaContainer>
+          <SLAModal {...this.props} handleChange={this.handleChange} />
+          <Checkbox
+            disabled={!sla_open}
+            value={sla_accepted}
+            onChange={value => this.handleChange(!sla_accepted, 'sla_accepted')}
+          >
+            I have read and accept the SLA
+          </Checkbox>
+        </SlaContainer>
+        <StyledButton color="green" onClick={this.handleSubmit}>
+          Signup
+        </StyledButton>
+        {error && <StyledMessage type="error" description={error} />}
+      </StyledContainer>
+    );
+  }
 }
 
-SignupForm.propTypes = {
-
-}
+SignupForm.propTypes = {};
