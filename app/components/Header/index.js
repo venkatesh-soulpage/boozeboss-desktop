@@ -157,12 +157,12 @@ class Header extends React.Component {
               </Link>
             )}
 
-            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER']) && (
+            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER', 'WAITER']) && (
               <Link to="/outletevents">
                 <Nav.Item>Events</Nav.Item>
               </Link>
             )}
-            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER']) && (
+            {this.validateRoles(['OUTLET'], ['OWNER', 'MANAGER', 'WAITER']) && (
               <Link to="/outletvenues">
                 <Nav.Item>Venues</Nav.Item>
               </Link>

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import {
   Button,
@@ -5,12 +6,11 @@ import {
   Message,
   InputGroup,
   Icon,
-  Dropdown,
   Alert,
   SelectPicker,
   DatePicker,
 } from 'rsuite';
-import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -27,23 +27,8 @@ const StyledContainer = styled.div`
   margin: 2em 0 0 0;
 `;
 
-const StyledInput = styled(Input)`
-  max-width: 300px;
-  margin: 0.75em;
-`;
-
 const StyledButton = styled(Button)`
   width: 300px;
-`;
-
-const StyledLink = styled(Link)`
-  color: gray;
-  margin: 0.75em;
-
-  &:hover {
-    color: gray;
-    opacity: 0.75;
-  }
 `;
 
 const StyledMessage = styled(Message)`
@@ -66,15 +51,23 @@ export default class SignupForm extends Component {
     password: '',
     gender: null,
     confirm: null,
-    location_id: null,
     token: null,
+    outlet_event: null,
+    outlet_venue: null,
   };
 
   componentDidMount = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get('email');
     const token = urlParams.get('token');
-    this.setState({ email, token });
+    const outlet_event = urlParams.get('outlet_event');
+    const outlet_venue = urlParams.get('outlet_venue');
+    this.setState({
+      email,
+      token,
+      outlet_event,
+      outlet_venue,
+    });
   };
 
   handleChange = (value, name) => {
@@ -85,15 +78,17 @@ export default class SignupForm extends Component {
     const { signup } = this.props;
     const {
       email,
+      // eslint-disable-next-line camelcase
       first_name,
       last_name,
       phone_number,
       gender,
       date_of_birth,
-      location_id,
       password,
       confirm,
       token,
+      outlet_event,
+      outlet_venue,
     } = this.state;
 
     if (
@@ -104,7 +99,7 @@ export default class SignupForm extends Component {
       !gender ||
       !date_of_birth
     )
-      return alert('Missing fields');
+      return Alert.error('Missing Fields', 2500);
     if (password !== confirm)
       return Alert.success("Passwords don't match", 2500);
 
@@ -116,9 +111,11 @@ export default class SignupForm extends Component {
       password,
       gender,
       date_of_birth,
-      location_id,
       token,
+      outlet_event,
+      outlet_venue,
     });
+    return null;
   };
 
   render() {
@@ -127,7 +124,6 @@ export default class SignupForm extends Component {
       email,
       first_name,
       last_name,
-      phone_number,
       password,
       gender,
       date_of_birth,
@@ -142,7 +138,7 @@ export default class SignupForm extends Component {
           </InputGroup.Addon>
           <Input
             placeholder="Email"
-            disabled={true}
+            disabled
             value={email}
             onChange={value => this.handleChange(value, 'email')}
           />
@@ -169,7 +165,7 @@ export default class SignupForm extends Component {
         </InputGroup>
         <PhoneInput
           style={{ ...styles, zIndex: 99 }}
-          country={'us'}
+          country="us"
           enableSearch
           disableSearchIcon
           inputProps={{
@@ -237,10 +233,13 @@ export default class SignupForm extends Component {
         <StyledButton color="green" onClick={this.handleSubmit}>
           Signup
         </StyledButton>
-        {error && <StyledMessage type="error" description={error} />}
+        {error && <StyledMessage type="error" description={error} closable />}
       </StyledContainer>
     );
   }
 }
 
-SignupForm.propTypes = {};
+SignupForm.propTypes = {
+  signup: PropTypes.func,
+  error: PropTypes.string,
+};

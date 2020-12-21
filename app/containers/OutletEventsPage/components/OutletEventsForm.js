@@ -151,9 +151,10 @@ export default class OutletEventsForm extends Component {
 
   uploadFile = data => {
     const { addMenuRequest, currentOutletEvent, outletevents } = this.props;
-    const { data: menu } = data;
+    const { data: csv_data } = data;
+    const menu = _.reject(csv_data, { name: '' });
     const { id } = outletevents[currentOutletEvent];
-    addMenuRequest(id, _.reject(menu, { name: '' }));
+    addMenuRequest(id, _.reject(menu, { '': '' }));
     this.setState({ menu: [] });
   };
 

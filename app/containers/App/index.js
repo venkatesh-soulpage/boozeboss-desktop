@@ -39,6 +39,7 @@ import SystemPage from 'containers/SystemPage/Loadable';
 import OutletEventsPage from 'containers/OutletEventsPage/Loadable';
 import OutletVenuesPage from 'containers/OutletVenuesPage/Loadable';
 import OutletSignup from 'containers/OutletSignup/Loadable';
+import WaiterSignup from 'containers/WaiterSignup/Loadable';
 import Changelog from 'containers/Changelog';
 import Privacy from 'containers/Privacy';
 import Terms from 'containers/Terms';
@@ -166,20 +167,21 @@ class App extends React.Component {
             path="/outletevents"
             component={OutletEventsPage}
             scopesRequired={['OUTLET']}
-            rolesRequired={['MANAGER']}
+            rolesRequired={['MANAGER', 'WAITER']}
           />
           <PrivateRoute
             exact
             path="/outletvenues"
             component={OutletVenuesPage}
             scopesRequired={['OUTLET']}
-            rolesRequired={['MANAGER']}
+            rolesRequired={['MANAGER', 'WAITER']}
           />
           <GuardedRoute path="/login" component={LoginPage} />
           <GuardedRoute
             path="/organization-signup"
             component={OrganizationSignupPage}
           />
+          <GuardedRoute path="/waiter-signup" component={WaiterSignup} />
           <GuardedRoute path="/client-signup" component={ClientSignupPage} />
           <GuardedRoute path="/agency-signup" component={AgencySignupPage} />
           <GuardedRoute path="/outlet-signup" component={OutletSignup} />
