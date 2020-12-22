@@ -25,6 +25,9 @@ import {
   DELETE_VENUE_REQUEST,
   DELETE_VENUE_SUCCESS,
   DELETE_VENUE_ERROR,
+  INVITE_OUTLET_WAITER_REQUEST,
+  INVITE_OUTLET_WAITER_SUCCESS,
+  INVITE_OUTLET_WAITER_ERROR,
 } from './constants';
 
 export function addOutletVenueDraft() {
@@ -163,6 +166,29 @@ export function deleteVenueError(error) {
   status(error, 'error');
   return {
     type: DELETE_VENUE_ERROR,
+    error,
+  };
+}
+
+export function inviteOutletWaiter(invite) {
+  return {
+    type: INVITE_OUTLET_WAITER_REQUEST,
+    invite,
+  };
+}
+
+export function inviteOutletWaiterSuccess(success) {
+  status(success, 'success');
+  return {
+    type: INVITE_OUTLET_WAITER_SUCCESS,
+    success,
+  };
+}
+
+export function inviteOutletWaiterError(error) {
+  status(error, 'error');
+  return {
+    type: INVITE_OUTLET_WAITER_ERROR,
     error,
   };
 }

@@ -115,11 +115,20 @@ export default class SignupForm extends Component {
       outlet_event,
       outlet_venue,
     });
-    return null;
+    return this.setState({
+      email: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      date_of_birth: '',
+      password: '',
+      gender: '',
+      confirm: '',
+    });
   };
 
   render() {
-    const { error } = this.props;
+    const { error, success } = this.props;
     const {
       email,
       first_name,
@@ -129,6 +138,7 @@ export default class SignupForm extends Component {
       date_of_birth,
       confirm,
     } = this.state;
+
     return (
       <StyledContainer>
         <h4>You have been invited to join LiquidIntel</h4>
@@ -234,6 +244,9 @@ export default class SignupForm extends Component {
           Signup
         </StyledButton>
         {error && <StyledMessage type="error" description={error} closable />}
+        {success && (
+          <StyledMessage type="success" description={success} closable />
+        )}
       </StyledContainer>
     );
   }
@@ -242,4 +255,5 @@ export default class SignupForm extends Component {
 SignupForm.propTypes = {
   signup: PropTypes.func,
   error: PropTypes.string,
+  success: PropTypes.string,
 };

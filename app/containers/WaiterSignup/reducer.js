@@ -17,7 +17,7 @@ function waiterSignupReducer(state = initialState, action) {
     case SIGNUP_REQUEST:
       return state;
     case SIGNUP_SUCCESS:
-      return state;
+      return state.set('success', action.success);
     case SIGNUP_ERROR:
       return state.set('error', action.error);
     default:

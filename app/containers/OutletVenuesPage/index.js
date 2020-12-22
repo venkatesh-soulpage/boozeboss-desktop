@@ -23,6 +23,7 @@ import {
   addMenuRequest,
   updateVenueRequest,
   deleteVenueRequest,
+  inviteOutletWaiter,
 } from './actions';
 
 export class OutletVenuesPage extends React.Component {
@@ -66,6 +67,7 @@ function mapDispatchToProps(dispatch) {
     updateVenueRequest: (venueId, venue) =>
       dispatch(updateVenueRequest(venueId, venue)),
     deleteVenueRequest: venueId => dispatch(deleteVenueRequest(venueId)),
+    inviteOutletWaiter: invite => dispatch(inviteOutletWaiter(invite)),
   };
 }
 

@@ -14,6 +14,7 @@ import {
   Alert,
   TreePicker,
   Uploader,
+  Modal,
 } from 'rsuite';
 
 import _ from 'lodash';
@@ -66,6 +67,10 @@ export default class OutletEventsForm extends Component {
     description: '',
     showVenueModal: false,
     menu: [],
+    inviteModal: false,
+    owner_email: '',
+    display_name: '',
+    custom_message: '',
   };
 
   handleChange = (value, name) => {
@@ -156,6 +161,33 @@ export default class OutletEventsForm extends Component {
     const { id } = outletevents[currentOutletEvent];
     addMenuRequest(id, _.reject(menu, { '': '' }));
     this.setState({ menu: [] });
+  };
+
+  inviteOutletWaiter = () => {
+    const { owner_email, display_name, custom_message } = this.state;
+    const { currentOutletEvent, outletevents, inviteOutletWaiter } = this.props;
+
+    const { id: outlet_event } = outletevents[currentOutletEvent];
+
+    if (!owner_email) return Alert.error('Missing Fields', 2500);
+
+    inviteOutletWaiter({
+      owner_email,
+      display_name,
+      custom_message,
+      outlet_event,
+    });
+
+    return this.closeInviteModal();
+  };
+
+  closeInviteModal = () => {
+    this.setState({
+      inviteModal: false,
+      owner_email: '',
+      display_name: '',
+      custom_message: '',
+    });
   };
 
   render() {
@@ -404,6 +436,68 @@ export default class OutletEventsForm extends Component {
                 </Button>
               </FieldContainer>
             </FieldRow>
+          )}
+
+          {!outletevents[currentOutletEvent].isDraft && (
+            <FieldContainer>
+              <Button
+                block
+                color="green"
+                onClick={() => this.setState({ inviteModal: true })}
+              >
+                + Invite Collaborator
+              </Button>
+              <Modal
+                show={this.state.inviteModal}
+                onHide={() => {
+                  this.setState({ inviteModal: false });
+                }}
+              >
+                <Modal.Body>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Owner Email(Required)</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'owner_email')
+                        }
+                        value={this.state.owner_email}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Display Name</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'display_name')
+                        }
+                        value={this.state.display_name}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                  <FieldRow>
+                    <FieldContainer>
+                      <FieldLabel>Custom Message</FieldLabel>
+                      <Input
+                        onChange={value =>
+                          this.handleChange(value, 'custom_message')
+                        }
+                        value={this.state.custom_message}
+                      />
+                    </FieldContainer>
+                  </FieldRow>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button onClick={this.inviteOutletWaiter} color="green">
+                    Invite
+                  </Button>
+                  <Button onClick={this.closeInviteModal} appearance="subtle">
+                    Cancel
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </FieldContainer>
           )}
 
           <FieldContainer>
