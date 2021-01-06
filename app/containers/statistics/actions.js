@@ -1,6 +1,6 @@
 /*
  *
- * AgencyPage actions
+ * StatisticsPage actions
  *
  */
 

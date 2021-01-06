@@ -28,8 +28,6 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import { Table } from 'rsuite';
-
-import { AgenciesContainer } from './components';
 import { getVenueStatistics } from './actions';
 import { makeSelectScope, makeSelectRole } from '../App/selectors';
 import { Button, ButtonGroup, Loader } from 'rsuite';
@@ -225,8 +223,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'agencies', reducer });
-const withSaga = injectSaga({ key: 'agencies', saga });
+const withReducer = injectReducer({ key: 'statistics', reducer });
+const withSaga = injectSaga({ key: 'statistics', saga });
 
 export default compose(
   withReducer,

@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for AgencyPage
+ * Asynchronously loads the component for StatisticsPage
  *
  */
 
