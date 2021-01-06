@@ -8,7 +8,7 @@ const Column = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  align-self: flex-start; 
+  align-self: flex-start;
   position: sticky;
   top: 1em;
   z-index: 99;
@@ -61,26 +61,27 @@ class Verification extends Component {
     return (
       <React.Fragment>
         <StyledPanel
-            shaded
-            isSelected={currentVerification === index}
-            onClick={this.handleSelectCurrentVerification}
-          >
-            <b>{verification.first_name} {verification.last_name}</b>
-          </StyledPanel>
+          shaded
+          isSelected={currentVerification === index}
+          onClick={this.handleSelectCurrentVerification}
+        >
+          <b>
+            {verification.first_name} {verification.last_name}
+          </b>
+        </StyledPanel>
       </React.Fragment>
     );
   }
 }
 
 export default class VerificationList extends Component {
-
   render() {
     const { verifications, currentVerification } = this.props;
     return (
       <Column>
         <List>
           {(!verifications || verifications.length < 1) && (
-            <MessageLabel>No Verifications</MessageLabel>
+            <MessageLabel>No Verifications Nav</MessageLabel>
           )}
           {verifications &&
             verifications.length > 0 &&
