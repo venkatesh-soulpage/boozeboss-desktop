@@ -1,24 +1,26 @@
 import { createSelector } from 'reselect';
 
-const selectAgencies = state => state.get('agencies');
+const selectStatistics = state => state.get('statistics');
 
 const makeSelectVenuedata = () =>
-  createSelector(selectAgencies, agenciesState =>
+  createSelector(selectStatistics, agenciesState =>
     agenciesState.get('venueData'),
   );
 const makeSelectEventdata = () =>
-  createSelector(selectAgencies, agenciesState =>
+  createSelector(selectStatistics, agenciesState =>
     agenciesState.get('eventData'),
   );
 
 const makeSelectError = () =>
-  createSelector(selectAgencies, agenciesState => agenciesState.get('error'));
+  createSelector(selectStatistics, agenciesState => agenciesState.get('error'));
 
 const makeSelectSuccess = () =>
-  createSelector(selectAgencies, agenciesState => agenciesState.get('success'));
+  createSelector(selectStatistics, agenciesState =>
+    agenciesState.get('success'),
+  );
 
 const makeSelectIsLoading = () =>
-  createSelector(selectAgencies, agenciesState =>
+  createSelector(selectStatistics, agenciesState =>
     agenciesState.get('isLoading'),
   );
 

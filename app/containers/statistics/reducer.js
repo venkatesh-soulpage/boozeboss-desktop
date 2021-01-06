@@ -1,6 +1,6 @@
 /*
  *
- * AgencyContainer reducer
+ * StatisticsPage reducer
  *
  */
 
@@ -19,7 +19,7 @@ export const initialState = fromJS({
   error: null,
 });
 
-function agencyPageReducer(state = initialState, action) {
+function statisticsPageReducer(state = initialState, action) {
   switch (action.type) {
     case VENUE_COUNT_REQUEST:
       return state;
@@ -34,4 +34,4 @@ function agencyPageReducer(state = initialState, action) {
   }
 }
 
-export default agencyPageReducer;
+export default statisticsPageReducer;

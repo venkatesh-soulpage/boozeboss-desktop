@@ -1,7 +1,7 @@
 /*
  * AgencyPage Messages
  *
- * This contains all the text for the AgencyPage container.
+ * This contains all the text for the StatisticsPage container.
  */
 
 import { defineMessages } from 'react-intl';

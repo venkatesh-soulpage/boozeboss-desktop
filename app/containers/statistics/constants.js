@@ -1,6 +1,6 @@
 /*
  *
- * AgencyPage constants
+ * StatisticsPage constants
  *
  */
 

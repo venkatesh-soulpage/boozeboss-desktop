@@ -8,29 +8,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import {
-  makeSelectAgencies,
-  makeSelectRoles,
   makeSelectError,
   makeSelectSuccess,
   makeSelectIsLoading,
-  makeSelectClients,
   makeSelectVenuedata,
   makeSelectEventdata,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
 import { Table } from 'rsuite';
+
 import { getVenueStatistics } from './actions';
-import { makeSelectScope, makeSelectRole } from '../App/selectors';
-import { Button, ButtonGroup, Loader } from 'rsuite';
+import { Button, Loader } from 'rsuite';
 import styled from 'styled-components';
 const InfoContainer = styled.div`
   display: flex;
@@ -75,14 +70,11 @@ export class Statistics extends React.Component {
     openVenueTable: true,
   };
   componentDidMount = () => {
-    const { getVenueData, venueData } = this.props;
+    const { getVenueData } = this.props;
     getVenueData();
-    // console.log(this.props, 'Props in component didmount');
-    // Only ask for clients if is an admin or organization
   };
 
   render() {
-    // console.log(this.props, 'PROPS IN RENDER FUNCTION');
     if (!this.props.venueData) {
       return <Loader />;
     }
@@ -127,9 +119,7 @@ export class Statistics extends React.Component {
                 height={400}
                 width={600}
                 data={this.props.venueData}
-                onRowClick={data => {
-                  console.log(data);
-                }}
+                onRowClick={data => {}}
               >
                 <Column width={70} align="center" fixed>
                   <HeaderCell>Id</HeaderCell>
@@ -157,9 +147,7 @@ export class Statistics extends React.Component {
                 height={400}
                 width={600}
                 data={this.props.eventData}
-                onRowClick={data => {
-                  console.log(data);
-                }}
+                onRowClick={data => {}}
               >
                 <Column width={70} align="center" fixed>
                   <HeaderCell>Id</HeaderCell>
@@ -190,18 +178,8 @@ export class Statistics extends React.Component {
 }
 
 Statistics.propTypes = {
-  agencies: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  clients: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  scope: PropTypes.string,
-  role: PropTypes.role,
-  roles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   error: PropTypes.string,
   success: PropTypes.string,
-  getAgencies: PropTypes.func.isRequired,
-  addAgencyDraft: PropTypes.func.isRequired,
-  inviteAgency: PropTypes.func.isRequired,
-  inviteCollaborator: PropTypes.func.isRequired,
-  dismiss: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
