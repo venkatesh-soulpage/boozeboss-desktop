@@ -50,6 +50,7 @@ import IntercomChat from 'components/IntercomChat';
 import PrivateRoute from 'components/PrivateRoute';
 import GuardedRoute from 'components/GuardedRoute';
 import saga from './saga';
+import StatisticsPage from 'containers/statistics/Loadable';
 
 import GlobalStyle from '../../global-styles';
 // import default style
@@ -187,6 +188,7 @@ class App extends React.Component {
           <GuardedRoute path="/outlet-signup" component={OutletSignup} />
           <GuardedRoute path="/forgot" component={ForgotPasswordPage} />
           <GuardedRoute path="/reset" component={ResetPasswordPage} />
+          <Route path="/statistics" component={StatisticsPage} />
           <Route path="/changelog" component={Changelog} />
           <Route path="/privacy" component={Privacy} />
           <Route path="/terms" component={Terms} />
