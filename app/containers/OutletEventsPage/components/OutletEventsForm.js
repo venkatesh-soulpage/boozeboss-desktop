@@ -56,6 +56,7 @@ const FieldLabel = styled.b`
 export default class OutletEventsForm extends Component {
   state = {
     name: '',
+    phone_number: '',
     start_time: '',
     end_time: '',
     expected_guests: '',
@@ -92,6 +93,7 @@ export default class OutletEventsForm extends Component {
     if (outletevents[currentOutletEvent].isDraft) {
       const {
         name,
+        phone_number,
         start_time,
         end_time,
         location_id,
@@ -102,12 +104,13 @@ export default class OutletEventsForm extends Component {
         expected_guests,
         expected_hourly_guests,
       } = this.state;
-      if (!name || !start_time || !end_time || !location_id)
+      if (!name || !start_time || !end_time || !location_id || !phone_number)
         return Alert.error('Missing Fields', 2000);
 
       const url = await this.fileToBase64(cover_image[0].blobFile);
       this.props.addEventRequest({
         name,
+        phone_number,
         start_time,
         end_time,
         location_id,
@@ -128,6 +131,7 @@ export default class OutletEventsForm extends Component {
   reset = () => {
     this.setState({
       name: '',
+      phone_number: '',
       start_time: '',
       end_time: '',
       expected_guests: '',
@@ -200,6 +204,7 @@ export default class OutletEventsForm extends Component {
 
     const {
       name,
+      phone_number,
       start_time,
       end_time,
       expected_guests,
@@ -234,7 +239,14 @@ export default class OutletEventsForm extends Component {
               disabled={!outletevents[currentOutletEvent].isDraft}
             />
           </FieldContainer>
-
+          <FieldContainer>
+            <FieldLabel>Event Contact Number (Required)</FieldLabel>
+            <Input
+              onChange={value => this.handleChange(value, 'phone_number')}
+              value={phone_number}
+              disabled={!outletevents[currentOutletEvent].isDraft}
+            />
+          </FieldContainer>
           <FieldRow>
             <FieldContainer>
               <FieldLabel>Start Time (Required)</FieldLabel>
