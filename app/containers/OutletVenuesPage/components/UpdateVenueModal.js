@@ -30,6 +30,7 @@ export default class UpdateVenueModal extends React.Component {
       show: false,
       id: '',
       name: '',
+      phone_number: '',
       location_id: '',
       address: '',
       latitude: '',
@@ -72,6 +73,7 @@ export default class UpdateVenueModal extends React.Component {
     const {
       id,
       name,
+      phone_number,
       address,
       latitude,
       longitude,
@@ -92,6 +94,7 @@ export default class UpdateVenueModal extends React.Component {
     }
     await updateVenueRequest(id, {
       name,
+      phone_number,
       address,
       latitude,
       longitude,
@@ -108,6 +111,7 @@ export default class UpdateVenueModal extends React.Component {
     const {
       show,
       name,
+      phone_number,
       address,
       latitude,
       longitude,
@@ -126,7 +130,13 @@ export default class UpdateVenueModal extends React.Component {
                 value={name || ''}
               />
             </FieldContainer>
-
+            <FieldContainer>
+              <FieldLabel>Venue Contact Number (Required)</FieldLabel>
+              <Input
+                onChange={value => this.handleChange(value, 'phone_number')}
+                value={phone_number || ''}
+              />
+            </FieldContainer>
             <FieldContainer>
               <FieldRow>
                 <FieldLabel>Location (Required)</FieldLabel>
