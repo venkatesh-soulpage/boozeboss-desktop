@@ -25,8 +25,8 @@ function statisticsPageReducer(state = initialState, action) {
       return state;
     case VENUE_COUNT_SUCCESS:
       return state
-        .set('venueData', action.statistics.venueData)
-        .set('eventData', action.statistics.eventsData);
+        .set('venueData', action.statistics.venues)
+        .set('eventData', action.statistics.events);
     case VENUE_COUNT_ERROR:
       return state.set('error', action.error);
     default:

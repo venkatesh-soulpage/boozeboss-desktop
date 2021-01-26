@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Table, Button, Loader } from 'rsuite';
+
+import styled from 'styled-components';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -22,11 +25,9 @@ import {
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { Table } from 'rsuite';
 
 import { getVenueStatistics } from './actions';
-import { Button, Loader } from 'rsuite';
-import styled from 'styled-components';
+
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,17 +59,18 @@ const List = styled.div`
   margin: 0 0.5em 0.5em 0.5em;
 `;
 
-const MessageLabel = styled.p`
-  font-family: Roboto;
-  font-size: 1.25em;
-  margin: 1em;
-`;
+// const MessageLabel = styled.p`
+//   font-family: Roboto;
+//   font-size: 1.25em;
+//   margin: 1em;
+// `;
 
 /* eslint-disable react/prefer-stateless-function */
 export class Statistics extends React.Component {
   state = {
     openVenueTable: true,
   };
+
   componentDidMount = () => {
     const { getVenueData } = this.props;
     getVenueData();
@@ -78,7 +80,7 @@ export class Statistics extends React.Component {
     if (!this.props.venueData) {
       return <Loader />;
     }
-    const { Column, HeaderCell, Cell, Pagination } = Table;
+    const { Column, HeaderCell, Cell } = Table;
     return (
       <div>
         <Helmet>
@@ -119,7 +121,7 @@ export class Statistics extends React.Component {
                 height={400}
                 width={600}
                 data={this.props.venueData}
-                onRowClick={data => {}}
+                // onRowClick={data => {}}
               >
                 <Column width={70} align="center" fixed>
                   <HeaderCell>Id</HeaderCell>
@@ -128,7 +130,7 @@ export class Statistics extends React.Component {
 
                 <Column width={130}>
                   <HeaderCell>Venue Name</HeaderCell>
-                  <Cell dataKey="venueName" />
+                  <Cell dataKey="name" />
                 </Column>
 
                 <Column width={100}>
@@ -138,7 +140,13 @@ export class Statistics extends React.Component {
 
                 <Column width={100}>
                   <HeaderCell>Count</HeaderCell>
-                  <Cell dataKey="scannedCount" />
+                  <Cell>
+                    {rowData =>
+                      rowData.stats && rowData.stats.data
+                        ? rowData.stats.data.length
+                        : 0
+                    }
+                  </Cell>
                 </Column>
               </Table>
             ) : (
@@ -147,7 +155,7 @@ export class Statistics extends React.Component {
                 height={400}
                 width={600}
                 data={this.props.eventData}
-                onRowClick={data => {}}
+                // onRowClick={data => {}}
               >
                 <Column width={70} align="center" fixed>
                   <HeaderCell>Id</HeaderCell>
@@ -156,7 +164,7 @@ export class Statistics extends React.Component {
 
                 <Column width={130}>
                   <HeaderCell>Event Name</HeaderCell>
-                  <Cell dataKey="eventName" />
+                  <Cell dataKey="name" />
                 </Column>
 
                 <Column width={130}>
@@ -166,7 +174,13 @@ export class Statistics extends React.Component {
 
                 <Column width={200}>
                   <HeaderCell>Count</HeaderCell>
-                  <Cell dataKey="scannedCount" />
+                  <Cell>
+                    {rowData =>
+                      rowData.stats && rowData.stats.data
+                        ? rowData.stats.data.length
+                        : 0
+                    }
+                  </Cell>
                 </Column>
               </Table>
             )}
@@ -177,10 +191,7 @@ export class Statistics extends React.Component {
   }
 }
 
-Statistics.propTypes = {
-  error: PropTypes.string,
-  success: PropTypes.string,
-};
+Statistics.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
