@@ -55,6 +55,7 @@ export default class OutletVenuesForm extends Component {
     super(props);
     this.state = {
       name: '',
+      phone_number: '',
       location_id: '',
       address: '',
       latitude: '',
@@ -79,6 +80,7 @@ export default class OutletVenuesForm extends Component {
     if (outletvenues[currentOutletVenue].isDraft) {
       const {
         name,
+        phone_number,
         location_id,
         latitude,
         longitude,
@@ -91,6 +93,7 @@ export default class OutletVenuesForm extends Component {
 
       addVenueRequest({
         name,
+        phone_number,
         location_id,
         latitude,
         longitude,
@@ -107,6 +110,7 @@ export default class OutletVenuesForm extends Component {
   reset = () => {
     this.setState({
       name: '',
+      phone_number: '',
       location_id: '',
       address: '',
       latitude: '',
@@ -175,6 +179,7 @@ export default class OutletVenuesForm extends Component {
     } = this.props;
     const {
       name,
+      phone_number,
       address,
       latitude,
       longitude,
@@ -206,7 +211,14 @@ export default class OutletVenuesForm extends Component {
               disabled={!outletvenues[currentOutletVenue].isDraft}
             />
           </FieldContainer>
-
+          <FieldContainer>
+            <FieldLabel>Contact Phone Number (Required)</FieldLabel>
+            <Input
+              onChange={value => this.handleChange(value, 'phone_number')}
+              value={phone_number || ''}
+              disabled={!outletvenues[currentOutletVenue].isDraft}
+            />
+          </FieldContainer>
           <FieldContainer>
             <FieldRow>
               <FieldLabel>Location (Required)</FieldLabel>

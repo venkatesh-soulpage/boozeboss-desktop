@@ -40,6 +40,7 @@ export default class UpdateEventModal extends React.Component {
       show: false,
       id: '',
       name: '',
+      phone_number: '',
       start_time: '',
       end_time: '',
       expected_guests: '',
@@ -95,6 +96,7 @@ export default class UpdateEventModal extends React.Component {
     const {
       id,
       name,
+      phone_number,
       start_time,
       end_time,
       expected_guests,
@@ -119,6 +121,7 @@ export default class UpdateEventModal extends React.Component {
     }
     await updateEventRequest(id, {
       name,
+      phone_number,
       start_time,
       end_time,
       expected_guests,
@@ -138,6 +141,7 @@ export default class UpdateEventModal extends React.Component {
     const {
       show,
       name,
+      phone_number,
       start_time,
       end_time,
       expected_guests,
@@ -160,7 +164,13 @@ export default class UpdateEventModal extends React.Component {
                 value={name}
               />
             </FieldContainer>
-
+            <FieldContainer>
+              <FieldLabel>Event Contact Number (Required)</FieldLabel>
+              <Input
+                onChange={value => this.handleChange(value, 'phone_number')}
+                value={phone_number}
+              />
+            </FieldContainer>
             <FieldRow>
               <FieldContainer>
                 <FieldLabel>Start Time (Required)</FieldLabel>
